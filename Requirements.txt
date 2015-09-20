@@ -18,7 +18,7 @@ Functional Requirements:
         
           1.1.2  The system shall send out a verification email to the user's email address after registration.
             
-            1.1.2.1 The verification email shall have a verify email button that when clicked updates the user's                          account to active.
+            1.1.2.1 The verification email shall have a verify email button that when clicked updates the user's account to active.
           
           1.1.3  The system will prevent the user from accessing the system or uploading data to the system until the                  user's email address has been verified.
 
