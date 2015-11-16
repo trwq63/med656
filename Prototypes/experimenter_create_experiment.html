@@ -11,6 +11,7 @@ This is the prototype screen for the patient welcome screen (after logging in).
 <H1 ALIGN="CENTER">UAH Fit Vault</H1>
 <!-- Begin Menu Bar -->
 <P ALIGN="CENTER">
+<A HREF="experimenter_welcome_screen.html">Home</A> | 
 <A HREF="experimenter_view_experiments.html">View Experiments</A> | 
 <A HREF="experimenter_create_experiment.html">Create Experiment</A> |
 <A HREF="experimenter_edit_account_settings.html">Edit Account Settings</A> |
@@ -27,37 +28,14 @@ This is the prototype screen for the patient welcome screen (after logging in).
 </TABLE>
 <HR WIDTH="500">
 <P ALIGN="CENTER"><B>Participant Criteria</B></P>
-<TABLE ALIGN="CENTER">
-<TR><TD></TD><TD><B>Race</B></TD><TD></TD><TD></TD><TD><B>Sex</B></TD><TD></TD><TD><B>Age</B></TD><TD></TD><TD><B>Weight</B></TD><TD></TD><TD><B>Height</B></TD><TD></TD><TD><B>Location</B></TD></TR>
+<TABLE ALIGN="CENTER" STYLE="BORDER-SPACING:20PX;">
 <TR>
-<TD WIDTH="15" STYLE="BACKGROUND-COLOR:#FFFFFF;BORDER:1PX SOLID BLACK;"></TD>
-<TD>White</TD>
-<TD WIDTH="50">
-<TD WIDTH="15" STYLE="BACKGROUND-COLOR:#FFFFFF;BORDER:1PX SOLID BLACK;"></TD>
-<TD>M</TD>
-<TD WIDTH="30"></TD>
-<TD STYLE="BACKGROUND-COLOR:#FFFFFF;BORDER:1PX SOLID BLACK;"><I>&ltAge Range&gt</I></TD>
-<TD WIDTH="30"></TD>
-<TD STYLE="BACKGROUND-COLOR:#FFFFFF;BORDER:1PX SOLID BLACK;"><I>&ltWeight Range&gt</I></TD>
-<TD WIDTH="30"></TD>
-<TD STYLE="BACKGROUND-COLOR:#FFFFFF;BORDER:1PX SOLID BLACK;"><I>&ltHeight Range&gt</I></TD>
-<TD WIDTH="30"></TD>
-<TD STYLE="BACKGROUND-COLOR:#FFFFFF;BORDER:1PX SOLID BLACK;"><I>&ltLocation Text Field&gt</I></TD>
-</TR>
-<TR>
-<TD WIDTH="15" STYLE="BACKGROUND-COLOR:#FFFFFF;BORDER:1PX SOLID BLACK;"></TD>
-<TD>Black</TD>
-<TD WIDTH="50">
-<TD WIDTH="15" STYLE="BACKGROUND-COLOR:#FFFFFF;BORDER:1PX SOLID BLACK;"></TD>
-<TD>F</TD>
-</TR>
-<TR>
-<TD WIDTH="15" STYLE="BACKGROUND-COLOR:#FFFFFF;BORDER:1PX SOLID BLACK;"></TD>
-<TD>Asian</TD>
-</TR>
-<TR>
-<TD WIDTH="15" STYLE="BACKGROUND-COLOR:#FFFFFF;BORDER:1PX SOLID BLACK;"></TD>
-<TD>Hispanic</TD>
+<TD VALIGN="TOP"><B>Race</B><BR><FORM><INPUT TYPE="checkbox" NAME="age" value="White">White<BR><INPUT TYPE="checkbox" NAME="age" value="Black">Black<BR><INPUT TYPE="checkbox" NAME="age" value="Asian">Asian<BR><INPUT TYPE="checkbox" NAME="age" value="Hispanic">Hispanic<BR><INPUT TYPE="checkbox" NAME="age" value="Native American">Native American</FORM></TD>
+<TD VALIGN="TOP"><B>Sex</B><BR><FORM><INPUT TYPE="checkbox" NAME="sex" value="Male">Male<BR><INPUT TYPE="checkbox" NAME="sex" value="FEMALE">Female</FORM></TD>
+<TD VALIGN="TOP"><B>Age</B><TABLE><TR><TD STYLE="BACKGROUND-COLOR:#FFFFFF;BORDER:1PX SOLID BLACK;"><I>&ltAge Dropdown&gt</I></TD></TR></TABLE></TD>
+<TD VALIGN="TOP"><B>Weight</B><TABLE><TR><TD STYLE="BACKGROUND-COLOR:#FFFFFF;BORDER:1PX SOLID BLACK;"><I>&ltWeight Dropdown&gt</I></TD></TR></TABLE></TD>
+<TD VALIGN="TOP"><B>Height</B><TABLE><TR><TD STYLE="BACKGROUND-COLOR:#FFFFFF;BORDER:1PX SOLID BLACK;"><I>&ltHeight Dropdown&gt</I></TD></TR></TABLE></TD>
+<TD VALIGN="TOP"><B>Location</B><FORM><INPUT TYPE="text" name="location"></FORM></TD>
 </TR>
 </TABLE>
 <HR WIDTH="500">
