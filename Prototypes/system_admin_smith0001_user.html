@@ -1,0 +1,44 @@
+<!--
+This is the prototype screen for the patient welcome screen (after logging in).
+-->
+<HTML>
+<HEAD>
+<!-- Put prototype name below -->
+<TITLE>System Admin: Lookup User2</TITLE>
+</HEAD>
+<BODY>
+<!-- Body -->
+<H1 ALIGN="CENTER">UAH Fit Vault</H1>
+<!-- Begin Menu Bar -->
+<P ALIGN="CENTER">
+<A HREF="system_admin_welcome_screen.html">Home</A> | 
+<A HREF="system_admin_lookup_user.html">Look-up User</A> | 
+<A HREF="system_admin_edit_account_settings.html">Edit Account Settings</A> |
+<A HREF="logout.html">Logout</A> (SysAdmin_1)
+</P>
+<!-- End Menu Bar -->
+<H3 ALIGN="CENTER">Found user: Smith0001</H3>
+<TABLE ALIGN="CENTER" STYLE="BORDER-SPACING:3PX;BORDER-COLLAPSE:COLLAPSE;">
+<TR><TD STYLE="BACKGROUND-COLOR:#CCCCCC; BORDER:1PX SOLID BLACK; PADDING:3PX; FONT-WEIGHT:BOLD;">Field</TD><TD  STYLE="BACKGROUND-COLOR:#CCCCCC; BORDER:1PX SOLID BLACK; PADDING:3PX; FONT-WEIGHT:BOLD;">Value</TD></TR>
+<TR>
+<TD WIDTH="150" STYLE="FONT-WEIGHT:BOLD;BORDER:1PX SOLID BLACK;BACKGROUND-COLOR:#EEEEEE;PADDING:3PX;">User Role</TD>
+<TD WIDTH="200" STYLE="BORDER:1PX SOLID BLACK;PADDING:3PX;">Patient</TD>
+</TR>
+<TR>
+<TD STYLE="FONT-WEIGHT:BOLD;BORDER:1PX SOLID BLACK;BACKGROUND-COLOR:#EEEEEE;PADDING:3PX;">Status</TD>
+<TD STYLE="BORDER:1PX SOLID BLACK;PADDING:3PX;">
+<FORM>
+<INPUT TYPE="radio" NAME="status" value="enabled" checked>Enabled<BR>
+<INPUT TYPE="radio" NAME="status" value="disabled">Disabled
+</FORM>
+<BUTTON TYPE="BUTTON">Delete User</BUTTON>
+</TD>
+</TR>
+<TR>
+<TD STYLE="FONT-WEIGHT:BOLD;BORDER:1PX SOLID BLACK;BACKGROUND-COLOR:#EEEEEE;PADDING:3PX;">Password</TD>
+<TD STYLE="BORDER:1PX SOLID BLACK;PADDING:3PX;"><U>Reset User Password</U><BR><U>Reset Security Questions</U></TD>
+</TR>
+</TABLE>
+<P ALIGN="CENTER"><BUTTON TYPE="BUTTON">Update</BUTTON> <BUTTON TYPE="BUTTON">Cancel</BUTTON></P>
+</BODY>
+</HTML>

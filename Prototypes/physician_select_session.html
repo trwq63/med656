@@ -1,0 +1,50 @@
+<!--
+This is the prototype screen for the physician to see after he has selected one of his patients.
+This screen should display all of the data uploads from a specific patient.
+-->
+<HTML>
+<HEAD>
+<!-- Put prototype name below -->
+<TITLE>Physician: Select A Session</TITLE>
+<LINK REL="stylesheet" type="text/css" href="prototypes.css">
+</HEAD>
+<BODY>
+<!-- Body -->
+<H1 ALIGN="CENTER">UAH Fit Vault</H1>
+<P ALIGN="CENTER">
+<!-- Menu Bar -->
+<A HREF="physician_view_patient_data.html">View Patient Data</A> | 
+<A HREF="physician_create_patient.html">Create Patient</A> | 
+<A HREF="physician_edit_account_settings.html">Edit Account Settings</A> | 
+<A HREF="logout.html">Logout</A> (jsmith1)
+</P>
+<P ALIGN="CENTER">Viewing Data for Patient: <B>Smith_0001</B></P><BR>
+<TABLE WIDTH="1150" ALIGN="CENTER">
+<!-- Data Type, Session Start Time, Session Length, Session End Time, Data Tags, Action -->
+<TR>
+<TD WIDTH="100" CLASS="HEADERROW">Session ID</TD>
+<TD WIDTH="250" CLASS="HEADERROW">Session Start Time</TD>
+<TD WIDTH="250" CLASS="HEADERROW">Session End Time</TD>
+<TD WIDTH="150" CLASS="HEADERROW">Session Length</TD>
+<TD WIDTH="200" CLASS="HEADERROW">Data Tags</TD>
+<TD WIDTH="200" CLASS="HEADERROW">Action</TD>
+</TR>
+<TR>
+<TD>1</TD>
+<TD>12-Nov-2015 9:30 AM</TD>
+<TD>12-Nov-2015 11:30 AM</TD>
+<TD>02:00:00</TD>
+<TD>Running, Weight Lifting</TD>
+<TD>[<A HREF="physician_view_session.html">Select Session</A>] [<B>Delete</B>]</TD>
+</TR>
+<TR>
+<TD>2</TD>
+<TD>13-Nov-2015 1:30 PM</TD>
+<TD>13-Nov-2015 8:30 PM</TD>
+<TD>07:00:00</TD>
+<TD>Walking, Weight Lifting</TD>
+<TD>[<A HREF="physician_view_session.html">Select Session</A>] [<B>Delete</B>]</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

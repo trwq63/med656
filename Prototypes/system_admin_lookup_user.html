@@ -1,0 +1,80 @@
+<!--
+This is the prototype screen for the patient welcome screen (after logging in).
+-->
+<HTML>
+<HEAD>
+<!-- Put prototype name below -->
+<TITLE>System Admin: Lookup User</TITLE>
+<STYLE>
+TD.HEADERROW {
+	BACKGROUND-COLOR: #CCCCCC;
+	BORDER: 1PX SOLID BLACK;
+	PADDING: 3PX;
+	FONT-WEIGHT:BOLD;
+}
+TD {
+	BACKGROUND-COLOR: #EEEEEE;
+	BORDER: 1PX SOLID BLACK;
+	PADDING: 4PX;
+}
+</STYLE>
+</HEAD>
+<BODY>
+<!-- Body -->
+<H1 ALIGN="CENTER">UAH Fit Vault</H1>
+<!-- Begin Menu Bar -->
+<P ALIGN="CENTER">
+<A HREF="system_admin_welcome_screen.html">Home</A> | 
+<A HREF="system_admin_lookup_user.html">Look-up User</A> | 
+<A HREF="system_admin_edit_account_settings.html">Edit Account Settings</A> |
+<A HREF="logout.html">Logout</A> (SysAdmin_1)
+</P>
+<!-- End Menu Bar -->
+<H3 ALIGN="CENTER">User Search</H3>
+<BR>
+<TABLE ALIGN="CENTER" STYLE="BORDER-SPACING:3PX;">
+<TR>
+<TD STYLE="BORDER:0PX;BACKGROUND-COLOR:#FFFFFF;">Username</TD>
+<TD WIDTH="200" STYLE="BACKGROUND-COLOR:#FFFFFF;BORDER:1PX SOLID BLACK;"><I>&ltText Field&gt</I></TD>
+</TR>
+</TABLE>
+<P ALIGN="CENTER"><A HREF="system_admin_lookup_user2.html"><BUTTON TYPE="BUTTON">Submit</BUTTON></A></P>
+<HR WIDTH="500">
+<H3 ALIGN="CENTER">View Patient by Physician</H3>
+
+<TABLE ALIGN="CENTER" STYLE="BORDER-COLLAPSE:COLLAPSE;">
+<TR>
+<TD WIDTH="150" CLASS="HEADERROW">Physician Name</TD>
+<TD WIDTH="150" CLASS="HEADERROW">Username</TD>
+<TD WIDTH="150" CLASS="HEADERROW">Number of Patients</TD>
+<TD WIDTH="150" CLASS="HEADERROW">Action</TD>
+</TR>
+<TR>
+<TD>Bob Berkley</TD>
+<TD>bberkley1</TD>
+<TD>5</TD>
+<TD>[View Patients]</TD>
+</TR><TR>
+<TD>Don Burns</TD>
+<TD>dburns1</TD>
+<TD>3</TD>
+<TD>[View Patients]</TD>
+</TR><TR>
+<TD>Dave Charles</TD>
+<TD>dcharles1</TD>
+<TD>4</TD>
+<TD>[View Patients]</TD>
+</TR><TR>
+<TD>Jim Smith</TD>
+<TD><A HREF="system_admin_lookup_user2.html">jsmith1</A></TD>
+<TD>2</TD>
+<TD>[<A HREF="system_admin_jsmith1_patients.html">View Patients</A>]</TD>
+</TR><TR>
+<TD>Joe Turner</TD>
+<TD>jturner1</TD>
+<TD>6</TD>
+<TD>[View Patients]</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>
