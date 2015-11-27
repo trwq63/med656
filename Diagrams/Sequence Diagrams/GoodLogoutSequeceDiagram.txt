@@ -1,0 +1,1 @@
+The AccountController has a public procedure called Logoff(). This procedure when called by the user shall call the formAuthentication.SignOut() procedure provided by Microsoft in the MVC library. Once the SignOut() procedure has finished, the Logoff() procedure will redirect the user back to the Login screen. 
