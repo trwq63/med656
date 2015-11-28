@@ -1,0 +1,14 @@
+PhysicianDeletePatientController
+This class is responsible for handling the removal of patients to the system by the physician.  This class provides the backend for the PhysicianDeletePatientView.
+
+<<Task>>
+
+Attributes:
+Private Physician physician - the physician associated with the class.
+
+Operations:
+Get for physician attribute
+Public ActionResult deletePatient(Patient patient) - The function to remove a patient from the system.
+
+Constructors:
+Public PhysicianCreatePatientController(Physician physician) - Constructor that associates the class with a physician.

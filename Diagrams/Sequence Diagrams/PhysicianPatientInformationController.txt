@@ -1,0 +1,14 @@
+PhysicianPatientInformationController
+This class is responsible for handling the addition of new patients to the system by the physician.  This class provides the backend for the PhysicianPatientInformationView.
+
+<<Task>>
+
+Attributes:
+Private Physician physician - the physician associated with the class.  Should not be changed after the class is created.
+
+Operations:
+Get for physician attribute
+Public Patient requestPatientInformation(String username) - The function to request patient information from the system.
+
+Constructors:
+Public PhysicianCreatePatientController(Physician physician) - Constructor that associates the class with a physician.

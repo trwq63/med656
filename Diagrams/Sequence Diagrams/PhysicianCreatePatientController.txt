@@ -1,0 +1,14 @@
+PhysicianCreatePatientController
+This class is responsible for handling the addition of new patients to the system by the physician.  This class provides the backend for the PhysicianCreatePatientView.
+
+<<Task>>
+
+Attributes:
+Private Physician physician - the physician associated with the class.
+
+Operations:
+Get for physician attribute
+Public ActionResult createPatient(Patient patient) - The function to add a patient to the system.
+
+Constructors:
+Public PhysicianCreatePatientController(Physician physician) - Constructor that associates the class with a physician.
