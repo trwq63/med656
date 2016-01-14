@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAHFitVault", "UAHFitVault\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAHFitVault.Entities", "UAHFitVault.Entities\UAHFitVault.Entities.csproj", "{CC650F84-B0A0-4C8A-A521-BB36E9F0DD87}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAHFitVault.LogicLayer", "UAHFitVault.LogicLayer\UAHFitVault.LogicLayer.csproj", "{E4FB774A-188D-4DCD-9B8B-5FC8060A9E11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CC650F84-B0A0-4C8A-A521-BB36E9F0DD87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC650F84-B0A0-4C8A-A521-BB36E9F0DD87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC650F84-B0A0-4C8A-A521-BB36E9F0DD87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4FB774A-188D-4DCD-9B8B-5FC8060A9E11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4FB774A-188D-4DCD-9B8B-5FC8060A9E11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4FB774A-188D-4DCD-9B8B-5FC8060A9E11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4FB774A-188D-4DCD-9B8B-5FC8060A9E11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
