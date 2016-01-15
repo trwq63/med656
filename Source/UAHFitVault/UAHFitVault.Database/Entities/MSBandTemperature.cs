@@ -1,15 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace UAHFitVault.Entities
+namespace UAHFitVault..Database.Entities
 {
-    public class MSBandDistance
+    public class MSBandTemperature
     {
         #region Public Constructors
         /// <summary>
         /// Default constructor
         /// </summary>
-        public MSBandDistance() {
+        public MSBandTemperature() {
 
         }
 
@@ -21,17 +21,12 @@ namespace UAHFitVault.Entities
         [Required]
         public DateTime Date { get; set; }
         [Required]
-        public string MotionType { get; set; }
-        [Required]
-        public float Pace { get; set; }
-        [Required]
-        public float Speed { get; set; }
-        [Required]
-        public float Total { get; set; }
+        public float Temperature { get; set; }
 
         #endregion
 
         #region Navigation Properties
+
         [Required]
         public Guid PatientDataId { get; set; }
 

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace UAHFitVault.Entities
+namespace UAHFitVault..Database.Entities
 {
-    public class MSBandGryoscope
+    public class ZephyrEventData
     {
         #region Public Constructors
         /// <summary>
         /// Default constructor
         /// </summary>
-        public MSBandGryoscope() {
+        public ZephyrEventData() {
 
         }
 
@@ -19,13 +19,12 @@ namespace UAHFitVault.Entities
 
         public int Id { get; set; }
         public DateTime Date { get; set; }
-        public DateTime Timestamp { get; set; }
-        [Required]
-        public float X { get; set; }
-        [Required]
-        public float Y { get; set; }
-        [Required]
-        public float Z { get; set; }
+        public int Time { get; set; }
+        public int EventCode { get; set; }
+        public string Type { get; set; }
+        public string Source { get; set; }
+        public int EventId { get; set; }
+        public string EventSpecificData { get; set; }
 
         #endregion
 
@@ -33,7 +32,6 @@ namespace UAHFitVault.Entities
 
         [Required]
         public Guid PatientDataId { get; set; }
-
 
         #endregion
     }

@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace UAHFitVault.Entities
+namespace UAHFitVault..Database.Entities
 {
-    public class ExperimentAdministrator
+    public class Physician
     {
-        #region Public Constructors
+        #region Public Constructor
         /// <summary>
         /// Default constructor
         /// </summary>
-        public ExperimentAdministrator() {
-            Experiments = new HashSet<Experiment>();
+        public Physician() {
+            Patients = new HashSet<Patient>();
         }
 
         #endregion
@@ -31,7 +31,8 @@ namespace UAHFitVault.Entities
 
         #region Navigation Properties
 
-        public virtual ICollection<Experiment> Experiments { get; set; }
+        public ICollection<Patient> Patients { get; set; }
+
         #endregion
     }
 }

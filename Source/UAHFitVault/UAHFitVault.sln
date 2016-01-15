@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAHFitVault", "UAHFitVault\UAHFitVault.csproj", "{DA639A44-1A9D-4072-8E7F-E17D63522288}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAHFitVault.Entities", "UAHFitVault.Entities\UAHFitVault.Entities.csproj", "{CC650F84-B0A0-4C8A-A521-BB36E9F0DD87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAHFitVault.Database", "UAHFitVault.Database\UAHFitVault.Database.csproj", "{CC650F84-B0A0-4C8A-A521-BB36E9F0DD87}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAHFitVault.LogicLayer", "UAHFitVault.LogicLayer\UAHFitVault.LogicLayer.csproj", "{E4FB774A-188D-4DCD-9B8B-5FC8060A9E11}"
 EndProject

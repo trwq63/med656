@@ -1,15 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace UAHFitVault.Entities
+namespace UAHFitVault..Database.Entities
 {
-    public class BasisPeakSummaryData
+    public class MSBandUV
     {
         #region Public Constructors
         /// <summary>
         /// Default constructor
         /// </summary>
-        public BasisPeakSummaryData() {
+        public MSBandUV() {
 
         }
 
@@ -18,12 +18,10 @@ namespace UAHFitVault.Entities
         #region Scalar Properties
 
         public int Id { get; set; }
+        [Required]
         public DateTime Date { get; set; }
-        public float Calories { get; set; }
-        public float GSR { get; set; }
-        public int HeartRate { get; set; }
-        public float SkinTemp { get; set; }
-        public int Steps { get; set; }
+        [Required]
+        public int UVIndex { get; set; }
 
         #endregion
 

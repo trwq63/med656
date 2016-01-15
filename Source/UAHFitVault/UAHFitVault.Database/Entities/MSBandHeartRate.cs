@@ -1,15 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace UAHFitVault.Entities
+namespace UAHFitVault..Database.Entities
 {
-    public class MSBandPedometer
+    public class MSBandHeartRate
     {
         #region Public Constructors
         /// <summary>
         /// Default constructor
         /// </summary>
-        public MSBandPedometer() {
+        public MSBandHeartRate() {
 
         }
 
@@ -21,7 +21,9 @@ namespace UAHFitVault.Entities
         [Required]
         public DateTime Date { get; set; }
         [Required]
-        public int Steps { get; set; }
+        public string ReadStatus { get; set; }
+        [Required]
+        public int HeartRate { get; set; }
 
         #endregion
 

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace UAHFitVault.Entities
+namespace UAHFitVault..Database.Entities
 {
-    public class ZephyrAccelerometer
+    public class ZephyrBreathingWaveform
     {
         #region Public Constructors
         /// <summary>
         /// Default constructor
         /// </summary>
-        public ZephyrAccelerometer() {
+        public ZephyrBreathingWaveform() {
 
         }
 
@@ -17,21 +17,18 @@ namespace UAHFitVault.Entities
 
         #region Scalar Properties
 
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         public DateTime Time { get; set; }
         [Required]
-        public int Vertical { get; set; }
-        [Required]
-        public int Lateral { get; set; }
-        [Required]
-        public int Sagittal { get; set; }
+        public int Data { get; set; }
 
         #endregion
 
         #region Navigation Properties
+
         [Required]
-        public Guid PatentDataId { get; set; }
+        public Guid PatientDataId { get; set; }
 
         #endregion
     }

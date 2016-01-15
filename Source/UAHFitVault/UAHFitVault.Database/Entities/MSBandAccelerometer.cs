@@ -1,15 +1,16 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace UAHFitVault.Entities
+namespace UAHFitVault..Database.Entities
 {
-    public class MSBandUV
+    public class MSBandAccelerometer
     {
         #region Public Constructors
+
         /// <summary>
         /// Default constructor
         /// </summary>
-        public MSBandUV() {
+        public MSBandAccelerometer() {
 
         }
 
@@ -21,7 +22,11 @@ namespace UAHFitVault.Entities
         [Required]
         public DateTime Date { get; set; }
         [Required]
-        public int UVIndex { get; set; }
+        public float Vertical { get; set; }
+        [Required]
+        public float Lateral { get; set; }
+        [Required]
+        public float Sagittal { get; set; }
 
         #endregion
 

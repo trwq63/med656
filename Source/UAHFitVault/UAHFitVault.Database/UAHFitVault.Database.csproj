@@ -49,31 +49,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activity.cs" />
-    <Compile Include="AspNetRole.cs" />
-    <Compile Include="AspNetUser.cs" />
-    <Compile Include="BasisPeakSummaryData.cs" />
+    <Compile Include="Entities\Activity.cs" />
+    <Compile Include="Entities\AspNetRole.cs" />
+    <Compile Include="Entities\AspNetUser.cs" />
+    <Compile Include="Entities\BasisPeakSummaryData.cs" />
     <Compile Include="FitVaultContext.cs" />
-    <Compile Include="MSBandPedometer.cs" />
-    <Compile Include="MSBandTemperature.cs" />
-    <Compile Include="MSBandUV.cs" />
-    <Compile Include="Experiment.cs" />
-    <Compile Include="ExperimentAdministrator.cs" />
-    <Compile Include="MedicalDevice.cs" />
-    <Compile Include="MSBandAccelerometer.cs" />
-    <Compile Include="MSBandCalories.cs" />
-    <Compile Include="MSBandDistance.cs" />
-    <Compile Include="MSBandGryoscope.cs" />
-    <Compile Include="MSBandHeartRate.cs" />
-    <Compile Include="Patient.cs" />
-    <Compile Include="PatientData.cs" />
-    <Compile Include="Physician.cs" />
+    <Compile Include="Entities\MSBandPedometer.cs" />
+    <Compile Include="Entities\MSBandTemperature.cs" />
+    <Compile Include="Entities\MSBandUV.cs" />
+    <Compile Include="Entities\Experiment.cs" />
+    <Compile Include="Entities\ExperimentAdministrator.cs" />
+    <Compile Include="Entities\MedicalDevice.cs" />
+    <Compile Include="Entities\MSBandAccelerometer.cs" />
+    <Compile Include="Entities\MSBandCalories.cs" />
+    <Compile Include="Entities\MSBandDistance.cs" />
+    <Compile Include="Entities\MSBandGryoscope.cs" />
+    <Compile Include="Entities\MSBandHeartRate.cs" />
+    <Compile Include="Entities\Patient.cs" />
+    <Compile Include="Entities\PatientData.cs" />
+    <Compile Include="Entities\Physician.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ZephyrAccelerometer.cs" />
-    <Compile Include="ZephyrBreathingWaveform.cs" />
-    <Compile Include="ZephyrECGWaveform.cs" />
-    <Compile Include="ZephyrEventData.cs" />
-    <Compile Include="ZephyrSummaryData.cs" />
+    <Compile Include="Entities\ZephyrAccelerometer.cs" />
+    <Compile Include="Entities\ZephyrBreathingWaveform.cs" />
+    <Compile Include="Entities\ZephyrECGWaveform.cs" />
+    <Compile Include="Entities\ZephyrEventData.cs" />
+    <Compile Include="Entities\ZephyrSummaryData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

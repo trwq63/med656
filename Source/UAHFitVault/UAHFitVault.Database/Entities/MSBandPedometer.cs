@@ -1,15 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace UAHFitVault.Entities
+namespace UAHFitVault..Database.Entities
 {
-    public class ZephyrEventData
+    public class MSBandPedometer
     {
         #region Public Constructors
         /// <summary>
         /// Default constructor
         /// </summary>
-        public ZephyrEventData() {
+        public MSBandPedometer() {
 
         }
 
@@ -18,13 +18,10 @@ namespace UAHFitVault.Entities
         #region Scalar Properties
 
         public int Id { get; set; }
+        [Required]
         public DateTime Date { get; set; }
-        public int Time { get; set; }
-        public int EventCode { get; set; }
-        public string Type { get; set; }
-        public string Source { get; set; }
-        public int EventId { get; set; }
-        public string EventSpecificData { get; set; }
+        [Required]
+        public int Steps { get; set; }
 
         #endregion
 

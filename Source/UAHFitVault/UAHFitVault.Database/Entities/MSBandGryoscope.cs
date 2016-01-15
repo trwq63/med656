@@ -1,15 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace UAHFitVault.Entities
+namespace UAHFitVault..Database.Entities
 {
-    public class MSBandHeartRate
+    public class MSBandGryoscope
     {
         #region Public Constructors
         /// <summary>
         /// Default constructor
         /// </summary>
-        public MSBandHeartRate() {
+        public MSBandGryoscope() {
 
         }
 
@@ -18,12 +18,14 @@ namespace UAHFitVault.Entities
         #region Scalar Properties
 
         public int Id { get; set; }
-        [Required]
         public DateTime Date { get; set; }
+        public DateTime Timestamp { get; set; }
         [Required]
-        public string ReadStatus { get; set; }
+        public float X { get; set; }
         [Required]
-        public int HeartRate { get; set; }
+        public float Y { get; set; }
+        [Required]
+        public float Z { get; set; }
 
         #endregion
 
@@ -31,6 +33,7 @@ namespace UAHFitVault.Entities
 
         [Required]
         public Guid PatientDataId { get; set; }
+
 
         #endregion
     }

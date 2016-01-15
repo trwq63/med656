@@ -1,15 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace UAHFitVault.Entities
+namespace UAHFitVault..Database.Entities
 {
-    public class MSBandTemperature
+    public class ZephyrECGWaveform
     {
         #region Public Constructors
         /// <summary>
         /// Default constructor
         /// </summary>
-        public MSBandTemperature() {
+        public ZephyrECGWaveform() {
 
         }
 
@@ -17,16 +17,15 @@ namespace UAHFitVault.Entities
 
         #region Scalar Properties
 
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime Time { get; set; }
         [Required]
-        public float Temperature { get; set; }
+        public int Data { get; set; }
 
         #endregion
 
         #region Navigation Properties
-
         [Required]
         public Guid PatientDataId { get; set; }
 

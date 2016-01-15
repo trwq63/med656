@@ -1,41 +1,36 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace UAHFitVault.Entities
+namespace UAHFitVault..Database.Entities
 {
-    public class Patient
+    public class AspNetUser
     {
         #region Public Constructor
         /// <summary>
         /// Default constructor
         /// </summary>
-        public Patient() {
+        public AspNetUser() {
 
         }
 
         #endregion
 
         #region Scalar Properties
-
         public Guid Id { get; set; }
         [Required]
-        public int Age { get; set; }
+        public string UserName { get; set; }
         [Required]
-        public float Weight { get; set; }
+        public string PasswordHash { get; set; }
         [Required]
-        public int Height { get; set; }
-        [Required]
-        public int Location { get; set; }
-        [Required]
-        public int Ethnicity { get; set; }
-        [Required]
-        public int Race { get; set; }
-        [Required]
-        public int Gender { get; set; }
+        public int Status { get; set; }
+
         #endregion
 
         #region Navigation Properties
+        public virtual AspNetRole AspNetRole { get; set; }
+        public virtual Patient Parent { get; set; }
         public virtual Physician Physician { get; set; }
+        public virtual ExperimentAdministrator ExperimentAdministrator { get; set; }
 
         #endregion
     }
