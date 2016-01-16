@@ -5,7 +5,7 @@ using UAHFitVault.Database.Entities;
 namespace UAHFitVault.Database.Repositories
 {
     /// <summary>
-    /// Implementation of the repository base class for the physician model
+    /// Implementation of the repository base class for the Experiment Administrator model
     /// </summary>
     public class ExperimentAdminRepository : RepositoryBase<ExperimentAdministrator>, IExperimentAdminRepository
     {

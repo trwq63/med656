@@ -7,7 +7,7 @@ using UAHFitVault.Database.Repositories;
 namespace UAHFitVault.LogicLayer.Services
 {
     /// <summary>
-    /// Service operations used to access data for a physician user
+    /// Service operations used to access data for a experiment administrator user
     /// </summary>
     public class ExperimentAdminService : IExperimentAdminService
     {
@@ -22,7 +22,7 @@ namespace UAHFitVault.LogicLayer.Services
         /// <summary>
         /// Default constructor with dependencies
         /// </summary>
-        /// <param name="repository">Physician Repository interface dependency</param>
+        /// <param name="repository">Experiment Administrator Repository interface dependency</param>
         /// <param name="unitOfWork">UnitOfWork interface dependency</param>
         public ExperimentAdminService(IExperimentAdminRepository repository, IUnitOfWork unitOfWork) {
             _experimentAdminRepository = repository;
@@ -34,9 +34,9 @@ namespace UAHFitVault.LogicLayer.Services
         #region Public Methods
 
         /// <summary>
-        /// Get all physicians from the database
+        /// Get all Experiment Administrators from the database
         /// </summary>
-        /// <param name="lastName">Optional parameter to get all physicians with a specific name</param>
+        /// <param name="lastName">Optional parameter to get all Experiment Administrators with a specific name</param>
         /// <returns></returns>
         public IEnumerable<ExperimentAdministrator> GetExperimentAdministrators(string lastName = null) {
             if (string.IsNullOrEmpty(lastName))
