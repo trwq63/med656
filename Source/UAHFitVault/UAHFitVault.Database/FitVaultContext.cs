@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using UAHFitVault.Database.Entities;
 
 namespace UAHFitVault.Database
 {
@@ -9,7 +10,15 @@ namespace UAHFitVault.Database
         /// Default constructor
         /// </summary>
         public FitVaultContext() : base("name=FitVaultDatabase") {
-            Database.SetInitializer<FitVaultContext>(new DropCreateDatabaseIfModelChanges<FitVaultContext>());
+           // Database.SetInitializer<FitVaultContext>(new DropCreateDatabaseIfModelChanges<FitVaultContext>());
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public virtual void Commit() {
+            base.SaveChanges();
         }
 
         #endregion

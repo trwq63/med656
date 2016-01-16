@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace UAHFitVault..Database.Entities
+namespace UAHFitVault.Database.Entities
 {
     public class MedicalDevice
     {

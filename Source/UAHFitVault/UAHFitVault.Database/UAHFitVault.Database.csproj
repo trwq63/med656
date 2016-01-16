@@ -7,8 +7,8 @@
     <ProjectGuid>{CC650F84-B0A0-4C8A-A521-BB36E9F0DD87}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UAHFitVault.Entities</RootNamespace>
-    <AssemblyName>UAHFitVault.Entities</AssemblyName>
+    <RootNamespace>UAHFitVault.Database</RootNamespace>
+    <AssemblyName>UAHFitVault.Database</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -68,17 +68,26 @@
     <Compile Include="Entities\Patient.cs" />
     <Compile Include="Entities\PatientData.cs" />
     <Compile Include="Entities\Physician.cs" />
+    <Compile Include="Infrastructure\DbFactory.cs" />
+    <Compile Include="Infrastructure\IDbFactory.cs" />
+    <Compile Include="Infrastructure\IRepository.cs" />
+    <Compile Include="Infrastructure\IUnitOfWork.cs" />
+    <Compile Include="Infrastructure\RepositoryBase.cs" />
+    <Compile Include="Infrastructure\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\ZephyrAccelerometer.cs" />
     <Compile Include="Entities\ZephyrBreathingWaveform.cs" />
     <Compile Include="Entities\ZephyrECGWaveform.cs" />
     <Compile Include="Entities\ZephyrEventData.cs" />
     <Compile Include="Entities\ZephyrSummaryData.cs" />
+    <Compile Include="Repositories\IPhysicianRepository.cs" />
+    <Compile Include="Repositories\PhysicianRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
