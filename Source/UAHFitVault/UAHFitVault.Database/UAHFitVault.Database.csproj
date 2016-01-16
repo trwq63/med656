@@ -80,7 +80,9 @@
     <Compile Include="Entities\ZephyrECGWaveform.cs" />
     <Compile Include="Entities\ZephyrEventData.cs" />
     <Compile Include="Entities\ZephyrSummaryData.cs" />
+    <Compile Include="Repositories\IExperimentAdminRepository.cs" />
     <Compile Include="Repositories\IPhysicianRepository.cs" />
+    <Compile Include="Repositories\ExperimentAdminRepository.cs" />
     <Compile Include="Repositories\PhysicianRepository.cs" />
   </ItemGroup>
   <ItemGroup>

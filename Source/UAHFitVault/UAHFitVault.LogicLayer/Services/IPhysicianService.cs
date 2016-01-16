@@ -9,10 +9,9 @@ namespace UAHFitVault.LogicLayer.Services
     public interface IPhysicianService
     {
         /// <summary>
-        /// Get all physicians from the database
+        /// Add a new physician to the database
         /// </summary>
-        /// <param name="lastName">Optional parameter to get all physicians with a specific name</param>
-        /// <returns></returns>
+        /// <param name="physician">Physician object to add to the database</param>
         void CreatePhysician(Physician physician);
 
         /// <summary>
@@ -31,9 +30,10 @@ namespace UAHFitVault.LogicLayer.Services
         Physician GetPhysician(string firstName, string lastName);
 
         /// <summary>
-        /// Add a new physician to the database
+        /// Get all physicians from the database
         /// </summary>
-        /// <param name="physician">Physician object to add to the database</param>
+        /// <param name="lastName">Optional parameter to get all physicians with a specific name</param>
+        /// <returns></returns>
         IEnumerable<Physician> GetPhysicians(string lastName = null);
 
         /// <summary>
