@@ -304,6 +304,10 @@
     <Content Include="Scripts\jquery-2.2.0.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\UAHFitVault.DataAccess\UAHFitVault.DataAccess.csproj">
+      <Project>{dd325b6b-b6d3-4f0e-9de8-5b97c4ca8e02}</Project>
+      <Name>UAHFitVault.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UAHFitVault.Database\UAHFitVault.Database.csproj">
       <Project>{cc650f84-b0a0-4c8a-a521-bb36e9f0dd87}</Project>
       <Name>UAHFitVault.Database</Name>
@@ -332,7 +336,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>25396</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

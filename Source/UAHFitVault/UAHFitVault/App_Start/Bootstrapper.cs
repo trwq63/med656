@@ -4,7 +4,8 @@ using System.Reflection;
 using System.Web.Mvc;
 using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Repositories;
-using UAHFitVault.LogicLayer.Services;
+using UAHFitVault.DataAccess;
+using UAHFitVault.DataAccess.ZephyrServices;
 
 namespace UAHFitVault.App_Start
 {
@@ -32,6 +33,15 @@ namespace UAHFitVault.App_Start
                .Where(t => t.Name.EndsWith("Service"))
                .AsImplementedInterfaces().InstancePerRequest();
             builder.RegisterAssemblyTypes(typeof(PatientService).Assembly)
+               .Where(t => t.Name.EndsWith("Service"))
+               .AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterAssemblyTypes(typeof(PatientDataService).Assembly)
+               .Where(t => t.Name.EndsWith("Service"))
+               .AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterAssemblyTypes(typeof(ZephyrAccelService).Assembly)
+               .Where(t => t.Name.EndsWith("Service"))
+               .AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterAssemblyTypes(typeof(ZephyrBreathingService).Assembly)
                .Where(t => t.Name.EndsWith("Service"))
                .AsImplementedInterfaces().InstancePerRequest();
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UAHFitVault.Database.Entities;
 
-namespace UAHFitVault.LogicLayer.Services
+namespace UAHFitVault.DataAccess
 {
     /// <summary>
     /// Interface for the patient data service

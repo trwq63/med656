@@ -4,7 +4,7 @@ using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Entities;
 using UAHFitVault.Database.Repositories;
 
-namespace UAHFitVault.LogicLayer.Services
+namespace UAHFitVault.DataAccess
 {
     /// <summary>
     /// Service operations used to access data for a physician user

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E4FB774A-188D-4DCD-9B8B-5FC8060A9E11}</ProjectGuid>
+    <ProjectGuid>{DD325B6B-B6D3-4F0E-9DE8-5B97C4CA8E02}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UAHFitVault.LogicLayer</RootNamespace>
-    <AssemblyName>UAHFitVault.LogicLayer</AssemblyName>
+    <RootNamespace>UAHFitVault.DataAccess</RootNamespace>
+    <AssemblyName>UAHFitVault.DataAccess</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,6 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExperimentAdminService.cs" />
+    <Compile Include="IExperimentAdminService.cs" />
+    <Compile Include="IPatientDataService.cs" />
+    <Compile Include="IPatientService.cs" />
+    <Compile Include="IPhysicianService.cs" />
+    <Compile Include="ZephyrServices\IZephyrAccelService.cs" />
+    <Compile Include="ZephyrServices\IZephyrBreathingService.cs" />
+    <Compile Include="ZephyrServices\ZephyrAccelService.cs" />
+    <Compile Include="ZephyrServices\ZephyrBreathingService.cs" />
+    <Compile Include="PatientDataService.cs" />
+    <Compile Include="PatientService.cs" />
+    <Compile Include="PhysicianService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +59,10 @@
       <Project>{cc650f84-b0a0-4c8a-a521-bb36e9f0dd87}</Project>
       <Name>UAHFitVault.Database</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BasisPeakServices\" />
+    <Folder Include="MicrosoftBandServices\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -3,7 +3,7 @@ using System.Linq;
 using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Entities;
 
-namespace UAHFitVault.LogicLayer.Services
+namespace UAHFitVault.DataAccess
 {
     /// <summary>
     /// Service operations used to access patient data.
