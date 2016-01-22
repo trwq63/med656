@@ -1,0 +1,17 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Source/UAHFitVault/UAHFitVault.Database/bin/Debug
+/Source/UAHFitVault/UAHFitVault.Database/obj/Debug
+/Source/UAHFitVault/UAHFitVault.DataAccess/bin/Debug
+/Source/UAHFitVault/UAHFitVault.DataAccess/obj/Debug
+/Source/UAHFitVault/packages
+/Source/UAHFitVault/UAHFitVault.LogicLayer/bin/Debug
+/Source/UAHFitVault/UAHFitVault.LogicLayer/obj/Debug
+/Source/UAHFitVault/UAHFitVault/obj/Debug
+*.user
+/Source/UAHFitVault/UAHFitVault/bin
+/Source/UAHFitVault/.vs
+/IAParsingTool/IAParsingTool/bin/Debug
+/IAParsingTool/IAParsingTool/obj/Debug

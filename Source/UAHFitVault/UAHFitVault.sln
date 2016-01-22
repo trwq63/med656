@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAHFitVault", "UAHFitVault\UAHFitVault.csproj", "{DA639A44-1A9D-4072-8E7F-E17D63522288}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAHFitVault.Database", "UAHFitVault.Database\UAHFitVault.Database.csproj", "{CC650F84-B0A0-4C8A-A521-BB36E9F0DD87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAHFitVault.LogicLayer", "UAHFitVault.LogicLayer\UAHFitVault.LogicLayer.csproj", "{E4FB774A-188D-4DCD-9B8B-5FC8060A9E11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAHFitVault.DataAccess", "UAHFitVault.DataAccess\UAHFitVault.DataAccess.csproj", "{DD325B6B-B6D3-4F0E-9DE8-5B97C4CA8E02}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA639A44-1A9D-4072-8E7F-E17D63522288}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA639A44-1A9D-4072-8E7F-E17D63522288}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA639A44-1A9D-4072-8E7F-E17D63522288}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA639A44-1A9D-4072-8E7F-E17D63522288}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC650F84-B0A0-4C8A-A521-BB36E9F0DD87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC650F84-B0A0-4C8A-A521-BB36E9F0DD87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC650F84-B0A0-4C8A-A521-BB36E9F0DD87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC650F84-B0A0-4C8A-A521-BB36E9F0DD87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4FB774A-188D-4DCD-9B8B-5FC8060A9E11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4FB774A-188D-4DCD-9B8B-5FC8060A9E11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4FB774A-188D-4DCD-9B8B-5FC8060A9E11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4FB774A-188D-4DCD-9B8B-5FC8060A9E11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD325B6B-B6D3-4F0E-9DE8-5B97C4CA8E02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD325B6B-B6D3-4F0E-9DE8-5B97C4CA8E02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD325B6B-B6D3-4F0E-9DE8-5B97C4CA8E02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD325B6B-B6D3-4F0E-9DE8-5B97C4CA8E02}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
