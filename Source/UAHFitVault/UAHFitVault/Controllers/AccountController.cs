@@ -135,24 +135,63 @@ namespace UAHFitVault.Controllers
         }
 
         //
-        // GET: /Account/Register
+        // GET: /Account/RequestAccount
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult RequestAccount()
         {
             return View();
         }
 
         //
-        // POST: /Account/Register
+        // POST: /Account/RequestAccount
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> RequestAccount(RequestAccountViewModel model)
         {
+            /*
+            Pseudocode:
+            
+            If username is good
+                Add account type, reason for account, username, email to account request db
+            Else
+                Request different username
+            Display that request was successful
+            */
+            /* <SAVED CODE>
+            @{ 
+                List<SelectListItem> accountTypes = new List<SelectListItem>();
+                accountTypes.Add(new SelectListItem { Text = "Physician", Value = "Physician" });
+                accountTypes.Add(new SelectListItem { Text = "Experiment Administrator", Value = "ExperimentAdministrator" });
+            }
+            @Html.DropDownListFor(m => m._AccountType, accountTypes)
+            */
+
+            if (ModelState.IsValid)
+            {
+                string accountType = Request["AccountType"];
+                string username = model.Username;
+
+                if (accountType == "Physician")
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else if (accountType == "ExperimentAdministrator")
+                {
+                    return View(model);
+                }
+                else
+                {
+                    // ERROR: Shouldn't be here.
+                    return View(model);
+                }
+            }
+            
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+                
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
