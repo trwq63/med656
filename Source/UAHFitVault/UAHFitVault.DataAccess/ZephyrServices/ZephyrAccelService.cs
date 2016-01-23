@@ -6,7 +6,7 @@ using UAHFitVault.Database.Entities;
 namespace UAHFitVault.DataAccess.ZephyrServices
 {
     /// <summary>
-    /// Service operations used to access patient data.
+    /// Service operations used to access Zephyr Accelerometer Data.
     /// </summary>
     public class ZephyrAccelService : IZephyrAccelService
     {
@@ -50,13 +50,13 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// <param name="id">Id of the Zephyr Accelerometer data</param>
         /// <returns></returns>
         public ZephyrAccelerometer GetZephyrAccelerometerData(int id) {
-            ZephyrAccelerometer zephryAccel = null;
+            ZephyrAccelerometer zephyrAccel = null;
 
             if(id > 0) {
-                zephryAccel = _repository.GetById(id);
+                zephyrAccel = _repository.GetById(id);
             }
 
-            return zephryAccel;
+            return zephyrAccel;
 
         }
 
@@ -64,9 +64,9 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// Add a new Zephyr Accelerometer data record to the database
         /// </summary>
         /// <param name="zephryAccel">ZephyrAccelerometer object to add to the database</param>
-        public void CreateZephyrAccel(ZephyrAccelerometer zephryAccel) {
-            if(zephryAccel != null) {
-                _repository.Add(zephryAccel);
+        public void CreateZephyrAccel(ZephyrAccelerometer zephyrAccel) {
+            if(zephyrAccel != null) {
+                _repository.Add(zephyrAccel);
             }
         }
 

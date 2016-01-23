@@ -9,7 +9,7 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// Add a new Zephyr Breathing Waveform data record to the database
         /// </summary>
         /// <param name="zephryBreathing">ZephyrBreathingWaveform object to add to the database</param>
-        void CreateZephyrAccel(ZephyrBreathingWaveform zephryBreathing);
+        void CreateZephyrBreathingWaveform(ZephyrBreathingWaveform zephryBreathing);
 
         /// <summary>
         /// Get the Zephyr Breathing Waveform data for the given a patient data record or all records for all patients.

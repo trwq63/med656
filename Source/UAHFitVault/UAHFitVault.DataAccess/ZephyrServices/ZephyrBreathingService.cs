@@ -6,7 +6,7 @@ using UAHFitVault.Database.Entities;
 namespace UAHFitVault.DataAccess.ZephyrServices
 {
     /// <summary>
-    /// Service operations used to access patient data.
+    /// Service operations used to access ZephyrBreathing Waveform data.
     /// </summary>
     public class ZephyrBreathingService : IZephyrBreathingService
     {
@@ -50,23 +50,23 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// <param name="id">Id of the Zephyr Breathing Waveform data</param>
         /// <returns></returns>
         public ZephyrBreathingWaveform GetZephyrBreathingWaveformData(int id) {
-            ZephyrBreathingWaveform zephryBreathing = null;
+            ZephyrBreathingWaveform zephyrBreathing = null;
 
             if(id > 0) {
-                zephryBreathing = _repository.GetById(id);
+                zephyrBreathing = _repository.GetById(id);
             }
 
-            return zephryBreathing;
+            return zephyrBreathing;
 
         }
 
         /// <summary>
         /// Add a new Zephyr Breathing Waveform data record to the database
         /// </summary>
-        /// <param name="zephryBreathing">ZephyrBreathingWaveform object to add to the database</param>
-        public void CreateZephyrAccel(ZephyrBreathingWaveform zephryBreathing) {
-            if(zephryBreathing != null) {
-                _repository.Add(zephryBreathing);
+        /// <param name="zephyrBreathing">ZephyrBreathingWaveform object to add to the database</param>
+        public void CreateZephyrBreathingWaveform(ZephyrBreathingWaveform zephyrBreathing) {
+            if(zephyrBreathing != null) {
+                _repository.Add(zephyrBreathing);
             }
         }
 
