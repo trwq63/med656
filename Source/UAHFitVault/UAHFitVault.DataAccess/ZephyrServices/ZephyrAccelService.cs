@@ -2,6 +2,7 @@
 using System.Linq;
 using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Entities;
+using UAHFitVault.Database.Repositories;
 
 namespace UAHFitVault.DataAccess.ZephyrServices
 {
@@ -12,7 +13,7 @@ namespace UAHFitVault.DataAccess.ZephyrServices
     {
         #region Private Properties
 
-        private readonly IRepository<ZephyrAccelerometer> _repository;
+        private readonly IZephyrAccelRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
 
         #endregion
@@ -23,7 +24,7 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// </summary>
         /// <param name="repository">Repository interface dependency</param>
         /// <param name="unitOfWork">UnitOfWork interface dependency</param>
-        public ZephyrAccelService(IRepository<ZephyrAccelerometer> repository, IUnitOfWork unitOfWork) {
+        public ZephyrAccelService(IZephyrAccelRepository repository, IUnitOfWork unitOfWork) {
             _repository = repository;
             _unitOfWork = unitOfWork;
         }

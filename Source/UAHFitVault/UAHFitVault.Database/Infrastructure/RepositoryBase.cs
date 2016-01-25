@@ -11,7 +11,7 @@ namespace UAHFitVault.Database.Infrastructure
     /// class for all other repositories that need to implement additional functionality.
     /// </summary>
     /// <typeparam name="T">Generic type</typeparam>
-    public abstract class RepositoryBase<T> where T : class
+    public class RepositoryBase<T> where T : class
     {
         #region Properties
         /// <summary>

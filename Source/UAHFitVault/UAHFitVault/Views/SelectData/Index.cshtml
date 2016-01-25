@@ -1,0 +1,59 @@
+﻿
+@section headers{
+    <link type="text/css" rel="stylesheet" href="~/Content/select-activity.css" media="screen,projection" />
+}
+
+<h2 style="text-align:center">Select Data to Upload</h2>
+
+  <div class="col s12 center-align">
+    <div class="section">
+        <label class="black-text center-align">To upload data, use the browse button and select a file or list of files to process for upload.</label>
+        <div class="file-field input-field">
+            <div class="btn">
+                <input type="file" multiple>
+                <span>Browse</span>
+            </div>
+            <div class="file-path-wrapper">
+                <input id="files" class="file-path validate" type="text" placeholder="Upload one or more files">
+            </div>
+        </div>
+    </div>
+    <div class="divider grey section-divider"></div>
+    <div class="section">
+        <label class="black-text">Add Activities</label>
+    </div>
+    <div class="divider grey section-divider"></div>
+    <div class="section col s12 center-align">
+        <button id="btnSubmit" class="btn waves-effect waves-light button-section" type="button" name="submit">
+            Submit
+            <i class="material-icons right">send</i>
+        </button>
+        <button id="btnClear" class="btn waves-effect waves-light button-section" type="button" name="action">
+            Clear
+        </button>
+    </div>
+</div>
+
+
+@section scripts{
+<script>
+    $("#btnSubmit").click(function () {
+        var files = $("#files").val();
+
+        $.ajax({
+            method: "POST",
+            url: "/SelectData/ProcessData",
+            data: {
+                files : files
+            },
+            beforeSend: function () {
+                //StartWaiting();
+            },
+            success: function (data) {
+                // StopWaiting(); 
+                window.location.href = "/UserDashboard";
+            }
+        });
+    }); 
+</script>
+} 

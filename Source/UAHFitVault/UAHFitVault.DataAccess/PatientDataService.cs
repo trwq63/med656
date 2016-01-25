@@ -2,6 +2,7 @@
 using System.Linq;
 using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Entities;
+using UAHFitVault.Database.Repositories;
 
 namespace UAHFitVault.DataAccess
 {
@@ -12,7 +13,7 @@ namespace UAHFitVault.DataAccess
     {
         #region Private Properties
 
-        private readonly IRepository<PatientData> _repository;
+        private readonly IPatientDataRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
 
         #endregion
@@ -23,7 +24,7 @@ namespace UAHFitVault.DataAccess
         /// </summary>
         /// <param name="repository">Repository interface dependency</param>
         /// <param name="unitOfWork">UnitOfWork interface dependency</param>
-        public PatientDataService(IRepository<PatientData> repository, IUnitOfWork unitOfWork) {
+        public PatientDataService(IPatientDataRepository repository, IUnitOfWork unitOfWork) {
             _repository = repository;
             _unitOfWork = unitOfWork;
         }

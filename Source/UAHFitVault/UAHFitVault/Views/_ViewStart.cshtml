@@ -1,3 +1,16 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"].ToString();
+    string cLayout = "";
+    var user = HttpContext.Current.User.Identity;
+    if (controller == "Home" && !user.IsAuthenticated) {
+        cLayout = "~/Views/Shared/_Layout.cshtml";
+
+    }
+    else if(controller == "Account") {
+        cLayout = "~/Views/Shared/_NoAccessLayout.cshtml";
+    }
+    else {
+        cLayout = "~/Views/Shared/_PatientLayout.cshtml";
+    }
+    Layout = cLayout;
 }

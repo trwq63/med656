@@ -6,6 +6,7 @@ using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Repositories;
 using UAHFitVault.DataAccess;
 using UAHFitVault.DataAccess.ZephyrServices;
+using UAHFitVault.Database.Entities;
 
 namespace UAHFitVault.App_Start
 {
@@ -22,6 +23,15 @@ namespace UAHFitVault.App_Start
                 .Where(t => t.Name.EndsWith("Repository"))
                 .AsImplementedInterfaces().InstancePerRequest();
             builder.RegisterAssemblyTypes(typeof(ExperimentAdminRepository).Assembly)
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterAssemblyTypes(typeof(PatientDataRepository).Assembly)
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterAssemblyTypes(typeof(ZephyrAccelerometer).Assembly)
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterAssemblyTypes(typeof(ZephyrECGWaveform).Assembly)
                 .Where(t => t.Name.EndsWith("Repository"))
                 .AsImplementedInterfaces().InstancePerRequest();
 
