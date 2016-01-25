@@ -31,6 +31,6 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// <summary>
         /// Save changes to database
         /// </summary>
-        void SaveCategory();
+        void SaveChanges();
     }
 }

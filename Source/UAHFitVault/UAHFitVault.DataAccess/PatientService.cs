@@ -2,6 +2,8 @@
 using System.Linq;
 using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Entities;
+using UAHFitVault.Database.Repositories;
+using System;
 
 namespace UAHFitVault.DataAccess
 {
@@ -12,7 +14,7 @@ namespace UAHFitVault.DataAccess
     {
         #region Private Properties
 
-        private readonly IRepository<Patient> _repository;
+        private readonly IPatientRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
 
         #endregion
@@ -23,7 +25,7 @@ namespace UAHFitVault.DataAccess
         /// </summary>
         /// <param name="repository">Patient Repository interface dependency</param>
         /// <param name="unitOfWork">UnitOfWork interface dependency</param>
-        public PatientService(IRepository<Patient> repository, IUnitOfWork unitOfWork) {
+        public PatientService(IPatientRepository repository, IUnitOfWork unitOfWork) {
             _repository = repository;
             _unitOfWork = unitOfWork;
         }
@@ -49,11 +51,11 @@ namespace UAHFitVault.DataAccess
         /// </summary>
         /// <param name="id">Id of the patient</param>
         /// <returns></returns>
-        public Patient GetPatient(int id) {
+        public Patient GetPatient(Guid id) {
             Patient patient = null;
 
-            if(id > 0) {
-                patient = _repository.GetById(id);
+            if(id != null) {
+                patient = _repository.GetPatientById(id);
             }
 
             return patient;
@@ -73,7 +75,7 @@ namespace UAHFitVault.DataAccess
         /// <summary>
         /// Save changes to database
         /// </summary>
-        public void SaveCategory() {
+        public void SaveChanges() {
             _unitOfWork.Commit();
         }
 

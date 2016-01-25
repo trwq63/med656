@@ -26,7 +26,9 @@ namespace UAHFitVault.LogicLayer.LogicFiles
                         || fileName.Contains("Temperature") || fileName.Contains("UV")) {
                     deviceType = Device_Type.MicrosoftBand;
                 }
-                else {
+                //TODO Add BB to this list.
+                else if (fileName.Contains("Accel") || fileName.Contains("ECG") || fileName.Contains("Breathing")
+                        || fileName.Contains("Event_Data") || fileName.Contains("Summary")) {
                     deviceType = Device_Type.Zephyr;
                 }
             }

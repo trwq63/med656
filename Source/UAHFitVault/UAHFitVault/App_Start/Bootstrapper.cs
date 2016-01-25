@@ -6,7 +6,7 @@ using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Repositories;
 using UAHFitVault.DataAccess;
 using UAHFitVault.DataAccess.ZephyrServices;
-using UAHFitVault.Database.Entities;
+using UAHFitVault.DataAccess.BasisPeakServices;
 
 namespace UAHFitVault.App_Start
 {
@@ -28,10 +28,25 @@ namespace UAHFitVault.App_Start
             builder.RegisterAssemblyTypes(typeof(PatientDataRepository).Assembly)
                 .Where(t => t.Name.EndsWith("Repository"))
                 .AsImplementedInterfaces().InstancePerRequest();
-            builder.RegisterAssemblyTypes(typeof(ZephyrAccelerometer).Assembly)
+            builder.RegisterAssemblyTypes(typeof(PatientDataRepository).Assembly)
                 .Where(t => t.Name.EndsWith("Repository"))
                 .AsImplementedInterfaces().InstancePerRequest();
-            builder.RegisterAssemblyTypes(typeof(ZephyrECGWaveform).Assembly)
+            builder.RegisterAssemblyTypes(typeof(ZephyrAccelRepository).Assembly)
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterAssemblyTypes(typeof(ZephyrECGRepository).Assembly)
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterAssemblyTypes(typeof(ZephyrBreathingRepository).Assembly)
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterAssemblyTypes(typeof(ZephyrEventDataRepository).Assembly)
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterAssemblyTypes(typeof(ZephyrSummaryRepository).Assembly)
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterAssemblyTypes(typeof(BasisPeakSummaryRepository).Assembly)
                 .Where(t => t.Name.EndsWith("Repository"))
                 .AsImplementedInterfaces().InstancePerRequest();
 
@@ -63,6 +78,10 @@ namespace UAHFitVault.App_Start
             builder.RegisterAssemblyTypes(typeof(ZephyrSummaryService).Assembly)
                .Where(t => t.Name.EndsWith("Service"))
                .AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterAssemblyTypes(typeof(BasisPeakSummaryService).Assembly)
+               .Where(t => t.Name.EndsWith("Service"))
+               .AsImplementedInterfaces().InstancePerRequest();
+
 
             IContainer container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

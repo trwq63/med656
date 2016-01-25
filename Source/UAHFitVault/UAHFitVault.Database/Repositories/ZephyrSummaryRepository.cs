@@ -7,16 +7,16 @@ using System.Collections.Generic;
 namespace UAHFitVault.Database.Repositories
 {
     /// <summary>
-    /// Implementation of the repository base class for the ZephyrECGWaveform model
+    /// Implementation of the repository base class for the ZephyrSummaryData model
     /// </summary>
-    public class ZephyrECGRepository : RepositoryBase<ZephyrECGWaveform>, IZephyrECGRepository
+    public class ZephyrSummaryRepository : RepositoryBase<ZephyrSummaryData>, IZephyrSummaryRepository
     {
         #region Public Constructor
         /// <summary>
         /// Default constructor
         /// </summary>
         /// <param name="dbFactory">Interface for dbFactory</param>
-        public ZephyrECGRepository(IDbFactory dbFactory)
+        public ZephyrSummaryRepository(IDbFactory dbFactory)
             : base(dbFactory) { }
 
         #endregion
@@ -24,14 +24,14 @@ namespace UAHFitVault.Database.Repositories
         #region Repository Public Functions
 
         /// <summary>
-        /// Get a zephyr ecg waveform records using patient data record id
+        /// Get a zephyr summary data records using patient data record id
         /// </summary>
         /// <param name="id">Id of the patient data record</param>
         /// <returns></returns>
-        public IEnumerable<ZephyrECGWaveform> GetZephyrECGByPatientDataId(Guid id) {
-            IEnumerable<ZephyrECGWaveform> zephyrEcg = this.DbContext.ZephyrECGWaveform.Where(p => p.PatientDataId == id);                                                    
+        public IEnumerable<ZephyrSummaryData> GetZephyrSummaryByPatientDataId(Guid id) {
+            IEnumerable<ZephyrSummaryData> zephyrSummaries = this.DbContext.ZephyrSummaryData.Where(p => p.PatientDataId == id);                                                    
 
-            return zephyrEcg;
+            return zephyrSummaries;
         }
 
         #endregion

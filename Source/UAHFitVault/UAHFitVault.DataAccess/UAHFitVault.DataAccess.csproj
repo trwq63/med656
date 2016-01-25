@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasisPeakServices\BasisPeakSummaryService.cs" />
+    <Compile Include="BasisPeakServices\IBasisPeakSummaryService.cs" />
     <Compile Include="ExperimentAdminService.cs" />
     <Compile Include="IExperimentAdminService.cs" />
     <Compile Include="IPatientDataService.cs" />
@@ -67,7 +69,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BasisPeakServices\" />
     <Folder Include="MicrosoftBandServices\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

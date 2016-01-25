@@ -91,7 +91,7 @@ namespace UAHFitVault.DataAccess
         /// <summary>
         /// Save changes to database
         /// </summary>
-        public void SaveCategory() {
+        public void SaveChanges() {
             _unitOfWork.Commit();
         }
 

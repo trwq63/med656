@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UAHFitVault.Database.Entities;
 
 namespace UAHFitVault.DataAccess
@@ -19,7 +20,7 @@ namespace UAHFitVault.DataAccess
         /// </summary>
         /// <param name="id">Id of the patient</param>
         /// <returns></returns>
-        Patient GetPatient(int id);
+        Patient GetPatient(Guid id);
 
         /// <summary>
         /// Get all patients from the database
@@ -31,6 +32,6 @@ namespace UAHFitVault.DataAccess
         /// <summary>
         /// Save changes to database
         /// </summary>
-        void SaveCategory();
+        void SaveChanges();
     }
 }
