@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UAHFitVault.Models;
+using UAHFitVault.LogicLayer.Services;
+using UAHFitVault.Database.Entities;
 
 namespace UAHFitVault.Controllers
 {
@@ -18,8 +20,13 @@ namespace UAHFitVault.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        private readonly IPhysicianService _physicianService;
+        private readonly IExperimentAdminService _experimentAdminService;
+
+        public AccountController(IPhysicianService physicianService, IExperimentAdminService experimentAdminService)
         {
+            _physicianService = physicianService;
+            _experimentAdminService = experimentAdminService;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -174,6 +181,15 @@ namespace UAHFitVault.Controllers
 
                 if (accountType == "Physician")
                 {
+                    Physician physician = new Physician() {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Email = model.Email
+                    };
+
+                    _physicianService.CreatePhysician(physician);
+                    _physicianService.SaveCategory();
+
                     return RedirectToAction("Index", "Home");
                 }
                 else if (accountType == "ExperimentAdministrator")
