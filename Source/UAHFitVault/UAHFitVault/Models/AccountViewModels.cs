@@ -73,6 +73,15 @@ namespace UAHFitVault.Models
         public string LastName { get; set; }
 
         [Required]
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+        
+        [Required]
+        [Phone]
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -84,9 +93,8 @@ namespace UAHFitVault.Models
         [Required]
         [Display(Name = "Reason For Account")]
         public string ReasonForAccount { get; set; }
-
     }
-
+    
     public class ResetPasswordViewModel
     {
         [Required]

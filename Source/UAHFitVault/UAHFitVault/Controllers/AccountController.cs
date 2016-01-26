@@ -156,28 +156,11 @@ namespace UAHFitVault.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RequestAccount(RequestAccountViewModel model)
         {
-            /*
-            Pseudocode:
-            
-            If username is good
-                Add account type, reason for account, username, email to account request db
-            Else
-                Request different username
-            Display that request was successful
-            */
-            /* <SAVED CODE>
-            @{ 
-                List<SelectListItem> accountTypes = new List<SelectListItem>();
-                accountTypes.Add(new SelectListItem { Text = "Physician", Value = "Physician" });
-                accountTypes.Add(new SelectListItem { Text = "Experiment Administrator", Value = "ExperimentAdministrator" });
-            }
-            @Html.DropDownListFor(m => m._AccountType, accountTypes)
-            */
-
             if (ModelState.IsValid)
             {
                 string accountType = Request["AccountType"];
-                string username = model.Username;
+                string tempPassword = "abCD12#$"; // Remove this later.
+                                            // Should probably move the CreateASync call to after the Sys Admin approves account.
 
                 if (accountType == "Physician")
                 {
@@ -187,10 +170,24 @@ namespace UAHFitVault.Controllers
                         Email = model.Email
                     };
 
-                    _physicianService.CreatePhysician(physician);
-                    _physicianService.SaveCategory();
+                    // Write to ASP user database
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    var result = await UserManager.CreateAsync(user, tempPassword);
 
-                    return RedirectToAction("Index", "Home");
+                    if (result.Succeeded)
+                    {
+                        // Successful account creation; add user to Physician database.
+                        _physicianService.CreatePhysician(physician);
+                        _physicianService.SaveCategory();
+                    }
+                    else
+                    {
+                        // Create Physician failed.
+                        AddErrors(result);
+                        return View(model);
+                    }
+
+                    return RedirectToAction("RequestPhysicianAccountConfirm", physician);
                 }
                 else if (accountType == "ExperimentAdministrator")
                 {
@@ -199,7 +196,7 @@ namespace UAHFitVault.Controllers
                 else
                 {
                     // ERROR: Shouldn't be here.
-                    return View(model);
+                    return View("Error");
                 }
             }
             /*
@@ -227,6 +224,15 @@ namespace UAHFitVault.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        //
+        // GET: /Account/RequestAccountConfirm
+        [AllowAnonymous]
+        public ActionResult RequestPhysicianAccountConfirm (Physician physician)
+        {
+            ViewData["Email"] = physician.Email;
+            return View();
         }
 
         //
