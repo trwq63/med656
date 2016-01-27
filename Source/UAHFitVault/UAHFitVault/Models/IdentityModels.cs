@@ -25,6 +25,7 @@ namespace UAHFitVault.Models
         public virtual Patient Parent { get; set; }
         public virtual Physician Physician { get; set; }
         public virtual ExperimentAdministrator ExperimentAdministrator { get; set; }
+        public virtual AccountRequest AccountRequest { get; set; }
 
         #endregion
 

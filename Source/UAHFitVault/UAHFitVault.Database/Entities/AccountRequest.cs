@@ -1,25 +1,29 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNet.Identity;
 
 namespace UAHFitVault.Database.Entities
 {
-    public class AspNetRole
+    public class AccountRequest
     {
-        #region Public Constructor
+        #region Public Constructors
         /// <summary>
         /// Default constructor
         /// </summary>
-        public AspNetRole() {
+        public AccountRequest() {
 
         }
 
         #endregion
 
         #region Scalar Properties
-        public Guid Id { get; set; }
+
+        public int Id { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string Request { get; set; }
 
         #endregion
+
     }
 }

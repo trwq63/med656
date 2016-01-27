@@ -49,9 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\AccountRequest.cs" />
     <Compile Include="Entities\Activity.cs" />
-    <Compile Include="Entities\AspNetRole.cs" />
-    <Compile Include="Entities\AspNetUser.cs" />
     <Compile Include="Entities\BasisPeakSummaryData.cs" />
     <Compile Include="FitVaultContext.cs" />
     <Compile Include="Entities\MSBandPedometer.cs" />
