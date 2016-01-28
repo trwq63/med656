@@ -3,7 +3,7 @@ namespace UAHFitVault.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class _1_27_16 : DbMigration
     {
         public override void Up()
         {
@@ -38,7 +38,8 @@ namespace UAHFitVault.Migrations
                         Status = c.Int(nullable: false),
                         PatientId = c.Int(nullable: false),
                         PhysicianId = c.Int(nullable: false),
-                        ExperimentAdministrator = c.Int(nullable: false),
+                        ExperimentAdministratorId = c.Int(nullable: false),
+                        AccountRequestId = c.Int(nullable: false),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),

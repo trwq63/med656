@@ -3,10 +3,19 @@ namespace UAHFitVault.Database.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class _1_27_16 : DbMigration
     {
         public override void Up()
         {
+            CreateTable(
+                "dbo.AccountRequests",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Request = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
             CreateTable(
                 "dbo.Activities",
                 c => new
@@ -347,6 +356,7 @@ namespace UAHFitVault.Database.Migrations
             DropTable("dbo.ExperimentAdministrators");
             DropTable("dbo.BasisPeakSummaryDatas");
             DropTable("dbo.Activities");
+            DropTable("dbo.AccountRequests");
         }
     }
 }
