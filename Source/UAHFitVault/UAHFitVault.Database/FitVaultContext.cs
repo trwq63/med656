@@ -26,8 +26,6 @@ namespace UAHFitVault.Database
         #region DataBase Tables
 
         public virtual DbSet<Activity> Activities { get; set; }
-        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<BasisPeakSummaryData> BasisPeakSummaryData { get; set; }
         public virtual DbSet<Experiment> Experiments { get; set; }
         public virtual DbSet<ExperimentAdministrator> ExperimentAdministrators { get; set; }

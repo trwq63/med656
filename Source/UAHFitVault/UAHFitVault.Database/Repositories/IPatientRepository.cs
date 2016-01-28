@@ -12,8 +12,8 @@ namespace UAHFitVault.Database.Repositories
         /// <summary>
         /// Get a patient by their guid id.
         /// </summary>
-        /// <param name="id">Guid id of the patient</param>
+        /// <param name="id">Id of the patient</param>
         /// <returns></returns>
-        Patient GetPatientById(Guid id);
+        Patient GetPatientById(int id);
     }
 }

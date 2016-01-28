@@ -1,6 +1,12 @@
-﻿
+﻿@using UAHFitVault.Database.Entities;
+
 @section headers{
     <link type="text/css" rel="stylesheet" href="~/Content/select-activity.css" media="screen,projection" />
+}
+
+@{ 
+    //Get medical devices from session set in controller.
+    List<MedicalDevice> medicalDevices = (Session["sMedicalDevices"] != null) ? (List<MedicalDevice>)Session["sMedicalDevices"] : null;
 }
 
 <h2 style="text-align:center">Select Data to Upload</h2>
@@ -19,6 +25,17 @@
                       <input class="file-path validate" type="text" placeholder="Upload one or more files">
                   </div>
               </div>
+              <label class="black-text center-align">Select the device for the data.</label>
+              <div class="row">
+                  @if (medicalDevices != null && medicalDevices.Count > 0) {
+                      foreach (MedicalDevice device in medicalDevices) {
+                          int index = medicalDevices.IndexOf(device);
+                          string id = "device" + index;
+                          <input name="medicalDeviceType" type="radio" id="@id" value="@device.Name" />
+                          <label for="@id">@device.Name</label>
+                      }
+                  }
+              </div>
           </div>
           <div class="divider grey section-divider"></div>
           <div class="section">
@@ -33,7 +50,7 @@
               <button id="btnClear" class="btn waves-effect waves-light button-section" type="button" name="action">
                   Clear
               </button>
-          </div>
+          </div>          
       </form>
 </div>
 

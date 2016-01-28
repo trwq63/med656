@@ -1,4 +1,7 @@
 ﻿using UAHFitVault.LogicLayer.Enums;
+using UAHFitVault.Database.Entities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UAHFitVault.LogicLayer.LogicFiles
 {
@@ -10,30 +13,19 @@ namespace UAHFitVault.LogicLayer.LogicFiles
         #region Public Methods
 
         /// <summary>
-        /// Determine what device the data came from by the filename.
+        /// Determine which type of medical device was entered by the user.
         /// </summary>
-        /// <param name="fileName">Name of the data file being processed</param>
+        /// <param name="medicalDeviceTypes">List of medical devices in the system.</param>
+        /// <param name="deviceType">User selected medical device.</param>
         /// <returns></returns>
-        public static Device_Type DetermineDeviceType(string fileName) {
-            Device_Type deviceType = Device_Type.Unknown;
+        public static MedicalDevice DetermineDeviceType(List<MedicalDevice> medicalDeviceTypes, string deviceType) {
+            MedicalDevice medicalDevice = null;
 
-            if (!string.IsNullOrEmpty(fileName)) {
-                if (fileName.Contains("bodymetrics")) {
-                    deviceType = Device_Type.BasisPeak;
-                }
-                else if (fileName.Contains("Acceleration") || fileName.Contains("Calories") || fileName.Contains("Distance")
-                        || fileName.Contains("Gyroscrope") || fileName.Contains("HeartRate") || fileName.Contains("Pedometer")
-                        || fileName.Contains("Temperature") || fileName.Contains("UV")) {
-                    deviceType = Device_Type.MicrosoftBand;
-                }
-                //TODO Add BB to this list.
-                else if (fileName.Contains("Accel") || fileName.Contains("ECG") || fileName.Contains("Breathing")
-                        || fileName.Contains("Event_Data") || fileName.Contains("Summary")) {
-                    deviceType = Device_Type.Zephyr;
-                }
+            if(medicalDeviceTypes != null && medicalDeviceTypes.Count > 0 && !string.IsNullOrEmpty(deviceType)) {
+                medicalDevice = medicalDeviceTypes.FirstOrDefault(m => m.Name == deviceType);
             }
 
-            return deviceType;
+            return medicalDevice;
         }
 
         /// <summary>
@@ -42,15 +34,16 @@ namespace UAHFitVault.LogicLayer.LogicFiles
         /// <param name="fileName">Name of the file being processed.</param>
         /// <param name="deviceType">The device type the file belongs to.</param>
         /// <returns></returns>
-        public static File_Type DetermineFileType(string fileName, Device_Type deviceType) {
+        //TODO: This function needs to be made more dynamic.  Risk of file name change from standard format for the device.
+        public static File_Type DetermineFileType(string fileName, MedicalDevice medicalDevice) {
             File_Type fileType = File_Type.Unknown;
 
-            if (!string.IsNullOrEmpty(fileName) && deviceType != Device_Type.Unknown) {
-                switch (deviceType) {
-                    case Device_Type.BasisPeak:
+            if (!string.IsNullOrEmpty(fileName) && medicalDevice != null && !string.IsNullOrEmpty(medicalDevice.Name)) {
+                switch (medicalDevice.Name) {
+                    case "BasisPeak":
                         fileType = File_Type.Summary;
                         break;
-                    case Device_Type.Zephyr:
+                    case "Zephyr":
                         if (fileName.Contains("Accel")) {
                             fileType = File_Type.Accel;
                         }
@@ -70,7 +63,7 @@ namespace UAHFitVault.LogicLayer.LogicFiles
                             fileType = File_Type.Unknown;
                         }
                         break;
-                    case Device_Type.MicrosoftBand:
+                    case "Microsoft Band":
                         break;
                     default:
                         break;

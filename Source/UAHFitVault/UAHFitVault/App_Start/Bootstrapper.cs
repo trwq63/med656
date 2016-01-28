@@ -49,6 +49,9 @@ namespace UAHFitVault.App_Start
             builder.RegisterAssemblyTypes(typeof(BasisPeakSummaryRepository).Assembly)
                 .Where(t => t.Name.EndsWith("Repository"))
                 .AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterAssemblyTypes(typeof(MedicalDeviceRepository).Assembly)
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces().InstancePerRequest();
 
             // Services
             builder.RegisterAssemblyTypes(typeof(PhysicianService).Assembly)
@@ -79,6 +82,9 @@ namespace UAHFitVault.App_Start
                .Where(t => t.Name.EndsWith("Service"))
                .AsImplementedInterfaces().InstancePerRequest();
             builder.RegisterAssemblyTypes(typeof(BasisPeakSummaryService).Assembly)
+               .Where(t => t.Name.EndsWith("Service"))
+               .AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterAssemblyTypes(typeof(MedicalDeviceService).Assembly)
                .Where(t => t.Name.EndsWith("Service"))
                .AsImplementedInterfaces().InstancePerRequest();
 

@@ -10,7 +10,7 @@ using UAHFitVault.Database.Entities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Microsoft.AspNet.Identity;
+using UAHFitVault.Database.Infrastructure;
 
 namespace UAHFitVault.Controllers
 {
@@ -58,6 +58,30 @@ namespace UAHFitVault.Controllers
         /// </summary>
         private readonly IPhysicianService _physicianService;
 
+        /// <summary>
+        /// Service for accessing medical devices.
+        /// </summary>
+        private readonly IMedicalDeviceService _medicalDeviceService;       
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Session property used to store the medical devices available in the system.
+        /// </summary>
+        public List<MedicalDevice> MedicalDevices {
+            get {
+                if (Session["sMedicalDevices"] == null) {
+                    Session["sMedicalDevices"] = new List<MedicalDevice>();
+                }
+                return (List<MedicalDevice>)Session["sMedicalDevices"];
+            }
+            private set {
+                Session["sMedicalDevices"] = value;
+            }
+        }
+
         #endregion
 
         #region Public Constructors
@@ -67,7 +91,8 @@ namespace UAHFitVault.Controllers
         public SelectDataController(IPatientDataService patientDataService, IZephyrAccelService accelService,
                                     IZephyrBreathingService breathingService, IZephyrECGService ecgService,
                                     IZephyrEventDataService eventDataService, IZephyrSummaryService summaryService,
-                                    IPatientService patientService, IPhysicianService physicianService) {
+                                    IPatientService patientService, IPhysicianService physicianService,
+                                    IMedicalDeviceService medicalDeviceService) {
 
             _patientDataService = patientDataService;
             _accelService = accelService;
@@ -77,6 +102,8 @@ namespace UAHFitVault.Controllers
             _summaryService = summaryService;
             _patientService = patientService;
             _physicianService = physicianService;
+            _medicalDeviceService = medicalDeviceService;
+
         }
         #endregion
 
@@ -86,6 +113,11 @@ namespace UAHFitVault.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
+            List<MedicalDevice> medicalDevices = (List<MedicalDevice>)_medicalDeviceService.GetMedicalDevices();
+            if(medicalDevices != null && medicalDevices.Count > 0) {
+                //Save session property
+                MedicalDevices = medicalDevices;
+            }
             return View();
         }
 
@@ -96,47 +128,42 @@ namespace UAHFitVault.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ProcessData(HttpPostedFileBase[] files) {           
+        public ActionResult ProcessData(HttpPostedFileBase[] files, string medicalDeviceType) {
 
-            foreach (HttpPostedFileBase file in files) {
+            MedicalDevice medicalDevice = SelectDataLogic.DetermineDeviceType(MedicalDevices, medicalDeviceType);
 
-                Device_Type deviceType = SelectDataLogic.DetermineDeviceType(file.FileName);
-                File_Type fileType = SelectDataLogic.DetermineFileType(file.FileName, deviceType);
+            foreach (HttpPostedFileBase file in files) { 
+                
+                File_Type fileType = SelectDataLogic.DetermineFileType(file.FileName, medicalDevice);
 
                 //var user = System.Web.HttpContext.Current.User.Identity.GetUserId();
-                Guid guid = new Guid("b2b47c0d-1add-41c3-a783-391aca1c97ab");
 
-                Patient patient = _patientService.GetPatient(guid);
-
-                Physician physician = _physicianService.GetPhysician(1);
+                Patient patient = _patientService.GetPatient(1);               
 
                 PatientData patientData = new PatientData() {
-                    Id = new Guid(),
-                    DataType = 0,
+                    DataType = (int)fileType,
                     Name = file.FileName,
                     UploadDate = DateTime.Now,
-                    Date = DateTime.Now,
+                    Date = DateTime.Now,                    
+                    MedicalDevice = medicalDevice,
                     Patient = patient
                 };
 
-                switch (deviceType) {
-                    case Device_Type.BasisPeak:
-                        ProcessBasisPeakData(file);
-                        break;
-                    case Device_Type.Zephyr:
-                        switch (fileType) {
-                            case File_Type.Accel:
-                                ProcessZephyrAccelData(file, patientData);
-                                break;
-                        }
-                        break;
-                    case Device_Type.MicrosoftBand:
-                        break;
-                    default:
-                        break;
+                if(medicalDevice.Name == Device_Type.BasisPeak.ToString()) {
+                    ProcessBasisPeakData(file);
                 }
-
-
+                else if(medicalDevice.Name == Device_Type.Zephyr.ToString()) { 
+                    switch (fileType) {
+                        case File_Type.Accel:
+                            ProcessZephyrAccelData(file, patientData);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else if(medicalDevice.Name.Trim() == Device_Type.MicrosoftBand.ToString()) {
+                    //TODO: Create msband process methods.
+                }
             }
 
             

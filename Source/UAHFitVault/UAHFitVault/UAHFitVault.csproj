@@ -217,9 +217,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201601220400544_init.cs" />
-    <Compile Include="Migrations\201601220400544_init.Designer.cs">
-      <DependentUpon>201601220400544_init.cs</DependentUpon>
+    <Compile Include="Migrations\201601270627404_InitialCreate.cs" />
+    <Compile Include="Migrations\201601270627404_InitialCreate.Designer.cs">
+      <DependentUpon>201601270627404_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -229,8 +229,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\aspnet-UAHFitVault-20160110104509.mdf" />
-    <Content Include="App_Data\aspnet-UAHFitVault-20160110104509_log.ldf" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -338,7 +336,6 @@
     <Content Include="Views\Shared\_NoAccessLayout.cshtml" />
     <Content Include="Views\Shared\_LogoffPartial.cshtml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
@@ -359,8 +356,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201601220400544_init.resx">
-      <DependentUpon>201601220400544_init.cs</DependentUpon>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201601270627404_InitialCreate.resx">
+      <DependentUpon>201601270627404_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

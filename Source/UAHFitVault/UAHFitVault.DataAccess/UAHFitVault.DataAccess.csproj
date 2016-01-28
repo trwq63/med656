@@ -44,9 +44,11 @@
     <Compile Include="BasisPeakServices\IBasisPeakSummaryService.cs" />
     <Compile Include="ExperimentAdminService.cs" />
     <Compile Include="IExperimentAdminService.cs" />
+    <Compile Include="IMedicalDeviceService.cs" />
     <Compile Include="IPatientDataService.cs" />
     <Compile Include="IPatientService.cs" />
     <Compile Include="IPhysicianService.cs" />
+    <Compile Include="MedicalDeviceService.cs" />
     <Compile Include="ZephyrServices\IZephyrAccelService.cs" />
     <Compile Include="ZephyrServices\IZephyrBreathingService.cs" />
     <Compile Include="ZephyrServices\IZephyrECGService.cs" />

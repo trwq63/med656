@@ -15,6 +15,6 @@ namespace UAHFitVault.Database.Repositories
         /// </summary>
         /// <param name="id">Id of the patient</param>
         /// <returns></returns>
-        IEnumerable<PatientData> GetPatientDataByPatientId(Guid id);
+        IEnumerable<PatientData> GetPatientDataByPatientId(int id);
     }
 }

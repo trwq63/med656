@@ -27,7 +27,7 @@ namespace UAHFitVault.Database.Repositories
         /// </summary>
         /// <param name="id">Guid id of the patient</param>
         /// <returns></returns>
-        public Patient GetPatientById(Guid id) {
+        public Patient GetPatientById(int id) {
             Patient patient = this.DbContext.Patients.FirstOrDefault(p => p.Id == id);
 
             return patient;

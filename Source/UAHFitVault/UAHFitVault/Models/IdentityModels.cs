@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using UAHFitVault.Database.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UAHFitVault.Models
 {
@@ -18,13 +19,15 @@ namespace UAHFitVault.Models
         [DefaultValue(0)]
         public int Status { get; set; }
 
+        public int PatientId { get; set; }
+        public int PhysicianId { get; set; }
+        public int ExperimentAdministrator { get; set; }
+
         #endregion
 
         #region Navigation Properties
 
-        public virtual Patient Parent { get; set; }
-        public virtual Physician Physician { get; set; }
-        public virtual ExperimentAdministrator ExperimentAdministrator { get; set; }
+
 
         #endregion
 

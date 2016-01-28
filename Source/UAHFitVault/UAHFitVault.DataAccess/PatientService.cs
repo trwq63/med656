@@ -51,7 +51,7 @@ namespace UAHFitVault.DataAccess
         /// </summary>
         /// <param name="id">Id of the patient</param>
         /// <returns></returns>
-        public Patient GetPatient(Guid id) {
+        public Patient GetPatient(int id) {
             Patient patient = null;
 
             if(id != null) {

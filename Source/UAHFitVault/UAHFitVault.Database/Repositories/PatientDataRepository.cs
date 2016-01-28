@@ -28,7 +28,7 @@ namespace UAHFitVault.Database.Repositories
         /// </summary>
         /// <param name="id">Id of the patient</param>
         /// <returns></returns>
-        public IEnumerable<PatientData> GetPatientDataByPatientId(Guid id) {
+        public IEnumerable<PatientData> GetPatientDataByPatientId(int id) {
             IEnumerable<PatientData> patientData = this.DbContext.PatientData.Where(p => p.Patient.Id == id);
                                                     
 

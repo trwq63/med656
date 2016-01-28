@@ -20,7 +20,7 @@ namespace UAHFitVault.DataAccess
         /// </summary>
         /// <param name="id">Id of the patient</param>
         /// <returns></returns>
-        Patient GetPatient(Guid id);
+        Patient GetPatient(int id);
 
         /// <summary>
         /// Get all patients from the database

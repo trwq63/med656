@@ -1,18 +1,19 @@
-namespace UAHFitVault.Migrations
+namespace UAHFitVault.Database.Migrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<UAHFitVault.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<UAHFitVault.Database.FitVaultContext>
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
+            MigrationsDirectory = @"Migrations";
         }
 
-        protected override void Seed(UAHFitVault.Models.ApplicationDbContext context)
+        protected override void Seed(UAHFitVault.Database.FitVaultContext context)
         {
             //  This method will be called after migrating to the latest version.
 
