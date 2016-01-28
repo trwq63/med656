@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UAHFitVault.Models;
-using UAHFitVault.LogicLayer.Services;
+using UAHFitVault.DataAccess;
 using UAHFitVault.Database.Entities;
 
 namespace UAHFitVault.Controllers
@@ -167,18 +167,29 @@ namespace UAHFitVault.Controllers
                     Physician physician = new Physician() {
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        Email = model.Email
+                        Email = model.Email,
+                        Address = model.Address,
+                        PhoneNumber = model.PhoneNumber
                     };
 
                     // Write to ASP user database
-                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    var user = new ApplicationUser {
+                        UserName = model.Email,
+                        Email = model.Email
+                    };
+
                     var result = await UserManager.CreateAsync(user, tempPassword);
+
+                    
 
                     if (result.Succeeded)
                     {
                         // Successful account creation; add user to Physician database.
                         _physicianService.CreatePhysician(physician);
-                        _physicianService.SaveCategory();
+                        _physicianService.SaveChanges();
+
+                        user.PhysicianId = physician.Id;
+                        result = await UserManager.UpdateAsync(user);
                     }
                     else
                     {
