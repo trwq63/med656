@@ -46,6 +46,7 @@ namespace UAHFitVault.Database
         public virtual DbSet<ZephyrECGWaveform> ZephyrECGWaveform { get; set; }
         public virtual DbSet<ZephyrEventData> ZephyrEventData { get; set; }
         public virtual DbSet<ZephyrSummaryData> ZephyrSummaryData { get; set; }
+        public virtual DbSet<AccountRequest> AccountRequests { get; set; }
 
         #endregion
 

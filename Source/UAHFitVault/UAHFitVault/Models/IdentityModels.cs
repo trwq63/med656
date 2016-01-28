@@ -21,7 +21,8 @@ namespace UAHFitVault.Models
 
         public int PatientId { get; set; }
         public int PhysicianId { get; set; }
-        public int ExperimentAdministrator { get; set; }
+        public int ExperimentAdministratorId { get; set; }
+        public int AccountRequestId { get; set; }
 
         #endregion
 

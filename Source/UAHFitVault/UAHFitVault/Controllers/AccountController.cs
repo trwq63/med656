@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UAHFitVault.Models;
+using UAHFitVault.LogicLayer.Services;
+using UAHFitVault.Database.Entities;
 
 namespace UAHFitVault.Controllers
 {
@@ -18,8 +20,13 @@ namespace UAHFitVault.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        private readonly IPhysicianService _physicianService;
+        private readonly IExperimentAdminService _experimentAdminService;
+
+        public AccountController(IPhysicianService physicianService, IExperimentAdminService experimentAdminService)
         {
+            _physicianService = physicianService;
+            _experimentAdminService = experimentAdminService;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -135,24 +142,69 @@ namespace UAHFitVault.Controllers
         }
 
         //
-        // GET: /Account/Register
+        // GET: /Account/RequestAccount
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult RequestAccount()
         {
             return View();
         }
 
         //
-        // POST: /Account/Register
+        // POST: /Account/RequestAccount
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> RequestAccount(RequestAccountViewModel model)
         {
+            if (ModelState.IsValid)
+            {
+                string accountType = Request["AccountType"];
+                string tempPassword = "abCD12#$"; // Remove this later.
+                                            // Should probably move the CreateASync call to after the Sys Admin approves account.
+
+                if (accountType == "Physician")
+                {
+                    Physician physician = new Physician() {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Email = model.Email
+                    };
+
+                    // Write to ASP user database
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    var result = await UserManager.CreateAsync(user, tempPassword);
+
+                    if (result.Succeeded)
+                    {
+                        // Successful account creation; add user to Physician database.
+                        _physicianService.CreatePhysician(physician);
+                        _physicianService.SaveCategory();
+                    }
+                    else
+                    {
+                        // Create Physician failed.
+                        AddErrors(result);
+                        return View(model);
+                    }
+
+                    return RedirectToAction("RequestPhysicianAccountConfirm", physician);
+                }
+                else if (accountType == "ExperimentAdministrator")
+                {
+                    return View(model);
+                }
+                else
+                {
+                    // ERROR: Shouldn't be here.
+                    return View("Error");
+                }
+            }
+            /*
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+                
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
@@ -165,11 +217,22 @@ namespace UAHFitVault.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
+                
                 AddErrors(result);
             }
+            */
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        //
+        // GET: /Account/RequestAccountConfirm
+        [AllowAnonymous]
+        public ActionResult RequestPhysicianAccountConfirm (Physician physician)
+        {
+            ViewData["Email"] = physician.Email;
+            return View();
         }
 
         //
