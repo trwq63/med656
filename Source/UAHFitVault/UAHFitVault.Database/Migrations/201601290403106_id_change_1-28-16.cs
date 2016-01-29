@@ -3,7 +3,7 @@ namespace UAHFitVault.Database.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _1_27_16 : DbMigration
+    public partial class id_change_12816 : DbMigration
     {
         public override void Up()
         {
@@ -235,7 +235,7 @@ namespace UAHFitVault.Database.Migrations
                         Vertical = c.Int(nullable: false),
                         Lateral = c.Int(nullable: false),
                         Sagittal = c.Int(nullable: false),
-                        PatentDataId = c.Guid(nullable: false),
+                        PatientDataId = c.Guid(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -243,7 +243,7 @@ namespace UAHFitVault.Database.Migrations
                 "dbo.ZephyrBreathingWaveforms",
                 c => new
                     {
-                        Id = c.Guid(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         Time = c.DateTime(nullable: false),
                         Data = c.Int(nullable: false),
                         PatientDataId = c.Guid(nullable: false),
@@ -254,7 +254,7 @@ namespace UAHFitVault.Database.Migrations
                 "dbo.ZephyrECGWaveforms",
                 c => new
                     {
-                        Id = c.Guid(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         Time = c.DateTime(nullable: false),
                         Data = c.Int(nullable: false),
                         PatientDataId = c.Guid(nullable: false),

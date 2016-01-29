@@ -7,13 +7,13 @@ namespace UAHFitVault.Database.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class _1_27_16 : IMigrationMetadata
+    public sealed partial class zephyrsummarydata2_12816 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(_1_27_16));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(zephyrsummarydata2_12816));
         
         string IMigrationMetadata.Id
         {
-            get { return "201601280337094_1_27_16"; }
+            get { return "201601290437470_zephyrsummarydata2_1-28-16"; }
         }
         
         string IMigrationMetadata.Source

@@ -10,7 +10,8 @@ using UAHFitVault.Database.Entities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using UAHFitVault.Database.Infrastructure;
+using EntityFramework.BulkInsert.Extensions;
+using UAHFitVault.Database;
 
 namespace UAHFitVault.Controllers
 {
@@ -141,6 +142,7 @@ namespace UAHFitVault.Controllers
                 Patient patient = _patientService.GetPatient(1);               
 
                 PatientData patientData = new PatientData() {
+                    Id = Guid.NewGuid(),
                     DataType = (int)fileType,
                     Name = file.FileName,
                     UploadDate = DateTime.Now,
@@ -156,6 +158,18 @@ namespace UAHFitVault.Controllers
                     switch (fileType) {
                         case File_Type.Accel:
                             ProcessZephyrAccelData(file, patientData);
+                            break;
+                        case File_Type.Breathing:
+                            ProcessZephyrBreathingData(file, patientData);
+                            break;
+                        case File_Type.ECG:
+                            ProcessZephyrECGData(file, patientData);
+                            break;
+                        case File_Type.EventData:
+                            ProcessZephyrEventData(file, patientData);
+                            break;
+                        case File_Type.Summary:
+                            ProcessZephyrSummaryData(file, patientData);
                             break;
                         default:
                             break;
@@ -173,53 +187,134 @@ namespace UAHFitVault.Controllers
 
         #region Protected Methods
 
-        //protected string ReadFile() {
-
-        //}
-
         protected void ProcessBasisPeakData(HttpPostedFileBase file) {
 
 
         }
 
+        /// <summary>
+        /// Insert Zephyr accel records from file into database
+        /// </summary>
+        /// <param name="file">Zephyr accel file selected for upload from view.</param>
+        /// <param name="patientData">Patient data record created for the patient for this accel data.</param>
         protected void ProcessZephyrAccelData(HttpPostedFileBase file, PatientData patientData) {
-            List<ZephyrAccelerometer> zephyrAccelData = new List<ZephyrAccelerometer>();
+            List<ZephyrAccelerometer> zephyrAccelData = null;
 
             Stream stream = file.InputStream;
             using (CsvReader csvReader = new CsvReader(new StreamReader(stream), true)) {
-                int fieldCount = csvReader.FieldCount;
-                while (csvReader.ReadNextRecord()) {
-                    if (csvReader != null) {
-                        //File should read in the following order.
-                        //Time | Vertical | Lateral | Sagittal
-                        string dateFormat = "dd/MM/yyyy HH:mm:ss.fff";
-                        string date = csvReader[0];
-                        DateTime dateTime;
-                        if (DateTime.TryParseExact(date, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime)) {
-                            ZephyrAccelerometer zephyrAccel = new ZephyrAccelerometer() {
-                                Time = dateTime,
-                                Vertical = Convert.ToInt32(csvReader[1]),
-                                Lateral = Convert.ToInt32(csvReader[2]),
-                                Sagittal = Convert.ToInt32(csvReader[3]),
-                                PatentDataId = patientData.Id
-                            };
-                            zephyrAccelData.Add(zephyrAccel);
-                        }
-                    }
-                }
 
+                zephyrAccelData = SelectDataLogic.BuildZephyrAccelDataList(csvReader, patientData);
             }
             
-            if(zephyrAccelData.Count > 0) {
+            if(zephyrAccelData != null && zephyrAccelData.Count > 0) {
                 //Write data to database
                 _patientDataService.CreatePatientData(patientData);
                 _patientDataService.SaveChanges();
-                foreach(ZephyrAccelerometer accel in zephyrAccelData) {
-                    _accelService.CreateZephyrAccel(accel);
-                    _accelService.SaveChanges();
-                }
+
+                //Bulk insert zephyr excel records
+                _accelService.BulkInsert(zephyrAccelData);
             }
         }
+
+        /// <summary>
+        /// Insert Zephyr ECG records from file into database.
+        /// </summary>
+        /// <param name="file">Zephyr ecg file selected for upload from view.</param>
+        /// <param name="patientData">Patient data record created for the patient for this accel data.</param>
+        protected void ProcessZephyrECGData(HttpPostedFileBase file, PatientData patientData) {
+            List<ZephyrECGWaveform> zephyrEcgData = null;
+
+            Stream stream = file.InputStream;
+            using (CsvReader csvReader = new CsvReader(new StreamReader(stream), true)) {
+
+                zephyrEcgData = SelectDataLogic.BuildZephyrEcgDataList(csvReader, patientData);
+            }
+
+            if (zephyrEcgData != null && zephyrEcgData.Count > 0) {
+                //Write data to database
+                _patientDataService.CreatePatientData(patientData);
+                _patientDataService.SaveChanges();
+
+                //Bulk insert zephyr excel records
+                _ecgService.BulkInsert(zephyrEcgData);
+            }
+        }
+
+        /// <summary>
+        /// Insert Zephyr Breathing records from file into database.
+        /// </summary>
+        /// <param name="file">Zephyr breathing file selected for upload from view.</param>
+        /// <param name="patientData">Patient data record created for the patient for this accel data.</param>
+        protected void ProcessZephyrBreathingData(HttpPostedFileBase file, PatientData patientData) {
+            List<ZephyrBreathingWaveform> zephyrBreathingData = null;
+
+            Stream stream = file.InputStream;
+            using (CsvReader csvReader = new CsvReader(new StreamReader(stream), true)) {
+
+                zephyrBreathingData = SelectDataLogic.BuildZephyrBreathingDataList(csvReader, patientData);
+            }
+
+            if (zephyrBreathingData != null && zephyrBreathingData.Count > 0) {
+                //Write data to database
+                _patientDataService.CreatePatientData(patientData);
+                _patientDataService.SaveChanges();
+
+                //Bulk insert zephyr excel records
+                _breathingService.BulkInsert(zephyrBreathingData);
+            }
+        }
+
+
+        /// <summary>
+        /// Insert Zephyr Event Data records from file into database.
+        /// </summary>
+        /// <param name="file">Zephyr breathing file selected for upload from view.</param>
+        /// <param name="patientData">Patient data record created for the patient for this accel data.</param>
+        protected void ProcessZephyrEventData(HttpPostedFileBase file, PatientData patientData) {
+            List<ZephyrEventData> zephyrEventData = null;
+
+            Stream stream = file.InputStream;
+            using (CsvReader csvReader = new CsvReader(new StreamReader(stream), true)) {
+
+                zephyrEventData = SelectDataLogic.BuildZephyrEventDataList(csvReader, patientData);
+            }
+
+            if (zephyrEventData != null && zephyrEventData.Count > 0) {
+                //Write data to database
+                _patientDataService.CreatePatientData(patientData);
+                _patientDataService.SaveChanges();
+
+                //Bulk insert zephyr excel records
+                _eventDataService.BulkInsert(zephyrEventData);
+            }
+        }
+
+
+        /// <summary>
+        /// Insert Zephyr Summary Data records from file into database.
+        /// </summary>
+        /// <param name="file">Zephyr breathing file selected for upload from view.</param>
+        /// <param name="patientData">Patient data record created for the patient for this accel data.</param>
+        protected void ProcessZephyrSummaryData(HttpPostedFileBase file, PatientData patientData) {
+            List<ZephyrSummaryData> zephyrSummaryData = null;
+
+            Stream stream = file.InputStream;
+            using (CsvReader csvReader = new CsvReader(new StreamReader(stream), true)) {
+
+                zephyrSummaryData = SelectDataLogic.BuildZephyrSummaryDataList(csvReader, patientData);
+            }
+
+            if (zephyrSummaryData != null && zephyrSummaryData.Count > 0) {
+                //Write data to database
+                _patientDataService.CreatePatientData(patientData);
+                _patientDataService.SaveChanges();
+
+                //Bulk insert zephyr excel records
+                _summaryService.BulkInsert(zephyrSummaryData);
+            }
+        }
+
+
 
         #endregion
     }

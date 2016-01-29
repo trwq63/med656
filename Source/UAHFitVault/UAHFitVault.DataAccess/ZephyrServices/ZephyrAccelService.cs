@@ -3,6 +3,8 @@ using System.Linq;
 using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Entities;
 using UAHFitVault.Database.Repositories;
+using UAHFitVault.Database;
+using EntityFramework.BulkInsert.Extensions;
 
 namespace UAHFitVault.DataAccess.ZephyrServices
 {
@@ -42,7 +44,7 @@ namespace UAHFitVault.DataAccess.ZephyrServices
             if (patientData == null)
                 return _repository.GetAll();
             else
-                return _repository.GetAll().Where(r => r.PatentDataId == patientData.Id);
+                return _repository.GetAll().Where(r => r.PatientDataId == patientData.Id);
         }
 
         /// <summary>
@@ -68,6 +70,17 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         public void CreateZephyrAccel(ZephyrAccelerometer zephyrAccel) {
             if(zephyrAccel != null) {
                 _repository.Add(zephyrAccel);
+            }
+        }
+
+        /// <summary>
+        /// Bulk Insert Zephyr Acceleromater Data into the database
+        /// </summary>
+        /// <param name="zephyrAccel">Collection of Zephyr summary data to insert into database.</param>
+        public void BulkInsert(List<ZephyrAccelerometer> zephyrAccel) {
+            using (FitVaultContext context = new FitVaultContext()) {
+                context.BulkInsert(zephyrAccel);
+
             }
         }
 

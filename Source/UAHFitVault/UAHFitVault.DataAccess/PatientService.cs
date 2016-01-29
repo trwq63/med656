@@ -54,7 +54,7 @@ namespace UAHFitVault.DataAccess
         public Patient GetPatient(int id) {
             Patient patient = null;
 
-            if(id != null) {
+            if(id > 0) {
                 patient = _repository.GetPatientById(id);
             }
 

@@ -26,6 +26,12 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         ZephyrBreathingWaveform GetZephyrBreathingWaveformData(int id);
 
         /// <summary>
+        /// Bulk Insert Zephyr Breathing Waveform Data into the database
+        /// </summary>
+        /// <param name="zephyrBreathingData">Collection of Zephyr summary data to insert into database.</param>
+        void BulkInsert(List<ZephyrBreathingWaveform> zephyrBreathingData);
+
+        /// <summary>
         /// Save changes to database
         /// </summary>
         void SaveChanges();
