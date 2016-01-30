@@ -22,11 +22,14 @@ namespace UAHFitVault.Controllers
 
         private readonly IPhysicianService _physicianService;
         private readonly IExperimentAdminService _experimentAdminService;
+        private readonly IAccountRequestService _accountRequestService;
 
-        public AccountController(IPhysicianService physicianService, IExperimentAdminService experimentAdminService)
+        public AccountController(IPhysicianService physicianService, IExperimentAdminService experimentAdminService,
+            IAccountRequestService accountRequestService)
         {
             _physicianService = physicianService;
             _experimentAdminService = experimentAdminService;
+            _accountRequestService = accountRequestService;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -184,8 +187,14 @@ namespace UAHFitVault.Controllers
                         _physicianService.CreatePhysician(physician);
                         _physicianService.SaveChanges();
 
+                        AccountRequest newUser = new AccountRequest();
+                        newUser.PhysicianID = physician.Id;
+                        _accountRequestService.CreateAccountRequest(newUser);
+                        _accountRequestService.SaveChanges();
+
                         user.PhysicianId = physician.Id;
                         result = await UserManager.UpdateAsync(user);
+
                     }
                     else
                     {
