@@ -17,7 +17,7 @@ namespace UAHFitVault.Database.Entities
 
         #region Scalar Properties
 
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         [Required]
         public int Age { get; set; }
         [Required]

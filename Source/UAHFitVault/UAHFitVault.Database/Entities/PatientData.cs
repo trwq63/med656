@@ -36,7 +36,6 @@ namespace UAHFitVault.Database.Entities
         public virtual Patient Patient { get; set; }
         [Required]
         public virtual MedicalDevice MedicalDevice { get; set; }
-        [Required]
         public virtual ICollection<Activity> Activities { get; set; }
 
         #endregion

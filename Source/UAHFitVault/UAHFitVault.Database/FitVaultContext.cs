@@ -9,7 +9,7 @@ namespace UAHFitVault.Database
         /// <summary>
         /// Default constructor
         /// </summary>
-        public FitVaultContext() : base("name=FitVaultDatabase") {
+        public FitVaultContext() : base("name=DefaultConnection") {
            // Database.SetInitializer<FitVaultContext>(new DropCreateDatabaseIfModelChanges<FitVaultContext>());
         }
 
@@ -26,8 +26,6 @@ namespace UAHFitVault.Database
         #region DataBase Tables
 
         public virtual DbSet<Activity> Activities { get; set; }
-        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<BasisPeakSummaryData> BasisPeakSummaryData { get; set; }
         public virtual DbSet<Experiment> Experiments { get; set; }
         public virtual DbSet<ExperimentAdministrator> ExperimentAdministrators { get; set; }
@@ -48,6 +46,7 @@ namespace UAHFitVault.Database
         public virtual DbSet<ZephyrECGWaveform> ZephyrECGWaveform { get; set; }
         public virtual DbSet<ZephyrEventData> ZephyrEventData { get; set; }
         public virtual DbSet<ZephyrSummaryData> ZephyrSummaryData { get; set; }
+        public virtual DbSet<AccountRequest> AccountRequests { get; set; }
 
         #endregion
 
