@@ -22,11 +22,14 @@ namespace UAHFitVault.Controllers
 
         private readonly IPhysicianService _physicianService;
         private readonly IExperimentAdminService _experimentAdminService;
+        private readonly IAccountRequestService _accountRequestService;
 
-        public AccountController(IPhysicianService physicianService, IExperimentAdminService experimentAdminService)
+        public AccountController(IPhysicianService physicianService, IExperimentAdminService experimentAdminService,
+            IAccountRequestService accountRequestService)
         {
             _physicianService = physicianService;
             _experimentAdminService = experimentAdminService;
+            _accountRequestService = accountRequestService;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -159,8 +162,6 @@ namespace UAHFitVault.Controllers
             if (ModelState.IsValid)
             {
                 string accountType = Request["AccountType"];
-                string tempPassword = "abCD12#$"; // Remove this later.
-                                            // Should probably move the CreateASync call to after the Sys Admin approves account.
 
                 if (accountType == "Physician")
                 {
@@ -178,18 +179,22 @@ namespace UAHFitVault.Controllers
                         Email = model.Email
                     };
 
-                    var result = await UserManager.CreateAsync(user, tempPassword);
-
+                    var result = await UserManager.CreateAsync(user, model.Password);
                     
-
                     if (result.Succeeded)
                     {
                         // Successful account creation; add user to Physician database.
                         _physicianService.CreatePhysician(physician);
                         _physicianService.SaveChanges();
 
+                        AccountRequest newUser = new AccountRequest();
+                        newUser.PhysicianID = physician.Id;
+                        _accountRequestService.CreateAccountRequest(newUser);
+                        _accountRequestService.SaveChanges();
+
                         user.PhysicianId = physician.Id;
                         result = await UserManager.UpdateAsync(user);
+
                     }
                     else
                     {
@@ -202,7 +207,41 @@ namespace UAHFitVault.Controllers
                 }
                 else if (accountType == "ExperimentAdministrator")
                 {
-                    return View(model);
+                    ExperimentAdministrator experimentAdministrator = new ExperimentAdministrator()
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Email = model.Email,
+                        Address = model.Address,
+                        PhoneNumber = model.PhoneNumber
+                    };
+                    
+                    // Write to ASP user database
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.Email,
+                        Email = model.Email
+                    };
+
+                    var result = await UserManager.CreateAsync(user, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        // Successful account creation; add user to Experiment Administrator database.
+                        _experimentAdminService.CreateExperimentAdministrator(experimentAdministrator);
+                        _experimentAdminService.SaveChanges();
+
+                        user.ExperimentAdministratorId = experimentAdministrator.Id;
+                        result = await UserManager.UpdateAsync(user);
+                    }
+                    else
+                    {
+                        // Create Physician failed.
+                        AddErrors(result);
+                        return View(model);
+                    }
+
+                    return RedirectToAction("RequestExperimentAdministratorAccountConfirm", experimentAdministrator);
                 }
                 else
                 {
@@ -238,9 +277,18 @@ namespace UAHFitVault.Controllers
         }
 
         //
-        // GET: /Account/RequestAccountConfirm
+        // GET: /Account/RequestExperimentAdministratorAccountConfirm
         [AllowAnonymous]
-        public ActionResult RequestPhysicianAccountConfirm (Physician physician)
+        public ActionResult RequestExperimentAdministratorAccountConfirm (ExperimentAdministrator experimentAdministrator)
+        {
+            ViewData["Email"] = experimentAdministrator.Email;
+            return View();
+        }
+
+        //
+        // GET: /Account/RequestPhysicianAccountConfirm
+        [AllowAnonymous]
+        public ActionResult RequestPhysicianAccountConfirm(Physician physician)
         {
             ViewData["Email"] = physician.Email;
             return View();
