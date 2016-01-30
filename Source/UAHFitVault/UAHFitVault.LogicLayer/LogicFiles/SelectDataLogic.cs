@@ -1,10 +1,10 @@
-﻿using UAHFitVault.LogicLayer.Enums;
-using UAHFitVault.Database.Entities;
-using System.Collections.Generic;
-using System.Linq;
-using LumenWorks.Framework.IO.Csv;
-using System.Globalization;
+﻿using LumenWorks.Framework.IO.Csv;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using UAHFitVault.Database.Entities;
+using UAHFitVault.LogicLayer.Enums;
 
 namespace UAHFitVault.LogicLayer.LogicFiles
 {
@@ -294,6 +294,50 @@ namespace UAHFitVault.LogicLayer.LogicFiles
             }
 
             return zephyrSummaryData;
+        }
+
+
+        /// <summary>
+        /// Create a list of BasisPeakSummaryData objects from the data read from the csv file selected by the user.
+        /// </summary>
+        /// <param name="csvReader">Csv reader object</param>
+        /// <param name="patientData">Patient data record that will be referenced by each zephyr accel data record.</param>
+        /// <returns></returns>
+        public static List<BasisPeakSummaryData> BuildBasisPeakSummaryDataList(CsvReader csvReader, PatientData patientData) {
+            List<BasisPeakSummaryData> basisPeakSummaryData = null;
+
+            if (csvReader != null && patientData != null && patientData.Id != null) {
+                basisPeakSummaryData = new List<BasisPeakSummaryData>();
+
+                while (csvReader.ReadNextRecord()) {
+                    if (csvReader != null) {
+                        //TODO: Dr. Milenkovic has asked to automatically convert the date from GMT time.
+                        //File should read in the following order.
+                        //Date | Calories | GSR | heart-rate | skin-temp | steps
+                        BasisPeakSummaryData summary = new BasisPeakSummaryData();
+                        summary.Date = DateTime.Parse(csvReader[0]);
+
+                        if (!string.IsNullOrEmpty(csvReader[1])) {
+                            summary.Calories = (float)Convert.ToDouble(csvReader[1]);
+                        }
+                        if (!string.IsNullOrEmpty(csvReader[2])) {
+                            summary.GSR = (float)Convert.ToDouble(csvReader[2]);
+                        }
+                        if (!string.IsNullOrEmpty(csvReader[3])) {
+                            summary.HeartRate = Convert.ToInt32(csvReader[3]);
+                        }
+                        if (!string.IsNullOrEmpty(csvReader[4])) {
+                            summary.SkinTemp = (float)Convert.ToDouble(csvReader[4]);
+                        }
+                        summary.Steps = (!string.IsNullOrEmpty(csvReader[5])) ? Convert.ToInt32(csvReader[5]) : 0;
+                        summary.PatientDataId = patientData.Id;
+
+                        basisPeakSummaryData.Add(summary);
+                    }
+                }
+            }
+
+            return basisPeakSummaryData;
         }
 
 

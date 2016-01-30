@@ -1,17 +1,15 @@
-﻿using System.Web;
-using System.Web.Mvc;
-using UAHFitVault.DataAccess.ZephyrServices;
-using UAHFitVault.DataAccess;
-using UAHFitVault.LogicLayer.Enums;
-using UAHFitVault.LogicLayer.LogicFiles;
-using System.IO;
-using LumenWorks.Framework.IO.Csv;
-using UAHFitVault.Database.Entities;
+﻿using LumenWorks.Framework.IO.Csv;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using EntityFramework.BulkInsert.Extensions;
-using UAHFitVault.Database;
+using System.IO;
+using System.Web;
+using System.Web.Mvc;
+using UAHFitVault.DataAccess;
+using UAHFitVault.DataAccess.BasisPeakServices;
+using UAHFitVault.DataAccess.ZephyrServices;
+using UAHFitVault.Database.Entities;
+using UAHFitVault.LogicLayer.Enums;
+using UAHFitVault.LogicLayer.LogicFiles;
 
 namespace UAHFitVault.Controllers
 {
@@ -55,9 +53,9 @@ namespace UAHFitVault.Controllers
         private readonly IPatientService _patientService;
 
         /// <summary>
-        /// Service object for accessing physician database functions.
+        /// Service object for accessing basis peak summary database functions.
         /// </summary>
-        private readonly IPhysicianService _physicianService;
+        private readonly IBasisPeakSummaryService _basisPeakService;
 
         /// <summary>
         /// Service for accessing medical devices.
@@ -92,7 +90,7 @@ namespace UAHFitVault.Controllers
         public SelectDataController(IPatientDataService patientDataService, IZephyrAccelService accelService,
                                     IZephyrBreathingService breathingService, IZephyrECGService ecgService,
                                     IZephyrEventDataService eventDataService, IZephyrSummaryService summaryService,
-                                    IPatientService patientService, IPhysicianService physicianService,
+                                    IPatientService patientService, IBasisPeakSummaryService basisPeakService,
                                     IMedicalDeviceService medicalDeviceService) {
 
             _patientDataService = patientDataService;
@@ -102,7 +100,7 @@ namespace UAHFitVault.Controllers
             _eventDataService = eventDataService;
             _summaryService = summaryService;
             _patientService = patientService;
-            _physicianService = physicianService;
+            _basisPeakService = basisPeakService;
             _medicalDeviceService = medicalDeviceService;
 
         }
@@ -147,12 +145,12 @@ namespace UAHFitVault.Controllers
                     Name = file.FileName,
                     UploadDate = DateTime.Now,
                     Date = DateTime.Now,                    
-                    MedicalDevice = medicalDevice,
+                    MedicalDeviceId = medicalDevice.Id,
                     Patient = patient
                 };
 
                 if(medicalDevice.Name == Device_Type.BasisPeak.ToString()) {
-                    ProcessBasisPeakData(file);
+                    ProcessBasisPeakData(file, patientData);
                 }
                 else if(medicalDevice.Name == Device_Type.Zephyr.ToString()) { 
                     switch (fileType) {
@@ -178,18 +176,36 @@ namespace UAHFitVault.Controllers
                 else if(medicalDevice.Name.Trim() == Device_Type.MicrosoftBand.ToString()) {
                     //TODO: Create msband process methods.
                 }
-            }
-
-            
+            }           
 
             return RedirectToAction("Index", "UserDashboard");
         }
 
         #region Protected Methods
 
-        protected void ProcessBasisPeakData(HttpPostedFileBase file) {
+        /// <summary>
+        /// Insert Basis Peakk Summary data records from file to database.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="patientData"></param>
+        protected void ProcessBasisPeakData(HttpPostedFileBase file, PatientData patientData) {
+            List<BasisPeakSummaryData> basisPeakSummaryData = null;
 
+            Stream stream = file.InputStream;
 
+            //Note: Excel Reader is disposable per wiki on github
+            using (CsvReader csvReader = new CsvReader(new StreamReader(stream), true)) {
+                basisPeakSummaryData = SelectDataLogic.BuildBasisPeakSummaryDataList(csvReader, patientData);              
+            }
+
+            if(basisPeakSummaryData != null && basisPeakSummaryData.Count > 0) {
+                //Write data to database
+                _patientDataService.CreatePatientData(patientData);
+                _patientDataService.SaveChanges();
+
+                //Bulk insert zephyr excel records
+                _basisPeakService.BulkInsert(basisPeakSummaryData);
+            }
         }
 
         /// <summary>

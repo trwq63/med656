@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UAHFitVault.Database.Entities
 {
@@ -60,7 +61,10 @@ namespace UAHFitVault.Database.Entities
         #region Navigation Properties
 
         [Required]
-        public Guid PatientDataId { get; set; }
+        public virtual Guid PatientDataId { get; set; }
+
+        [ForeignKey("PatientDataId")]
+        public virtual PatientData PatientData { get; set; }
 
         #endregion
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UAHFitVault.Database.Entities
 {
@@ -34,7 +35,9 @@ namespace UAHFitVault.Database.Entities
 
         [Required]
         public virtual Patient Patient { get; set; }
-        [Required]
+        [Required]        
+        public virtual int MedicalDeviceId { get; set; }
+        [ForeignKey("MedicalDeviceId")]
         public virtual MedicalDevice MedicalDevice { get; set; }
         public virtual ICollection<Activity> Activities { get; set; }
 
