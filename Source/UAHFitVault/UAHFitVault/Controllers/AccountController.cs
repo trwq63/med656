@@ -189,6 +189,7 @@ namespace UAHFitVault.Controllers
 
                         AccountRequest newUser = new AccountRequest();
                         newUser.PhysicianID = physician.Id;
+                        newUser.ReasonForRequest = model.ReasonForAccount;
                         _accountRequestService.CreateAccountRequest(newUser);
                         _accountRequestService.SaveChanges();
 
@@ -230,6 +231,12 @@ namespace UAHFitVault.Controllers
                         // Successful account creation; add user to Experiment Administrator database.
                         _experimentAdminService.CreateExperimentAdministrator(experimentAdministrator);
                         _experimentAdminService.SaveChanges();
+                        
+                        AccountRequest newUser = new AccountRequest();
+                        newUser.ExperimentAdministratorID = experimentAdministrator.Id;
+                        newUser.ReasonForRequest = model.ReasonForAccount;
+                        _accountRequestService.CreateAccountRequest(newUser);
+                        _accountRequestService.SaveChanges();
 
                         user.ExperimentAdministratorId = experimentAdministrator.Id;
                         result = await UserManager.UpdateAsync(user);
