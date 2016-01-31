@@ -175,7 +175,7 @@ namespace UAHFitVault.Controllers
 
                     // Write to ASP user database
                     var user = new ApplicationUser {
-                        UserName = model.Email,
+                        UserName = model.Username,
                         Email = model.Email
                     };
 
@@ -187,9 +187,7 @@ namespace UAHFitVault.Controllers
                         _physicianService.CreatePhysician(physician);
                         _physicianService.SaveChanges();
 
-                        AccountRequest newUser = new AccountRequest();
-                        newUser.PhysicianID = physician.Id;
-                        newUser.ReasonForRequest = model.ReasonForAccount;
+                        AccountRequest newUser = new AccountRequest(user.Id, model.ReasonForAccount);
                         _accountRequestService.CreateAccountRequest(newUser);
                         _accountRequestService.SaveChanges();
 
@@ -204,7 +202,13 @@ namespace UAHFitVault.Controllers
                         return View(model);
                     }
 
-                    return RedirectToAction("RequestPhysicianAccountConfirm", physician);
+                    return RedirectToAction("RequestPhysicianAccountConfirm", new System.Web.Routing.RouteValueDictionary(
+                        new { email = physician.Email,
+                            address = physician.Address,
+                            phoneNumber = physician.PhoneNumber,
+                            firstName = physician.FirstName,
+                            lastName = physician.LastName,
+                            reasonForAccount = model.ReasonForAccount}));
                 }
                 else if (accountType == "ExperimentAdministrator")
                 {
@@ -220,7 +224,7 @@ namespace UAHFitVault.Controllers
                     // Write to ASP user database
                     var user = new ApplicationUser
                     {
-                        UserName = model.Email,
+                        UserName = model.Username,
                         Email = model.Email
                     };
 
@@ -232,9 +236,7 @@ namespace UAHFitVault.Controllers
                         _experimentAdminService.CreateExperimentAdministrator(experimentAdministrator);
                         _experimentAdminService.SaveChanges();
                         
-                        AccountRequest newUser = new AccountRequest();
-                        newUser.ExperimentAdministratorID = experimentAdministrator.Id;
-                        newUser.ReasonForRequest = model.ReasonForAccount;
+                        AccountRequest newUser = new AccountRequest(user.Id, model.ReasonForAccount);
                         _accountRequestService.CreateAccountRequest(newUser);
                         _accountRequestService.SaveChanges();
 
@@ -248,7 +250,16 @@ namespace UAHFitVault.Controllers
                         return View(model);
                     }
 
-                    return RedirectToAction("RequestExperimentAdministratorAccountConfirm", experimentAdministrator);
+                    return RedirectToAction("RequestExperimentAdministratorAccountConfirm", new System.Web.Routing.RouteValueDictionary(
+                        new
+                        {
+                            email = experimentAdministrator.Email,
+                            address = experimentAdministrator.Address,
+                            phoneNumber = experimentAdministrator.PhoneNumber,
+                            firstName = experimentAdministrator.FirstName,
+                            lastName = experimentAdministrator.LastName,
+                            reasonForAccount = model.ReasonForAccount
+                        }));
                 }
                 else
                 {
@@ -286,18 +297,30 @@ namespace UAHFitVault.Controllers
         //
         // GET: /Account/RequestExperimentAdministratorAccountConfirm
         [AllowAnonymous]
-        public ActionResult RequestExperimentAdministratorAccountConfirm (ExperimentAdministrator experimentAdministrator)
+        public ActionResult RequestExperimentAdministratorAccountConfirm (string email, string address, string phoneNumber,
+            string firstName, string lastName, string reasonForAccount)
         {
-            ViewData["Email"] = experimentAdministrator.Email;
+            ViewData["Email"] = email;
+            ViewData["Address"] = address;
+            ViewData["FirstName"] = firstName;
+            ViewData["LastName"] = lastName;
+            ViewData["PhoneNumber"] = phoneNumber;
+            ViewData["ReasonForAccount"] = reasonForAccount;
             return View();
         }
 
         //
         // GET: /Account/RequestPhysicianAccountConfirm
         [AllowAnonymous]
-        public ActionResult RequestPhysicianAccountConfirm(Physician physician)
+        public ActionResult RequestPhysicianAccountConfirm(string email, string address, string phoneNumber, 
+            string firstName, string lastName, string reasonForAccount)
         {
-            ViewData["Email"] = physician.Email;
+            ViewData["Email"] = email;
+            ViewData["Address"] = address;
+            ViewData["FirstName"] = firstName;
+            ViewData["LastName"] = lastName;
+            ViewData["PhoneNumber"] = phoneNumber;
+            ViewData["ReasonForAccount"] = reasonForAccount;
             return View();
         }
 

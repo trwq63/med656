@@ -8,10 +8,9 @@ namespace UAHFitVault.Database.Entities
         /// <summary>
         /// Default constructor
         /// </summary>
-        public AccountRequest() {
-            ReasonForRequest = "No Reason Specified.";
-            PhysicianID = 0;
-            ExperimentAdministratorID = 0;
+        public AccountRequest(string accountId, string reasonForAccount) {
+            AccountId = accountId;
+            ReasonForAccount = reasonForAccount;
         }
         #endregion
 
@@ -19,9 +18,8 @@ namespace UAHFitVault.Database.Entities
 
         public int Id { get; set; }
         [Required]
-        public string ReasonForRequest { get; set; }
-        public int PhysicianID { get; set; }
-        public int ExperimentAdministratorID { get; set; }
+        public string AccountId { get; set; }
+        public string ReasonForAccount { get; set; }
 
         #endregion
 

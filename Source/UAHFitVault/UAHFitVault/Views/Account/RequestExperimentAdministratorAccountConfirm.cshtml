@@ -3,5 +3,28 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Request Experiment Administrator Account Confirmation - @ViewData["Email"]</h2>
-<p align="center"></p>
+<h4>Request Experiment Administrator Account Confirmation - @ViewData["Email"]</h4>
+<p align="center">
+    <table>
+        <tr>
+            <td>First Name</td>
+            <td>@ViewData["FirstName"]</td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td>@ViewData["LastName"]</td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>@ViewData["Address"]</td>
+        </tr>
+        <tr>
+            <td>Phone Number</td>
+            <td>@ViewData["PhoneNumber"]</td>
+        </tr>
+        <tr>
+            <td>Reason For Account</td>
+            <td>@ViewData["ReasonForAccount"]</td>
+        </tr>
+    </table>
+</p>

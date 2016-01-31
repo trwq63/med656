@@ -13,7 +13,7 @@ namespace UAHFitVault.Database.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201601301916205_1_30_16"; }
+            get { return "201601310309164_1_30_16"; }
         }
         
         string IMigrationMetadata.Source
