@@ -31,7 +31,7 @@ namespace UAHFitVault.Database.Entities
 
         #region Navigation Properties
         [Required]
-        public Guid PatentDataId { get; set; }
+        public Guid PatientDataId { get; set; }
 
         #endregion
     }

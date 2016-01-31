@@ -85,7 +85,7 @@ namespace UAHFitVault.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -187,11 +187,15 @@ namespace UAHFitVault.Controllers
                         _physicianService.CreatePhysician(physician);
                         _physicianService.SaveChanges();
 
-                        AccountRequest newUser = new AccountRequest(user.Id, model.ReasonForAccount);
+                        AccountRequest newUser = new AccountRequest() {
+                            ReasonForAccount = model.ReasonForAccount
+                        };
+                        
                         _accountRequestService.CreateAccountRequest(newUser);
                         _accountRequestService.SaveChanges();
 
                         user.PhysicianId = physician.Id;
+                        user.AccountRequestId = newUser.Id;
                         result = await UserManager.UpdateAsync(user);
 
                     }
@@ -235,12 +239,15 @@ namespace UAHFitVault.Controllers
                         // Successful account creation; add user to Experiment Administrator database.
                         _experimentAdminService.CreateExperimentAdministrator(experimentAdministrator);
                         _experimentAdminService.SaveChanges();
-                        
-                        AccountRequest newUser = new AccountRequest(user.Id, model.ReasonForAccount);
+
+                        AccountRequest newUser = new AccountRequest() {
+                            ReasonForAccount = model.ReasonForAccount
+                        };
                         _accountRequestService.CreateAccountRequest(newUser);
                         _accountRequestService.SaveChanges();
 
                         user.ExperimentAdministratorId = experimentAdministrator.Id;
+                        user.AccountRequestId = newUser.Id;
                         result = await UserManager.UpdateAsync(user);
                     }
                     else

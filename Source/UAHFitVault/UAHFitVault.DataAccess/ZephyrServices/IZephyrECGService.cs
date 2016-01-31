@@ -28,6 +28,12 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         ZephyrECGWaveform GetZephyrECGWaveFormData(int id);
 
         /// <summary>
+        /// Bulk Insert Zephyr ECG Waveform Data into the database
+        /// </summary>
+        /// <param name="zephyrEcgData">Collection of Zephyr summary data to insert into database.</param>
+        void BulkInsert(List<ZephyrECGWaveform> zephyrEcgData);
+
+        /// <summary>
         /// Save changes to database
         /// </summary>
         void SaveChanges();

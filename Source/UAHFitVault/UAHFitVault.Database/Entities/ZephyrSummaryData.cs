@@ -21,18 +21,18 @@ namespace UAHFitVault.Database.Entities
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public int HeartRate { get; set; }
-        public int BreathingRate { get; set; }
+        public float BreathingRate { get; set; }
         public float SkinTemp { get; set; }
         public int Posture { get; set; }
         public float Activity { get; set; }
         public float PeakAccel { get; set; }
         public float BatteryVolts { get; set; }
         public float BatteryLevel { get; set; }
-        public int BRAmplitude { get; set; }
-        public int BRNoise { get; set; }
+        public float BRAmplitude { get; set; }
+        public float BRNoise { get; set; }
         public int BRConfidence { get; set; }
-        public int ECGAmplitude { get; set; }
-        public int ECGNoise { get; set; }
+        public float ECGAmplitude { get; set; }
+        public float ECGNoise { get; set; }
         public int HRConfidence { get; set; }
         public int HRV { get; set; }
         public int SystemConfidence { get; set; }
