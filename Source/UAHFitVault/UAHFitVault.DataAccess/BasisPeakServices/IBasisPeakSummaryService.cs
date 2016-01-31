@@ -29,6 +29,12 @@ namespace UAHFitVault.DataAccess.BasisPeakServices
         BasisPeakSummaryData GetBasisPeakSummaryData(int id);
 
         /// <summary>
+        /// Bulk Insert BasisPeak Summary Data into the database
+        /// </summary>
+        /// <param name="basisPeakSummary">Collection of Zephyr summary data to insert into database.</param>
+        void BulkInsert(List<BasisPeakSummaryData> basisPeakSummary);
+
+        /// <summary>
         /// Save changes to database
         /// </summary>
         void SaveChanges();

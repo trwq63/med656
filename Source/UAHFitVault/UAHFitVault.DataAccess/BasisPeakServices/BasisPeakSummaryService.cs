@@ -3,6 +3,8 @@ using System.Linq;
 using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Entities;
 using UAHFitVault.Database.Repositories;
+using UAHFitVault.Database;
+using EntityFramework.BulkInsert.Extensions;
 
 namespace UAHFitVault.DataAccess.BasisPeakServices
 {
@@ -68,6 +70,17 @@ namespace UAHFitVault.DataAccess.BasisPeakServices
         public void CreateBasisPeakSummary(BasisPeakSummaryData BasisPeakSummary) {
             if(BasisPeakSummary != null) {
                 _repository.Add(BasisPeakSummary);
+            }
+        }
+
+        /// <summary>
+        /// Bulk Insert BasisPeak Summary Data into the database
+        /// </summary>
+        /// <param name="basisPeakSummary">Collection of Zephyr summary data to insert into database.</param>
+        public void BulkInsert(List<BasisPeakSummaryData> basisPeakSummary) {
+            using (FitVaultContext context = new FitVaultContext()) {
+                context.BulkInsert(basisPeakSummary);
+
             }
         }
 
