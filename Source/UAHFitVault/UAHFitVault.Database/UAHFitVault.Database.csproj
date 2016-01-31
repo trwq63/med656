@@ -86,8 +86,10 @@
       <DependentUpon>201601290423245_zephyrsummarydata_1-28-16.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201601290437470_zephyrsummarydata2_1-28-16.cs" />
-    <Compile Include="Migrations\201601290437470_zephyrsummarydata2_1-28-16.Designer.cs">
-      <DependentUpon>201601290437470_zephyrsummarydata2_1-28-16.cs</DependentUpon>
+    <Compile Include="Migrations\201601290437470_zephyrsummarydata2_1-28-16.Designer.cs" />
+    <Compile Include="Migrations\201601312058190_dev-admintools-branchmerge.cs" />
+    <Compile Include="Migrations\201601312058190_dev-admintools-branchmerge.Designer.cs">
+      <DependentUpon>201601312058190_dev-admintools-branchmerge.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201601300227169_basispeak-nullable-fields_1-29-16.cs" />
     <Compile Include="Migrations\201601300227169_basispeak-nullable-fields_1-29-16.Designer.cs">
@@ -116,6 +118,8 @@
     <Compile Include="Entities\ZephyrECGWaveform.cs" />
     <Compile Include="Entities\ZephyrEventData.cs" />
     <Compile Include="Entities\ZephyrSummaryData.cs" />
+    <Compile Include="Repositories\IAccountRequestRepository.cs" />
+    <Compile Include="Repositories\AccountRequestRepository.cs" />
     <Compile Include="Repositories\IBasisPeakSummaryRepository.cs" />
     <Compile Include="Repositories\IExperimentAdminRepository.cs" />
     <Compile Include="Repositories\IPatientRepository.cs" />
@@ -150,8 +154,8 @@
     <EmbeddedResource Include="Migrations\201601290423245_zephyrsummarydata_1-28-16.resx">
       <DependentUpon>201601290423245_zephyrsummarydata_1-28-16.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601290437470_zephyrsummarydata2_1-28-16.resx">
-      <DependentUpon>201601290437470_zephyrsummarydata2_1-28-16.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201601312058190_dev-admintools-branchmerge.resx">
+      <DependentUpon>201601312058190_dev-admintools-branchmerge.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601300227169_basispeak-nullable-fields_1-29-16.resx">
       <DependentUpon>201601300227169_basispeak-nullable-fields_1-29-16.cs</DependentUpon>

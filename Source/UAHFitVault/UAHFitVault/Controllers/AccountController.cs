@@ -22,11 +22,14 @@ namespace UAHFitVault.Controllers
 
         private readonly IPhysicianService _physicianService;
         private readonly IExperimentAdminService _experimentAdminService;
+        private readonly IAccountRequestService _accountRequestService;
 
-        public AccountController(IPhysicianService physicianService, IExperimentAdminService experimentAdminService)
+        public AccountController(IPhysicianService physicianService, IExperimentAdminService experimentAdminService,
+            IAccountRequestService accountRequestService)
         {
             _physicianService = physicianService;
             _experimentAdminService = experimentAdminService;
+            _accountRequestService = accountRequestService;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -82,7 +85,7 @@ namespace UAHFitVault.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -159,8 +162,6 @@ namespace UAHFitVault.Controllers
             if (ModelState.IsValid)
             {
                 string accountType = Request["AccountType"];
-                string tempPassword = "abCD12#$"; // Remove this later.
-                                            // Should probably move the CreateASync call to after the Sys Admin approves account.
 
                 if (accountType == "Physician")
                 {
@@ -174,21 +175,79 @@ namespace UAHFitVault.Controllers
 
                     // Write to ASP user database
                     var user = new ApplicationUser {
-                        UserName = model.Email,
+                        UserName = model.Username,
                         Email = model.Email
                     };
 
-                    var result = await UserManager.CreateAsync(user, tempPassword);
-
+                    var result = await UserManager.CreateAsync(user, model.Password);
                     
-
                     if (result.Succeeded)
                     {
                         // Successful account creation; add user to Physician database.
                         _physicianService.CreatePhysician(physician);
                         _physicianService.SaveChanges();
 
+                        AccountRequest newUser = new AccountRequest() {
+                            ReasonForAccount = model.ReasonForAccount
+                        };
+                        
+                        _accountRequestService.CreateAccountRequest(newUser);
+                        _accountRequestService.SaveChanges();
+
                         user.PhysicianId = physician.Id;
+                        user.AccountRequestId = newUser.Id;
+                        result = await UserManager.UpdateAsync(user);
+
+                    }
+                    else
+                    {
+                        // Create Physician failed.
+                        AddErrors(result);
+                        return View(model);
+                    }
+
+                    return RedirectToAction("RequestPhysicianAccountConfirm", new System.Web.Routing.RouteValueDictionary(
+                        new { email = physician.Email,
+                            address = physician.Address,
+                            phoneNumber = physician.PhoneNumber,
+                            firstName = physician.FirstName,
+                            lastName = physician.LastName,
+                            reasonForAccount = model.ReasonForAccount}));
+                }
+                else if (accountType == "ExperimentAdministrator")
+                {
+                    ExperimentAdministrator experimentAdministrator = new ExperimentAdministrator()
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Email = model.Email,
+                        Address = model.Address,
+                        PhoneNumber = model.PhoneNumber
+                    };
+                    
+                    // Write to ASP user database
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.Username,
+                        Email = model.Email
+                    };
+
+                    var result = await UserManager.CreateAsync(user, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        // Successful account creation; add user to Experiment Administrator database.
+                        _experimentAdminService.CreateExperimentAdministrator(experimentAdministrator);
+                        _experimentAdminService.SaveChanges();
+
+                        AccountRequest newUser = new AccountRequest() {
+                            ReasonForAccount = model.ReasonForAccount
+                        };
+                        _accountRequestService.CreateAccountRequest(newUser);
+                        _accountRequestService.SaveChanges();
+
+                        user.ExperimentAdministratorId = experimentAdministrator.Id;
+                        user.AccountRequestId = newUser.Id;
                         result = await UserManager.UpdateAsync(user);
                     }
                     else
@@ -198,11 +257,16 @@ namespace UAHFitVault.Controllers
                         return View(model);
                     }
 
-                    return RedirectToAction("RequestPhysicianAccountConfirm", physician);
-                }
-                else if (accountType == "ExperimentAdministrator")
-                {
-                    return View(model);
+                    return RedirectToAction("RequestExperimentAdministratorAccountConfirm", new System.Web.Routing.RouteValueDictionary(
+                        new
+                        {
+                            email = experimentAdministrator.Email,
+                            address = experimentAdministrator.Address,
+                            phoneNumber = experimentAdministrator.PhoneNumber,
+                            firstName = experimentAdministrator.FirstName,
+                            lastName = experimentAdministrator.LastName,
+                            reasonForAccount = model.ReasonForAccount
+                        }));
                 }
                 else
                 {
@@ -238,11 +302,32 @@ namespace UAHFitVault.Controllers
         }
 
         //
-        // GET: /Account/RequestAccountConfirm
+        // GET: /Account/RequestExperimentAdministratorAccountConfirm
         [AllowAnonymous]
-        public ActionResult RequestPhysicianAccountConfirm (Physician physician)
+        public ActionResult RequestExperimentAdministratorAccountConfirm (string email, string address, string phoneNumber,
+            string firstName, string lastName, string reasonForAccount)
         {
-            ViewData["Email"] = physician.Email;
+            ViewData["Email"] = email;
+            ViewData["Address"] = address;
+            ViewData["FirstName"] = firstName;
+            ViewData["LastName"] = lastName;
+            ViewData["PhoneNumber"] = phoneNumber;
+            ViewData["ReasonForAccount"] = reasonForAccount;
+            return View();
+        }
+
+        //
+        // GET: /Account/RequestPhysicianAccountConfirm
+        [AllowAnonymous]
+        public ActionResult RequestPhysicianAccountConfirm(string email, string address, string phoneNumber, 
+            string firstName, string lastName, string reasonForAccount)
+        {
+            ViewData["Email"] = email;
+            ViewData["Address"] = address;
+            ViewData["FirstName"] = firstName;
+            ViewData["LastName"] = lastName;
+            ViewData["PhoneNumber"] = phoneNumber;
+            ViewData["ReasonForAccount"] = reasonForAccount;
             return View();
         }
 

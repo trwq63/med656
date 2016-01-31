@@ -11,14 +11,13 @@ namespace UAHFitVault.Database.Entities
         public AccountRequest() {
 
         }
-
         #endregion
 
         #region Scalar Properties
 
         public int Id { get; set; }
         [Required]
-        public string Request { get; set; }
+        public string ReasonForAccount { get; set; }
 
         #endregion
 

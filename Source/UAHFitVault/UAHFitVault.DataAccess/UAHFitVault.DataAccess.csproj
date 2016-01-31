@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAccountRequestService.cs" />
     <Compile Include="BasisPeakServices\BasisPeakSummaryService.cs" />
     <Compile Include="BasisPeakServices\IBasisPeakSummaryService.cs" />
     <Compile Include="ExperimentAdminService.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="IPatientService.cs" />
     <Compile Include="IPhysicianService.cs" />
     <Compile Include="MedicalDeviceService.cs" />
+    <Compile Include="AccountRequestService.cs" />
     <Compile Include="ZephyrServices\IZephyrAccelService.cs" />
     <Compile Include="ZephyrServices\IZephyrBreathingService.cs" />
     <Compile Include="ZephyrServices\IZephyrECGService.cs" />
