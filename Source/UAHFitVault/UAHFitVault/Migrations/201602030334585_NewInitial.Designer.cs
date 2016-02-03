@@ -7,13 +7,13 @@ namespace UAHFitVault.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class _1_27_16 : IMigrationMetadata
+    public sealed partial class NewInitial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(_1_27_16));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(NewInitial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201601280335467_1_27_16"; }
+            get { return "201602030334585_NewInitial"; }
         }
         
         string IMigrationMetadata.Source
