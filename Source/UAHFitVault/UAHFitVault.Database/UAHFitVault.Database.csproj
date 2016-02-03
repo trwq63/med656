@@ -78,39 +78,9 @@
     <Compile Include="Infrastructure\IUnitOfWork.cs" />
     <Compile Include="Infrastructure\RepositoryBase.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
-    <Compile Include="Migrations\201601290403106_id_change_1-28-16.cs" />
-    <Compile Include="Migrations\201601290403106_id_change_1-28-16.Designer.cs">
-      <DependentUpon>201601290403106_id_change_1-28-16.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601290423245_zephyrsummarydata_1-28-16.cs" />
-    <Compile Include="Migrations\201601290423245_zephyrsummarydata_1-28-16.Designer.cs">
-      <DependentUpon>201601290423245_zephyrsummarydata_1-28-16.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601290437470_zephyrsummarydata2_1-28-16.cs" />
-    <Compile Include="Migrations\201601290437470_zephyrsummarydata2_1-28-16.Designer.cs" />
-    <Compile Include="Migrations\201601312058190_dev-admintools-branchmerge.cs" />
-    <Compile Include="Migrations\201601312058190_dev-admintools-branchmerge.Designer.cs">
-      <DependentUpon>201601312058190_dev-admintools-branchmerge.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601300227169_basispeak-nullable-fields_1-29-16.cs" />
-    <Compile Include="Migrations\201601300227169_basispeak-nullable-fields_1-29-16.Designer.cs">
-      <DependentUpon>201601300227169_basispeak-nullable-fields_1-29-16.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601300300433_patientdata_medDevice-foreignkey_1-29-16.cs" />
-    <Compile Include="Migrations\201601300300433_patientdata_medDevice-foreignkey_1-29-16.Designer.cs">
-      <DependentUpon>201601300300433_patientdata_medDevice-foreignkey_1-29-16.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601300319246_basissummar-foreignkey_1-29-16.cs" />
-    <Compile Include="Migrations\201601300319246_basissummar-foreignkey_1-29-16.Designer.cs">
-      <DependentUpon>201601300319246_basissummar-foreignkey_1-29-16.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601300321551_basissummar-foreignkey2_1-29-16.cs" />
-    <Compile Include="Migrations\201601300321551_basissummar-foreignkey2_1-29-16.Designer.cs">
-      <DependentUpon>201601300321551_basissummar-foreignkey2_1-29-16.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601300339220_device-foreignkey-fix_1-29-16.cs" />
-    <Compile Include="Migrations\201601300339220_device-foreignkey-fix_1-29-16.Designer.cs">
-      <DependentUpon>201601300339220_device-foreignkey-fix_1-29-16.cs</DependentUpon>
+    <Compile Include="Migrations\201602030335095_NewInitial.cs" />
+    <Compile Include="Migrations\201602030335095_NewInitial.Designer.cs">
+      <DependentUpon>201602030335095_NewInitial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -149,29 +119,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201601290403106_id_change_1-28-16.resx">
-      <DependentUpon>201601290403106_id_change_1-28-16.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601290423245_zephyrsummarydata_1-28-16.resx">
-      <DependentUpon>201601290423245_zephyrsummarydata_1-28-16.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601312058190_dev-admintools-branchmerge.resx">
-      <DependentUpon>201601312058190_dev-admintools-branchmerge.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601300227169_basispeak-nullable-fields_1-29-16.resx">
-      <DependentUpon>201601300227169_basispeak-nullable-fields_1-29-16.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601300300433_patientdata_medDevice-foreignkey_1-29-16.resx">
-      <DependentUpon>201601300300433_patientdata_medDevice-foreignkey_1-29-16.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601300319246_basissummar-foreignkey_1-29-16.resx">
-      <DependentUpon>201601300319246_basissummar-foreignkey_1-29-16.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601300321551_basissummar-foreignkey2_1-29-16.resx">
-      <DependentUpon>201601300321551_basissummar-foreignkey2_1-29-16.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601300339220_device-foreignkey-fix_1-29-16.resx">
-      <DependentUpon>201601300339220_device-foreignkey-fix_1-29-16.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602030335095_NewInitial.resx">
+      <DependentUpon>201602030335095_NewInitial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

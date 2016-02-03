@@ -3,7 +3,7 @@ namespace UAHFitVault.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _1_27_16 : DbMigration
+    public partial class NewInitial : DbMigration
     {
         public override void Up()
         {
