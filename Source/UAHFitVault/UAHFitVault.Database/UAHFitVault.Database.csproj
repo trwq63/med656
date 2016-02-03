@@ -71,6 +71,7 @@
     <Compile Include="Entities\Patient.cs" />
     <Compile Include="Entities\PatientData.cs" />
     <Compile Include="Entities\Physician.cs" />
+    <Compile Include="FitVaultDbSeedData.cs" />
     <Compile Include="Infrastructure\DbFactory.cs" />
     <Compile Include="Infrastructure\IDbFactory.cs" />
     <Compile Include="Infrastructure\IRepository.cs" />
