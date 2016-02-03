@@ -14,6 +14,9 @@ namespace UAHFitVault
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            // seed the database
+            System.Data.Entity.Database.SetInitializer(new UAHFitVault.Database.StoreSeedData());
+
             // Autofac and Automapper configurations
             Bootstrapper.Run();
         }
