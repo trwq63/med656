@@ -14,11 +14,21 @@
 
     <title>UAH Fit Vault</title>
 
-    @Styles.Render("~Content/components")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+    <nav class="blue darken-3">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">Logo</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("About", "About", "Home")</li>
+                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                <li>@Html.Partial("_LoginPartial")</li>
+            </ul>
+        </div>
+    </nav>
     <div class="container body-content">
         @RenderBody()
         <hr />

@@ -74,7 +74,21 @@ namespace UAHFitVault.Controllers
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result) {
                 case SignInStatus.Success:
-                    return RedirectToLocal("/UserDashboard");
+                    if (User.IsInRole("Physician")) {
+                        return RedirectToLocal("/Physician/Index");
+                    }
+                    else if (User.IsInRole("ExperimentAdmin")) {
+                        return RedirectToLocal("/Experiment/Index");
+                    }
+                    else if (User.IsInRole("Patient")) {
+                        return RedirectToLocal("/Patient/Index");
+                    }
+                    else if (User.IsInRole("SystemAdmin")) {
+                        return RedirectToLocal("/SystemAdmin/Index");
+                    }
+                    else {
+                        return RedirectToLocal("/Account");
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

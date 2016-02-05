@@ -11,7 +11,7 @@ namespace UAHFitVault.LogicLayer.LogicFiles
     /// <summary>
     /// Class contains the logic functions needed by the SelectLogicController
     /// </summary>
-    public static class SelectDataLogic
+    public static class PatientLogic
     {
         #region Public Methods
 
