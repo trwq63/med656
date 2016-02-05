@@ -228,6 +228,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AuthorizationAttribute.cs" />
     <Compile Include="Migrations\201602030334585_NewInitial.cs" />
     <Compile Include="Migrations\201602030334585_NewInitial.Designer.cs">
       <DependentUpon>201602030334585_NewInitial.cs</DependentUpon>
@@ -237,6 +238,11 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Roles.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Roles.resx</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -371,6 +377,10 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201602030334585_NewInitial.resx">
       <DependentUpon>201602030334585_NewInitial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Roles.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Roles.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

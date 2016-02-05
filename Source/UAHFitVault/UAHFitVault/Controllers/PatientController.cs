@@ -10,9 +10,11 @@ using UAHFitVault.DataAccess.ZephyrServices;
 using UAHFitVault.Database.Entities;
 using UAHFitVault.LogicLayer.Enums;
 using UAHFitVault.LogicLayer.LogicFiles;
+using UAHFitVault.Helpers;
 
 namespace UAHFitVault.Controllers
 {
+    [Authorization("ROLES_PATIENT")]
     public class PatientController : Controller
     {
         #region Private Members
