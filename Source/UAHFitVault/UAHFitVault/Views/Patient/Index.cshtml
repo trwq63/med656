@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@section headers{
+    <link rel='stylesheet' type='text/css' href="~/Content/user-dashboards.css" media="screen,projection" />    
+    <link type="text/css" rel="stylesheet" href="~/Content/select-activity.css" media="screen,projection" />
+}
+
+<nav id="mainNav" class="top blue darken-3">
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo">Logo</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li data-menuachor="viewData">
+                <a href="#viewData">View Data</a>
+            </li>
+            <li data-menuachor="uploadData">
+                <a href="#uploadData">Upload Data</a>
+            </li>
+            @*<li>@Html.ActionLink("Home", "Index", "Home")</li>
+            <li>@Html.ActionLink("About", "About", "Home")</li>*@
+            <li>@Html.Partial("_LogoffPartial")</li>
+        </ul>
+    </div>
+</nav>
+
+<div id="sideNav">
+    <ul id="sideMenu">
+        <li data-menuanchor="viewData">
+            <a href="#viewData"></a>
+        </li>
+        <li data-menuanchor="uploadData">
+            <a href="#uploadData"></a>
+        </li>
+    </ul>
+</div>
+
+<div id="fullpage" class="fullpage-wrapper loaded">
+    <section id="viewdata" class="section hierarchical-timig fp-section fp-table active" data-anchor="viewData" data-delay="500">
+        @Html.Partial("_PartialPatientViewData")
+    </section>
+    <div id="uploaddata" class="section hierarchical-timig fp-section fp-table" data-anchor="uploadData" data-delay="500">
+        @Html.Partial("_PartialPatientUploadData")
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#fullpage').fullpage({
+                css3: true,
+                scrollingSpeed: 1000
+            });
+        });
+    </script>
+}    
