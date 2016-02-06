@@ -67,7 +67,6 @@ namespace UAHFitVault.Database
             //base.Seed(context);
             GetPatients().ForEach(p => context.Patients.Add(p));
             GetPhysicians().ForEach(p => context.Physicians.Add(p));
-            GetUsers().ForEach(u => context.AspNetUsers.Add(u));
         }
 
         private static List<Patient> GetPatients()
@@ -80,7 +79,7 @@ namespace UAHFitVault.Database
                     Ethnicity = 1,
                     Gender = 1,
                     Height = 56,
-                    Id = new System.Guid(),
+                    Id = 12345,
                     Location = 1,
                     Race = 1,
                     Weight = 160.0F
@@ -100,21 +99,6 @@ namespace UAHFitVault.Database
                     Id = 1,
                     LastName = "Fry",
                     PhoneNumber = "123-456-7890"
-                },
-            };
-        }
-
-        private static List<AspNetUser> GetUsers()
-        {
-            return new List<AspNetUser>
-            {
-                new AspNetUser
-                {
-                    AspNetRole = new AspNetRole(),
-                    Id = new System.Guid(),
-                    UserName = "fry@futurama.com",
-                    Status = 1,
-                    PasswordHash = ""
                 },
             };
         }

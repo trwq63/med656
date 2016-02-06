@@ -2,8 +2,13 @@ from WebUI.WebUI import WebUI
 
 web_sess = WebUI()
 
-def test_login():
-    retVal = web_sess.login()
+def test_login_physician():
+    retVal = web_sess.login("testPhysician","P@ssword10")
+    web_sess.logoff()
+    assert "Invalid login attempt." not in retVal
+
+def test_login_experiment_admin():
+    retVal = web_sess.login("testExpAdmin",'P@ssword10')
     web_sess.logoff()
     assert "Invalid login attempt." not in retVal
 

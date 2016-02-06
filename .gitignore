@@ -212,3 +212,4 @@ _Pvt_Extensions/
 ModelManifest.xml
 *.pyc
 Tests/.cache/v/cache/lastfailed
+.cache/v/cache/lastfailed
