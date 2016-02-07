@@ -19,12 +19,17 @@ namespace UAHFitVault.Controllers
         private ApplicationUserManager _userManager;
 
         private readonly IPatientService _patientService;
+        private readonly IPhysicianService _physicianService;
+        private readonly IExperimentAdminService _experimentAdminService;
 
         enum UserRole { Patient, Physician, ExperimentAdministrator, SystemAdmin};
 
-        public ManageController(IPatientService patientService)
+        public ManageController(IPatientService patientService, IPhysicianService physicianService,
+            IExperimentAdminService experimentAdminService)
         {
             _patientService = patientService;
+            _physicianService = physicianService;
+            _experimentAdminService = experimentAdminService;
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -59,6 +64,7 @@ namespace UAHFitVault.Controllers
 
         //
         // GET: /Manage/Index
+        //public async Task<ActionResult> Index(ManageMessageId? message)
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             var user = new ApplicationUser();
@@ -81,7 +87,7 @@ namespace UAHFitVault.Controllers
                 accountRole = "Experiment Administrator";
             } else
             {
-                // Error path
+                // Sys admin path
             }
 
             ViewBag.StatusMessage =
@@ -110,6 +116,7 @@ namespace UAHFitVault.Controllers
                     Patient patient = new Patient();
                     patient = _patientService.GetPatient(user.PatientId);
 
+                    model.Username = user.UserName;
                     model.Weight = patient.Weight;
                     model.Height = patient.Height;
                     model.Race = patient.Race;          // Need to look up enum for race
@@ -122,11 +129,23 @@ namespace UAHFitVault.Controllers
 
                 case UserRole.Physician:
                     // Physician
+                    Physician physician = new Physician();
+                    physician = _physicianService.GetPhysician(user.PhysicianId);
+
+                    model.Email = physician.Email;
+                    model.Username = user.UserName;
+
                     break;
 
 
                 case UserRole.ExperimentAdministrator:
                     // Experiment Administrator
+                    ExperimentAdministrator experimentAdministrator = new ExperimentAdministrator();
+                    experimentAdministrator = _experimentAdminService.GetExperimentAdministrator(user.ExperimentAdministratorId);
+
+                    model.Email = experimentAdministrator.Email;
+                    model.Username = user.UserName;
+
                     break;
 
 
@@ -139,6 +158,16 @@ namespace UAHFitVault.Controllers
                     // Display error
                     break;
             }
+            return View(model);
+        }
+
+        //
+        // POST: /Manage/Index
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public async Task<ActionResult> Index(IndexViewModel model)
+        {
             return View(model);
         }
 

@@ -33,6 +33,12 @@ namespace UAHFitVault.Models
 
         [Display(Name = "Race")]
         public int Race { get; set; }
+
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Display(Name = "Username")]
+        public string Username { get; set; }
     }
 
     public class ManageLoginsViewModel
