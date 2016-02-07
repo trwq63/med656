@@ -13,6 +13,9 @@ namespace UAHFitVault.Models
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
 
+        [Display(Name = "Account Role")]
+        public string AccountRole { get; set; }
+
         [Display(Name = "Weight")]
         public double Weight { get; set; }
 
@@ -26,10 +29,10 @@ namespace UAHFitVault.Models
         public int Height { get; set; }
 
         [Display(Name = "Location")]
-        public string Location { get; set; }
+        public int Location { get; set; }
 
         [Display(Name = "Race")]
-        public string Race { get; set; }
+        public int Race { get; set; }
     }
 
     public class ManageLoginsViewModel

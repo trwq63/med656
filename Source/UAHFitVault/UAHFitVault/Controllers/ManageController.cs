@@ -20,6 +20,8 @@ namespace UAHFitVault.Controllers
 
         private readonly IPatientService _patientService;
 
+        enum UserRole { Patient, Physician, ExperimentAdministrator, SystemAdmin};
+
         public ManageController(IPatientService patientService)
         {
             _patientService = patientService;
@@ -59,7 +61,29 @@ namespace UAHFitVault.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
-            Patient patient = new Patient();
+            var user = new ApplicationUser();
+            var userId = User.Identity.GetUserId();
+            string accountRole = "";
+            user = UserManager.FindById(userId);
+            UserRole userRole = UserRole.Patient;
+            
+            if (user.PhysicianId != 0)
+            {
+                userRole = UserRole.Patient;
+                accountRole = "Patient";
+            } else if (user.PhysicianId != 0)
+            {
+                userRole = UserRole.Physician;
+                accountRole = "Physician";
+            } else if (user.ExperimentAdministratorId != 0)
+            {
+                userRole = UserRole.ExperimentAdministrator;
+                accountRole = "Experiment Administrator";
+            } else
+            {
+                // Error path
+            }
+
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
@@ -69,23 +93,52 @@ namespace UAHFitVault.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
-            var userId = User.Identity.GetUserId();
+            IndexViewModel model = new IndexViewModel
+                    {
+                        HasPassword = HasPassword(),
+                        PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+                        TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
+                        Logins = await UserManager.GetLoginsAsync(userId),
+                        BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                        AccountRole = accountRole
+                    };
 
-            var model = new IndexViewModel
+            switch (userRole)
             {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
-                // Get the patient parameters from the database
-                Weight = 100.3,
-                Sex = "Male",
-                Height = 60,
-                Birthdate = 30,
-                Location = "Huntsville, AL",
-                Race = "White"
-            };
+                case UserRole.Patient:
+                    // Patient
+                    Patient patient = new Patient();
+                    patient = _patientService.GetPatient(user.PatientId);
+
+                    model.Weight = patient.Weight;
+                    model.Height = patient.Height;
+                    model.Race = patient.Race;          // Need to look up enum for race
+                    model.Location = patient.Location;  // Zip code
+                    model.Birthdate = patient.Age;      // This needs to to birthdate.
+                    model.Sex = "Male";                 // Need to add patient sex to db.
+
+                    break;
+
+
+                case UserRole.Physician:
+                    // Physician
+                    break;
+
+
+                case UserRole.ExperimentAdministrator:
+                    // Experiment Administrator
+                    break;
+
+
+                case UserRole.SystemAdmin:
+                    // System Admin
+                    break;
+
+
+                default:
+                    // Display error
+                    break;
+            }
             return View(model);
         }
 
