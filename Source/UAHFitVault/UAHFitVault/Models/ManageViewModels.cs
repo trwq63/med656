@@ -12,6 +12,24 @@ namespace UAHFitVault.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+
+        [Display(Name = "Weight")]
+        public double Weight { get; set; }
+
+        [Display(Name = "Sex")]
+        public string Sex { get; set; }
+
+        [Display(Name = "Birthdate")]
+        public int Birthdate { get; set; }
+
+        [Display(Name = "Height")]
+        public int Height { get; set; }
+
+        [Display(Name = "Location")]
+        public string Location { get; set; }
+
+        [Display(Name = "Race")]
+        public string Race { get; set; }
     }
 
     public class ManageLoginsViewModel

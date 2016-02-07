@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UAHFitVault.Models;
+using UAHFitVault.DataAccess;
+using UAHFitVault.Database.Entities;
 
 namespace UAHFitVault.Controllers
 {
@@ -16,8 +18,11 @@ namespace UAHFitVault.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public ManageController()
+        private readonly IPatientService _patientService;
+
+        public ManageController(IPatientService patientService)
         {
+            _patientService = patientService;
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -54,6 +59,7 @@ namespace UAHFitVault.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
+            Patient patient = new Patient();
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
@@ -64,13 +70,21 @@ namespace UAHFitVault.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                // Get the patient parameters from the database
+                Weight = 100.3,
+                Sex = "Male",
+                Height = 60,
+                Birthdate = 30,
+                Location = "Huntsville, AL",
+                Race = "White"
             };
             return View(model);
         }

@@ -6,10 +6,9 @@
 <h2>@ViewBag.Title.</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
-<div>
     <h4>Change your account settings</h4>
     <hr />
-    <table>
+    <table width="300" align="center">
         <tr>
             <td>Password:</td>
             <td>
@@ -26,24 +25,33 @@
             </td>
         </tr>
         <tr>
-            <td>Birthday:</td>
-            <td><!-- Birthday selection fields --></td>
+            <td>@Html.LabelFor(m => m.Birthdate)</td>
+            <td>@Html.TextBoxFor(m => m.Birthdate)</td>
         </tr>
         <tr>
-            <td>Sex:</td>
-            <td><!-- Dropdown for sex change --></td>
+            <td>@Html.LabelFor(m => m.Sex)</td>
+            <td>
+                <input name="sex" type="radio" id="sexMale" value="Male" />
+                <label for="sexMale" style="margin-right:40px">Male</label>
+                <input name="sex" type="radio" id="sexFemale" value="Female" checked />
+                <label for="sexFemale">Female</label>
+            </td>
         </tr>
         <tr>
-            <td>Weight:</td>
-            <td><!-- Text field for weight change --></td>
+            <td>@Html.LabelFor(m => m.Weight)</td>
+            <td>@Html.TextBoxFor(m => m.Weight)</td>
         </tr>
         <tr>
-            <td>Height:</td>
-            <td><!-- Dropdown for updating email --></td>
+            <td>@Html.LabelFor(m => m.Height)</td>
+            <td>@Html.TextBoxFor(m => m.Height)</td>
         </tr>
         <tr>
-            <td>Location:</td>
-            <td><!-- Text field for updating location --></td>
+            <td>@Html.LabelFor(m => m.Location)</td>
+            <td>@Html.TextBoxFor(m => m.Location)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Race)</td>
+            <td>@Html.TextBoxFor(m => m.Race)</td>
         </tr>
     </table>
-</div>
+<input type="submit" class="btn btn-default" value="Save" />
