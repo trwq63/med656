@@ -17,10 +17,10 @@ namespace UAHFitVault.Models
         public string AccountRole { get; set; }
 
         [Display(Name = "Weight")]
-        public double Weight { get; set; }
+        public float Weight { get; set; }
 
-        [Display(Name = "Sex")]
-        public string Sex { get; set; }
+        [Display(Name = "Gender")]
+        public int Gender { get; set; }
 
         [Display(Name = "Birthdate")]
         public int Birthdate { get; set; }
@@ -36,6 +36,9 @@ namespace UAHFitVault.Models
 
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Display(Name = "Address")]
+        public string Address { get; set; }
 
         [Display(Name = "Username")]
         public string Username { get; set; }

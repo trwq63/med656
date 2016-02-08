@@ -122,7 +122,7 @@ namespace UAHFitVault.Controllers
                     model.Race = patient.Race;          // Need to look up enum for race
                     model.Location = patient.Location;  // Zip code
                     model.Birthdate = patient.Age;      // This needs to to birthdate.
-                    model.Sex = "Male";                 // Need to add patient sex to db.
+                    model.Gender = patient.Gender;                 // Need to add patient sex to db.
 
                     break;
 
@@ -168,6 +168,44 @@ namespace UAHFitVault.Controllers
 
         public async Task<ActionResult> Index(IndexViewModel model)
         {
+            var user = new ApplicationUser();
+            user = UserManager.FindById(User.Identity.GetUserId());
+            switch (model.AccountRole)
+            {
+                case "Patient":
+                    Patient patient = new Patient();
+                    patient = _patientService.GetPatient(user.PatientId);
+                    patient.Age = model.Birthdate;
+                    patient.Ethnicity = model.Race;
+                    patient.Height = model.Height;
+                    patient.Weight = model.Weight;
+                    patient.Location = model.Location;
+                    patient.Gender = model.Gender;
+                    _patientService.SaveChanges(); // Update patient information
+
+                    break;
+                case "Physician":
+                    Physician physician = new Physician();
+                    physician = _physicianService.GetPhysician(user.PhysicianId);
+                    physician.Email = model.Email;
+                    physician.Address = model.Address;
+                    _physicianService.SaveChanges();
+
+                    break;
+                case "Experiment Administrator":
+                    ExperimentAdministrator experimentAdministrator = new ExperimentAdministrator();
+                    experimentAdministrator = _experimentAdminService.GetExperimentAdministrator(user.ExperimentAdministratorId);
+                    experimentAdministrator.Email = model.Email;
+                    experimentAdministrator.Address = model.Address;
+                    _experimentAdminService.SaveChanges();
+
+                    break;
+                case "System Administrator":
+                    break;
+                default:
+                    break;
+            }
+             
             return View(model);
         }
 

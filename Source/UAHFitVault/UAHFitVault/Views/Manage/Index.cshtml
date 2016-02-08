@@ -41,12 +41,12 @@
                 <td>@Html.TextBoxFor(m => m.Birthdate)</td>
             </tr>
             <tr>
-                <td>@Html.LabelFor(m => m.Sex)</td>
+                <td>@Html.LabelFor(m => m.Gender)</td>
                 <td>
-                    <input name="sex" type="radio" id="sexMale" value="Male" />
-                    <label for="sexMale" style="margin-right:40px">Male</label>
-                    <input name="sex" type="radio" id="sexFemale" value="Female" checked />
-                    <label for="sexFemale">Female</label>
+                    <input name="gender" type="radio" id="genderMale" value="Male" />
+                    <label for="genderMale" style="margin-right:40px">Male</label>
+                    <input name="gender" type="radio" id="genderFemale" value="Female" checked />
+                    <label for="genderFemale">Female</label>
                 </td>
             </tr>
             <tr>
@@ -72,12 +72,20 @@
                 <td>@Html.LabelFor(m => m.Email)</td>
                 <td>@Html.TextBoxFor(m => m.Email)</td>
             </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Address)</td>
+                <td>@Html.TextBoxFor(m => m.Address)</td>
+            </tr>
         }
         else if (Model.AccountRole == "Experiment Administrator")
         {
             <tr>
                 <td>@Html.LabelFor(m => m.Email)</td>
                 <td>@Html.TextBoxFor(m => m.Email)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Address)</td>
+                <td>@Html.TextBoxFor(m => m.Address)</td>
             </tr>
         }
     </table>
