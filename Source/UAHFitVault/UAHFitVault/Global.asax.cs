@@ -2,6 +2,7 @@
 using System.Web.Optimization;
 using System.Web.Routing;
 using UAHFitVault.App_Start;
+using UAHFitVault.Database;
 
 namespace UAHFitVault
 {
@@ -15,7 +16,8 @@ namespace UAHFitVault
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             // seed the database
-            System.Data.Entity.Database.SetInitializer(new UAHFitVault.Database.StoreSeedData());
+            //System.Data.Entity.Database.SetInitializer(new AppDbSeedData());
+            //System.Data.Entity.Database.SetInitializer(new FitVaultDbSeedData());
 
             // Autofac and Automapper configurations
             Bootstrapper.Run();
