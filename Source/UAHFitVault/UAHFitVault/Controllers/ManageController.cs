@@ -21,7 +21,7 @@ namespace UAHFitVault.Controllers
 
         private readonly IPatientService _patientService;
         private readonly IPhysicianService _physicianService;
-        private readonly IExperimentAdminService _experimentAdminService;        
+        private readonly IExperimentAdminService _experimentAdminService;
 
         public ManageController(IPatientService patientService, IPhysicianService physicianService,
             IExperimentAdminService experimentAdminService)
@@ -83,8 +83,9 @@ namespace UAHFitVault.Controllers
             else if (User.IsInRole(UserRole.ExperimentAdmin.ToString())) {
                 userRole = UserRole.ExperimentAdmin;
                 accountRole = "Experiment Administrator";
-            }
-            else {
+            } else
+            {
+                accountRole = "System Administrator";
                 // Sys admin path
             }
 
@@ -103,8 +104,8 @@ namespace UAHFitVault.Controllers
                 TwoFactor = user.TwoFactorEnabled,
                 //Logins = user.Logins,
                 //BrowserRemembered = user.brows
-                AccountRole = accountRole
-           };
+                        AccountRole = accountRole
+                    };
 
             switch (userRole)
             {
@@ -131,6 +132,7 @@ namespace UAHFitVault.Controllers
 
                     model.Email = physician.Email;
                     model.Username = user.UserName;
+                    model.Address = physician.Address;
 
                     break;
 
@@ -142,12 +144,14 @@ namespace UAHFitVault.Controllers
 
                     model.Email = experimentAdministrator.Email;
                     model.Username = user.UserName;
+                    model.Address = experimentAdministrator.Address;
 
                     break;
 
 
                 case UserRole.SystemAdmin:
                     // System Admin
+                    model.Username = user.UserName;
                     break;
 
 
@@ -163,7 +167,7 @@ namespace UAHFitVault.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<ActionResult> Index(IndexViewModel model)
+        public ActionResult Index(IndexViewModel model)
         {
             var user = new ApplicationUser();
             user = UserManager.FindById(User.Identity.GetUserId());
