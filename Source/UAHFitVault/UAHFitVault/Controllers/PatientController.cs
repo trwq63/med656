@@ -10,10 +10,12 @@ using UAHFitVault.DataAccess.ZephyrServices;
 using UAHFitVault.Database.Entities;
 using UAHFitVault.LogicLayer.Enums;
 using UAHFitVault.LogicLayer.LogicFiles;
+using UAHFitVault.Helpers;
 
 namespace UAHFitVault.Controllers
 {
-    public class SelectDataController : Controller
+    [Authorization("ROLES_PATIENT")]
+    public class PatientController : Controller
     {
         #region Private Members
 
@@ -87,7 +89,7 @@ namespace UAHFitVault.Controllers
         /// <summary>
         /// Default constructor
         /// </summary>
-        public SelectDataController(IPatientDataService patientDataService, IZephyrAccelService accelService,
+        public PatientController(IPatientDataService patientDataService, IZephyrAccelService accelService,
                                     IZephyrBreathingService breathingService, IZephyrECGService ecgService,
                                     IZephyrEventDataService eventDataService, IZephyrSummaryService summaryService,
                                     IPatientService patientService, IBasisPeakSummaryService basisPeakService,
@@ -129,11 +131,11 @@ namespace UAHFitVault.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ProcessData(HttpPostedFileBase[] files, string medicalDeviceType) {
 
-            MedicalDevice medicalDevice = SelectDataLogic.DetermineDeviceType(MedicalDevices, medicalDeviceType);
+            MedicalDevice medicalDevice = PatientLogic.DetermineDeviceType(MedicalDevices, medicalDeviceType);
 
             foreach (HttpPostedFileBase file in files) { 
                 
-                File_Type fileType = SelectDataLogic.DetermineFileType(file.FileName, medicalDevice);
+                File_Type fileType = PatientLogic.DetermineFileType(file.FileName, medicalDevice);
 
                 //var user = System.Web.HttpContext.Current.User.Identity.GetUserId();
 
@@ -178,7 +180,7 @@ namespace UAHFitVault.Controllers
                 }
             }           
 
-            return RedirectToAction("Index", "UserDashboard");
+            return RedirectToAction("Index", "Patient");
         }
 
         #region Protected Methods
@@ -195,7 +197,7 @@ namespace UAHFitVault.Controllers
 
             //Note: Excel Reader is disposable per wiki on github
             using (CsvReader csvReader = new CsvReader(new StreamReader(stream), true)) {
-                basisPeakSummaryData = SelectDataLogic.BuildBasisPeakSummaryDataList(csvReader, patientData);              
+                basisPeakSummaryData = PatientLogic.BuildBasisPeakSummaryDataList(csvReader, patientData);              
             }
 
             if(basisPeakSummaryData != null && basisPeakSummaryData.Count > 0) {
@@ -219,7 +221,7 @@ namespace UAHFitVault.Controllers
             Stream stream = file.InputStream;
             using (CsvReader csvReader = new CsvReader(new StreamReader(stream), true)) {
 
-                zephyrAccelData = SelectDataLogic.BuildZephyrAccelDataList(csvReader, patientData);
+                zephyrAccelData = PatientLogic.BuildZephyrAccelDataList(csvReader, patientData);
             }
             
             if(zephyrAccelData != null && zephyrAccelData.Count > 0) {
@@ -243,7 +245,7 @@ namespace UAHFitVault.Controllers
             Stream stream = file.InputStream;
             using (CsvReader csvReader = new CsvReader(new StreamReader(stream), true)) {
 
-                zephyrEcgData = SelectDataLogic.BuildZephyrEcgDataList(csvReader, patientData);
+                zephyrEcgData = PatientLogic.BuildZephyrEcgDataList(csvReader, patientData);
             }
 
             if (zephyrEcgData != null && zephyrEcgData.Count > 0) {
@@ -267,7 +269,7 @@ namespace UAHFitVault.Controllers
             Stream stream = file.InputStream;
             using (CsvReader csvReader = new CsvReader(new StreamReader(stream), true)) {
 
-                zephyrBreathingData = SelectDataLogic.BuildZephyrBreathingDataList(csvReader, patientData);
+                zephyrBreathingData = PatientLogic.BuildZephyrBreathingDataList(csvReader, patientData);
             }
 
             if (zephyrBreathingData != null && zephyrBreathingData.Count > 0) {
@@ -292,7 +294,7 @@ namespace UAHFitVault.Controllers
             Stream stream = file.InputStream;
             using (CsvReader csvReader = new CsvReader(new StreamReader(stream), true)) {
 
-                zephyrEventData = SelectDataLogic.BuildZephyrEventDataList(csvReader, patientData);
+                zephyrEventData = PatientLogic.BuildZephyrEventDataList(csvReader, patientData);
             }
 
             if (zephyrEventData != null && zephyrEventData.Count > 0) {
@@ -317,7 +319,7 @@ namespace UAHFitVault.Controllers
             Stream stream = file.InputStream;
             using (CsvReader csvReader = new CsvReader(new StreamReader(stream), true)) {
 
-                zephyrSummaryData = SelectDataLogic.BuildZephyrSummaryDataList(csvReader, patientData);
+                zephyrSummaryData = PatientLogic.BuildZephyrSummaryDataList(csvReader, patientData);
             }
 
             if (zephyrSummaryData != null && zephyrSummaryData.Count > 0) {

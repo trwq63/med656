@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@section headers{
+    <link rel='stylesheet' type='text/css' href="~/Content/user-dashboards.css" media="screen,projection" />    
+    <link type="text/css" rel="stylesheet" href="~/Content/select-activity.css" media="screen,projection" />
+}
+
+<nav id="mainNav" class="top blue darken-3">
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo">Logo</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li data-menuachor="patientData">
+                <a href="#patientData">Patient Data</a>
+            </li>
+            <li data-menuachor="addPatient">
+                <a href="#addPatient">Add Patient</a>
+            </li>
+            <li data-menuachor="experimentData">
+                <a href="#experimentData">View Experiments</a>
+            </li>
+            <li>@Html.Partial("_LogoffPartial")</li>
+        </ul>
+    </div>
+</nav>
+
+<div id="sideNav">
+    <ul id="sideMenu">
+        <li data-menuanchor="viewData">
+            <a href="#patientData"></a>
+        </li>
+        <li data-menuanchor="addPatient">
+            <a href="#addPatient"></a>
+        </li>
+        <li data-menuanchor="experimentData">
+            <a href="#experimentData"></a>
+        </li>
+    </ul>
+</div>
+
+<div id="fullpage" class="fullpage-wrapper loaded">
+    <section id="patientData" class="section hierarchical-timig fp-section fp-table active" data-anchor="patientData" data-delay="500">
+        @Html.Partial("_PartialPatientViewData")
+    </section>
+    <section id="addPatient" class="section hierarchical-timig fp-section fp-table" data-anchor="addPatient" data-delay="500">
+        <h2>Add Patient</h2>
+    </section>
+    <section id="experimentData" class="section hierarchical-timig fp-section fp-table" data-anchor="experimentData" data-delay="500">
+        <h2>Experiment Data</h2>
+    </section>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#fullpage').fullpage({
+                css3: true,
+                scrollingSpeed: 1000
+            });
+        });
+    </script>
+}    

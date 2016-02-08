@@ -1,9 +1,5 @@
 ﻿@using UAHFitVault.Database.Entities;
 
-@section headers{
-    <link type="text/css" rel="stylesheet" href="~/Content/select-activity.css" media="screen,projection" />
-}
-
 @{ 
     //Get medical devices from session set in controller.
     List<MedicalDevice> medicalDevices = (Session["sMedicalDevices"] != null) ? (List<MedicalDevice>)Session["sMedicalDevices"] : null;
@@ -12,9 +8,9 @@
 <h2 style="text-align:center">Select Data to Upload</h2>
 
   <div class="col s12 center-align">
-      <form id="dataform" action="@Url.Action("ProcessData", "SelectData")" method="post" enctype="multipart/form-data">
+      <form id="dataform" action="@Url.Action("ProcessData", "Patient")" method="post" enctype="multipart/form-data">
           @Html.AntiForgeryToken()
-          <div class="section">
+          <div>
               <label class="black-text center-align">To upload data, use the browse button and select a file or list of files to process for upload.</label>
               <div class="file-field input-field">
                   <div class="btn">
@@ -38,11 +34,11 @@
               </div>
           </div>
           <div class="divider grey section-divider"></div>
-          <div class="section">
+          <div>
               <label class="black-text">Add Activities</label>
           </div>
           <div class="divider grey section-divider"></div>
-          <div class="section col s12 center-align">
+          <div class="col s12 center-align">
               <button id="btnSubmit" class="btn waves-effect waves-light button-section" type="submit" name="submit">
                   Submit
                   <i class="material-icons right">send</i>
