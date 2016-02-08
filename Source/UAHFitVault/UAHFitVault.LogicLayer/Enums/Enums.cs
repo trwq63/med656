@@ -23,5 +23,15 @@
         ECG,
         Breathing
     }
-    
+
+    /// <summary>
+    /// Details the different user types available in the system.
+    /// </summary>
+    public enum UserRole {
+        Patient,
+        Physician,
+        ExperimentAdmin,
+        SystemAdmin
+    };
+
 }

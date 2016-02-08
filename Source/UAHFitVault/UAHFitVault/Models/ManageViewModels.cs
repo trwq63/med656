@@ -8,10 +8,40 @@ namespace UAHFitVault.Models
     public class IndexViewModel
     {
         public bool HasPassword { get; set; }
-        public IList<UserLoginInfo> Logins { get; set; }
+       // public ICollection<TLogin> Logins { get; set; }
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+
+        [Display(Name = "Account Role")]
+        public string AccountRole { get; set; }
+
+        [Display(Name = "Weight")]
+        public float Weight { get; set; }
+
+        [Display(Name = "Gender")]
+        public int Gender { get; set; }
+
+        [Display(Name = "Birthdate")]
+        public int Birthdate { get; set; }
+
+        [Display(Name = "Height")]
+        public int Height { get; set; }
+
+        [Display(Name = "Location")]
+        public int Location { get; set; }
+
+        [Display(Name = "Race")]
+        public int Race { get; set; }
+
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+
+        [Display(Name = "Username")]
+        public string Username { get; set; }
     }
 
     public class ManageLoginsViewModel

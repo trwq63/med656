@@ -6,79 +6,88 @@
 <h2>@ViewBag.Title.</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
-<div>
-    <h4>Change your account settings</h4>
+@using (Html.BeginForm("Index", "Manage", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <h4>Change your account settings (@Html.DisplayTextFor(m => m.Username))@Html.HiddenFor(m => m.Username)</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>Password:</dt>
-        <dd>
+    <table width="300" align="center">
+        <tr>
+            <td>@Html.LabelFor(m => m.AccountRole)</td>
+            <td>@Html.DisplayTextFor(m => m.AccountRole)@Html.HiddenFor(m => m.AccountRole)</td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td>
             [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Create", "SetPassword")
-            }
+                @if (Model.HasPassword)
+                {
+                    @Html.ActionLink("Change your password", "ChangePassword")
+                    @Html.HiddenFor(m => m.HasPassword)
+                }
+                else
+                {
+                    @Html.ActionLink("Create", "SetPassword")
+                    @Html.HiddenFor(m => m.HasPassword)
+                }
             ]
-        </dd>
-        <dt>External Logins:</dt>
-        <dd>
-            @Model.Logins.Count [
-            @Html.ActionLink("Manage", "ManageLogins") ]
-        </dd>
-        @*
-            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
-             
-             See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-             
-             Uncomment the following block after you have set up two-factor authentication
-        *@
-        @*  
-            <dt>Phone Number:</dt>
-            <dd>
-                @(Model.PhoneNumber ?? "None") [
-                @if (Model.PhoneNumber != null)
-                {
-                    @Html.ActionLink("Change", "AddPhoneNumber")
-                    @: &nbsp;|&nbsp;
-                    @Html.ActionLink("Remove", "RemovePhoneNumber")
-                }
-                else
-                {
-                    @Html.ActionLink("Add", "AddPhoneNumber")
-                }
-                ]
-            </dd>
-        *@
-        <dt>Two-Factor Authentication:</dt>
-        <dd>
-            <p>
-                There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication.
-            </p>
-            @*@if (Model.TwoFactor)
-                {
-                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>Enabled
-                        <input type="submit" value="Disable" class="btn btn-link" />
-                        </text>
-                    }
-                }
-                else
-                {
-                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>Disabled
-                        <input type="submit" value="Enable" class="btn btn-link" />
-                        </text>
-                    }
-                }*@
-        </dd>
-    </dl>
-</div>
+            </td>
+        </tr>
+        @if (Model.AccountRole == "Patient")
+        {
+            <tr>
+                <td>@Html.LabelFor(m => m.Birthdate)</td>
+                <td>@Html.TextBoxFor(m => m.Birthdate)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Gender)</td>
+                <td>
+                    <input name="gender" type="radio" id="genderMale" value="Male" />
+                    <label for="genderMale" style="margin-right:40px">Male</label>
+                    <input name="gender" type="radio" id="genderFemale" value="Female" checked />
+                    <label for="genderFemale">Female</label>
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Weight)</td>
+                <td>@Html.TextBoxFor(m => m.Weight)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Height)</td>
+                <td>@Html.TextBoxFor(m => m.Height)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Location)</td>
+                <td>@Html.TextBoxFor(m => m.Location)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Race)</td>
+                <td>@Html.TextBoxFor(m => m.Race)</td>
+            </tr>
+        }
+        else if (Model.AccountRole == "Physician")
+        {
+            <tr>
+                <td>@Html.LabelFor(m => m.Email)</td>
+                <td>@Html.TextBoxFor(m => m.Email)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Address)</td>
+                <td>@Html.TextBoxFor(m => m.Address)</td>
+            </tr>
+        }
+        else if (Model.AccountRole == "Experiment Administrator")
+        {
+            <tr>
+                <td>@Html.LabelFor(m => m.Email)</td>
+                <td>@Html.TextBoxFor(m => m.Email)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Address)</td>
+                <td>@Html.TextBoxFor(m => m.Address)</td>
+            </tr>
+        }
+    </table>
+<input type="submit" class="btn btn-default" value="Save" />
+}
