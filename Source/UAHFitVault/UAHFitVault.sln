@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAHFitVault.LogicLayer", "U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAHFitVault.DataAccess", "UAHFitVault.DataAccess\UAHFitVault.DataAccess.csproj", "{DD325B6B-B6D3-4F0E-9DE8-5B97C4CA8E02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAHFitVault.LogicLayer.Tests", "UAHFitVault.LogicLayer.Tests\UAHFitVault.LogicLayer.Tests.csproj", "{B5B06C11-64EC-49D3-AF99-C992B352D8F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UAHFitVault.DataAccess.Tests", "UAHFitVault.DataAccess.Tests\UAHFitVault.DataAccess.Tests.csproj", "{C7B60674-E02B-4650-829C-B7C191601A95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{DD325B6B-B6D3-4F0E-9DE8-5B97C4CA8E02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD325B6B-B6D3-4F0E-9DE8-5B97C4CA8E02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD325B6B-B6D3-4F0E-9DE8-5B97C4CA8E02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5B06C11-64EC-49D3-AF99-C992B352D8F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5B06C11-64EC-49D3-AF99-C992B352D8F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5B06C11-64EC-49D3-AF99-C992B352D8F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5B06C11-64EC-49D3-AF99-C992B352D8F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7B60674-E02B-4650-829C-B7C191601A95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7B60674-E02B-4650-829C-B7C191601A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7B60674-E02B-4650-829C-B7C191601A95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7B60674-E02B-4650-829C-B7C191601A95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

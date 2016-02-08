@@ -2,7 +2,7 @@ from WebUI.WebUI import WebUI
 
 web_sess = WebUI()
 
-def test_password_length():
+def test_password():
     user = 'pjfry'
     pwd = 'P@ssword10'
     email = 'pjfry@futurama.com'
@@ -10,12 +10,13 @@ def test_password_length():
     last_name = 'Phillip'
     address = '304 Wherever Street, New New York City, New New York'
     phone_number = '123-456-7890'
+    retVal = ''
 
     try:
-        retVal = web_sess.register_user('Physician',user,pwd,email,first_name,last_name,address,phone_number)
+        retVal = web_sess.request_account('Physician',user,pwd,email,first_name,last_name,address,phone_number)
     except:
         pass
-    assert 'Hello '+str(user)+'!' in retVal
+    assert web_sess.check_request_account()
 
 def test_password_length():
     user = 'pfry'
@@ -25,9 +26,10 @@ def test_password_length():
     last_name = 'Phillip'
     address = '304 Wherever Street, New New York City, New New York'
     phone_number = '123-456-7890'
+    retVal = ''
 
     try:
-        retVal = web_sess.register_user('Physician',user,pwd,email,first_name,last_name,address,phone_number)
+        retVal = web_sess.request_account('Physician',user,pwd,email,first_name,last_name,address,phone_number)
     except:
         pass
     assert 'Passwords must be at least 10 characters long' in retVal
@@ -40,14 +42,15 @@ def test_password_case():
     last_name = 'Phillip'
     address = '304 Wherever Street, New New York City, New New York'
     phone_number = '123-456-7890'
+    retVal = ''
 
     try:
-        retVal = web_sess.register_user('Physician',user,pwd,email,first_name,last_name,address,phone_number)
+        retVal = web_sess.request_account('Physician',user,pwd,email,first_name,last_name,address,phone_number)
     except:
         pass
     assert 'Passwords must have at least one uppercase' in retVal
 
-def test_password_number():
+def test_password_digit():
     user = 'pfry'
     pwd = 'P@ssworddd'
     email = 'pfry@futurama.com'
@@ -55,9 +58,10 @@ def test_password_number():
     last_name = 'Phillip'
     address = '304 Wherever Street, New New York City, New New York'
     phone_number = '123-456-7890'
+    retVal = ''
 
     try:
-        retVal = web_sess.register_user('Physician',user,pwd,email,first_name,last_name,address,phone_number)
+        retVal = web_sess.request_account('Physician',user,pwd,email,first_name,last_name,address,phone_number)
     except:
         pass
     assert 'Passwords must have at least one digit' in retVal
@@ -70,9 +74,10 @@ def test_password_special_char():
     last_name = 'Phillip'
     address = '304 Wherever Street, New New York City, New New York'
     phone_number = '123-456-7890'
+    retVal = ''
 
     try:
-        retVal = web_sess.register_user('Physician',user,pwd,email,first_name,last_name,address,phone_number)
+        retVal = web_sess.request_account('Physician',user,pwd,email,first_name,last_name,address,phone_number)
     except:
         pass
-    assert 'Passwords must have at least one non letter or digit characte' in retVal
+    assert 'Passwords must have at least one non letter or digit character' in retVal
