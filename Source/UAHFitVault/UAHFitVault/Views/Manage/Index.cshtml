@@ -18,21 +18,8 @@
             <td>@Html.DisplayTextFor(m => m.AccountRole)@Html.HiddenFor(m => m.AccountRole)</td>
         </tr>
         <tr>
-            <td>Password:</td>
-            <td>
-            [
-                @if (Model.HasPassword)
-                {
-                    @Html.ActionLink("Change your password", "ChangePassword")
-                    @Html.HiddenFor(m => m.HasPassword)
-                }
-                else
-                {
-                    @Html.ActionLink("Create", "SetPassword")
-                    @Html.HiddenFor(m => m.HasPassword)
-                }
-            ]
-            </td>
+            <td><label>Password</label></td>
+            <td>@Html.ActionLink("Change your password", "ChangePassword")</td>
         </tr>
         @if (Model.AccountRole == "Patient")
         {

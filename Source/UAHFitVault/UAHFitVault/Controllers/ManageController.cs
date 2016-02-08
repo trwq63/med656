@@ -87,6 +87,7 @@ namespace UAHFitVault.Controllers
                 accountRole = "Experiment Administrator";
             } else
             {
+                accountRole = "System Administrator";
                 // Sys admin path
             }
 
@@ -134,6 +135,7 @@ namespace UAHFitVault.Controllers
 
                     model.Email = physician.Email;
                     model.Username = user.UserName;
+                    model.Address = physician.Address;
 
                     break;
 
@@ -145,12 +147,14 @@ namespace UAHFitVault.Controllers
 
                     model.Email = experimentAdministrator.Email;
                     model.Username = user.UserName;
+                    model.Address = experimentAdministrator.Address;
 
                     break;
 
 
                 case UserRole.SystemAdmin:
                     // System Admin
+                    model.Username = user.UserName;
                     break;
 
 
@@ -166,7 +170,7 @@ namespace UAHFitVault.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<ActionResult> Index(IndexViewModel model)
+        public ActionResult Index(IndexViewModel model)
         {
             var user = new ApplicationUser();
             user = UserManager.FindById(User.Identity.GetUserId());
