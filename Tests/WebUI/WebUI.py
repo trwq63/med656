@@ -13,15 +13,19 @@ class WebUI:
         self.driver.get(self.baseurl)
         return self.driver.page_source
 
+    def get_page(self):
+        return self.driver.page_source
+
     def login(self,user,pwd):
         self.go_home()
         try:
             self.driver.find_element(by='id',value='loginLink').click()
             self.driver.find_element(by='id',value='UserName').send_keys(user)
-            self.driver.find_element(by='id',value='Password').send_keys(pwd).submit()
+            self.driver.find_element(by='id',value='Password').send_keys(pwd)
+            self.driver.find_element(by='css selector',value='input[type=submit]').click()
         except:
-            pass
-        return self.driver.page_source
+            return False
+        return True
 
     def check_login(self):
         self.go_home()
@@ -38,8 +42,8 @@ class WebUI:
         try:
             self.driver.find_element(by='css selector',value='a[href$=\".submit()\"]').click()
         except:
-            pass
-        return self.driver.page_source
+            return False
+        return True
 
     def check_logoff(self):
         try:
@@ -69,25 +73,44 @@ class WebUI:
             self.driver.find_element(by='id',value='ReasonForAccount').send_keys('test')
             self.driver.find_element(by='css selector',value='input[type=submit]').click()
         except:
-            pass
-        return self.driver.page_source
+            return False
+        return True
 
     def check_request_account(self):
         if 'Account Confirmation' in self.driver.page_source:
             return True
         return False
 
-    def upload_file(self,file,activity_dict):
+    def upload_files(self,files,activity_dict):
         self.go_home()
         try:
             self.driver.find_element(by='link text',value='Upload Data').click()
-            self.driver.find_element(by='name',value='files').send_keys(file)
-            for activity in activity_dict:
-                continue
+            self.driver.find_element(by='name',value='files').send_keys(files)
+            #for activity in activity_dict:
+            #    self.driver.
             self.driver.find_element(by='id',value='btnSubmit').click()
             #wait = WebDriverWait(self.driver,10).until(
             #    EC.presence_of_element_located((By.ID,''))
             #)
         except:
-            pass
-        return self.driver.page_source
+            return False
+        return True
+
+    def create_patient(self,user,pwd,email,first_name,last_name,address,phone_number):
+        self.driver.get(self.baseurl)
+        try:
+            self.driver.find_element(by='id',value='requestAccountLink').click()
+            self.driver.find_element(by='css selector',value='[for=radioPhysician]').click()
+            self.driver.find_element(by='id',value='FirstName').send_keys(first_name)
+            self.driver.find_element(by='id',value='LastName').send_keys(last_name)
+            self.driver.find_element(by='id',value='Email').send_keys(email)
+            self.driver.find_element(by='id',value='Username').send_keys(user)
+            self.driver.find_element(by='id',value='Password').send_keys(pwd)
+            self.driver.find_element(by='id',value='ConfirmPassword').send_keys(pwd)
+            self.driver.find_element(by='id',value='Address').send_keys(address)
+            self.driver.find_element(by='id',value='PhoneNumber').send_keys(phone_number)
+            self.driver.find_element(by='id',value='ReasonForAccount').send_keys('test')
+            self.driver.find_element(by='css selector',value='input[type=submit]').click()
+        except:
+            return False
+        return True

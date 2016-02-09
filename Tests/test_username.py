@@ -12,13 +12,13 @@ def test_username_cannot_be_coppied():
     phone_number = '123-456-7890'
 
     # first use of user copy
-    retVal = web_sess.request_account('Physician',user,pwd,email,first_name,last_name,address,phone_number)
+    web_sess.request_account('Physician',user,pwd,email,first_name,last_name,address,phone_number)
     assert web_sess.check_request_account()
 
     # second use of user copy
-    retVal = web_sess.request_account('Physician',user,pwd,email,first_name,last_name,address,phone_number)
-    assert 'User already exists' in retVal
+    web_sess.request_account('Physician',user,pwd,email,first_name,last_name,address,phone_number)
+    assert 'Name {} is already taken.'.format(user) in web_sess.get_page()
 
     # first use of user copy1
-    retVal = web_sess.request_account('Physician','copy1',pwd,'copy1@copy.com',first_name,last_name,address,phone_number)
+    web_sess.request_account('Physician','copy1',pwd,'copy1@copy.com',first_name,last_name,address,phone_number)
     assert web_sess.check_request_account()

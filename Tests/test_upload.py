@@ -3,19 +3,28 @@ import pymysql
 
 #db = pymysql.connect()
 web_sess = WebUI()
-web_sess.login("testPatient","P@ssword10")
+
 
 def test_single_file_no_activity():
     activity_dict = {}
-    f = ''
+    f = './Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv'
 
-    #ps = web_sess.upload_file(f,activity_dict)
+    web_sess.login("testPatient","P@ssword10")
+    if web_sess.check_login():
+        assert web_sess.upload_files(f,activity_dict)
     #entry = db.query('')
-
-    assert False
+    assert 'upload success' in web_sess.get_page()
 
 def test_multi_file_no_activity():
-    assert False
+    activity_dict = {}
+    f = './Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv; ./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_BB.csv'
+
+    web_sess.login("testPatient","P@ssword10")
+    if web_sess.check_login():
+        assert web_sess.upload_files(f,activity_dict)
+    #entry = db.query('')
+    assert 'upload success' in web_sess.get_page()
+
 
 def test_single_file_one_activity():
     assert False
