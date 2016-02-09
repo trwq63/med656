@@ -84,7 +84,7 @@ namespace UAHFitVault.Controllers
                         return RedirectToLocal("/Patient/Index");
                     }
                     else if (User.IsInRole("SystemAdmin")) {
-                        return RedirectToLocal("/SystemAdmin/Index");
+                        return RedirectToLocal("/Admin/Index");
                     }
                     else {
                         return RedirectToLocal("/Account");
