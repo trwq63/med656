@@ -1,0 +1,57 @@
+﻿
+<nav id="mainNav" class="top blue darken-3">
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo">Logo</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down active">
+            <li data-menuachor="pendingAccounts">
+                <a href="#pendingAccounts">Account Requests</a>
+            </li>
+            <li data-menuachor="manage">
+                <a href="#manage">Manage Users</a>
+            </li>
+            <li data-menuachor="createAdmin">
+                <a href="#createAdmin">Create Admin</a>
+            </li>
+            <li>@Html.Partial("_LogoffPartial")</li>
+        </ul>
+    </div>
+</nav>
+
+@*<div id="sideNav">
+    <ul id="sideMenu">
+        <li data-menuanchor="pendingAccounts">
+            <a href="#pendingAccounts"></a>
+        </li>
+        <li data-menuanchor="manage">
+            <a href="#manage"></a>
+        </li>
+        <li data-menuanchor="createAdmin">
+            <a href="#createAdmin"></a>
+        </li>
+    </ul>
+</div>*@
+
+<div id="fullpage" class="loaded">
+    <div id="pendingAccounts" class="section fp-section fp-table active" data-anchor="pendingAccounts">
+        <h2>Pending Accounts</h2>
+    </div>
+    <div id="manage" class="section fp-section fp-table" data-anchor="manage">
+        <h2>Manage Accounts</h2>
+    </div>
+    <div id="createAdmin" class="section fp-section fp-table" data-anchor="createAdmin">
+        <h2>Create Admin Accounts</h2>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#fullpage').fullpage({
+                anchors: ['pendingAccounts', 'manage', 'createAdmin'],
+                css3: true,
+                menu: 'nav-mobile',
+                scrollingSpeed: 1000
+            });
+        });
+    </script>
+}    

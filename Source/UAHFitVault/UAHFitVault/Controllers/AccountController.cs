@@ -75,20 +75,20 @@ namespace UAHFitVault.Controllers
             switch (result) {
                 case SignInStatus.Success:
                     /*                    if (User.IsInRole("Physician")) {
-                                            return RedirectToLocal("/Physician/Index");
-                                        }
-                                        else if (User.IsInRole("ExperimentAdmin")) {
-                                            return RedirectToLocal("/Experiment/Index");
-                                        }
-                                        else if (User.IsInRole("Patient")) {
-                                            return RedirectToLocal("/Patient/Index");
-                                        }
-                                        else if (User.IsInRole("SystemAdmin")) {
-                                            return RedirectToLocal("/SystemAdmin/Index");
-                                        }
-                                        else {
-                                            return RedirectToLocal("/Account");
-                                        }
+                        return RedirectToLocal("/Physician/Index");
+                    }
+                    else if (User.IsInRole("ExperimentAdmin")) {
+                        return RedirectToLocal("/Experiment/Index");
+                    }
+                    else if (User.IsInRole("Patient")) {
+                        return RedirectToLocal("/Patient/Index");
+                    }
+                    else if (User.IsInRole("SystemAdmin")) {
+                        return RedirectToLocal("/Admin/Index");
+                    }
+                    else {
+                        return RedirectToLocal("/Account");
+                    }
                                         */
                     return RedirectToLocal("/Account/LoginRedirect");
                 case SignInStatus.LockedOut:
@@ -123,7 +123,7 @@ namespace UAHFitVault.Controllers
             }
             else if (User.IsInRole("SystemAdmin"))
             {
-                return RedirectToLocal("/SystemAdmin/Index");
+                return RedirectToLocal("/Admin/Index");
             }
             return View();
         }
