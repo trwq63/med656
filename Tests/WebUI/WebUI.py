@@ -1,7 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as ec
+
 
 class WebUI:
     driver = webdriver.Firefox()
@@ -27,11 +28,11 @@ class WebUI:
             return False
         return True
 
-    def check_login(self):
+    def check_login(self, t=5):
         self.go_home()
         try:
-            wait = WebDriverWait(self.driver,5).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR,'a[title=Manage]'))
+            wait = WebDriverWait(self.driver, t).until(
+                ec.presence_of_element_located((By.CSS_SELECTOR, 'a[title=Manage]'))
             )
         except:
             return False
@@ -40,15 +41,15 @@ class WebUI:
     def logoff(self):
         self.go_home()
         try:
-            self.driver.find_element(by='css selector',value='a[href$=\".submit()\"]').click()
+            self.driver.find_element(by='css selector', value='a[href$=\".submit()\"]').click()
         except:
             return False
         return True
 
-    def check_logoff(self):
+    def check_logoff(self, t=10):
         try:
-            wait = WebDriverWait(self.driver,10).until(
-                EC.presence_of_element_located((By.ID,'loginLink'))
+            wait = WebDriverWait(self.driver, t).until(
+                ec.presence_of_element_located((By.ID, 'loginLink'))
             )
         except:
             return False
@@ -90,7 +91,7 @@ class WebUI:
             #    self.driver.
             self.driver.find_element(by='id',value='btnSubmit').click()
             #wait = WebDriverWait(self.driver,10).until(
-            #    EC.presence_of_element_located((By.ID,''))
+            #    ec.presence_of_element_located((By.ID,''))
             #)
         except:
             return False

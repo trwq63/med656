@@ -5,7 +5,7 @@ import pymysql
 web_sess = WebUI()
 
 
-def test_single_file_no_activity():
+def test_single_file_no_activity(logoff):
     activity_dict = {}
     f = './Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv'
 
@@ -15,7 +15,8 @@ def test_single_file_no_activity():
     #entry = db.query('')
     assert 'upload success' in web_sess.get_page()
 
-def test_multi_file_no_activity():
+
+def test_multi_file_no_activity(logoff):
     activity_dict = {}
     f = './Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv; ./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_BB.csv'
 

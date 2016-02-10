@@ -2,7 +2,8 @@ from WebUI.WebUI import WebUI
 
 web_sess = WebUI()
 
-def test_request_physician():
+
+def test_request_physician(logoff):
     user = 'hfarnswroth'
     pwd = 'P@ssword10'
     email = 'hfarnsworth@futurama.com'
@@ -17,7 +18,8 @@ def test_request_physician():
         pass
     assert web_sess.check_request_account()
 
-def test_request_experiment_admin():
+
+def test_request_experiment_admin(logoff):
     user = 'awong'
     pwd = 'P@ssword10'
     email = 'awong@futurama.com'

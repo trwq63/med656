@@ -2,7 +2,8 @@ from WebUI.WebUI import WebUI
 
 web_sess = WebUI()
 
-def test_username_cannot_be_coppied():
+
+def test_username_cannot_be_copied(logoff):
     user = 'copy'
     pwd = 'P@ssword10'
     email = 'copy@copy.com'
