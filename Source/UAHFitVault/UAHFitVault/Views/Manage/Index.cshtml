@@ -6,7 +6,7 @@
 <h2>@ViewBag.Title.</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
-@using (Html.BeginForm("Index", "Manage", FormMethod.Post))
+@using (Html.BeginForm("UpdateUser", "Manage", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary("", new { @class = "text-danger" })
@@ -52,9 +52,21 @@
                 <td>@Html.LabelFor(m => m.Race)</td>
                 <td>@Html.TextBoxFor(m => m.Race)</td>
             </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Ethnicity)</td>
+                <td>@Html.TextBoxFor(m => m.Ethnicity)</td>
+            </tr>
         }
         else if (Model.AccountRole == "Physician")
         {
+            <tr>
+                <td>@Html.LabelFor(m => m.FirstName)</td>
+                <td>@Html.TextBoxFor(m => m.FirstName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.LastName)</td>
+                <td>@Html.TextBoxFor(m => m.LastName)</td>
+            </tr>
             <tr>
                 <td>@Html.LabelFor(m => m.Email)</td>
                 <td>@Html.TextBoxFor(m => m.Email)</td>
@@ -62,11 +74,23 @@
             <tr>
                 <td>@Html.LabelFor(m => m.Address)</td>
                 <td>@Html.TextBoxFor(m => m.Address)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.PhoneNumber)</td>
+                <td>@Html.TextBoxFor(m => m.PhoneNumber)</td>
             </tr>
         }
         else if (Model.AccountRole == "Experiment Administrator")
         {
             <tr>
+                <td>@Html.LabelFor(m => m.FirstName)</td>
+                <td>@Html.TextBoxFor(m => m.FirstName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.LastName)</td>
+                <td>@Html.TextBoxFor(m => m.LastName)</td>
+            </tr>
+            <tr>
                 <td>@Html.LabelFor(m => m.Email)</td>
                 <td>@Html.TextBoxFor(m => m.Email)</td>
             </tr>
@@ -74,7 +98,16 @@
                 <td>@Html.LabelFor(m => m.Address)</td>
                 <td>@Html.TextBoxFor(m => m.Address)</td>
             </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.PhoneNumber)</td>
+                <td>@Html.TextBoxFor(m => m.PhoneNumber)</td>
+            </tr>
         }
     </table>
-<input type="submit" class="btn btn-default" value="Save" />
+    <input type="submit" class="btn btn-default" value="Save" />
+    <input type="button" value="Cancel" class="btn" onclick="location.href = '/Account/LoginRedirect';" />
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }

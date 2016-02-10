@@ -63,7 +63,6 @@ namespace UAHFitVault.Controllers
 
         //
         // GET: /Manage/Index
-        //public async Task<ActionResult> Index(ManageMessageId? message)
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
@@ -86,7 +85,6 @@ namespace UAHFitVault.Controllers
             } else
             {
                 accountRole = "System Administrator";
-                // Sys admin path
             }
 
             ViewBag.StatusMessage =
@@ -117,10 +115,11 @@ namespace UAHFitVault.Controllers
                     model.Username = user.UserName;
                     model.Weight = patient.Weight;
                     model.Height = patient.Height;
-                    model.Race = patient.Race;          // Need to look up enum for race
-                    model.Location = patient.Location;  // Zip code
+                    model.Race = patient.Race;
+                    model.Ethnicity = patient.Ethnicity;
+                    model.Location = patient.Location;
                     model.Birthdate = patient.Age;      // This needs to to birthdate.
-                    model.Gender = patient.Gender;                 // Need to add patient sex to db.
+                    model.Gender = patient.Gender;
 
                     break;
 
@@ -133,6 +132,9 @@ namespace UAHFitVault.Controllers
                     model.Email = physician.Email;
                     model.Username = user.UserName;
                     model.Address = physician.Address;
+                    model.PhoneNumber = physician.PhoneNumber;
+                    model.FirstName = physician.FirstName;
+                    model.LastName = physician.LastName;
 
                     break;
 
@@ -145,6 +147,9 @@ namespace UAHFitVault.Controllers
                     model.Email = experimentAdministrator.Email;
                     model.Username = user.UserName;
                     model.Address = experimentAdministrator.Address;
+                    model.PhoneNumber = experimentAdministrator.PhoneNumber;
+                    model.FirstName = experimentAdministrator.FirstName;
+                    model.LastName = experimentAdministrator.LastName;
 
                     break;
 
@@ -167,47 +172,85 @@ namespace UAHFitVault.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Index(IndexViewModel model)
+        public ActionResult UpdateUser(IndexViewModel inmodel)
+        {
+            UpdateUserViewModel model = new UpdateUserViewModel();
+
+            model.AccountRole = inmodel.AccountRole;
+            model.Address = inmodel.Address;
+            model.Birthdate = inmodel.Birthdate;
+            model.Email = inmodel.Email;
+            model.Ethnicity = inmodel.Ethnicity;
+            model.FirstName = inmodel.FirstName;
+            model.Gender = inmodel.Gender;
+            model.Height = inmodel.Height;
+            model.LastName = inmodel.LastName;
+            model.Location = inmodel.Location;
+            model.PhoneNumber = inmodel.PhoneNumber;
+            model.Race = inmodel.Race;
+            model.Username = inmodel.Username;
+            model.Weight = inmodel.Weight;
+            
+            return View(model);
+        }
+
+        /// <summary>
+        /// ConfirmUpdateUser() - This is the HttpPost function to handle updating the user in the database from the 
+        ///   submit button being clicked on the UpdateUser view.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ConfirmUpdateUser (UpdateUserViewModel model)
         {
             var user = new ApplicationUser();
             user = UserManager.FindById(User.Identity.GetUserId());
-            switch (model.AccountRole)
+            
+            if (User.IsInRole("Patient"))
             {
-                case "Patient":
-                    Patient patient = new Patient();
-                    patient = _patientService.GetPatient(user.PatientId);
-                    patient.Age = model.Birthdate;
-                    patient.Ethnicity = model.Race;
-                    patient.Height = model.Height;
-                    patient.Weight = model.Weight;
-                    patient.Location = model.Location;
-                    patient.Gender = model.Gender;
-                    _patientService.SaveChanges(); // Update patient information
-
-                    break;
-                case "Physician":
-                    Physician physician = new Physician();
-                    physician = _physicianService.GetPhysician(user.PhysicianId);
-                    physician.Email = model.Email;
-                    physician.Address = model.Address;
-                    _physicianService.SaveChanges();
-
-                    break;
-                case "Experiment Administrator":
-                    ExperimentAdministrator experimentAdministrator = new ExperimentAdministrator();
-                    experimentAdministrator = _experimentAdminService.GetExperimentAdministrator(user.ExperimentAdministratorId);
-                    experimentAdministrator.Email = model.Email;
-                    experimentAdministrator.Address = model.Address;
-                    _experimentAdminService.SaveChanges();
-
-                    break;
-                case "System Administrator":
-                    break;
-                default:
-                    break;
+                Patient patient = new Patient();
+                patient = _patientService.GetPatient(user.PatientId);
+                patient.Age = model.Birthdate;
+                patient.Ethnicity = model.Ethnicity;
+                patient.Race = model.Race;
+                patient.Height = model.Height;
+                patient.Weight = model.Weight;
+                patient.Location = model.Location;
+                patient.Gender = model.Gender;
+                _patientService.SaveChanges();
             }
-             
-            return View(model);
+            else if (User.IsInRole("Physician"))
+            {
+                Physician physician = new Physician();
+                physician = _physicianService.GetPhysician(user.PhysicianId);
+                physician.Email = model.Email;
+                physician.Address = model.Address;
+                physician.FirstName = model.FirstName;
+                physician.LastName = model.LastName;
+                physician.PhoneNumber = model.PhoneNumber;
+                _physicianService.SaveChanges();
+            }
+            else if (User.IsInRole("ExperimentAdmin"))
+            {
+                ExperimentAdministrator experimentAdministrator = new ExperimentAdministrator();
+                experimentAdministrator = _experimentAdminService.GetExperimentAdministrator(user.ExperimentAdministratorId);
+                experimentAdministrator.Email = model.Email;
+                experimentAdministrator.Address = model.Address;
+                experimentAdministrator.FirstName = model.FirstName;
+                experimentAdministrator.LastName = model.LastName;
+                experimentAdministrator.PhoneNumber = model.PhoneNumber;
+                _experimentAdminService.SaveChanges();
+            }
+            else if (User.IsInRole("SystemAdmin"))
+            {
+                // Not yet implemented.
+            }
+            else
+            {
+                // Error path.
+                return View();
+            }
+
+            return (Redirect ("/Account/LoginRedirect"));
         }
 
         //
