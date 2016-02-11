@@ -34,8 +34,8 @@ namespace UAHFitVault
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/materialize/css/materialize.css",
-               //       "~/Content/site.css",
-                      "~/Content/user-dashboard.css",
+                      //       "~/Content/site.css",
+                      "~/Content/user-dashboards.css",
                       "~/Content/jquery.fullPage.css"));
 
 

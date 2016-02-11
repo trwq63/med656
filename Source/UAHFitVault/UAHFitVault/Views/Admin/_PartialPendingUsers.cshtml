@@ -1,0 +1,42 @@
+﻿@using UAHFitVault.Models
+@using UAHFitVault.Database.Entities;
+
+@model List<AdminViewModel>
+
+<h2 class="col s12 center-align">Pending Users</h2>
+
+@if (Model != null) {
+    <table class="centered responsive-table striped">
+        <thead>
+            <tr>
+                <th data-field="id">Name</th>
+                <th data-field="name">Role</th>
+                <th data-field="price">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model) {
+                <tr>                    
+                    <td>@item.FullName</td>
+                    <td>@item.Role</td>
+                    <td>
+                        @{ 
+                            string approveButtonId = "btnApprove" + Model.IndexOf(item);
+                            string rejectButtonId = "btnReject" + Model.IndexOf(item);
+                        }
+                        <button id="@approveButtonId" class="waves-effect waves-light btn blue" onclick="Approve(this)" value="@item.UserId">Approve</button>
+                        <button id="@rejectButtonId" class="waves-effect waves-light btn red" onclick="Reject(this)" value="@item.UserId">Reject</button>
+                    </td>
+                </tr>
+                <tr>                    
+                    <td>
+                        Reason for Account Request:<br />
+                        @item.ReasonForRequest
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}

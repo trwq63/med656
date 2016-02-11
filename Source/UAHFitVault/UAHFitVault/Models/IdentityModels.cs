@@ -1,12 +1,9 @@
-﻿using System.Data.Entity;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using UAHFitVault.Database.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UAHFitVault.Models
 {
@@ -52,5 +49,6 @@ namespace UAHFitVault.Models
         {
             return new ApplicationDbContext();
         }
+
     }
 }
