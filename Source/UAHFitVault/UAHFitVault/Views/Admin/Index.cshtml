@@ -1,8 +1,16 @@
-﻿
+﻿@using UAHFitVault.Models
+@using UAHFitVault.LogicLayer.Enums;
+
+@model List<AdminViewModel>
+
+@{ 
+    List<AdminViewModel> pendingUsers = Model.Where(m => m.Status == Account_Status.Pending).ToList();
+}
+
 <nav id="mainNav" class="top blue darken-3">
     <div class="nav-wrapper">
         <a href="#" class="brand-logo">Logo</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down active">
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li data-menuachor="pendingAccounts">
                 <a href="#pendingAccounts">Account Requests</a>
             </li>
@@ -17,7 +25,7 @@
     </div>
 </nav>
 
-@*<div id="sideNav">
+<div id="sideNav">
     <ul id="sideMenu">
         <li data-menuanchor="pendingAccounts">
             <a href="#pendingAccounts"></a>
@@ -29,29 +37,41 @@
             <a href="#createAdmin"></a>
         </li>
     </ul>
-</div>*@
+</div>
 
-<div id="fullpage" class="loaded">
-    <div id="pendingAccounts" class="section fp-section fp-table active" data-anchor="pendingAccounts">
-        <h2>Pending Accounts</h2>
-    </div>
-    <div id="manage" class="section fp-section fp-table" data-anchor="manage">
+<div id="fullpage" class="fullscreen-wrapper loaded">
+    <section id="pendingAccounts" class="section hierarchical-timig fp-section fp-table active" data-anchor="pendingAccounts" data-delay="500">
+        @Html.Partial("_PartialPendingUsers", pendingUsers)
+    </section>
+    <section id="manage" class="section hierarchical-timig fp-section fp-table" data-anchor="manage" data-delay="500">
         <h2>Manage Accounts</h2>
-    </div>
-    <div id="createAdmin" class="section fp-section fp-table" data-anchor="createAdmin">
+    </section>
+    <section id="createAdmin" class="section hierarchical-timig fp-section fp-table" data-anchor="createAdmin" data-delay="500">
         <h2>Create Admin Accounts</h2>
-    </div>
+    </section>
 </div>
 
 @section scripts{
     <script type="text/javascript">
         $(document).ready(function() {
             $('#fullpage').fullpage({
-                anchors: ['pendingAccounts', 'manage', 'createAdmin'],
-                css3: true,
-                menu: 'nav-mobile',
-                scrollingSpeed: 1000
+                //anchors: ['pendingAccounts', 'manage', 'createAdmin'],
+                //css3: true,
+                //menu: 'nav-mobile',
+                //scrollingSpeed: 1000
             });
         });
+
+        function Approve(element) {
+            var userId = element.value;
+            $.ajax({
+                type: "POST",
+                url: "/Admin/ApproveUser",
+                data: { userId: userId },
+                success: function(data) {
+                    location.reload();
+                }
+            });
+        };
     </script>
 }    
