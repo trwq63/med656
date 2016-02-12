@@ -349,6 +349,9 @@
     <Content Include="Views\Patient\_PartialPatientUploadData.cshtml" />
     <Content Include="Views\Physician\Index.cshtml" />
     <Content Include="Views\Experiment\Index.cshtml" />
+    <Content Include="Views\Account\LoginRedirect.cshtml" />
+    <Content Include="Views\Manage\UpdateUser.cshtml" />
+    <Content Include="Views\Manage\ConfirmUpdateUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
