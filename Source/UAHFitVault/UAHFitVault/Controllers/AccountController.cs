@@ -188,7 +188,8 @@ namespace UAHFitVault.Controllers
                         LastName = model.LastName,
                         Email = model.Email,
                         Address = model.Address,
-                        PhoneNumber = model.PhoneNumber
+                        PhoneNumber = model.PhoneNumber,
+                        PatientCount = 0
                     };
 
                     // Write to ASP user database

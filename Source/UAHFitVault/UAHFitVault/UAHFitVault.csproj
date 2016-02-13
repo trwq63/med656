@@ -235,6 +235,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\PhysicianViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -352,6 +353,8 @@
     <Content Include="Views\Account\LoginRedirect.cshtml" />
     <Content Include="Views\Manage\UpdateUser.cshtml" />
     <Content Include="Views\Manage\ConfirmUpdateUser.cshtml" />
+    <Content Include="Views\Physician\_PartialPhysicianAddPatient.cshtml" />
+    <Content Include="Views\Physician\CreatePatient.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
