@@ -28,6 +28,13 @@ namespace UAHFitVault.DataAccess
         IEnumerable<AccountRequest> GetAccountRequests();
 
         /// <summary>
+        /// Delete an account request from the database.
+        /// </summary>
+        /// <param name="id">Id of the account request to delete</param>
+        /// <returns></returns>
+        bool DeleteAccountRequest(int id);
+
+        /// <summary>
         /// Save changes to database
         /// </summary>
         void SaveChanges();

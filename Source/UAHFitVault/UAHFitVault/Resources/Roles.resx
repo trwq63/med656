@@ -117,11 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ADMIN_ROLE_DB_TABLE_ID" xml:space="preserve">
+    <value>4</value>
+  </data>
   <data name="ROLES_ADMIN" xml:space="preserve">
-    <value>SystemAdmin</value>
+    <value>System Administrator</value>
   </data>
   <data name="ROLES_EXPERIMENTADMIN" xml:space="preserve">
-    <value>ExperimentAdmin</value>
+    <value>Experiment Administrator</value>
   </data>
   <data name="ROLES_PATIENT" xml:space="preserve">
     <value>Patient, Physician</value>

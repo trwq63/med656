@@ -28,14 +28,15 @@ namespace UAHFitVault.Helpers
         /// Get a list of all the users that are currently in the system.
         /// </summary>
         /// <returns></returns>
-        public List<ApplicationUser> GetUserAccounts() {
-            List<ApplicationUser> pendingUsers = new List<ApplicationUser>();
+        public List<ApplicationUser> GetUserAccounts(ApplicationUserManager manager) {
+            List<ApplicationUser> allUsers = null;
 
-            using (ApplicationDbContext context = new ApplicationDbContext()) {
-                pendingUsers = context.Users.ToList();
+            if(manager != null) {
+                allUsers = new List<ApplicationUser>();
+                allUsers = manager.Users.ToList();
             }
 
-            return pendingUsers;
+            return allUsers;
         }
 
         #endregion

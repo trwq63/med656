@@ -89,6 +89,19 @@ namespace UAHFitVault.DataAccess
         }
 
         /// <summary>
+        /// Delete a physician user from the database.
+        /// </summary>
+        /// <param name="id"></param>
+        public void DeletePhysician(int id) {
+            if(id > 0) {
+                Physician physician = GetPhysician(id);
+                if(physician != null) {
+                    _physicianRepository.Delete(physician);
+                }                
+            }
+        }
+
+        /// <summary>
         /// Save changes to database
         /// </summary>
         public void SaveChanges() {

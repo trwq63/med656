@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using UAHFitVault.Helpers;
-using UAHFitVault.Models;
-using UAHFitVault.Database.Entities;
 using UAHFitVault.DataAccess;
+using UAHFitVault.Database.Entities;
+using UAHFitVault.Helpers;
 using UAHFitVault.LogicLayer.Enums;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
+using UAHFitVault.Models;
+using UAHFitVault.Resources;
 
 namespace UAHFitVault.Controllers
 {
@@ -33,11 +32,6 @@ namespace UAHFitVault.Controllers
         private readonly IExperimentAdminService _experimentAdminService;
 
         /// <summary>
-        /// Service object for accessing patient database functions.
-        /// </summary>
-        private readonly IPatientService _patientService;
-
-        /// <summary>
         /// Service object for accessing the account request database functions.
         /// </summary>
         private readonly IAccountRequestService _accountRequestService;
@@ -51,13 +45,11 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="physicianService">Service interface for accessing physician database functions.</param>
         /// <param name="expAdminService">Service interface for accessing physician database functions.</param>
-        /// <param name="patientService">Service interface for accessing patient database functions.</param>
         /// <param name="accountRequestService">Service interface for accessing the account request database functions.</param>
         public AdminController(IPhysicianService physicianService, IExperimentAdminService expAdminService,
-                                IPatientService patientService, IAccountRequestService accountRequestService) {
+                                IAccountRequestService accountRequestService) {
             _physicianService = physicianService;
             _experimentAdminService = expAdminService;
-            _patientService = patientService;
             _accountRequestService = accountRequestService;
         }
 
@@ -69,39 +61,43 @@ namespace UAHFitVault.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
+            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             //Get all users in the system.
-            List<ApplicationUser> allusers = new ApplicationUserService().GetUserAccounts();
+            List<ApplicationUser> allusers = new ApplicationUserService().GetUserAccounts(manager);
 
-            List<AdminViewModel> viewModel = new List<AdminViewModel>();
+            List<UserInfoModel> userModels = new List<UserInfoModel>();
 
             //Create a dictionary connecting the user object to the corresponding object that is the correct user type.
             foreach(ApplicationUser user in allusers) {
                 string fullName = string.Empty;
-                UserRole role = UserRole.None;
+                string role = string.Empty;
 
                 //Check if user is a physician
                 if(user.PhysicianId > 0) {
                     Physician physician = _physicianService.GetPhysician(user.PhysicianId);
                     fullName = physician.FirstName + " " + physician.LastName;
-                    role = UserRole.Physician;
+                    role = "Physician";
                 }
                 //Check if user is an experiment administrator
                 else if (user.ExperimentAdministratorId > 0) {
                     ExperimentAdministrator expAdmin = _experimentAdminService.GetExperimentAdministrator(user.ExperimentAdministratorId);
                     fullName = expAdmin.FirstName + " " + expAdmin.LastName;
-                    role = UserRole.ExperimentAdmin;
+                    role = "Experiment Administrator";
                 }
                 //Check if user is a patient
                 else if (user.PatientId > 0) {
-                    Patient patient = _patientService.GetPatient(user.PatientId);
-                    fullName = user.UserName;
-                    role = UserRole.Patient;
-                }
-                //If the user does not have a role that matches one of the roles above but does have a role id
-                //then that user is a system admin.
+                    //System administrators can't manage patients per requirement 3.1.1.1.4.2
+                    continue;
+                }                
                 else {
                     fullName = user.UserName;
-                    role = UserRole.SystemAdmin;
+                    //Determine if the user is a system admin or has no role.
+                    if (user.Roles.Select(r => r.RoleId).Contains(Roles.ADMIN_ROLE_DB_TABLE_ID)) {                        
+                        role = "System Administrator";
+                    }
+                    else {
+                        role = "None";
+                    }
                 }
                
                 string accountRequest = string.Empty;
@@ -110,7 +106,7 @@ namespace UAHFitVault.Controllers
                     accountRequest = _accountRequestService.GetAccountRequest(user.AccountRequestId).ReasonForAccount;
                 }
 
-                AdminViewModel model = new AdminViewModel() {
+                UserInfoModel model = new UserInfoModel() {
                     UserId = user.Id,
                     FullName = fullName,
                     Role = role,
@@ -118,24 +114,26 @@ namespace UAHFitVault.Controllers
                     ReasonForRequest = accountRequest
                 };
 
-                viewModel.Add(model);
+                userModels.Add(model);
+            }
+
+            //Create view model
+            AdminViewModel viewModel = new AdminViewModel();
+            if (userModels.Count > 0) {
+                viewModel.Users = userModels;
+            }
+
+            viewModel.SelectedRole = "All Roles";
+
+            //Get the list of roles from the database.
+            using (ApplicationDbContext context = new ApplicationDbContext()) {
+                List<string> roles = context.Roles.Select(r => r.Name).ToList();
+                roles.Sort();
+                roles.Insert(0, "All Roles");
+                viewModel.RoleList = new SelectList(roles, viewModel.SelectedRole);
             }
 
             return View(viewModel);
-        }
-
-        /// <summary>
-        /// Approve the user enabling access to the system.
-        /// </summary>
-        /// <param name="userId">Id of the user being approved.</param>
-        /// <returns></returns>
-        public string ApproveUser(string userId) {
-            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            ApplicationUser user = manager.FindById(userId);
-            user.Status = (int)Account_Status.Active;
-            manager.Update(user);
-
-            return null;
         }
 
         /// <summary>
@@ -150,5 +148,73 @@ namespace UAHFitVault.Controllers
             manager.Update(user);
             return null;
         }
+
+        /// <summary>
+        /// Enable a user that is inactive so they can begin using the system again or 
+        /// approve a pending user requesting access to the system.
+        /// </summary>
+        /// <param name="userId">Id of the user being rejected.</param>
+        /// <returns></returns>
+        public string EnableUser(string userId) {
+            ActivateUser(userId);
+            return null;
+        }
+
+        /// <summary>
+        /// Delete a user from the system.
+        /// </summary>
+        /// <param name="userId">Id of the user being deleted.</param>
+        /// <returns></returns>
+        public string DeleteUser(string userId) {
+            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            ApplicationUser user = manager.FindById(userId);
+            if(user.PhysicianId > 0) {
+                _physicianService.DeletePhysician(user.PhysicianId);
+            }
+            else if (user.ExperimentAdministratorId > 0) {
+                _experimentAdminService.DeleteExperimentAdministrator(user.ExperimentAdministratorId);
+            }
+
+            //Delete an account activation request if there is still one referenced by the user entry in the database.
+            RemoveActivationRequest(user);
+
+            manager.Delete(user);
+
+            return null;
+        }
+        #region Protected Methods
+
+        /// <summary>
+        /// Activate the user to be able to access the system.
+        /// </summary>
+        /// <param name="userId">Id of the user being activated.</param>
+        protected void ActivateUser(string userId) {
+            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            ApplicationUser user = manager.FindById(userId);
+            user.Status = (int)Account_Status.Active;
+
+            //Delete an account activation request if there is still one referenced by the user entry in the database.
+            RemoveActivationRequest(user);
+            
+            user.AccountRequestId = 0;
+            manager.Update(user);            
+        }
+
+        /// <summary>
+        /// Delete the user's activation request from the database after they are approved for access.
+        /// </summary>
+        /// <param name="user">User object for the user being updated.</param>
+        protected void RemoveActivationRequest(ApplicationUser user) {
+            //Very the user object exists and that is still has a reference to an account request.
+            if (user != null && user.AccountRequestId > 0) {
+                //Remove the user's account request from database since they have been approved.
+                bool result = _accountRequestService.DeleteAccountRequest(user.AccountRequestId);
+                if (result) {
+                    _accountRequestService.SaveChanges();
+                }
+            }
+        }
+
+        #endregion
     }
 }

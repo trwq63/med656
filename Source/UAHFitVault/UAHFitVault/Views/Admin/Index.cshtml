@@ -1,10 +1,10 @@
 ﻿@using UAHFitVault.Models
 @using UAHFitVault.LogicLayer.Enums;
 
-@model List<AdminViewModel>
+@model AdminViewModel
 
 @{ 
-    List<AdminViewModel> pendingUsers = Model.Where(m => m.Status == Account_Status.Pending).ToList();
+    List<UserInfoModel> pendingUsers = Model.Users.Where(m => m.Status == Account_Status.Pending).ToList();
 }
 
 <nav id="mainNav" class="top blue darken-3">
@@ -44,7 +44,7 @@
         @Html.Partial("_PartialPendingUsers", pendingUsers)
     </section>
     <section id="manage" class="section hierarchical-timig fp-section fp-table" data-anchor="manage" data-delay="500">
-        <h2>Manage Accounts</h2>
+        @Html.Partial("_PartialUserManagement", Model)
     </section>
     <section id="createAdmin" class="section hierarchical-timig fp-section fp-table" data-anchor="createAdmin" data-delay="500">
         <h2>Create Admin Accounts</h2>
@@ -62,16 +62,68 @@
             });
         });
 
-        function Approve(element) {
+        /*
+        Send a request to the admin controller to reject a pending user or disable an active user.
+        */
+        function rejectUser(element) {
             var userId = element.value;
             $.ajax({
                 type: "POST",
-                url: "/Admin/ApproveUser",
+                url: "/Admin/RejectUser",
                 data: { userId: userId },
-                success: function(data) {
+                success: function (data) {
                     location.reload();
                 }
             });
         };
+
+        /*
+        Send a request to the admin controller to enable an inactive user.
+        */
+        function enableUser(element) {
+            var userId = element.value;
+            $.ajax({
+                type: "POST",
+                url: "/Admin/EnableUser",
+                data: { userId: userId },
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        };
+
+        /*
+        Send a request to the admin controller to delete a user from the system.
+        */
+        function deleteUser(element) {
+            var userId = element.value;
+            $.ajax({
+                type: "POST",
+                url: "/Admin/DeleteUser",
+                data: { userId: userId },
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        };
+
+        /*
+        Create a binding for detecting a dropdown menu change.
+        */
+        $("#roleList").change(filterRoles);
+
+        /*
+        Assigns the materialize hide class to a table row to remove rows from view based on the dropdown menu
+        */
+        function filterRoles() {
+            var selected = $(this).val().replace(" ", "_");
+            if (selected == "All_Roles") {
+                $(".roleRow").removeClass("hide");
+            }
+            else{
+                $(".roleRow").addClass("hide");
+                $("." + selected).removeClass("hide");
+            }
+        }
     </script>
 }    

@@ -32,8 +32,8 @@
         None,
         Patient,
         Physician,
-        ExperimentAdmin,
-        SystemAdmin
+        Experiment_Administrator,
+        System_Administrator
     };
 
     /// <summary>
