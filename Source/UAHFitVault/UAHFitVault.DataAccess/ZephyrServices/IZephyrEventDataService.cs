@@ -29,6 +29,12 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         ZephyrEventData GetZephyrEventData(int id);
 
         /// <summary>
+        /// Bulk Insert Zephyr Event Data into the database
+        /// </summary>
+        /// <param name="zephyrEventData">Collection of Zephyr summary data to insert into database.</param>
+        void BulkInsert(List<ZephyrEventData> zephyrEventData);
+
+        /// <summary>
         /// Save changes to database
         /// </summary>
         void SaveChanges();

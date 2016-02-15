@@ -3,6 +3,8 @@ using System.Linq;
 using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Entities;
 using UAHFitVault.Database.Repositories;
+using UAHFitVault.Database;
+using EntityFramework.BulkInsert.Extensions;
 
 namespace UAHFitVault.DataAccess.ZephyrServices
 {
@@ -68,6 +70,17 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         public void CreateZephyrBreathingWaveform(ZephyrBreathingWaveform zephyrBreathing) {
             if(zephyrBreathing != null) {
                 _repository.Add(zephyrBreathing);
+            }
+        }
+
+        /// <summary>
+        /// Bulk Insert Zephyr Breathing Waveform Data into the database
+        /// </summary>
+        /// <param name="zephyrBreathingData">Collection of Zephyr summary data to insert into database.</param>
+        public void BulkInsert(List<ZephyrBreathingWaveform> zephyrBreathingData) {
+            using (FitVaultContext context = new FitVaultContext()) {
+                context.BulkInsert(zephyrBreathingData);
+
             }
         }
 

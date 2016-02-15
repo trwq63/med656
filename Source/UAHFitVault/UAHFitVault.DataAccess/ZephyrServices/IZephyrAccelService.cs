@@ -29,6 +29,12 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         IEnumerable<ZephyrAccelerometer> GetZephyrAccelerometerData(PatientData patientData);
 
         /// <summary>
+        /// Bulk Insert Zephyr Acceleromater Data into the database
+        /// </summary>
+        /// <param name="zephyrAccel">Collection of Zephyr summary data to insert into database.</param>
+        void BulkInsert(List<ZephyrAccelerometer> zephyrAccel);
+
+        /// <summary>
         /// Save changes to database
         /// </summary>
         void SaveChanges();

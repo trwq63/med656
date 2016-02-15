@@ -8,10 +8,104 @@ namespace UAHFitVault.Models
     public class IndexViewModel
     {
         public bool HasPassword { get; set; }
-        public IList<UserLoginInfo> Logins { get; set; }
+        // public ICollection<TLogin> Logins { get; set; }
+
+        [Phone]
+        [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
+
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+
+        [Display(Name = "Account Role")]
+        public string AccountRole { get; set; }
+
+        [Display(Name = "Weight")]
+        public float Weight { get; set; }
+
+        [Display(Name = "Gender")]
+        public int Gender { get; set; }
+
+        [Display(Name = "Birthdate")]
+        public int Birthdate { get; set; }
+
+        [Display(Name = "Height")]
+        public int Height { get; set; }
+
+        [Display(Name = "Location")]
+        public int Location { get; set; }
+
+        [Display(Name = "Ethnicity")]
+        public int Ethnicity { get; set; }
+
+        [Display(Name = "Race")]
+        public int Race { get; set; }
+
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+    }
+
+    /// <summary>
+    /// Model for updating the user profile.
+    /// </summary>
+    public class UpdateUserViewModel
+    {
+        [Phone]
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+
+        [Display(Name = "Account Role")]
+        public string AccountRole { get; set; }
+
+        [Display(Name = "Weight")]
+        public float Weight { get; set; }
+
+        [Display(Name = "Gender")]
+        public int Gender { get; set; }
+
+        [Display(Name = "Birthdate")]
+        public int Birthdate { get; set; }
+
+        [Display(Name = "Height")]
+        public int Height { get; set; }
+
+        [Display(Name = "Location")]
+        public int Location { get; set; }
+
+        [Display(Name = "Ethnicity")]
+        public int Ethnicity { get; set; }
+
+        [Display(Name = "Race")]
+        public int Race { get; set; }
+
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
     }
 
     public class ManageLoginsViewModel
@@ -28,7 +122,7 @@ namespace UAHFitVault.Models
     public class SetPasswordViewModel
     {
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 10)]
         [DataType(DataType.Password)]
         [Display(Name = "New password")]
         public string NewPassword { get; set; }
@@ -47,7 +141,7 @@ namespace UAHFitVault.Models
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 10)]
         [DataType(DataType.Password)]
         [Display(Name = "New password")]
         public string NewPassword { get; set; }

@@ -57,5 +57,5 @@ namespace UAHFitVault.Database
         }
 
         #endregion
-    }
+    }    
 }

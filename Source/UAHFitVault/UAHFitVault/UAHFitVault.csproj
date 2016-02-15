@@ -56,6 +56,14 @@
       <HintPath>..\packages\Autofac.Mvc5.3.3.4\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework.BulkInsert, Version=6.0.2.8, Culture=neutral, PublicKeyToken=630a17433349cb76, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.BulkInsert-ef6.6.0.2.8\lib\Net45\EntityFramework.BulkInsert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.MappingAPI, Version=6.1.0.9, Culture=neutral, PublicKeyToken=7ee2e825d201459e, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.MappingAPI.6.1.0.9\lib\net45\EntityFramework.MappingAPI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="LumenWorks.Framework.IO, Version=3.9.0.0, Culture=neutral, PublicKeyToken=5ad3ea2f85776344, processorArchitecture=MSIL">
       <HintPath>..\packages\LumenWorksCsvReader.3.9\lib\net20\LumenWorks.Framework.IO.dll</HintPath>
       <Private>True</Private>
@@ -203,6 +211,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AppDbSeedData.cs" />
     <Compile Include="App_Start\Bootstrapper.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -210,40 +219,45 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ExperimentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\SelectDataController.cs" />
+    <Compile Include="Controllers\PatientController.cs" />
+    <Compile Include="Controllers\PhysicianController.cs" />
     <Compile Include="Controllers\UserDashboardController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201601280335467_1_27_16.cs" />
-    <Compile Include="Migrations\201601280335467_1_27_16.Designer.cs">
-      <DependentUpon>201601280335467_1_27_16.cs</DependentUpon>
+    <Compile Include="Helpers\ApplicationUserService.cs" />
+    <Compile Include="Helpers\AuthorizationAttribute.cs" />
+    <Compile Include="Migrations\201602030334585_NewInitial.cs" />
+    <Compile Include="Migrations\201602030334585_NewInitial.Designer.cs">
+      <DependentUpon>201602030334585_NewInitial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AdminViewModel.cs" />
+    <Compile Include="Models\UserInfoModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Roles.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Roles.resx</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\aspnet-UAHFitVault-20160110104509.mdf" />
-    <Content Include="App_Data\aspnet-UAHFitVault-20160110104509_log.ldf">
-      <DependentUpon>aspnet-UAHFitVault-20160110104509.mdf</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\jquery.fullPage.css" />
     <Content Include="Content\materialize\css\materialize.css" />
     <Content Include="Content\materialize\css\materialize.min.css" />
     <Content Include="Content\materialize\font\material-design-icons\LICENSE.txt" />
     <Content Include="Content\materialize\font\material-design-icons\Material-Design-Icons.svg" />
     <Content Include="Content\select-activity.css" />
+    <Content Include="Content\user-dashboards.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
@@ -251,14 +265,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\materialize\font\roboto\Roboto-Thin.woff2" />
     <Content Include="Content\materialize\font\roboto\Roboto-Thin.woff" />
     <Content Include="Content\materialize\font\roboto\Roboto-Thin.ttf" />
@@ -279,12 +285,13 @@
     <Content Include="Content\materialize\font\material-design-icons\Material-Design-Icons.ttf" />
     <Content Include="Content\materialize\font\material-design-icons\Material-Design-Icons.eot" />
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.2.0.js" />
     <Content Include="Scripts\jquery-2.2.0.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
+    <Content Include="Scripts\jquery.easing.1.3.js" />
+    <Content Include="Scripts\jquery.fullPage.js" />
+    <Content Include="Scripts\jquery.fullPage.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -297,6 +304,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\vendors\jquery.easings.min.js" />
+    <Content Include="Scripts\vendors\jquery.slimscroll.js" />
+    <Content Include="Scripts\vendors\jquery.slimscroll.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -335,15 +345,25 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\RequestPhysicianAccountConfirm.cshtml" />
-    <Content Include="Views\UserDashboard\Index.cshtml" />
-    <Content Include="Views\SelectData\Index.cshtml" />
-    <Content Include="Views\Shared\_PatientLayout.cshtml" />
+    <Content Include="Views\Patient\Index.cshtml" />
     <Content Include="Views\Shared\_NoAccessLayout.cshtml" />
     <Content Include="Views\Shared\_LogoffPartial.cshtml" />
     <Content Include="Views\Account\RequestExperimentAdministratorAccountConfirm.cshtml" />
+    <Content Include="Views\Patient\_PartialPatientViewData.cshtml" />
+    <Content Include="Views\Patient\_PartialPatientUploadData.cshtml" />
+    <Content Include="Views\Physician\Index.cshtml" />
+    <Content Include="Views\Experiment\Index.cshtml" />
+    <Content Include="Views\Account\LoginRedirect.cshtml" />
+    <Content Include="Views\Manage\UpdateUser.cshtml" />
+    <Content Include="Views\Manage\ConfirmUpdateUser.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\_PartialPendingUsers.cshtml" />
+    <Content Include="Views\Admin\_PartialUserManagement.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-2.2.0.min.map" />
   </ItemGroup>
@@ -361,10 +381,16 @@
       <Name>UAHFitVault.LogicLayer</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201601280335467_1_27_16.resx">
-      <DependentUpon>201601280335467_1_27_16.cs</DependentUpon>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201602030334585_NewInitial.resx">
+      <DependentUpon>201602030334585_NewInitial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Roles.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Roles.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

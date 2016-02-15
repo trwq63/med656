@@ -3,6 +3,8 @@ using System.Linq;
 using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Entities;
 using UAHFitVault.Database.Repositories;
+using UAHFitVault.Database;
+using EntityFramework.BulkInsert.Extensions;
 
 namespace UAHFitVault.DataAccess.ZephyrServices
 {
@@ -68,6 +70,17 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         public void CreateZephyrEventData(ZephyrEventData zephyrEvent) {
             if(zephyrEvent != null) {
                 _repository.Add(zephyrEvent);
+            }
+        }
+
+        /// <summary>
+        /// Bulk Insert Zephyr Event Data into the database
+        /// </summary>
+        /// <param name="zephyrEventData">Collection of Zephyr summary data to insert into database.</param>
+        public void BulkInsert(List<ZephyrEventData> zephyrEventData) {
+            using (FitVaultContext context = new FitVaultContext()) {
+                context.BulkInsert(zephyrEventData);
+
             }
         }
 

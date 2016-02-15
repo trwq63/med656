@@ -24,4 +24,26 @@
         Breathing
     }
     
+    /// <summary>
+    /// Details the different user types available in the system.
+    /// </summary>
+    public enum UserRole
+    {
+        None,
+        Patient,
+        Physician,
+        Experiment_Administrator,
+        System_Administrator
+    };
+
+    /// <summary>
+    /// Enum used to define the different account statuses.
+    /// </summary>
+    public enum Account_Status
+    {
+        Pending = 0,
+        Active = 1,
+        Inactive = 2
+    }
+    
 }

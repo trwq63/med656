@@ -34,6 +34,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework.MappingAPI, Version=6.1.0.9, Culture=neutral, PublicKeyToken=7ee2e825d201459e, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.MappingAPI.6.1.0.9\lib\net45\EntityFramework.MappingAPI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
@@ -67,19 +71,16 @@
     <Compile Include="Entities\Patient.cs" />
     <Compile Include="Entities\PatientData.cs" />
     <Compile Include="Entities\Physician.cs" />
+    <Compile Include="FitVaultDbSeedData.cs" />
     <Compile Include="Infrastructure\DbFactory.cs" />
     <Compile Include="Infrastructure\IDbFactory.cs" />
     <Compile Include="Infrastructure\IRepository.cs" />
     <Compile Include="Infrastructure\IUnitOfWork.cs" />
     <Compile Include="Infrastructure\RepositoryBase.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
-    <Compile Include="Migrations\201601310309164_1_30_16.cs" />
-    <Compile Include="Migrations\201601310309164_1_30_16.Designer.cs">
-      <DependentUpon>201601310309164_1_30_16.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601310322216_1_30_16-2.cs" />
-    <Compile Include="Migrations\201601310322216_1_30_16-2.Designer.cs">
-      <DependentUpon>201601310322216_1_30_16-2.cs</DependentUpon>
+    <Compile Include="Migrations\201602030335095_NewInitial.cs" />
+    <Compile Include="Migrations\201602030335095_NewInitial.Designer.cs">
+      <DependentUpon>201602030335095_NewInitial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -118,11 +119,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201601310309164_1_30_16.resx">
-      <DependentUpon>201601310309164_1_30_16.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601310322216_1_30_16-2.resx">
-      <DependentUpon>201601310322216_1_30_16-2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602030335095_NewInitial.resx">
+      <DependentUpon>201602030335095_NewInitial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

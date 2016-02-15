@@ -1,0 +1,66 @@
+﻿@using UAHFitVault.Models;
+@using UAHFitVault.LogicLayer.Enums;
+
+@model AdminViewModel
+
+@{ 
+    List<UserInfoModel> users = new List<UserInfoModel>();
+    if (Model.Users != null) {
+        users = Model.Users;
+    }
+}
+
+<div class="container">
+    <div class="center">
+        <span style="font-size: 18px">Select the type of users you wish to view: &nbsp;&nbsp;</span>
+        @Html.DropDownListFor(m => m.SelectedRole, Model.RoleList, new { id = "roleList", style = "max-width: 35%", @class = "btn dropdown-button grey" })
+    </div>
+    <div id="userTable" style="margin-top: 30px">
+        <table class="striped centered responsive-table">
+            <thead>
+                <tr>
+                    <th data-field="username">Name</th>
+                    <th data-field="userrole">Role</th>
+                    <th data-field="userstatus">Status</th>
+                    <th data-field="adminactions">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (UserInfoModel user in users) {
+                    <tr class="@(!string.IsNullOrEmpty(user.Role) ? user.Role.ToString().Replace(" ", "_") : "None") roleRow">
+                        <td>@Html.DisplayFor(i => user.FullName)</td>
+                        @if (!string.IsNullOrEmpty(user.Role)) {
+                            <td>@Html.DisplayFor(i => user.Role)</td>
+                        }
+                        else {
+                            <td>None</td>
+                        }
+                        <td>@user.Status.ToString()</td>
+                        <td>
+                            @{
+                                int index = users.IndexOf(user);
+                                string enableButtonId = "btnEnable" + index;
+                                string disableButtonId = "btnDisable" + index;
+                                string deleteButtonId = "btnDelete" + index;
+                            }
+                            @if (user.Status == Account_Status.Inactive) {
+                                <button id="@enableButtonId" class="waves-effect waves-light btn blue" onclick="enableUser(this)" value="@user.UserId">
+                                    Enable
+                                </button>
+                            }
+                            else if (user.Status == Account_Status.Active) {
+                                <button id="@disableButtonId" class="waves-effect waves-light btn red" onclick="rejectUser(this)" value="@user.UserId">
+                                    Disable
+                                </button>
+                            }
+                            <button id="@deleteButtonId" class="waves-effect waves-light btn grey" onclick="deleteUser(this)" value="@user.UserId">
+                                <i class="material-icons left">delete</i>
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

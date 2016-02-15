@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using EntityFramework.BulkInsert.Extensions;
+using System.Collections.Generic;
 using System.Linq;
-using UAHFitVault.Database.Infrastructure;
+using UAHFitVault.Database;
 using UAHFitVault.Database.Entities;
+using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Repositories;
 
 namespace UAHFitVault.DataAccess.ZephyrServices
@@ -72,10 +74,21 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         }
 
         /// <summary>
+        /// Bulk Insert Zephyr Summary Data into the database
+        /// </summary>
+        /// <param name="zephyrSummaryData">Collection of Zephyr summary data to insert into database.</param>
+        public void BulkInsert(List<ZephyrSummaryData> zephyrSummaryData) {
+            using (FitVaultContext context = new FitVaultContext()) {
+                context.BulkInsert(zephyrSummaryData);
+
+            }
+        }
+
+        /// <summary>
         /// Save changes to database
         /// </summary>
         public void SaveChanges() {
-            _unitOfWork.Commit();
+            _unitOfWork.Commit();            
         }
 
         #endregion

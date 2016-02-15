@@ -1,0 +1,129 @@
+﻿@using UAHFitVault.Models
+@using UAHFitVault.LogicLayer.Enums;
+
+@model AdminViewModel
+
+@{ 
+    List<UserInfoModel> pendingUsers = Model.Users.Where(m => m.Status == Account_Status.Pending).ToList();
+}
+
+<nav id="mainNav" class="top blue darken-3">
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo">Logo</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li data-menuachor="pendingAccounts">
+                <a href="#pendingAccounts">Account Requests</a>
+            </li>
+            <li data-menuachor="manage">
+                <a href="#manage">Manage Users</a>
+            </li>
+            <li data-menuachor="createAdmin">
+                <a href="#createAdmin">Create Admin</a>
+            </li>
+            <li>@Html.Partial("_LogoffPartial")</li>
+        </ul>
+    </div>
+</nav>
+
+<div id="sideNav">
+    <ul id="sideMenu">
+        <li data-menuanchor="pendingAccounts">
+            <a href="#pendingAccounts"></a>
+        </li>
+        <li data-menuanchor="manage">
+            <a href="#manage"></a>
+        </li>
+        <li data-menuanchor="createAdmin">
+            <a href="#createAdmin"></a>
+        </li>
+    </ul>
+</div>
+
+<div id="fullpage" class="fullscreen-wrapper loaded">
+    <section id="pendingAccounts" class="section hierarchical-timig fp-section fp-table active" data-anchor="pendingAccounts" data-delay="500">
+        @Html.Partial("_PartialPendingUsers", pendingUsers)
+    </section>
+    <section id="manage" class="section hierarchical-timig fp-section fp-table" data-anchor="manage" data-delay="500">
+        @Html.Partial("_PartialUserManagement", Model)
+    </section>
+    <section id="createAdmin" class="section hierarchical-timig fp-section fp-table" data-anchor="createAdmin" data-delay="500">
+        <h2>Create Admin Accounts</h2>
+    </section>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#fullpage').fullpage({
+                //anchors: ['pendingAccounts', 'manage', 'createAdmin'],
+                //css3: true,
+                //menu: 'nav-mobile',
+                //scrollingSpeed: 1000
+            });
+        });
+
+        /*
+        Send a request to the admin controller to reject a pending user or disable an active user.
+        */
+        function rejectUser(element) {
+            var userId = element.value;
+            $.ajax({
+                type: "POST",
+                url: "/Admin/RejectUser",
+                data: { userId: userId },
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        };
+
+        /*
+        Send a request to the admin controller to enable an inactive user.
+        */
+        function enableUser(element) {
+            var userId = element.value;
+            $.ajax({
+                type: "POST",
+                url: "/Admin/EnableUser",
+                data: { userId: userId },
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        };
+
+        /*
+        Send a request to the admin controller to delete a user from the system.
+        */
+        function deleteUser(element) {
+            var userId = element.value;
+            $.ajax({
+                type: "POST",
+                url: "/Admin/DeleteUser",
+                data: { userId: userId },
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        };
+
+        /*
+        Create a binding for detecting a dropdown menu change.
+        */
+        $("#roleList").change(filterRoles);
+
+        /*
+        Assigns the materialize hide class to a table row to remove rows from view based on the dropdown menu
+        */
+        function filterRoles() {
+            var selected = $(this).val().replace(" ", "_");
+            if (selected == "All_Roles") {
+                $(".roleRow").removeClass("hide");
+            }
+            else{
+                $(".roleRow").addClass("hide");
+                $("." + selected).removeClass("hide");
+            }
+        }
+    </script>
+}    
