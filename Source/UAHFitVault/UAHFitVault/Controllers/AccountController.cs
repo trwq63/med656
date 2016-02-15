@@ -75,20 +75,20 @@ namespace UAHFitVault.Controllers
             switch (result) {
                 case SignInStatus.Success:
                     /*                    if (User.IsInRole("Physician")) {
-                                            return RedirectToLocal("/Physician/Index");
-                                        }
-                                        else if (User.IsInRole("ExperimentAdmin")) {
-                                            return RedirectToLocal("/Experiment/Index");
-                                        }
-                                        else if (User.IsInRole("Patient")) {
-                                            return RedirectToLocal("/Patient/Index");
-                                        }
-                                        else if (User.IsInRole("SystemAdmin")) {
-                                            return RedirectToLocal("/SystemAdmin/Index");
-                                        }
-                                        else {
-                                            return RedirectToLocal("/Account");
-                                        }
+                        return RedirectToLocal("/Physician/Index");
+                    }
+                    else if (User.IsInRole("ExperimentAdmin")) {
+                        return RedirectToLocal("/Experiment/Index");
+                    }
+                    else if (User.IsInRole("Patient")) {
+                        return RedirectToLocal("/Patient/Index");
+                    }
+                    else if (User.IsInRole("SystemAdmin")) {
+                        return RedirectToLocal("/Admin/Index");
+                    }
+                    else {
+                        return RedirectToLocal("/Account");
+                    }
                                         */
                     return RedirectToLocal("/Account/LoginRedirect");
                 case SignInStatus.LockedOut:
@@ -113,7 +113,7 @@ namespace UAHFitVault.Controllers
             {
                 return RedirectToLocal("/Physician/Index");
             }
-            else if (User.IsInRole("ExperimentAdmin"))
+            else if (User.IsInRole("Experiment Administrator"))
             {
                 return RedirectToLocal("/Experiment/Index");
             }
@@ -121,9 +121,9 @@ namespace UAHFitVault.Controllers
             {
                 return RedirectToLocal("/Patient/Index");
             }
-            else if (User.IsInRole("SystemAdmin"))
+            else if (User.IsInRole("System Administrator"))
             {
-                return RedirectToLocal("/SystemAdmin/Index");
+                return RedirectToLocal("/Admin/Index");
             }
             return View();
         }
@@ -268,7 +268,7 @@ namespace UAHFitVault.Controllers
                         result = await UserManager.UpdateAsync(user);
 
                         //Role must match what is found in the database AspNetRoles table.
-                        result = await UserManager.AddToRoleAsync(user.Id, "ExperimentAdmin");
+                        result = await UserManager.AddToRoleAsync(user.Id, "Experiment Administrator");
                     }
                     else {
                         // Create Physician failed.

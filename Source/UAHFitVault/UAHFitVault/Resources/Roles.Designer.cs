@@ -61,7 +61,16 @@ namespace UAHFitVault.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SystemAdmin.
+        ///   Looks up a localized string similar to 4.
+        /// </summary>
+        internal static string ADMIN_ROLE_DB_TABLE_ID {
+            get {
+                return ResourceManager.GetString("ADMIN_ROLE_DB_TABLE_ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System Administrator.
         /// </summary>
         internal static string ROLES_ADMIN {
             get {
@@ -70,7 +79,7 @@ namespace UAHFitVault.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ExperimentAdmin.
+        ///   Looks up a localized string similar to Experiment Administrator.
         /// </summary>
         internal static string ROLES_EXPERIMENTADMIN {
             get {

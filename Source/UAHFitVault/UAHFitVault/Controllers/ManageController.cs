@@ -73,18 +73,19 @@ namespace UAHFitVault.Controllers
             
             if (User.IsInRole(UserRole.Patient.ToString())) {
                 userRole = UserRole.Patient;
-                accountRole = "Patient";
+                accountRole = UserRole.Patient.ToString();
             }
             else if (User.IsInRole(UserRole.Physician.ToString())) {
                 userRole = UserRole.Physician;
-                accountRole = "Physician";
+                accountRole = UserRole.Physician.ToString();
             }
-            else if (User.IsInRole(UserRole.ExperimentAdmin.ToString())) {
-                userRole = UserRole.ExperimentAdmin;
-                accountRole = "Experiment Administrator";
+            else if (User.IsInRole(UserRole.Experiment_Administrator.ToString().Replace("_", " "))) {
+                
+                accountRole = UserRole.Experiment_Administrator.ToString().Replace("_", " ");
             } else
             {
-                accountRole = "System Administrator";
+                userRole = UserRole.System_Administrator;
+                accountRole = UserRole.System_Administrator.ToString().Replace("_", " ");                
             }
 
             ViewBag.StatusMessage =
@@ -139,7 +140,7 @@ namespace UAHFitVault.Controllers
                     break;
 
 
-                case UserRole.ExperimentAdmin:
+                case UserRole.Experiment_Administrator:
                     // Experiment Administrator
                     ExperimentAdministrator experimentAdministrator = new ExperimentAdministrator();
                     experimentAdministrator = _experimentAdminService.GetExperimentAdministrator(user.ExperimentAdministratorId);
@@ -154,7 +155,7 @@ namespace UAHFitVault.Controllers
                     break;
 
 
-                case UserRole.SystemAdmin:
+                case UserRole.System_Administrator:
                     // System Admin
                     model.Username = user.UserName;
                     break;

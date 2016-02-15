@@ -9,7 +9,7 @@ using UAHFitVault.LogicLayer.Enums;
 namespace UAHFitVault.LogicLayer.LogicFiles
 {
     /// <summary>
-    /// Class contains the logic functions needed by the SelectLogicController
+    /// Class contains the logic functions needed to work with Patient functionality
     /// </summary>
     public static class PatientLogic
     {
