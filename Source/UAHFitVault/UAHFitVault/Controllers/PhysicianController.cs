@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UAHFitVault.DataAccess;
 using UAHFitVault.Database.Entities;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace UAHFitVault.Controllers
 {
@@ -54,11 +55,10 @@ namespace UAHFitVault.Controllers
         [HttpPost]
         public ActionResult CreatePatient (CreatePatientViewModel model)
         {
-            Conversions convert = new Conversions();
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             Physician physician = _physicianService.GetPhysician(user.PhysicianId);
 
-            string patientUsername = user.UserName + (physician.PatientCount+1).ToString();
+            string patientUsername = user.UserName + (physician.Patients.Count()+1).ToString();
             model.Username = patientUsername;
 
             if (patientUsername == null)
@@ -69,9 +69,9 @@ namespace UAHFitVault.Controllers
             }
 
             // Conversions from the model
-            int race = convert.GenderRaceStringToInt(model.Race);
-            int gender = convert.PatientGenderStringToInt(model.Gender);
-            int ethnicity = convert.PatientEthnicityStringToInt(model.Ethnicity);
+            int race = (int)Enum.Parse(typeof(PatientRace), model.Race);//convert.GenderRaceStringToInt(model.Race);
+            int gender = (int)Enum.Parse(typeof(PatientGender), model.Gender);//convert.PatientGenderStringToInt(model.Gender);
+            int ethnicity = (int)Enum.Parse(typeof(PatientEthnicity), model.Ethnicity);// convert.PatientEthnicityStringToInt(model.Ethnicity);
 
 
             // Check if the user is already in the database.
@@ -88,43 +88,50 @@ namespace UAHFitVault.Controllers
                 // Proceed to add the user to the database.
                 Patient patient = new Patient();
 
-                patient.Age = 0; //model.Birthdate; // Need to fix this, temporarily putting in 0.
+                patient.Birthdate = DateTime.Now; //model.Birthdate; // Need to fix this, temporarily putting in 0.
                 patient.Height = model.Height;
                 patient.Weight = model.Weight;
                 patient.Location = 12;//model.Location; // Need to fix this. temporarily putting in 12.
                 patient.Ethnicity = ethnicity;
                 patient.Gender = gender;
                 patient.Race = race;
+                patient.Physician = physician;
                 
-                var newUser = new ApplicationUser { UserName = patientUsername, Email = patientUsername+ "@null.com" };
+                var newUser = new ApplicationUser { UserName = patientUsername };
                 if ((newUser != null) && (model.Password != null))
-                {
-                    var result = UserManager.Create(newUser, model.Password);
-                    
-                    if (result.Succeeded)
-                    {
-                        // User added to database successfully.
-                        _patientService.CreatePatient(patient);
-                        _patientService.SaveChanges();
-                        newUser.PatientId = patient.Id;
-                        patient.Physician = physician;
-                        physician.PatientCount++;
-                        _physicianService.SaveChanges();
+                {                
+                    //Create a new context to change the user creation validation rules for the patient only.
+                    using (ApplicationDbContext context = new ApplicationDbContext()) {
+                        var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+                        // This user validator is being created only to remove email as a required field for creating a user.
+                        // The email field in the AspNetUsers table is nullable and our requirments state that a patient does not
+                        // have an email address so in order to satisfy that requiremnt we need to remove the required email
+                        // parameter on user creation validation.
+                        manager.UserValidator = new UserValidator<ApplicationUser>(manager) {
+                            AllowOnlyAlphanumericUserNames = false,
+                            RequireUniqueEmail = false
+                        };
+                        var result = manager.Create(newUser, model.Password);
 
-                        result = UserManager.Update(newUser);
+                        if (result.Succeeded) {
+                            // User added to database successfully.
+                            _patientService.CreatePatient(patient);
+                            _patientService.SaveChanges();
+                            newUser.PatientId = patient.Id;
 
-                        //Role must match what is found in the database AspNetRoles table.
-                        result = UserManager.AddToRole(newUser.Id, "Patient");
-                    }
-                    else
-                    {
-                        // User failed to add.
-                        ModelState.Clear();
-                        foreach (string error in result.Errors)
-                        {
-                            ModelState.AddModelError("ResultError", error);
+                            result = UserManager.Update(newUser);
+
+                            //Role must match what is found in the database AspNetRoles table.
+                            result = UserManager.AddToRole(newUser.Id, "Patient");
                         }
-                        return View(model);
+                        else {
+                            // User failed to add.
+                            ModelState.Clear();
+                            foreach (string error in result.Errors) {
+                                ModelState.AddModelError("ResultError", error);
+                            }
+                            return View(model);
+                        }
                     }
                 }
                 else

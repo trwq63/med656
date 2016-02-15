@@ -19,7 +19,7 @@ namespace UAHFitVault.Database.Entities
 
         public int Id { get; set; }
         [Required]
-        public int Age { get; set; }
+        public DateTime Birthdate { get; set; }
         [Required]
         public float Weight { get; set; }
         [Required]

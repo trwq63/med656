@@ -119,7 +119,7 @@ namespace UAHFitVault.Controllers
                     model.Race = patient.Race;
                     model.Ethnicity = patient.Ethnicity;
                     model.Location = patient.Location;
-                    model.Birthdate = patient.Age;      // This needs to to birthdate.
+                    model.Birthdate = patient.Birthdate;     
                     model.Gender = patient.Gender;
 
                     break;
@@ -210,7 +210,7 @@ namespace UAHFitVault.Controllers
             {
                 Patient patient = new Patient();
                 patient = _patientService.GetPatient(user.PatientId);
-                patient.Age = model.Birthdate;
+                patient.Birthdate = model.Birthdate;
                 patient.Ethnicity = model.Ethnicity;
                 patient.Race = model.Race;
                 patient.Height = model.Height;
