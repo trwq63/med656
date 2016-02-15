@@ -4,8 +4,8 @@
 }
 
 @section headers{
-    <link rel='stylesheet' type='text/css' href="~/Content/user-dashboards.css" media="screen,projection" />    
-    <link type="text/css" rel="stylesheet" href="~/Content/select-activity.css" media="screen,projection" />
+    <link rel='stylesheet' type='text/css' href="~/Content/user-dashboards.css" media="screen,projection" />  
+    <link rel='stylesheet' type='text/css' href="~/Scripts/pickadate/themes/default.css" media="screen,projection" />  
 }
 
 <nav id="mainNav" class="top blue darken-3">
@@ -53,12 +53,20 @@
 </div>
 
 @section scripts{
+    <script src="~/Scripts/pickadate/picker.js"></script>
+    <script src="~/Scripts/pickadate/picker.date.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#fullpage').fullpage({
                 css3: true,
                 scrollingSpeed: 1000
             });
+
+            $('.datepicker').pickadate({
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 15 // Creates a dropdown of 15 years to control year
+            });
         });
+
     </script>
 }    
