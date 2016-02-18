@@ -182,6 +182,65 @@ namespace UAHFitVault.Controllers
 
             return null;
         }
+
+        /// <summary>
+        /// The controller used for creating a system admin
+        /// </summary>
+        /// <returns>View for creating system admin</returns>
+        public ActionResult CreateAdmin ()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Controller used after the user presses the submit button on the Create Admin view.
+        /// </summary>
+        /// <param name="model">Content passed in from the model</param>
+        /// <returns>View for creating the </returns>
+        [HttpPost]
+        public ActionResult CreateAdmin (CreateAdminModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                ApplicationUser newUser = new ApplicationUser { UserName = model.Username, Email = model.Email };
+
+                var result = manager.Create(newUser, model.Password);
+
+                if (result.Succeeded)
+                {
+                    // User was added successfully.
+                    CreateAdminModel newModel = new CreateAdminModel();
+                    newModel.Username = model.Username;
+                    newModel.Email = model.Email;
+                    manager.AddToRole(newUser.Id, "System Administrator"); // Add new user as a system administrator
+                    return RedirectToAction("CreateAdminConfirm", newModel);
+                                //new System.Web.Routing.RouteValueDictionary (new { model = newModel }));
+                }
+                else
+                {
+                    // Add all errors to the model state and return.
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                    return View(model);
+                }
+
+            }
+            return View(model);
+        }
+
+        /// <summary>
+        /// The controller for displaying the confirmation view for creating a new system admin
+        /// </summary>
+        /// <param name="model">Parameters for new system admin</param>
+        /// <returns></returns>
+        public ActionResult CreateAdminConfirm (CreateAdminModel model)
+        {
+            return View(model);
+        }
+
         #region Protected Methods
 
         /// <summary>
