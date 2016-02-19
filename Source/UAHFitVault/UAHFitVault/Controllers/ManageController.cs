@@ -158,6 +158,7 @@ namespace UAHFitVault.Controllers
                 case UserRole.System_Administrator:
                     // System Admin
                     model.Username = user.UserName;
+                    model.Email = user.Email;
                     break;
 
 
@@ -224,30 +225,34 @@ namespace UAHFitVault.Controllers
                 Physician physician = new Physician();
                 physician = _physicianService.GetPhysician(user.PhysicianId);
                 physician.Email = model.Email;
+                user.Email = model.Email;
                 physician.Address = model.Address;
                 physician.FirstName = model.FirstName;
                 physician.LastName = model.LastName;
                 physician.PhoneNumber = model.PhoneNumber;
                 _physicianService.SaveChanges();
             }
-            else if (User.IsInRole("ExperimentAdmin"))
+            else if (User.IsInRole("Experiment Administrator"))
             {
                 ExperimentAdministrator experimentAdministrator = new ExperimentAdministrator();
                 experimentAdministrator = _experimentAdminService.GetExperimentAdministrator(user.ExperimentAdministratorId);
                 experimentAdministrator.Email = model.Email;
+                user.Email = model.Email;
                 experimentAdministrator.Address = model.Address;
                 experimentAdministrator.FirstName = model.FirstName;
                 experimentAdministrator.LastName = model.LastName;
                 experimentAdministrator.PhoneNumber = model.PhoneNumber;
                 _experimentAdminService.SaveChanges();
             }
-            else if (User.IsInRole("SystemAdmin"))
+            else if (User.IsInRole("System Administrator"))
             {
                 // Not yet implemented.
+                user.Email = model.Email;
             }
             else
             {
                 // Error path.
+                ModelState.AddModelError("", "ERROR: User role not specified.");
                 return View();
             }
 
