@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B5B06C11-64EC-49D3-AF99-C992B352D8F8}</ProjectGuid>
+    <ProjectGuid>{30DA5DFB-9E6E-4B99-A038-73B6EAC01813}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UAHFitVault.LogicLayer.Tests</RootNamespace>
@@ -37,17 +37,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LumenWorks.Framework.IO">
-      <HintPath>..\UAHFitVault.LogicLayer\bin\Release\LumenWorks.Framework.IO.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ExtendedReflection">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\Pex\Microsoft.ExtendedReflection.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Pex.Framework">
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\Pex\Microsoft.Pex.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UAHFitVault.Database\UAHFitVault.Database.csproj">
@@ -60,33 +53,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PatientLogicTest.cs" />
+    <Compile Include="PatientLogicTest.DetermineDeviceType.g.cs">
+      <DependentUpon>PatientLogicTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\PexAssemblyInfo.cs" />
-    <Compile Include="SelectDataLogicTest.BuildBasisPeakSummaryDataList.g.cs">
-      <DependentUpon>SelectDataLogicTest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SelectDataLogicTest.BuildZephyrAccelDataList.g.cs">
-      <DependentUpon>SelectDataLogicTest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SelectDataLogicTest.BuildZephyrBreathingDataList.g.cs">
-      <DependentUpon>SelectDataLogicTest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SelectDataLogicTest.BuildZephyrEcgDataList.g.cs">
-      <DependentUpon>SelectDataLogicTest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SelectDataLogicTest.BuildZephyrEventDataList.g.cs">
-      <DependentUpon>SelectDataLogicTest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SelectDataLogicTest.BuildZephyrSummaryDataList.g.cs">
-      <DependentUpon>SelectDataLogicTest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SelectDataLogicTest.cs" />
-    <Compile Include="SelectDataLogicTest.DetermineDeviceType.g.cs">
-      <DependentUpon>SelectDataLogicTest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SelectDataLogicTest.DetermineFileType.g.cs">
-      <DependentUpon>SelectDataLogicTest.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">

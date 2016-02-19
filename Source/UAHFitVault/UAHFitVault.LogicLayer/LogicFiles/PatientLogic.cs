@@ -24,7 +24,9 @@ namespace UAHFitVault.LogicLayer.LogicFiles
         public static MedicalDevice DetermineDeviceType(List<MedicalDevice> medicalDeviceTypes, string deviceType) {
             MedicalDevice medicalDevice = null;
 
+
             if(medicalDeviceTypes != null && medicalDeviceTypes.Count > 0 && !string.IsNullOrEmpty(deviceType)) {
+                medicalDeviceTypes.RemoveAll(item => item == null);
                 medicalDevice = medicalDeviceTypes.FirstOrDefault(m => m.Name == deviceType);
             }
 
