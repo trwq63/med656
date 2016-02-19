@@ -203,7 +203,7 @@ namespace UAHFitVault.Controllers
             if (ModelState.IsValid)
             {
                 ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                ApplicationUser newUser = new ApplicationUser { UserName = model.Username, Email = model.Email };
+                ApplicationUser newUser = new ApplicationUser { UserName = model.Username, Email = model.Email, Status = (int)Account_Status.Active };
 
                 var result = manager.Create(newUser, model.Password);
 
