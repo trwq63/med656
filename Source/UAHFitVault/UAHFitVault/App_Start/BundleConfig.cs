@@ -10,7 +10,9 @@ namespace UAHFitVault
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-2.2.0.min.js",
-                        "~/Scripts/jquery.blockUI.js"));
+                        "~/Scripts/jquery.blockUI.js",
+                        "~/Scripts/jquery.fullPage.min.js",
+                        "~/Scripts/jquery.easing.1.3.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -32,7 +34,9 @@ namespace UAHFitVault
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/materialize/css/materialize.css",
-                      "~/Content/site.css"));
+                      //       "~/Content/site.css",
+                      "~/Content/user-dashboards.css",
+                      "~/Content/jquery.fullPage.css"));
 
 
         }

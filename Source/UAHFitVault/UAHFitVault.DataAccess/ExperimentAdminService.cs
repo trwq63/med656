@@ -89,6 +89,19 @@ namespace UAHFitVault.DataAccess
         }
 
         /// <summary>
+        /// Delete an experiment administrator user from the database.
+        /// </summary>
+        /// <param name="id"></param>
+        public void DeleteExperimentAdministrator(int id) {
+            if (id > 0) {
+                ExperimentAdministrator expAdmin = GetExperimentAdministrator(id);
+                if (expAdmin != null) {
+                    _experimentAdminRepository.Delete(expAdmin);
+                }
+            }
+        }
+
+        /// <summary>
         /// Save changes to database
         /// </summary>
         public void SaveChanges() {

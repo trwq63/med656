@@ -1,0 +1,114 @@
+﻿@model UAHFitVault.Models.UpdateUserViewModel
+
+@{
+    ViewBag.Title="Confirm Update User";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+@using (Html.BeginForm("ConfirmUpdateUser", "Manage", FormMethod.Post))
+{
+    <h2>@ViewBag.Title</h2>
+    <hr />
+    <h4>Please confirm you wish to update your (@Model.Username)@Html.HiddenFor(m => m.Username) settings to the following:</h4>
+    <table>
+        @if (User.IsInRole("Patient"))
+        {
+            /* Birthdate, Weight, Height, Location, Ethnicity, Race, Gender
+            */
+            <tr>
+                <td>@Html.LabelFor(m => m.Birthdate)</td>
+                <td>@Html.DisplayFor(m => m.Birthdate)@Html.HiddenFor(m => m.Birthdate)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Weight)</td>
+                <td>@Html.DisplayFor(m => m.Weight)@Html.HiddenFor(m => m.Weight)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Height)</td>
+                <td>@Html.DisplayFor(m => m.Height)@Html.HiddenFor(m => m.Height)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Location)</td>
+                <td>@Html.DisplayFor(m => m.Location)@Html.HiddenFor(m => m.Location)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Ethnicity)</td>
+                <td>@Html.DisplayFor(m => m.Ethnicity)@Html.HiddenFor(m => m.Ethnicity)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Race)</td>
+                <td>@Html.DisplayFor(m => m.Race)@Html.HiddenFor(m => m.Race)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Gender)</td>
+                <td>@Html.DisplayFor(m => m.Gender)@Html.HiddenFor(m => m.Gender)</td>
+            </tr>
+        }
+        else if (User.IsInRole("Physician"))
+        {
+            /* Firstname, Lastname, Address, Email, Phone Number
+            */
+
+            <tr>
+                <td>@Html.LabelFor(m => m.FirstName)</td>
+                <td>@Html.DisplayFor(m => m.FirstName)@Html.HiddenFor(m => m.FirstName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.LastName)</td>
+                <td>@Html.DisplayFor(m => m.LastName)@Html.HiddenFor(m => m.LastName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Address)</td>
+                <td>@Html.DisplayFor(m => m.Address)@Html.HiddenFor(m => m.Address)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Email)</td>
+                <td>@Html.DisplayFor(m => m.Email)@Html.HiddenFor(m => m.Email)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.PhoneNumber)</td>
+                <td>@Html.DisplayFor(m => m.PhoneNumber)@Html.HiddenFor(m => m.PhoneNumber)</td>
+            </tr>
+        }
+        else if (User.IsInRole("ExperimentAdmin"))
+        {
+            /* Firstname, Lastname, Address, Email, Phone Number
+            */
+
+            <tr>
+                <td>@Html.LabelFor(m => m.FirstName)</td>
+                <td>@Html.DisplayFor(m => m.FirstName)@Html.HiddenFor(m => m.FirstName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.LastName)</td>
+                <td>@Html.DisplayFor(m => m.LastName)@Html.HiddenFor(m => m.LastName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Address)</td>
+                <td>@Html.DisplayFor(m => m.Address)@Html.HiddenFor(m => m.Address)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Email)</td>
+                <td>@Html.DisplayFor(m => m.Email)@Html.HiddenFor(m => m.Email)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.PhoneNumber)</td>
+                <td>@Html.DisplayFor(m => m.PhoneNumber)@Html.HiddenFor(m => m.PhoneNumber)</td>
+            </tr>
+        }
+        else if (User.IsInRole("SystemAdmin"))
+        {
+            /* TBD */
+        }
+    </table>
+    <input type="submit" class="btn btn-default" value="Confirm" />
+    <input type="button" value="Cancel" class="btn" onclick="location.href = '/Account/LoginRedirect';" />
+}
+</body>
+</html>

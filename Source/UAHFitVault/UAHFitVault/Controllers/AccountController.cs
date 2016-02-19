@@ -1,16 +1,13 @@
-﻿using System;
-using System.Globalization;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using UAHFitVault.Models;
 using UAHFitVault.DataAccess;
 using UAHFitVault.Database.Entities;
+using UAHFitVault.Models;
 
 namespace UAHFitVault.Controllers
 {
@@ -25,39 +22,31 @@ namespace UAHFitVault.Controllers
         private readonly IAccountRequestService _accountRequestService;
 
         public AccountController(IPhysicianService physicianService, IExperimentAdminService experimentAdminService,
-            IAccountRequestService accountRequestService)
-        {
+            IAccountRequestService accountRequestService) {
             _physicianService = physicianService;
             _experimentAdminService = experimentAdminService;
             _accountRequestService = accountRequestService;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
-        {
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager) {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
+        public ApplicationSignInManager SignInManager {
+            get {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set {
+                _signInManager = value;
             }
         }
 
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
+        public ApplicationUserManager UserManager {
+            get {
                 return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
-            private set
-            {
+            private set {
                 _userManager = value;
             }
         }
@@ -65,8 +54,7 @@ namespace UAHFitVault.Controllers
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
-        {
+        public ActionResult Login(string returnUrl) {
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -76,20 +64,33 @@ namespace UAHFitVault.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl) {
+            if (!ModelState.IsValid) {
                 return View(model);
             }
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
-            {
+            switch (result) {
                 case SignInStatus.Success:
-                    return RedirectToLocal("/UserDashboard");
+                    /*                    if (User.IsInRole("Physician")) {
+                        return RedirectToLocal("/Physician/Index");
+                    }
+                    else if (User.IsInRole("ExperimentAdmin")) {
+                        return RedirectToLocal("/Experiment/Index");
+                    }
+                    else if (User.IsInRole("Patient")) {
+                        return RedirectToLocal("/Patient/Index");
+                    }
+                    else if (User.IsInRole("SystemAdmin")) {
+                        return RedirectToLocal("/Admin/Index");
+                    }
+                    else {
+                        return RedirectToLocal("/Account");
+                    }
+                                        */
+                    return RedirectToLocal("/Account/LoginRedirect");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -101,14 +102,38 @@ namespace UAHFitVault.Controllers
             }
         }
 
+        /// <summary>
+        /// LoginRedirect - handles the redirect from the user logging in to the system.
+        ///   The User global variable is not accessible in the Login function.
+        /// </summary>
+        /// <returns>ActionResult</returns>
+        public ActionResult LoginRedirect ()
+        {
+            if (User.IsInRole("Physician"))
+            {
+                return RedirectToLocal("/Physician/Index");
+            }
+            else if (User.IsInRole("Experiment Administrator"))
+            {
+                return RedirectToLocal("/Experiment/Index");
+            }
+            else if (User.IsInRole("Patient"))
+            {
+                return RedirectToLocal("/Patient/Index");
+            }
+            else if (User.IsInRole("System Administrator"))
+            {
+                return RedirectToLocal("/Admin/Index");
+            }
+            return View();
+        }
+
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
-        public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
-        {
+        public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe) {
             // Require that the user has already logged in via username/password or external login
-            if (!await SignInManager.HasBeenVerifiedAsync())
-            {
+            if (!await SignInManager.HasBeenVerifiedAsync()) {
                 return View("Error");
             }
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
@@ -119,10 +144,8 @@ namespace UAHFitVault.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model) {
+            if (!ModelState.IsValid) {
                 return View(model);
             }
 
@@ -130,9 +153,8 @@ namespace UAHFitVault.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
-            switch (result)
-            {
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
+            switch (result) {
                 case SignInStatus.Success:
                     return RedirectToLocal(model.ReturnUrl);
                 case SignInStatus.LockedOut:
@@ -147,8 +169,7 @@ namespace UAHFitVault.Controllers
         //
         // GET: /Account/RequestAccount
         [AllowAnonymous]
-        public ActionResult RequestAccount()
-        {
+        public ActionResult RequestAccount() {
             return View();
         }
 
@@ -157,14 +178,11 @@ namespace UAHFitVault.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RequestAccount(RequestAccountViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
+        public async Task<ActionResult> RequestAccount(RequestAccountViewModel model) {
+            if (ModelState.IsValid) {
                 string accountType = Request["AccountType"];
 
-                if (accountType == "Physician")
-                {
+                if (accountType == "Physician") {
                     Physician physician = new Physician() {
                         FirstName = model.FirstName,
                         LastName = model.LastName,
@@ -180,9 +198,8 @@ namespace UAHFitVault.Controllers
                     };
 
                     var result = await UserManager.CreateAsync(user, model.Password);
-                    
-                    if (result.Succeeded)
-                    {
+
+                    if (result.Succeeded) {
                         // Successful account creation; add user to Physician database.
                         _physicianService.CreatePhysician(physician);
                         _physicianService.SaveChanges();
@@ -190,7 +207,7 @@ namespace UAHFitVault.Controllers
                         AccountRequest newUser = new AccountRequest() {
                             ReasonForAccount = model.ReasonForAccount
                         };
-                        
+
                         _accountRequestService.CreateAccountRequest(newUser);
                         _accountRequestService.SaveChanges();
 
@@ -198,44 +215,44 @@ namespace UAHFitVault.Controllers
                         user.AccountRequestId = newUser.Id;
                         result = await UserManager.UpdateAsync(user);
 
+                        //Role must match what is found in the database AspNetRoles table.
+                        result = await UserManager.AddToRoleAsync(user.Id, "Physician");
+
                     }
-                    else
-                    {
+                    else {
                         // Create Physician failed.
                         AddErrors(result);
                         return View(model);
                     }
 
                     return RedirectToAction("RequestPhysicianAccountConfirm", new System.Web.Routing.RouteValueDictionary(
-                        new { email = physician.Email,
+                        new {
+                            email = physician.Email,
                             address = physician.Address,
                             phoneNumber = physician.PhoneNumber,
                             firstName = physician.FirstName,
                             lastName = physician.LastName,
-                            reasonForAccount = model.ReasonForAccount}));
+                            reasonForAccount = model.ReasonForAccount
+                        }));
                 }
-                else if (accountType == "ExperimentAdministrator")
-                {
-                    ExperimentAdministrator experimentAdministrator = new ExperimentAdministrator()
-                    {
+                else if (accountType == "ExperimentAdministrator") {
+                    ExperimentAdministrator experimentAdministrator = new ExperimentAdministrator() {
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         Email = model.Email,
                         Address = model.Address,
                         PhoneNumber = model.PhoneNumber
                     };
-                    
+
                     // Write to ASP user database
-                    var user = new ApplicationUser
-                    {
+                    var user = new ApplicationUser {
                         UserName = model.Username,
                         Email = model.Email
                     };
 
                     var result = await UserManager.CreateAsync(user, model.Password);
 
-                    if (result.Succeeded)
-                    {
+                    if (result.Succeeded) {
                         // Successful account creation; add user to Experiment Administrator database.
                         _experimentAdminService.CreateExperimentAdministrator(experimentAdministrator);
                         _experimentAdminService.SaveChanges();
@@ -249,17 +266,18 @@ namespace UAHFitVault.Controllers
                         user.ExperimentAdministratorId = experimentAdministrator.Id;
                         user.AccountRequestId = newUser.Id;
                         result = await UserManager.UpdateAsync(user);
+
+                        //Role must match what is found in the database AspNetRoles table.
+                        result = await UserManager.AddToRoleAsync(user.Id, "Experiment Administrator");
                     }
-                    else
-                    {
+                    else {
                         // Create Physician failed.
                         AddErrors(result);
                         return View(model);
                     }
 
                     return RedirectToAction("RequestExperimentAdministratorAccountConfirm", new System.Web.Routing.RouteValueDictionary(
-                        new
-                        {
+                        new {
                             email = experimentAdministrator.Email,
                             address = experimentAdministrator.Address,
                             phoneNumber = experimentAdministrator.PhoneNumber,
@@ -268,8 +286,7 @@ namespace UAHFitVault.Controllers
                             reasonForAccount = model.ReasonForAccount
                         }));
                 }
-                else
-                {
+                else {
                     // ERROR: Shouldn't be here.
                     return View("Error");
                 }
@@ -304,9 +321,8 @@ namespace UAHFitVault.Controllers
         //
         // GET: /Account/RequestExperimentAdministratorAccountConfirm
         [AllowAnonymous]
-        public ActionResult RequestExperimentAdministratorAccountConfirm (string email, string address, string phoneNumber,
-            string firstName, string lastName, string reasonForAccount)
-        {
+        public ActionResult RequestExperimentAdministratorAccountConfirm(string email, string address, string phoneNumber,
+            string firstName, string lastName, string reasonForAccount) {
             ViewData["Email"] = email;
             ViewData["Address"] = address;
             ViewData["FirstName"] = firstName;
@@ -319,9 +335,8 @@ namespace UAHFitVault.Controllers
         //
         // GET: /Account/RequestPhysicianAccountConfirm
         [AllowAnonymous]
-        public ActionResult RequestPhysicianAccountConfirm(string email, string address, string phoneNumber, 
-            string firstName, string lastName, string reasonForAccount)
-        {
+        public ActionResult RequestPhysicianAccountConfirm(string email, string address, string phoneNumber,
+            string firstName, string lastName, string reasonForAccount) {
             ViewData["Email"] = email;
             ViewData["Address"] = address;
             ViewData["FirstName"] = firstName;
@@ -334,10 +349,8 @@ namespace UAHFitVault.Controllers
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userId, string code)
-        {
-            if (userId == null || code == null)
-            {
+        public async Task<ActionResult> ConfirmEmail(string userId, string code) {
+            if (userId == null || code == null) {
                 return View("Error");
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
@@ -347,8 +360,7 @@ namespace UAHFitVault.Controllers
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
-        public ActionResult ForgotPassword()
-        {
+        public ActionResult ForgotPassword() {
             return View();
         }
 
@@ -357,13 +369,10 @@ namespace UAHFitVault.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model) {
+            if (ModelState.IsValid) {
                 var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
-                {
+                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id))) {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
                 }
@@ -383,16 +392,14 @@ namespace UAHFitVault.Controllers
         //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
-        public ActionResult ForgotPasswordConfirmation()
-        {
+        public ActionResult ForgotPasswordConfirmation() {
             return View();
         }
 
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
-        public ActionResult ResetPassword(string code)
-        {
+        public ActionResult ResetPassword(string code) {
             return code == null ? View("Error") : View();
         }
 
@@ -401,21 +408,17 @@ namespace UAHFitVault.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model) {
+            if (!ModelState.IsValid) {
                 return View(model);
             }
             var user = await UserManager.FindByNameAsync(model.Email);
-            if (user == null)
-            {
+            if (user == null) {
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-            if (result.Succeeded)
-            {
+            if (result.Succeeded) {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             AddErrors(result);
@@ -425,8 +428,7 @@ namespace UAHFitVault.Controllers
         //
         // GET: /Account/ResetPasswordConfirmation
         [AllowAnonymous]
-        public ActionResult ResetPasswordConfirmation()
-        {
+        public ActionResult ResetPasswordConfirmation() {
             return View();
         }
 
@@ -435,8 +437,7 @@ namespace UAHFitVault.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ExternalLogin(string provider, string returnUrl)
-        {
+        public ActionResult ExternalLogin(string provider, string returnUrl) {
             // Request a redirect to the external login provider
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
@@ -444,11 +445,9 @@ namespace UAHFitVault.Controllers
         //
         // GET: /Account/SendCode
         [AllowAnonymous]
-        public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
-        {
+        public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe) {
             var userId = await SignInManager.GetVerifiedUserIdAsync();
-            if (userId == null)
-            {
+            if (userId == null) {
                 return View("Error");
             }
             var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
@@ -461,16 +460,13 @@ namespace UAHFitVault.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SendCode(SendCodeViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
+        public async Task<ActionResult> SendCode(SendCodeViewModel model) {
+            if (!ModelState.IsValid) {
                 return View();
             }
 
             // Generate the token and send it
-            if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
-            {
+            if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider)) {
                 return View("Error");
             }
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
@@ -479,18 +475,15 @@ namespace UAHFitVault.Controllers
         //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
-        public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
-        {
+        public async Task<ActionResult> ExternalLoginCallback(string returnUrl) {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
-            if (loginInfo == null)
-            {
+            if (loginInfo == null) {
                 return RedirectToAction("Login");
             }
 
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
-            switch (result)
-            {
+            switch (result) {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
@@ -511,28 +504,22 @@ namespace UAHFitVault.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
+        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl) {
+            if (User.Identity.IsAuthenticated) {
                 return RedirectToAction("Index", "Manage");
             }
 
-            if (ModelState.IsValid)
-            {
+            if (ModelState.IsValid) {
                 // Get the information about the user from the external login provider
                 var info = await AuthenticationManager.GetExternalLoginInfoAsync();
-                if (info == null)
-                {
+                if (info == null) {
                     return View("ExternalLoginFailure");
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
-                if (result.Succeeded)
-                {
+                if (result.Succeeded) {
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
-                    if (result.Succeeded)
-                    {
+                    if (result.Succeeded) {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         return RedirectToLocal(returnUrl);
                     }
@@ -548,8 +535,7 @@ namespace UAHFitVault.Controllers
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
-        {
+        public ActionResult LogOff() {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
@@ -557,23 +543,18 @@ namespace UAHFitVault.Controllers
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
-        public ActionResult ExternalLoginFailure()
-        {
+        public ActionResult ExternalLoginFailure() {
             return View();
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_userManager != null)
-                {
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
+                if (_userManager != null) {
                     _userManager.Dispose();
                     _userManager = null;
                 }
 
-                if (_signInManager != null)
-                {
+                if (_signInManager != null) {
                     _signInManager.Dispose();
                     _signInManager = null;
                 }
@@ -586,26 +567,20 @@ namespace UAHFitVault.Controllers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
+        private IAuthenticationManager AuthenticationManager {
+            get {
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
 
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
+        private void AddErrors(IdentityResult result) {
+            foreach (var error in result.Errors) {
                 ModelState.AddModelError("", error);
             }
         }
 
-        private ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
+        private ActionResult RedirectToLocal(string returnUrl) {
+            if (Url.IsLocalUrl(returnUrl)) {
                 return Redirect(returnUrl);
             }
             return RedirectToAction("Index", "Home");
@@ -614,12 +589,10 @@ namespace UAHFitVault.Controllers
         internal class ChallengeResult : HttpUnauthorizedResult
         {
             public ChallengeResult(string provider, string redirectUri)
-                : this(provider, redirectUri, null)
-            {
+                : this(provider, redirectUri, null) {
             }
 
-            public ChallengeResult(string provider, string redirectUri, string userId)
-            {
+            public ChallengeResult(string provider, string redirectUri, string userId) {
                 LoginProvider = provider;
                 RedirectUri = redirectUri;
                 UserId = userId;
@@ -629,11 +602,9 @@ namespace UAHFitVault.Controllers
             public string RedirectUri { get; set; }
             public string UserId { get; set; }
 
-            public override void ExecuteResult(ControllerContext context)
-            {
+            public override void ExecuteResult(ControllerContext context) {
                 var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
-                if (UserId != null)
-                {
+                if (UserId != null) {
                     properties.Dictionary[XsrfKey] = UserId;
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
