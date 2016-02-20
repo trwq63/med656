@@ -1,6 +1,151 @@
-﻿@model UAHFitVault.Models.CreatePatientViewModel
+﻿@using UAHFitVault.Models;
+@using UAHFitVault.LogicLayer.Enums;
 
-<form action="/Physician/CreatePatient" method="post">
+@model UAHFitVault.Models.CreatePatientViewModel
+
+@{ 
+    List<string> genders = Enum.GetNames(typeof(PatientGender)).ToList();
+    List<string> races = Enum.GetNames(typeof(PatientRace)).ToList();
+    List<string> ethnicities = Enum.GetNames(typeof(PatientEthnicity)).ToList();
+
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col m10 offset-m1 s12">
+            <h4 class="center-align">Patient Creation Form</h4>
+            <div class="row">
+                <form class="col s12" action="/Physician/CreatePatient" method="post">      
+                    <div class="row">
+                        <div class="input-field col m6 s12">
+                            <span>@Html.ValidationMessageFor(m => m.Username)</span>
+                        </div>
+                        <div class="input-field col m6 s12">
+                            <span>@Html.ValidationMessageFor(m => m.Password)</span>
+                        </div>
+                    </div>  
+                    <div class="row">
+                        <div class="input-field col m6 s12">
+                            @Html.TextBoxFor(m => m.Username)                            
+                            <label for="Username">User Name</label>
+                        </div>
+                        <div class="input-field col m6 s12">
+                            @Html.TextBoxFor(m => m.Password)                            
+                            <label for="Password">Password</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col m6 s12">
+                            <span>@Html.ValidationMessageFor(m => m.Birthdate)</span>
+                        </div>
+                        <div class="input-field col m6 s12">
+                            <span>@Html.ValidationMessageFor(m => m.Location)</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col m6 s12">
+                            <label for="Birthdate">Birthdate</label>
+                            <br />
+                            @Html.TextBoxFor(m => m.Birthdate, "MM/dd/yyyy", new { @type = "date", @class = "datepicker" })
+                        </div>
+                        <div class="input-field col m6 s12">
+                            <label for="Location">Location</label>
+                            <br style="margin-bottom:10px"/>
+                            @Html.DropDownListFor(m => m.Location,
+                                new SelectList(Enum.GetValues(typeof(Location))),
+                                "Choose your location", new { @class="browser-default validate" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col m6 s12">
+                            <span>@Html.ValidationMessageFor(m => m.Weight)</span>
+                        </div>
+                        <div class="input-field col m6 s12">
+                            <span>@Html.ValidationMessageFor(m => m.Height)</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col m6 s12">
+                            @Html.TextBoxFor(m => m.Weight)
+                            <label for="Weight">Weight (lbs)</label>
+                        </div>
+                        <div class="input-field col m6 s12">
+                            @Html.TextBoxFor(m => m.Height)
+                            <label for="Height">Height (inches)</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col m4 s12">
+                            <span>@Html.ValidationMessageFor(m => m.Gender)</span>
+                        </div>
+                        <div class="input-field col m4 s12">
+                            <span>@Html.ValidationMessageFor(m => m.Race)</span>
+                        </div>
+                        <div class="input-field col m4 s12">
+                            <span>@Html.ValidationMessageFor(m => m.Ethnicity)</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="fieldgroup col m4 s12 card hoverable" style="height:200px; width:150px; margin-right:5px">
+                            <div class="card-title" style="margin-bottom:-5px">
+                                <label>Gender</label>
+                            </div>
+                            <div class="left-align">
+                                @foreach (string gender in genders) {
+                                    string genderId = "gender" + gender;
+                                    @Html.RadioButtonFor(m => m.Gender, gender, new { id = genderId, name = gender })
+                                    <label for="@genderId">@gender</label>
+                                }
+                            </div>
+                        </div>
+                        <div class="fieldgroup col m4 s12 card hoverable" style="height:200px; width:170px; margin-right:5px">
+                            <div class="card-title" style="margin-bottom:-5px">
+                                <label>Race</label>
+                            </div>
+                            <div class="left-align">
+                                @foreach (string race in races) {
+                                    string raceId = "race" + race;
+                                    @Html.RadioButtonFor(m => m.Race, race, new { id = raceId, name = race, })
+                                    <label for="@raceId">@race</label>
+                                }
+                            </div>
+                        </div>
+                        <div class="fieldgroup col m4 s12 card hoverable" style="height:200px; width:150px;">
+                            <div class="card-title" style="margin-bottom:-5px">
+                                <label>Ethnicity</label>
+                            </div>
+                            <div class="left-align">
+                                @foreach (string enthicity in ethnicities) {
+                                    string enthicityId = "enthicity" + enthicity;
+                                    @Html.RadioButtonFor(m => m.Ethnicity, enthicity, new { id = enthicityId, name = enthicity })
+                                    <label for="@enthicityId">@enthicity</label>
+                                }
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="row">
+                        <div class="input-field col m6 s12">
+                            <button type="submit" value="submit" class="waves-effect waves-light btn">
+                                Submit
+                            </button>
+                        </div>
+                        <div class="input-field col m6 s12">
+                            <button type="button" value="cancel" class="waves-effect waves-light btn" onclick="cancelCreate()">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>             
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@*<form action="/Physician/CreatePatient" method="post">
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <table>
         <tr>
@@ -53,4 +198,4 @@
         </tr>
     </table>
     <input type="submit" value="submit" class="btn btn-default" />
-</form>
+</form>*@

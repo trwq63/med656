@@ -18,7 +18,7 @@ namespace UAHFitVault.Database
             {
             new Patient
             {
-                Birthdate = new DateTime(1,1,1990);
+                Birthdate = new DateTime(1,1,1990),
                 Ethnicity = 1,
                 Gender = 1,
                 Height = 56,
