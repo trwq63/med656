@@ -1,0 +1,51 @@
+﻿@model UAHFitVault.Models.CreateAdminModel
+
+<!DOCTYPE html>
+
+<html>
+@if (User.IsInRole("System Administrator"))
+{
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Create System Administrator Confirmation</title>
+    </head>
+    <body>
+        <nav id="mainNav" class="top blue darken-3">
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo">Logo</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li data-menuachor="pendingAccounts">
+                        <a href="/Admin/Index#pendingAccounts">Account Requests</a>
+                    </li>
+                    <li data-menuachor="manage">
+                        <a href="/Admin/Index#manage">Manage Users</a>
+                    </li>
+                    <li data-menuachor="createAdmin">
+                        <a href="/Admin/CreateAdmin">Create Admin</a>
+                    </li>
+                    <li>@Html.Partial("_LogoffPartial")</li>
+                </ul>
+            </div>
+        </nav>
+
+        <br /><br /><br />
+        <h4>A system administrator has been creating with the following properties:</h4>
+        <table>
+            <tr>
+                <td>@Html.LabelFor(m => m.Username)</td>
+                <td>@Html.DisplayTextFor(m => m.Username)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Email)</td>
+                <td>@Html.DisplayTextFor(m => m.Email)</td>
+            </tr>
+        </table>
+    </body>
+}
+else
+{
+    <body>
+        <h2><red>ERROR: Access Denied</red></h2>
+    </body>
+}
+</html>

@@ -76,7 +76,7 @@
                 <td>@Html.DisplayFor(m => m.PhoneNumber)@Html.HiddenFor(m => m.PhoneNumber)</td>
             </tr>
         }
-        else if (User.IsInRole("ExperimentAdmin"))
+        else if (User.IsInRole("Experiment Administrator"))
         {
             /* Firstname, Lastname, Address, Email, Phone Number
             */
@@ -102,9 +102,13 @@
                 <td>@Html.DisplayFor(m => m.PhoneNumber)@Html.HiddenFor(m => m.PhoneNumber)</td>
             </tr>
         }
-        else if (User.IsInRole("SystemAdmin"))
+        else if (User.IsInRole("System Administrator"))
         {
             /* TBD */
+            <tr>
+                <td>@Html.LabelFor(m => m.Email)</td>
+                <td>@Html.DisplayTextFor(m => m.Email)</td>
+            </tr>
         }
     </table>
     <input type="submit" class="btn btn-default" value="Confirm" />
