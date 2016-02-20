@@ -18,33 +18,84 @@ namespace UAHFitVault.Controllers
     [Authorization("ROLES_PHYSICIAN")]
     public class PhysicianController : Controller
     {
+        #region Private Members
+        /// <summary>
+        /// UserManager object used to get the logged in user's information
+        /// </summary>
         private ApplicationUserManager _userManager;
 
+        /// <summary>
+        /// Interface for the patient service to access patient database queries
+        /// </summary>
         private readonly IPatientService _patientService;
+
+        /// <summary>
+        /// Interface for the physician service to access physician database queries
+        /// </summary>
         private readonly IPhysicianService _physicianService;
 
+        #endregion
+
+        #region Private Properties
+        /// <summary>
+        /// User manager object needed throughout the controller to access applicationuser objects.
+        /// </summary>
+        /// <returns></returns>
+        private ApplicationUserManager UserManager {
+            get {
+                if (_userManager == null) {
+                    _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                }
+
+                return _userManager;
+            }
+        }
+        #endregion
+
+        #region Public Constructor
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="patientService">Interface for the patient service to access patient database queries</param>
+        /// <param name="physicianService">Interface for the physician service to access physician database queries</param>
         public PhysicianController(IPatientService patientService, IPhysicianService physicianService)
         {
             _patientService = patientService;
-            _physicianService = physicianService;
+            _physicianService = physicianService;            
         }
 
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-        
-        // GET: Physician
+        #endregion
+
+
+        /// <summary>
+        /// Load initial patient management view for the physician
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
-            return View();
+            //Get logged in user's physician object.
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            Physician physician = _physicianService.GetPhysician(user.PhysicianId);
+
+            List<Patient> patients = _patientService.GetPatients(physician).ToList();
+
+            List<PatientManagementViewModel> viewModel = new List<PatientManagementViewModel>();
+
+            //The view will need both the patient id and the patient's user id.
+            foreach(Patient patient in patients) {
+                ApplicationUser patientUser = UserManager.Users.FirstOrDefault(u => u.PatientId == patient.Id);
+                if(patientUser != null) {
+                    PatientManagementViewModel model = new PatientManagementViewModel() {
+                        UserId = patientUser.Id,
+                        PatientId = patient.Id,
+                        Username = patientUser.UserName
+                    };
+
+                    viewModel.Add(model);
+                }
+            }
+
+            return View(viewModel);
         }
 
         /// <summary>
@@ -57,17 +108,7 @@ namespace UAHFitVault.Controllers
         {
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             Physician physician = _physicianService.GetPhysician(user.PhysicianId);
-
-            string patientUsername = user.UserName + (physician.Patients.Count()+1).ToString();
-            model.Username = patientUsername;
-
-            if (patientUsername == null)
-            {
-                ModelState.Clear();
-                ModelState.AddModelError("UsernameNullError", "Username was not provided.");
-                return View(model);
-            }
-
+            
             // Conversions from the model
             int race = (int)Enum.Parse(typeof(PatientRace), model.Race);//convert.GenderRaceStringToInt(model.Race);
             int gender = (int)Enum.Parse(typeof(PatientGender), model.Gender);//convert.PatientGenderStringToInt(model.Gender);
@@ -75,7 +116,7 @@ namespace UAHFitVault.Controllers
 
 
             // Check if the user is already in the database.
-            if (UserIsInDatabase(patientUsername))
+            if (UserIsInDatabase(model.Username))
             {
                 // User is already in the database
                 // Display an error and request the physician to enter in a different username.
@@ -88,16 +129,16 @@ namespace UAHFitVault.Controllers
                 // Proceed to add the user to the database.
                 Patient patient = new Patient();
 
-                patient.Birthdate = DateTime.Now; //model.Birthdate; // Need to fix this, temporarily putting in 0.
-                patient.Height = model.Height;
-                patient.Weight = model.Weight;
-                patient.Location = 12;//model.Location; // Need to fix this. temporarily putting in 12.
+                patient.Birthdate = DateTime.Parse(model.Birthdate); //model.Birthdate; // Need to fix this, temporarily putting in 0.
+                patient.Height = (int)model.Height;
+                patient.Weight = (int)model.Weight;
+                patient.Location = (int)Enum.Parse(typeof(Location), model.Location);//model.Location; // Need to fix this. temporarily putting in 12.
                 patient.Ethnicity = ethnicity;
                 patient.Gender = gender;
                 patient.Race = race;
                 patient.Physician = physician;
                 
-                var newUser = new ApplicationUser { UserName = patientUsername };
+                var newUser = new ApplicationUser { UserName = model.Username, Status = (int)Account_Status.Active };
                 if ((newUser != null) && (model.Password != null))
                 {                
                     //Create a new context to change the user creation validation rules for the patient only.
@@ -119,10 +160,10 @@ namespace UAHFitVault.Controllers
                             _patientService.SaveChanges();
                             newUser.PatientId = patient.Id;
 
-                            result = UserManager.Update(newUser);
+                            result = manager.Update(newUser);
 
                             //Role must match what is found in the database AspNetRoles table.
-                            result = UserManager.AddToRole(newUser.Id, "Patient");
+                            result = manager.AddToRole(newUser.Id, "Patient");
                         }
                         else {
                             // User failed to add.

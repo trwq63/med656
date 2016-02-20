@@ -238,8 +238,9 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
+    <Compile Include="Models\PatientManagementViewModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
-	<Compile Include="Models\PhysicianViewModels.cs" />
+    <Compile Include="Models\CreatePatientViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -418,6 +419,7 @@
     <Content Include="Views\Admin\CreateAdminConfirm.cshtml" />
 	<Content Include="Views\Physician\_PartialPhysicianAddPatient.cshtml" />
     <Content Include="Views\Physician\CreatePatient.cshtml" />
+    <None Include="Views\Shared\_PhysicianLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

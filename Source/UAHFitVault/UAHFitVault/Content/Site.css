@@ -23,3 +23,5 @@ select,
 textarea {
     max-width: inherit;
 }
+
+.field-validation-error{ color: red; font-weight: bold; }
