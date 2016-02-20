@@ -23,7 +23,7 @@
         ECG,
         Breathing
     }
-    
+
     /// <summary>
     /// Details the different user types available in the system.
     /// </summary>
