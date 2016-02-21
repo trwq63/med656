@@ -56,11 +56,53 @@ namespace UAHFitVault.Controllers
         #endregion
 
         /// <summary>
+        /// Get all of the pending user accounts and send the user objects to the view.
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AccountRequests() {
+            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            //Get pending users in the system.
+            List<ApplicationUser> pendingUsers = new ApplicationUserService().GetPendingUsers(manager);
+
+            List<UserInfoModel> userModels = new List<UserInfoModel>();
+
+            foreach (ApplicationUser user in pendingUsers) {
+                string fullName = string.Empty;
+                string role = string.Empty;
+                //Check if user is a physician
+                if (user.PhysicianId > 0) {
+                    Physician physician = _physicianService.GetPhysician(user.PhysicianId);
+                    fullName = physician.FirstName + " " + physician.LastName;
+                    role = "Physician";
+                }
+                //Check if user is an experiment administrator
+                else if (user.ExperimentAdministratorId > 0) {
+                    ExperimentAdministrator expAdmin = _experimentAdminService.GetExperimentAdministrator(user.ExperimentAdministratorId);
+                    fullName = expAdmin.FirstName + " " + expAdmin.LastName;
+                    role = "Experiment Administrator";
+                }
+
+                //Get the account request information provided by the user during account request.
+                string accountRequest = accountRequest = _accountRequestService.GetAccountRequest(user.AccountRequestId).ReasonForAccount;
+                
+                UserInfoModel model = new UserInfoModel() {
+                    UserId = user.Id,
+                    FullName = fullName,
+                    Role = role,
+                    Status = (Account_Status)user.Status,
+                    ReasonForRequest = accountRequest
+                };
+
+                userModels.Add(model);
+            }
+            return View(userModels);
+        }
+
+        /// <summary>
         /// Function used to setup and load the initial view for system administrators.
         /// </summary>
         /// <returns></returns>
-        public ActionResult Index()
-        {
+        public ActionResult ManageUsers() {
             ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             //Get all users in the system.
             List<ApplicationUser> allusers = new ApplicationUserService().GetUserAccounts(manager);
@@ -68,12 +110,12 @@ namespace UAHFitVault.Controllers
             List<UserInfoModel> userModels = new List<UserInfoModel>();
 
             //Create a dictionary connecting the user object to the corresponding object that is the correct user type.
-            foreach(ApplicationUser user in allusers) {
+            foreach (ApplicationUser user in allusers) {
                 string fullName = string.Empty;
                 string role = string.Empty;
 
                 //Check if user is a physician
-                if(user.PhysicianId > 0) {
+                if (user.PhysicianId > 0) {
                     Physician physician = _physicianService.GetPhysician(user.PhysicianId);
                     fullName = physician.FirstName + " " + physician.LastName;
                     role = "Physician";
@@ -88,30 +130,28 @@ namespace UAHFitVault.Controllers
                 else if (user.PatientId > 0) {
                     //System administrators can't manage patients per requirement 3.1.1.1.4.2
                     continue;
-                }                
+                }
                 else {
                     fullName = user.UserName;
                     //Determine if the user is a system admin or has no role.
-                    if (user.Roles.Select(r => r.RoleId).Contains(Roles.ADMIN_ROLE_DB_TABLE_ID)) {                        
+                    if (user.Roles.Select(r => r.RoleId).Contains(Roles.ADMIN_ROLE_DB_TABLE_ID)) {
+                        //If the system admin is the currently logged in system admin do not include them 
+                        //in the list of users to be managed.
+                        if(user.Id == User.Identity.GetUserId()) {
+                            continue;
+                        }
                         role = "System Administrator";
                     }
                     else {
                         role = "None";
                     }
                 }
-               
-                string accountRequest = string.Empty;
-                //Get the user's account request if they are a pending user.
-                if(user.Status == (int)Account_Status.Pending) {
-                    accountRequest = _accountRequestService.GetAccountRequest(user.AccountRequestId).ReasonForAccount;
-                }
 
                 UserInfoModel model = new UserInfoModel() {
                     UserId = user.Id,
                     FullName = fullName,
                     Role = role,
-                    Status = (Account_Status)user.Status,
-                    ReasonForRequest = accountRequest
+                    Status = (Account_Status)user.Status
                 };
 
                 userModels.Add(model);
@@ -156,7 +196,15 @@ namespace UAHFitVault.Controllers
         /// <param name="userId">Id of the user being rejected.</param>
         /// <returns></returns>
         public string EnableUser(string userId) {
-            ActivateUser(userId);
+            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            ApplicationUser user = manager.FindById(userId);
+            user.Status = (int)Account_Status.Active;
+
+            //Delete an account activation request if there is still one referenced by the user entry in the database.
+            RemoveActivationRequest(user);
+
+            user.AccountRequestId = 0;
+            manager.Update(user);
             return null;
         }
 
@@ -168,7 +216,7 @@ namespace UAHFitVault.Controllers
         public string DeleteUser(string userId) {
             ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             ApplicationUser user = manager.FindById(userId);
-            if(user.PhysicianId > 0) {
+            if (user.PhysicianId > 0) {
                 _physicianService.DeletePhysician(user.PhysicianId);
             }
             else if (user.ExperimentAdministratorId > 0) {
@@ -187,8 +235,7 @@ namespace UAHFitVault.Controllers
         /// The controller used for creating a system admin
         /// </summary>
         /// <returns>View for creating system admin</returns>
-        public ActionResult CreateAdmin ()
-        {
+        public ActionResult CreateAdmin() {
             return View();
         }
 
@@ -198,30 +245,25 @@ namespace UAHFitVault.Controllers
         /// <param name="model">Content passed in from the model</param>
         /// <returns>View for creating the </returns>
         [HttpPost]
-        public ActionResult CreateAdmin (CreateAdminModel model)
-        {
-            if (ModelState.IsValid)
-            {
+        public ActionResult CreateAdmin(CreateAdminModel model) {
+            if (ModelState.IsValid) {
                 ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 ApplicationUser newUser = new ApplicationUser { UserName = model.Username, Email = model.Email, Status = (int)Account_Status.Active };
 
                 var result = manager.Create(newUser, model.Password);
 
-                if (result.Succeeded)
-                {
+                if (result.Succeeded) {
                     // User was added successfully.
                     CreateAdminModel newModel = new CreateAdminModel();
                     newModel.Username = model.Username;
                     newModel.Email = model.Email;
                     manager.AddToRole(newUser.Id, "System Administrator"); // Add new user as a system administrator
                     return RedirectToAction("CreateAdminConfirm", newModel);
-                                //new System.Web.Routing.RouteValueDictionary (new { model = newModel }));
+                    //new System.Web.Routing.RouteValueDictionary (new { model = newModel }));
                 }
-                else
-                {
+                else {
                     // Add all errors to the model state and return.
-                    foreach (var error in result.Errors)
-                    {
+                    foreach (var error in result.Errors) {
                         ModelState.AddModelError("", error);
                     }
                     return View(model);
@@ -236,28 +278,11 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="model">Parameters for new system admin</param>
         /// <returns></returns>
-        public ActionResult CreateAdminConfirm (CreateAdminModel model)
-        {
+        public ActionResult CreateAdminConfirm(CreateAdminModel model) {
             return View(model);
         }
 
         #region Protected Methods
-
-        /// <summary>
-        /// Activate the user to be able to access the system.
-        /// </summary>
-        /// <param name="userId">Id of the user being activated.</param>
-        protected void ActivateUser(string userId) {
-            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            ApplicationUser user = manager.FindById(userId);
-            user.Status = (int)Account_Status.Active;
-
-            //Delete an account activation request if there is still one referenced by the user entry in the database.
-            RemoveActivationRequest(user);
-            
-            user.AccountRequestId = 0;
-            manager.Update(user);            
-        }
 
         /// <summary>
         /// Delete the user's activation request from the database after they are approved for access.

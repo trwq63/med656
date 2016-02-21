@@ -1,36 +1,10 @@
 ﻿@model UAHFitVault.Models.CreateAdminModel
 
-<!DOCTYPE html>
 
-<html>
-@if (User.IsInRole("System Administrator"))
-{
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create A New System Administrator</title>
-</head>
-<body>
-    <nav id="mainNav" class="top blue darken-3">
-        <div class="nav-wrapper">
-            <a href="#" class="brand-logo">Logo</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li data-menuachor="pendingAccounts">
-                    <a href="/Admin/Index#pendingAccounts">Account Requests</a>
-                </li>
-                <li data-menuachor="manage">
-                    <a href="/Admin/Index#manage">Manage Users</a>
-                </li>
-                <li data-menuachor="createAdmin">
-                    <a href="/Admin/CreateAdmin">Create Admin</a>
-                </li>
-                <li>@Html.Partial("_LogoffPartial")</li>
-            </ul>
-        </div>
-    </nav>
+<h2>Create System Administrator</h2>
+<div>
 
-    @using (Html.BeginForm("CreateAdmin", "Admin", FormMethod.Post))
-    {
-        <br /><br /><h2>Create System Administrator</h2>/* Spacer lines */
+    @using (Html.BeginForm("CreateAdmin", "Admin", FormMethod.Post)) {
         @Html.ValidationSummary("", new { @class = "text-danger" });
         <table>
             <tr>
@@ -52,12 +26,4 @@
         </table>
         <input type="submit" value="Create" class="btn" />
     }
-</body>
-}
-else
-{
-<body>
-    <h2><red>ERROR: Access Denied</red></h2>
-</body>
-}
-</html>
+</div>

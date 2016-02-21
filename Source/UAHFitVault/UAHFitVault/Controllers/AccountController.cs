@@ -123,7 +123,7 @@ namespace UAHFitVault.Controllers
             }
             else if (User.IsInRole("System Administrator"))
             {
-                return RedirectToLocal("/Admin/Index");
+                return RedirectToLocal("/Admin/AccountRequests");
             }
             return View();
         }

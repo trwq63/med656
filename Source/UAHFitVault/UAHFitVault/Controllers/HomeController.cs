@@ -21,7 +21,7 @@ namespace UAHFitVault.Controllers
                 return Redirect("/Patient/Index");
             }
             else if (User.IsInRole("System Administrator")) {
-                return Redirect("/Admin/Index");
+                return Redirect("/Admin/AccountRequests");
             }
             return View();
         }
