@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,18 @@ namespace UAHFitVault.Controllers
     {
         public ActionResult Index()
         {
+            if (User.IsInRole("Physician")) {
+                return Redirect("/Physician/Index");
+            }
+            else if (User.IsInRole("Experiment Administrator")) {
+                return Redirect("/Experiment/Index");
+            }
+            else if (User.IsInRole("Patient")) {
+                return Redirect("/Patient/Index");
+            }
+            else if (User.IsInRole("System Administrator")) {
+                return Redirect("/Admin/Index");
+            }
             return View();
         }
 
