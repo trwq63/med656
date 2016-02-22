@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using System;
 
 namespace UAHFitVault.Models
 {
@@ -27,7 +28,7 @@ namespace UAHFitVault.Models
         public int Gender { get; set; }
 
         [Display(Name = "Birthdate")]
-        public int Birthdate { get; set; }
+        public DateTime Birthdate { get; set; }
 
         [Display(Name = "Height")]
         public int Height { get; set; }
@@ -77,7 +78,7 @@ namespace UAHFitVault.Models
         public int Gender { get; set; }
 
         [Display(Name = "Birthdate")]
-        public int Birthdate { get; set; }
+        public DateTime Birthdate { get; set; }
 
         [Display(Name = "Height")]
         public int Height { get; set; }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using UAHFitVault.Database.Entities;
 
@@ -17,7 +18,7 @@ namespace UAHFitVault.Database
             {
             new Patient
             {
-                Age = 10,
+                Birthdate = new DateTime(1,1,1990),
                 Ethnicity = 1,
                 Gender = 1,
                 Height = 56,
