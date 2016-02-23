@@ -109,18 +109,29 @@ namespace UAHFitVault.Controllers
         #endregion
 
         /// <summary>
-        /// Load the initial select data view when first navigating to the page.
+        /// Loads the initial view for when a patient first logs in.  This view is used for selecting data to view.
         /// </summary>
         /// <returns></returns>
         public ActionResult Index()
         {
+            return View();
+        }
+
+        /// <summary>
+        /// Load the patient view for the uploading data.
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult UploadData() {
+
             List<MedicalDevice> medicalDevices = (List<MedicalDevice>)_medicalDeviceService.GetMedicalDevices();
-            if(medicalDevices != null && medicalDevices.Count > 0) {
+            if (medicalDevices != null && medicalDevices.Count > 0) {
                 //Save session property
                 MedicalDevices = medicalDevices;
             }
+
             return View();
         }
+
 
         /// <summary>
         /// Process the data submitted from the form on the view.

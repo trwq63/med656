@@ -225,7 +225,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PatientController.cs" />
     <Compile Include="Controllers\PhysicianController.cs" />
-    <Compile Include="Controllers\UserDashboardController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -405,8 +404,7 @@
     <Content Include="Views\Shared\_NoAccessLayout.cshtml" />
     <Content Include="Views\Shared\_LogoffPartial.cshtml" />
     <Content Include="Views\Account\RequestExperimentAdministratorAccountConfirm.cshtml" />
-    <Content Include="Views\Patient\_PartialPatientViewData.cshtml" />
-    <Content Include="Views\Patient\_PartialPatientUploadData.cshtml" />
+    <Content Include="Views\Patient\UploadData.cshtml" />
     <Content Include="Views\Physician\Index.cshtml" />
     <Content Include="Views\Experiment\Index.cshtml" />
     <Content Include="Views\Account\LoginRedirect.cshtml" />
@@ -421,6 +419,7 @@
     <Content Include="Views\Physician\CreatePatient.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Admin\ManageUsers.cshtml" />
+    <Content Include="Views\Shared\_PatientLayout.cshtml" />
     <None Include="Views\Shared\_PhysicianLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
