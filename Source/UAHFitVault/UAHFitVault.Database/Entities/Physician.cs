@@ -26,7 +26,6 @@ namespace UAHFitVault.Database.Entities
         [Required]
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public int PatientCount { get; set; }
 
         #endregion
 

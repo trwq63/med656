@@ -123,7 +123,7 @@ namespace UAHFitVault.Controllers
             }
             else if (User.IsInRole("System Administrator"))
             {
-                return RedirectToLocal("/Admin/Index");
+                return RedirectToLocal("/Admin/AccountRequests");
             }
             return View();
         }
@@ -188,8 +188,7 @@ namespace UAHFitVault.Controllers
                         LastName = model.LastName,
                         Email = model.Email,
                         Address = model.Address,
-                        PhoneNumber = model.PhoneNumber,
-                        PatientCount = 0
+                        PhoneNumber = model.PhoneNumber
                     };
 
                     // Write to ASP user database

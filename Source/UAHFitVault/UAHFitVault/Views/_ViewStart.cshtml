@@ -11,6 +11,12 @@
         if (User.IsInRole(UserRole.Physician.ToString())) {
             cLayout = "~/Views/Shared/_PhysicianLayout.cshtml";
         }
+        else if (User.IsInRole(UserRole.System_Administrator.ToString().Replace("_", " "))) {
+            cLayout = "~/Views/Shared/_AdminLayout.cshtml";
+        }
+        else if (User.IsInRole(UserRole.Patient.ToString())) {
+            cLayout = "~/Views/Shared/_PatientLayout.cshtml";
+        }
         else {
             cLayout = "~/Views/Shared/_Layout.cshtml";
         }

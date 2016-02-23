@@ -6,55 +6,54 @@
     CreatePatientViewModel createPatient = new CreatePatientViewModel();
 }
 
-<div class="container">
-    <div class="row card-title">
-        <div class="col s12 m6">
-            <h2>Patients</h2>
-        </div>
-        <div class="col s12 m6 right-align">
-            <button class="waves-effect waves-light btn green" onclick="createPatient()">
-                <i class="mdi-social-group-add"></i>
-                Create Patient
-            </button>
-        </div>
-    </div>
 
-    <!-- Create Patient Modal Structure -->
-    <div id="createModal" class="modal">
-        @{ 
-            Html.RenderPartial("~/Views/Physician/_PartialPhysicianAddPatient.cshtml", createPatient);
-        }
+<div class="row card-title">
+    <div class="col s12 m6">
+        <h2>Patients</h2>
     </div>
+    <div class="col s12 m6 right-align">
+        <button class="waves-effect waves-light btn green" onclick="createPatient()">
+            <i class="mdi-social-group-add"></i>
+            Create Patient
+        </button>
+    </div>
+</div>
 
-    <div class="card">
-        <table>
-            <thead>
+<!-- Create Patient Modal Structure -->
+<div id="createModal" class="modal">
+    @{ 
+        Html.RenderPartial("~/Views/Physician/_PartialPhysicianAddPatient.cshtml", createPatient);
+    }
+</div>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th data-field="name">User Name</th>
+                <th data-field="actions">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (PatientManagementViewModel patient in Model) {
                 <tr>
-                    <th data-field="name">User Name</th>
-                    <th data-field="actions">Actions</th>
+                    <td>@patient.Username</td>
+                    <td>
+                        <button class="waves-effect waves-light btn grey" onclick="viewPatient(patient)">
+                            View Patient Data
+                        </button>
+                        <button class="waves-effect waves-light btn blue" onclick="editPatient(patient)">
+                            Edit Patient
+                        </button>
+                        <button class="waves-effect waves-light btn red" onclick="deletePatient(patient)">
+                            Delete Patient
+                        </button>
+                    </td>
                 </tr>
-            </thead>
-
-            <tbody>
-                @foreach (PatientManagementViewModel patient in Model) {
-                    <tr>
-                        <td>@patient.Username</td>
-                        <td>
-                            <button class="waves-effect waves-light btn grey" onclick="viewPatient(patient)">
-                                View Patient Data
-                            </button>
-                            <button class="waves-effect waves-light btn blue" onclick="editPatient(patient)">
-                                Edit Patient
-                            </button>
-                            <button class="waves-effect waves-light btn red" onclick="deletePatient(patient)">
-                                Delete Patient
-                            </button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+            }
+        </tbody>
+    </table>
 </div>
 
 @section scripts{
