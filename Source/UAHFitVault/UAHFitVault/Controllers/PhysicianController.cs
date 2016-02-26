@@ -187,16 +187,32 @@ namespace UAHFitVault.Controllers
         /// <summary>
         /// This function confirms that a physician wishes to delete a patient from the database
         /// </summary>
-        /// <param name="username"></param>
+        /// <param name="username">Username of the patient</param>
         /// <returns></returns>
         public ActionResult DeletePatient (string username)
         {
             DeletePatientViewModel model = new DeletePatientViewModel();
+
+            // Check if username is null, if so - return early.
             if (username == null)
             {
+                model.Username = "NULL"; // So model does not crash
                 ModelState.AddModelError("", "Error: username is null");
                 return View(model);
             }
+
+            ApplicationUser patientUser = UserManager.FindByName(username);
+            Patient patient = _patientService.GetPatient(patientUser.PatientId);
+            ApplicationUser physicianUser = UserManager.FindByName(User.Identity.Name);
+            Physician physician = _physicianService.GetPhysician(physicianUser.PhysicianId);
+
+            // Check to verify that the patient is a patient for the current physician.
+            if (!PatientBelongsToPhysician(patient, physician))
+            {
+                ModelState.AddModelError("", "Error: You cannot delete somebody that is not your patient.");
+                return View(model);
+            }
+
             model.Username = username;
             return View(model);
         }
@@ -209,8 +225,18 @@ namespace UAHFitVault.Controllers
         [HttpPost]
         public ActionResult DeletePatientConfirm (string username)
         {
+            DeletePatientViewModel model = new DeletePatientViewModel();
             ApplicationUser user = UserManager.FindByName(username);
             Patient patient = _patientService.GetPatient(user.PatientId);
+            ApplicationUser physicianUser = UserManager.FindByName(User.Identity.Name);
+            Physician physician = _physicianService.GetPhysician(physicianUser.PhysicianId);
+
+            // Check to verify that the patient is a patient for the current physician.
+            if (!PatientBelongsToPhysician(patient, physician))
+            {
+                ModelState.AddModelError("", "Error: You cannot delete somebody that is not your patient.");
+                return View(model);
+            }
             _patientService.DeletePatient(patient);
             _patientService.SaveChanges();
             _userManager.Delete(user);
@@ -231,6 +257,21 @@ namespace UAHFitVault.Controllers
             if (user == null)
             {
                 // Username is not in database.
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Checks if the patient belongs to the physician
+        /// </summary>
+        /// <param name="patient">Patient input</param>
+        /// <param name="physician">Physician input</param>
+        /// <returns>True if the patient's physician is the physician user</returns>
+        private bool PatientBelongsToPhysician(Patient patient, Physician physician)
+        {
+            if (patient.Physician != physician)
+            {
                 return false;
             }
             return true;

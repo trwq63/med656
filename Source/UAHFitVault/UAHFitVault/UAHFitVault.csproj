@@ -421,6 +421,7 @@
     <Content Include="Views\Admin\ManageUsers.cshtml" />
     <Content Include="Views\Shared\_PatientLayout.cshtml" />
     <Content Include="Views\Physician\DeletePatient.cshtml" />
+    <Content Include="Views\Physician\DeletePatientConfirm.cshtml" />
     <None Include="Views\Shared\_PhysicianLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
