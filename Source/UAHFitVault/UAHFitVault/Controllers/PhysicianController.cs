@@ -185,6 +185,42 @@ namespace UAHFitVault.Controllers
         }
 
         /// <summary>
+        /// This function confirms that a physician wishes to delete a patient from the database
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public ActionResult DeletePatient (string username)
+        {
+            DeletePatientViewModel model = new DeletePatientViewModel();
+            if (username == null)
+            {
+                ModelState.AddModelError("", "Error: username is null");
+                return View(model);
+            }
+            model.Username = username;
+            return View(model);
+        }
+
+        /// <summary>
+        /// The function that deletes the patient from the system.
+        /// </summary>
+        /// <param name="username">Username of the patient to delete</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult DeletePatientConfirm (string username)
+        {
+            ApplicationUser user = UserManager.FindByName(username);
+            Patient patient = _patientService.GetPatient(user.PatientId);
+            _patientService.DeletePatient(patient);
+            _patientService.SaveChanges();
+            _userManager.Delete(user);
+
+            /*Glen: need to go back and add deleting data here if we decide to delete the patient's data*/
+
+            return Redirect("/Account/LoginRedirect");
+        }
+
+        /// <summary>
         /// Checks if the user is already in the database.
         /// </summary>
         /// <param name="Username">Username for the user being added to the database</param>

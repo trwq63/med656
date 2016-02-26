@@ -73,6 +73,18 @@ namespace UAHFitVault.DataAccess
         }
 
         /// <summary>
+        /// Delete a patient from the database.
+        /// </summary>
+        /// <param name="patient">Patient to delete from the database</param>
+        public void DeletePatient (Patient patient)
+        {
+            if (patient != null)
+            {
+                _repository.Delete(patient);
+            }
+        }
+
+        /// <summary>
         /// Save changes to database
         /// </summary>
         public void SaveChanges() {

@@ -81,4 +81,12 @@
 
         #endregion
     }
+
+    /// <summary>
+    /// View model for a physician deleting a patient
+    /// </summary>
+    public class DeletePatientViewModel
+    {
+        public string Username { get; set; }
+    }
 }
