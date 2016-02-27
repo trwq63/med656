@@ -43,7 +43,7 @@
                         <button class="waves-effect waves-light btn grey" onclick="viewPatient(@patient.Username)">
                             View Patient Data
                         </button>
-                        <button class="waves-effect waves-light btn blue" onclick="editPatient(@patient.Username)">
+                        <button class="waves-effect waves-light btn blue" onclick="location.href = '/Physician/EditPatient?username=@patient.Username';">
                             Edit Patient
                         </button>
                         <button class="waves-effect waves-light btn red" onclick="location.href = '/Physician/DeletePatient?username=@patient.Username';">

@@ -1,0 +1,111 @@
+﻿@using UAHFitVault.LogicLayer.Enums;
+
+@{
+    ViewBag.Title = "Edit Patient";
+}
+@model UAHFitVault.Models.EditPatientViewModel
+
+@{
+    List<string> genders = Enum.GetNames(typeof(PatientGender)).ToList();
+    List<string> races = Enum.GetNames(typeof(PatientRace)).ToList();
+    List<string> ethnicities = Enum.GetNames(typeof(PatientEthnicity)).ToList();
+    List<string> locations = Enum.GetNames(typeof(Location)).ToList();
+}
+
+<h5>Editing patient details for user: <i>@Html.DisplayTextFor(m => m.Username)</i></h5>
+@Html.ValidationSummary("", new { @class = "text-danger" })
+
+@using (Html.BeginForm("", "", FormMethod.Post))
+{@Html.HiddenFor(m => m.Username)
+    <table align="center" width="500">
+        <tr>
+            <td><label>Password</label></td>
+            <td><input type="button" class="btn green" value="Change Password" onclick="location.href = '/Physician/ChangePassword?username=@Model.Username'; " /></td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Birthdate)</td>
+            <td>@Html.TextBoxFor(m => m.Birthdate, "MM/dd/yyyy", new { @type = "date", @class = "datepicker" })</td>
+            <td>@Html.LabelFor(m => m.Weight)</td>
+            <td>@Html.TextBoxFor(m => m.Weight)</td>
+            <td>@Html.LabelFor(m => m.Height)</td>
+            <td>@Html.TextBoxFor(m => m.Height)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Gender)</td>
+            <td>
+                @foreach (string gender in genders)
+                {
+                    string genderId = "gender" + gender;
+                    if (Model.Gender == (int)Enum.Parse(typeof(PatientGender), gender))
+                    {
+                        @Html.RadioButtonFor(m => m.Gender, gender, new { id = genderId, name = gender, @checked = true })
+                    }
+                    else
+                    {
+                        @Html.RadioButtonFor(m => m.Gender, gender, new { id = genderId, name = gender })
+                    }
+                    <label for="@genderId">@gender</label>
+                }
+            </td>
+            <td>@Html.LabelFor(m => m.Race)</td>
+            <td>
+                @foreach (string race in races)
+                {
+                    string raceId = "race" + race;
+                    if (Model.Race == (int)Enum.Parse(typeof(PatientRace), race))
+                    {
+                        @Html.RadioButtonFor(m => m.Race, race, new { id = raceId, name = race, @checked = true })
+                    }
+                    else
+                    {
+                        @Html.RadioButtonFor(m => m.Race, race, new { id = raceId, name = race })
+                    }
+                    <label for="@raceId">@race</label>
+                }
+            </td>
+            <td>@Html.LabelFor(m => m.Ethnicity)</td>
+            <td>
+                @foreach (string ethnicity in ethnicities)
+                {
+                    string enthicityId = "enthicity" + ethnicity;
+                    if (Model.Ethnicity == (int)Enum.Parse(typeof(PatientEthnicity), ethnicity))
+                    {
+                        @Html.RadioButtonFor(m => m.Ethnicity, ethnicity, new { id = enthicityId, name = ethnicity, @checked = true })
+                    }
+                    else
+                    {
+                        @Html.RadioButtonFor(m => m.Ethnicity, ethnicity, new { id = enthicityId, name = ethnicity })
+                    }
+
+                    <label for="@enthicityId">@ethnicity</label>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Location)</td>
+            <td>
+                <select class="browser-default validate" data-val="true" data-val-number="The field Location must be a number." data-val-required="The Location field is required." id="Location" name="Location">
+                @foreach (string location in locations)
+                {
+                    string locationId = "location" + location;
+                    if (Model.Location == (int)Enum.Parse(typeof(Location), location))
+                    {
+                            <option selected>@location</option>
+                        }
+                        else
+                        {
+                            <option>@location</option>
+
+                        }
+                    }
+                </select>
+            </td>
+            @*@{ SelectList locationList = new SelectList(locations);}
+            <td>@Html.DropDownListFor(m => m.Location,
+                           locationList,
+                           new { @class = "browser-default validate"})</td>*@
+        </tr>
+    </table>
+    <input type="submit" class="btn" value="Update" />
+    <input type="button" class="btn" value="Cancel" onclick="location.href = '/Account/LoginRedirect';" />
+}

@@ -66,7 +66,7 @@ namespace UAHFitVault.Controllers
 
         #endregion
 
-
+        #region Public Functions
         /// <summary>
         /// Load initial patient management view for the physician
         /// </summary>
@@ -185,6 +185,56 @@ namespace UAHFitVault.Controllers
         }
 
         /// <summary>
+        /// This function allows the physician to edit a patient's information.
+        /// * This function will also allow a physician to change a patient's password.
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult EditPatient (string username)
+        {
+            EditPatientViewModel model = new EditPatientViewModel();
+            if (username == null)
+            {
+                // Username was not provided.
+                model.Username = "NULL";
+                ModelState.AddModelError("", "ERROR: No username provided.");
+                return View(model);
+            }
+
+            model.Username = username;
+
+            ApplicationUser physicianUser = UserManager.FindByName(User.Identity.Name);
+            ApplicationUser patientUser = UserManager.FindByName(username);
+            if (patientUser == null)
+            {
+                // Patient was not in database
+                ModelState.AddModelError("", "ERROR: Patient not found in database.");
+                return View(model);
+            }
+
+            Patient patient = _patientService.GetPatient(patientUser.PatientId);
+            Physician physician = _physicianService.GetPhysician(physicianUser.PhysicianId);
+
+            if (!PatientBelongsToPhysician(patient, physician))
+            {
+                // Patient does not belong to the current physician
+                ModelState.AddModelError("", "ERROR: This patient does not belong to you.");
+                return View(model);
+            }
+
+            // Fill in model with patient information
+            model.Birthdate = patient.Birthdate;
+            model.Ethnicity = patient.Ethnicity;
+            model.Gender = patient.Gender;
+            model.Height = patient.Height;
+            model.Location = patient.Location;
+            model.Race = patient.Race;
+            model.Weight = patient.Weight;
+                
+
+            return View(model);
+        }
+
+        /// <summary>
         /// This function confirms that a physician wishes to delete a patient from the database
         /// </summary>
         /// <param name="username">Username of the patient</param>
@@ -246,6 +296,10 @@ namespace UAHFitVault.Controllers
             return Redirect("/Account/LoginRedirect");
         }
 
+        #endregion
+
+        #region Private Functions
+
         /// <summary>
         /// Checks if the user is already in the database.
         /// </summary>
@@ -276,5 +330,6 @@ namespace UAHFitVault.Controllers
             }
             return true;
         }
+        #endregion
     }
 }

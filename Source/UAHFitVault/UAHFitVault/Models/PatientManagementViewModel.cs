@@ -1,4 +1,7 @@
-﻿namespace UAHFitVault.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System;
+
+namespace UAHFitVault.Models
 {
     /// <summary>
     /// View model used to capture the data displayed on physician's patient management view.
@@ -88,5 +91,44 @@
     public class DeletePatientViewModel
     {
         public string Username { get; set; }
+    }
+
+    /// <summary>
+    /// View model for editing a patient
+    /// </summary>
+    public class EditPatientViewModel
+    {
+        [Required]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
+        [Required]
+        [Display(Name = "Birthdate")]
+        public DateTime Birthdate { get; set; }
+
+        [Required]
+        [Display(Name = "Weight (lbs)")]
+        public float Weight { get; set; }
+
+        [Required]
+        [Display(Name = "Height (inches)")]
+        public int Height { get; set; }
+
+        [Required]
+        [Display(Name = "Location")]
+        public int Location { get; set; }
+
+        [Required]
+        [Display(Name = "Race")]
+        public int Race { get; set; }
+
+        [Required]
+        [Display(Name = "Ethnicity")]
+        public int Ethnicity { get; set; }
+
+        [Required]
+        [Display(Name = "Gender")]
+        public int Gender { get; set; }
+
     }
 }
