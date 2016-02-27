@@ -428,7 +428,7 @@
     <Content Include="Views\Physician\ViewPatientData.cshtml" />
     <Content Include="Views\Physician\ResetPassword.cshtml" />
 	<Content Include="Views\Admin\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Views\PatientData\Index.cshtml" />
+	<Content Include="Views\PatientData\Index.cshtml" />
     <None Include="Views\Shared\_PhysicianLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
