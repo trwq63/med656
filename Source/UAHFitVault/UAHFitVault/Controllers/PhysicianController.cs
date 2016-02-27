@@ -223,15 +223,49 @@ namespace UAHFitVault.Controllers
 
             // Fill in model with patient information
             model.Birthdate = patient.Birthdate;
-            model.Ethnicity = patient.Ethnicity;
-            model.Gender = patient.Gender;
+            model.Ethnicity = patient.Ethnicity.ToString();
+            model.Gender = patient.Gender.ToString();
             model.Height = patient.Height;
-            model.Location = patient.Location;
-            model.Race = patient.Race;
+            model.Location = patient.Location.ToString();
+            model.Race = patient.Race.ToString();
             model.Weight = patient.Weight;
                 
 
             return View(model);
+        }
+
+        /// <summary>
+        /// This function writes the model from the Edit Patient form to the database.
+        /// </summary>
+        /// <param name="model">Model containing patient information</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult EditPatient (EditPatientViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            Patient patient = _patientService.GetPatient(UserManager.FindByName(model.Username).PatientId);
+            Physician physician = _physicianService.GetPhysician(UserManager.FindByName(User.Identity.Name).PhysicianId);
+
+            if (!PatientBelongsToPhysician(patient, physician))
+            {
+                ModelState.AddModelError("", "ERROR: You do not have permission to update this patient.");
+                return View(model);
+            }
+            
+            patient.Birthdate = model.Birthdate;
+            patient.Ethnicity = (int)Enum.Parse(typeof(PatientEthnicity), model.Ethnicity);
+            patient.Gender = (int)Enum.Parse(typeof(PatientGender), model.Gender);
+            patient.Height = model.Height;
+            patient.Location = (int)Enum.Parse(typeof(Location), model.Location);
+            patient.Race = (int)Enum.Parse(typeof(PatientRace), model.Race);
+            patient.Weight = model.Weight;
+            _patientService.SaveChanges(); // Write changes to DB
+
+            return Redirect("/Account/LoginRedirect");
         }
 
         /// <summary>

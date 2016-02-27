@@ -116,19 +116,19 @@ namespace UAHFitVault.Models
 
         [Required]
         [Display(Name = "Location")]
-        public int Location { get; set; }
+        public string Location { get; set; }
 
         [Required]
         [Display(Name = "Race")]
-        public int Race { get; set; }
+        public string Race { get; set; }
 
         [Required]
         [Display(Name = "Ethnicity")]
-        public int Ethnicity { get; set; }
+        public string Ethnicity { get; set; }
 
         [Required]
         [Display(Name = "Gender")]
-        public int Gender { get; set; }
+        public string Gender { get; set; }
 
     }
 }
