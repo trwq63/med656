@@ -35,6 +35,7 @@
                             string enableButtonId = "btnEnable" + index;
                             string disableButtonId = "btnDisable" + index;
                             string deleteButtonId = "btnDelete" + index;
+                            string resetPasswordButtonId = "btnResetPassword" + index;
                         }
                         @if (user.Status == Account_Status.Inactive) {
                             <button id="@enableButtonId" class="waves-effect waves-light btn blue" onclick="enableUser(this)" value="@user.UserId">
@@ -49,6 +50,10 @@
                         <button id="@deleteButtonId" class="waves-effect waves-light btn grey" onclick="deleteUser(this)" value="@user.UserId">
                             <i class="material-icons left">delete</i>
                             Delete
+                        </button>
+                        @{/* Glen: I couldn't figure out how to get the ajax post to accept the userId and reload the view, so I passed the parameter with the location.href.*/}
+                        <button id="@resetPasswordButtonId" class="waves-effect waves-light btn green" onclick="location.href = '/Admin/ResetPassword?userId=@user.UserId';">
+                            Reset Password
                         </button>
                     </td>
                 </tr>
@@ -124,5 +129,6 @@
                 $("." + selected).removeClass("hide");
             }
         }
+
     </script>
 }    
