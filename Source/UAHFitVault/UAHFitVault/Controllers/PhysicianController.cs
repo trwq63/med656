@@ -1,17 +1,16 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using UAHFitVault.Helpers;
-using UAHFitVault.Models;
-using UAHFitVault.LogicLayer.Enums;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 using UAHFitVault.DataAccess;
 using UAHFitVault.Database.Entities;
-using Microsoft.AspNet.Identity.EntityFramework;
+using UAHFitVault.Helpers;
+using UAHFitVault.LogicLayer.Enums;
+using UAHFitVault.Models;
 
 namespace UAHFitVault.Controllers
 {

@@ -40,9 +40,10 @@
                 <tr>
                     <td>@patient.Username</td>
                     <td>
-                        <button class="waves-effect waves-light btn grey" onclick="viewPatient(patient)">
-                            View Patient Data
-                        </button>
+                        @Html.ActionLink("View Patient Data", "Index", "PatientData",
+                            new { patientUserId = @patient.UserId },
+                            new { @class = "waves-effect waves-light btn grey" }
+                        )
                         <button class="waves-effect waves-light btn blue" onclick="editPatient(patient)">
                             Edit Patient
                         </button>
@@ -83,7 +84,7 @@
         }
 
         function viewPatient(patient) {
-
+            
         }
 
         function editPatient(patient) {
