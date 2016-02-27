@@ -86,9 +86,19 @@ namespace UAHFitVault.Controllers
         #endregion
 
         #region Public Constructors
+
         /// <summary>
         /// Default constructor
         /// </summary>
+        /// <param name="patientDataService">Service object for accessing patient data database functions.</param>
+        /// <param name="accelService">Service object for accessing Zephyr Accelerometer database functions.</param>
+        /// <param name="breathingService">Service object for accessing Zephyr Breathing Waveform database functions.</param>
+        /// <param name="ecgService">Service object for accessing Zephyr ECG Waveform database functions.</param>
+        /// <param name="eventDataService">Service object for accessing Zephyr Event Data database functions.</param>
+        /// <param name="summaryService">Service object for accessing Zephyr Summary database functions.</param>
+        /// <param name="patientService">Service object for accessing patient database functions.</param>
+        /// <param name="basisPeakService">Service object for accessing basis peak summary database functions.</param>
+        /// <param name="medicalDeviceService">Service for accessing medical devices.</param>
         public PatientController(IPatientDataService patientDataService, IZephyrAccelService accelService,
                                     IZephyrBreathingService breathingService, IZephyrECGService ecgService,
                                     IZephyrEventDataService eventDataService, IZephyrSummaryService summaryService,
@@ -186,7 +196,7 @@ namespace UAHFitVault.Controllers
                             break;
                     }
                 }
-                else if(medicalDevice.Name.Trim() == Device_Type.MicrosoftBand.ToString()) {
+                else if(medicalDevice.Name.Trim() == Device_Type.Microsoft_Band.ToString().Replace("_", "")) {
                     //TODO: Create msband process methods.
                 }
             }           
