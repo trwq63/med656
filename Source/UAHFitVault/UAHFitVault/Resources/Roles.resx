@@ -129,6 +129,9 @@
   <data name="ROLES_PATIENT" xml:space="preserve">
     <value>Patient, Physician</value>
   </data>
+  <data name="ROLES_PATIENTDATA" xml:space="preserve">
+    <value>Physician, Patient</value>
+  </data>
   <data name="ROLES_PHYSICIAN" xml:space="preserve">
     <value>Physician</value>
   </data>
