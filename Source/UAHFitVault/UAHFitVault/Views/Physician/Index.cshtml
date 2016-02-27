@@ -40,13 +40,14 @@
                 <tr>
                     <td>@patient.Username</td>
                     <td>
-                        <button class="waves-effect waves-light btn grey" onclick="location.href = '/Physician/ViewPatientData?username=@patient.Username';">
-                            View Patient Data
-                        </button>
-                        <button class="waves-effect waves-light btn blue" onclick="location.href = '/Physician/EditPatient?username=@patient.Username';">
+                        @Html.ActionLink("View Patient Data", "Index", "PatientData",
+                            new { patientUserId = @patient.UserId },
+                            new { @class = "waves-effect waves-light btn grey" }
+                        )
+                        <button class="waves-effect waves-light btn blue" onclick="editPatient(patient)">
                             Edit Patient
                         </button>
-                        <button class="waves-effect waves-light btn red" onclick="location.href = '/Physician/DeletePatient?username=@patient.Username';">
+                        <button class="waves-effect waves-light btn red" onclick="deletePatient(patient)">
                             Delete Patient
                         </button>
                     </td>
@@ -83,7 +84,7 @@
         }
 
         function viewPatient(patient) {
-
+            
         }
 
         function editPatient(patient) {
