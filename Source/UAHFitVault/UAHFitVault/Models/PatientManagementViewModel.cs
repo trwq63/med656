@@ -131,4 +131,35 @@ namespace UAHFitVault.Models
         public string Gender { get; set; }
 
     }
+
+    /// <summary>
+    /// View model for viewing data for a patient
+    /// </summary>
+    public class ViewPatientDataViewModel
+    {
+        [Required]
+        public string Username { get; set; }
+        
+    }
+
+    /// <summary>
+    /// View model for resetting a patient's password
+    /// </summary>
+    public class PhysicianResetPasswordViewModel
+    {
+        [Required]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 10)]
+        [DataType(DataType.Password)]
+        [Display(Name = "New Password")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm New Password")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+    }
 }

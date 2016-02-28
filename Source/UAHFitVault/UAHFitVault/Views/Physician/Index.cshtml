@@ -40,7 +40,7 @@
                 <tr>
                     <td>@patient.Username</td>
                     <td>
-                        <button class="waves-effect waves-light btn grey" onclick="viewPatient(@patient.Username)">
+                        <button class="waves-effect waves-light btn grey" onclick="location.href = '/Physician/ViewPatientData?username=@patient.Username';">
                             View Patient Data
                         </button>
                         <button class="waves-effect waves-light btn blue" onclick="location.href = '/Physician/EditPatient?username=@patient.Username';">

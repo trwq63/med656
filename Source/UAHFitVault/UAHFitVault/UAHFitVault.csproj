@@ -423,6 +423,8 @@
     <Content Include="Views\Physician\DeletePatient.cshtml" />
     <Content Include="Views\Physician\DeletePatientConfirm.cshtml" />
     <Content Include="Views\Physician\EditPatient.cshtml" />
+    <Content Include="Views\Physician\ViewPatientData.cshtml" />
+    <Content Include="Views\Physician\ResetPassword.cshtml" />
     <None Include="Views\Shared\_PhysicianLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -330,6 +330,93 @@ namespace UAHFitVault.Controllers
             return Redirect("/Account/LoginRedirect");
         }
 
+        /// <summary>
+        /// This function resets the password for a patient
+        /// </summary>
+        /// <param name="username">Username of the patient</param>
+        /// <returns></returns>
+        public ActionResult ResetPassword (string username)
+        {
+            PhysicianResetPasswordViewModel model = new PhysicianResetPasswordViewModel();
+            if (username == null)
+            {
+                model.Username = "NULL";
+                ModelState.AddModelError("", "ERROR: Username is null.");
+                return View(model);
+            }
+            
+            model.Username = username;
+
+            Patient patient = _patientService.GetPatient(UserManager.FindByName(username).PatientId);
+            Physician physician = _physicianService.GetPhysician(UserManager.FindByName(User.Identity.Name).PhysicianId);
+
+            if (!PatientBelongsToPhysician(patient, physician))
+            {
+                ModelState.AddModelError("", "ERROR: You do not have permission to reset this patient's password.");
+                return View(model);
+            }
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// This function handles updating the database when updating the patient's password
+        /// </summary>
+        /// <param name="model">Model containing the new password data</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ResetPassword (PhysicianResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            ApplicationUser user = UserManager.FindByName(model.Username);      // Find patient user in the database
+            string pwToken = UserManager.GeneratePasswordResetToken(user.Id);   // Generate password reset token
+            var result = UserManager.ResetPassword(user.Id, pwToken, model.Password);   // Reset the patient's password
+
+            if (result.Succeeded)
+            {
+                return Redirect("/Account/LoginRedirect");
+            }
+            foreach (string errorMsg in result.Errors)
+            {
+                ModelState.AddModelError("", "Error changing password: " + errorMsg);
+            }
+            return View(model);
+        }
+
+        /// <summary>
+        /// The function that displays the available data sets to view for the patient.
+        /// </summary>
+        /// <param name="username">Username of the patient to view health data for</param>
+        /// <returns></returns>
+        public ActionResult ViewPatientData (string username)
+        {
+            ViewPatientDataViewModel model = new ViewPatientDataViewModel();
+            if (username == null)
+            {
+                model.Username = "NULL";
+                ModelState.AddModelError("", "ERROR: Username is null.");
+                return View(model);
+            }
+
+            model.Username = username;
+
+            Patient patient = _patientService.GetPatient(UserManager.FindByName(username).PatientId);
+            Physician physician = _physicianService.GetPhysician(UserManager.FindByName(User.Identity.Name).PhysicianId);
+
+            if (!PatientBelongsToPhysician(patient, physician))
+            {
+                ModelState.AddModelError("", "ERROR: You do not have permission to view this patient's health data.");
+                return View(model);
+            }
+
+            // Retrieve the data from the database for the patient.
+
+            return View(model);
+        }
+
         #endregion
 
         #region Private Functions
