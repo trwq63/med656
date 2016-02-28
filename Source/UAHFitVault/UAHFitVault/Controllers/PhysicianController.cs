@@ -66,7 +66,7 @@ namespace UAHFitVault.Controllers
 
         #endregion
 
-
+        #region Public Functions
         /// <summary>
         /// Load initial patient management view for the physician
         /// </summary>
@@ -185,6 +185,243 @@ namespace UAHFitVault.Controllers
         }
 
         /// <summary>
+        /// This function allows the physician to edit a patient's information.
+        /// * This function will also allow a physician to change a patient's password.
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult EditPatient (string username)
+        {
+            EditPatientViewModel model = new EditPatientViewModel();
+            if (username == null)
+            {
+                // Username was not provided.
+                model.Username = "NULL";
+                ModelState.AddModelError("", "ERROR: No username provided.");
+                return View(model);
+            }
+
+            model.Username = username;
+
+            ApplicationUser physicianUser = UserManager.FindByName(User.Identity.Name);
+            ApplicationUser patientUser = UserManager.FindByName(username);
+            if (patientUser == null)
+            {
+                // Patient was not in database
+                ModelState.AddModelError("", "ERROR: Patient not found in database.");
+                return View(model);
+            }
+
+            Patient patient = _patientService.GetPatient(patientUser.PatientId);
+            Physician physician = _physicianService.GetPhysician(physicianUser.PhysicianId);
+
+            if (!PatientBelongsToPhysician(patient, physician))
+            {
+                // Patient does not belong to the current physician
+                ModelState.AddModelError("", "ERROR: This patient does not belong to you.");
+                return View(model);
+            }
+
+            // Fill in model with patient information
+            model.Birthdate = patient.Birthdate;
+            model.Ethnicity = patient.Ethnicity.ToString();
+            model.Gender = patient.Gender.ToString();
+            model.Height = patient.Height;
+            model.Location = patient.Location.ToString();
+            model.Race = patient.Race.ToString();
+            model.Weight = patient.Weight;
+                
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// This function writes the model from the Edit Patient form to the database.
+        /// </summary>
+        /// <param name="model">Model containing patient information</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult EditPatient (EditPatientViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            Patient patient = _patientService.GetPatient(UserManager.FindByName(model.Username).PatientId);
+            Physician physician = _physicianService.GetPhysician(UserManager.FindByName(User.Identity.Name).PhysicianId);
+
+            if (!PatientBelongsToPhysician(patient, physician))
+            {
+                ModelState.AddModelError("", "ERROR: You do not have permission to update this patient.");
+                return View(model);
+            }
+            
+            patient.Birthdate = model.Birthdate;
+            patient.Ethnicity = (int)Enum.Parse(typeof(PatientEthnicity), model.Ethnicity);
+            patient.Gender = (int)Enum.Parse(typeof(PatientGender), model.Gender);
+            patient.Height = model.Height;
+            patient.Location = (int)Enum.Parse(typeof(Location), model.Location);
+            patient.Race = (int)Enum.Parse(typeof(PatientRace), model.Race);
+            patient.Weight = model.Weight;
+            _patientService.SaveChanges(); // Write changes to DB
+
+            return Redirect("/Account/LoginRedirect");
+        }
+
+        /// <summary>
+        /// This function confirms that a physician wishes to delete a patient from the database
+        /// </summary>
+        /// <param name="username">Username of the patient</param>
+        /// <returns></returns>
+        public ActionResult DeletePatient (string username)
+        {
+            DeletePatientViewModel model = new DeletePatientViewModel();
+
+            // Check if username is null, if so - return early.
+            if (username == null)
+            {
+                model.Username = "NULL"; // So model does not crash
+                ModelState.AddModelError("", "Error: username is null");
+                return View(model);
+            }
+
+            ApplicationUser patientUser = UserManager.FindByName(username);
+            Patient patient = _patientService.GetPatient(patientUser.PatientId);
+            ApplicationUser physicianUser = UserManager.FindByName(User.Identity.Name);
+            Physician physician = _physicianService.GetPhysician(physicianUser.PhysicianId);
+
+            // Check to verify that the patient is a patient for the current physician.
+            if (!PatientBelongsToPhysician(patient, physician))
+            {
+                ModelState.AddModelError("", "Error: You cannot delete somebody that is not your patient.");
+                return View(model);
+            }
+
+            model.Username = username;
+            return View(model);
+        }
+
+        /// <summary>
+        /// The function that deletes the patient from the system.
+        /// </summary>
+        /// <param name="username">Username of the patient to delete</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult DeletePatientConfirm (string username)
+        {
+            DeletePatientViewModel model = new DeletePatientViewModel();
+            ApplicationUser user = UserManager.FindByName(username);
+            Patient patient = _patientService.GetPatient(user.PatientId);
+            ApplicationUser physicianUser = UserManager.FindByName(User.Identity.Name);
+            Physician physician = _physicianService.GetPhysician(physicianUser.PhysicianId);
+
+            // Check to verify that the patient is a patient for the current physician.
+            if (!PatientBelongsToPhysician(patient, physician))
+            {
+                ModelState.AddModelError("", "Error: You cannot delete somebody that is not your patient.");
+                return View(model);
+            }
+            _patientService.DeletePatient(patient);
+            _patientService.SaveChanges();
+            _userManager.Delete(user);
+
+            /*Glen: need to go back and add deleting data here if we decide to delete the patient's data*/
+
+            return Redirect("/Account/LoginRedirect");
+        }
+
+        /// <summary>
+        /// This function resets the password for a patient
+        /// </summary>
+        /// <param name="username">Username of the patient</param>
+        /// <returns></returns>
+        public ActionResult ResetPassword (string username)
+        {
+            PhysicianResetPasswordViewModel model = new PhysicianResetPasswordViewModel();
+            if (username == null)
+            {
+                model.Username = "NULL";
+                ModelState.AddModelError("", "ERROR: Username is null.");
+                return View(model);
+            }
+            
+            model.Username = username;
+
+            Patient patient = _patientService.GetPatient(UserManager.FindByName(username).PatientId);
+            Physician physician = _physicianService.GetPhysician(UserManager.FindByName(User.Identity.Name).PhysicianId);
+
+            if (!PatientBelongsToPhysician(patient, physician))
+            {
+                ModelState.AddModelError("", "ERROR: You do not have permission to reset this patient's password.");
+                return View(model);
+            }
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// This function handles updating the database when updating the patient's password
+        /// </summary>
+        /// <param name="model">Model containing the new password data</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ResetPassword (PhysicianResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            ApplicationUser user = UserManager.FindByName(model.Username);      // Find patient user in the database
+            string pwToken = UserManager.GeneratePasswordResetToken(user.Id);   // Generate password reset token
+            var result = UserManager.ResetPassword(user.Id, pwToken, model.Password);   // Reset the patient's password
+
+            if (result.Succeeded)
+            {
+                return Redirect("/Account/LoginRedirect");
+            }
+            foreach (string errorMsg in result.Errors)
+            {
+                ModelState.AddModelError("", "Error changing password: " + errorMsg);
+            }
+            return View(model);
+        }
+
+        /// <summary>
+        /// The function that displays the available data sets to view for the patient.
+        /// </summary>
+        /// <param name="username">Username of the patient to view health data for</param>
+        /// <returns></returns>
+        public ActionResult ViewPatientData (string username)
+        {
+            ViewPatientDataViewModel model = new ViewPatientDataViewModel();
+            if (username == null)
+            {
+                model.Username = "NULL";
+                ModelState.AddModelError("", "ERROR: Username is null.");
+                return View(model);
+            }
+
+            model.Username = username;
+
+            Patient patient = _patientService.GetPatient(UserManager.FindByName(username).PatientId);
+            Physician physician = _physicianService.GetPhysician(UserManager.FindByName(User.Identity.Name).PhysicianId);
+
+            if (!PatientBelongsToPhysician(patient, physician))
+            {
+                ModelState.AddModelError("", "ERROR: You do not have permission to view this patient's health data.");
+                return View(model);
+            }
+
+            // Retrieve the data from the database for the patient.
+
+            return View(model);
+        }
+
+        #endregion
+
+        #region Private Functions
+
+        /// <summary>
         /// Checks if the user is already in the database.
         /// </summary>
         /// <param name="Username">Username for the user being added to the database</param>
@@ -199,5 +436,21 @@ namespace UAHFitVault.Controllers
             }
             return true;
         }
+
+        /// <summary>
+        /// Checks if the patient belongs to the physician
+        /// </summary>
+        /// <param name="patient">Patient input</param>
+        /// <param name="physician">Physician input</param>
+        /// <returns>True if the patient's physician is the physician user</returns>
+        private bool PatientBelongsToPhysician(Patient patient, Physician physician)
+        {
+            if (patient.Physician != physician)
+            {
+                return false;
+            }
+            return true;
+        }
+        #endregion
     }
 }

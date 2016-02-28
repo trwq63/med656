@@ -1,4 +1,7 @@
-﻿namespace UAHFitVault.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System;
+
+namespace UAHFitVault.Models
 {
     /// <summary>
     /// View model used to capture the data displayed on physician's patient management view.
@@ -80,5 +83,83 @@
         }
 
         #endregion
+    }
+
+    /// <summary>
+    /// View model for a physician deleting a patient
+    /// </summary>
+    public class DeletePatientViewModel
+    {
+        public string Username { get; set; }
+    }
+
+    /// <summary>
+    /// View model for editing a patient
+    /// </summary>
+    public class EditPatientViewModel
+    {
+        [Required]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
+        [Required]
+        [Display(Name = "Birthdate")]
+        public DateTime Birthdate { get; set; }
+
+        [Required]
+        [Display(Name = "Weight (lbs)")]
+        public float Weight { get; set; }
+
+        [Required]
+        [Display(Name = "Height (inches)")]
+        public int Height { get; set; }
+
+        [Required]
+        [Display(Name = "Location")]
+        public string Location { get; set; }
+
+        [Required]
+        [Display(Name = "Race")]
+        public string Race { get; set; }
+
+        [Required]
+        [Display(Name = "Ethnicity")]
+        public string Ethnicity { get; set; }
+
+        [Required]
+        [Display(Name = "Gender")]
+        public string Gender { get; set; }
+
+    }
+
+    /// <summary>
+    /// View model for viewing data for a patient
+    /// </summary>
+    public class ViewPatientDataViewModel
+    {
+        [Required]
+        public string Username { get; set; }
+        
+    }
+
+    /// <summary>
+    /// View model for resetting a patient's password
+    /// </summary>
+    public class PhysicianResetPasswordViewModel
+    {
+        [Required]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 10)]
+        [DataType(DataType.Password)]
+        [Display(Name = "New Password")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm New Password")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
     }
 }

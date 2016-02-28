@@ -420,8 +420,12 @@
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Admin\ManageUsers.cshtml" />
     <Content Include="Views\Shared\_PatientLayout.cshtml" />
-    <Content Include="Views\Admin\ResetPassword.cshtml" />
-    <Content Include="Views\Admin\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Physician\DeletePatient.cshtml" />
+    <Content Include="Views\Physician\DeletePatientConfirm.cshtml" />
+    <Content Include="Views\Physician\EditPatient.cshtml" />
+    <Content Include="Views\Physician\ViewPatientData.cshtml" />
+    <Content Include="Views\Physician\ResetPassword.cshtml" />
+	<Content Include="Views\Admin\ResetPasswordConfirmation.cshtml" />
     <None Include="Views\Shared\_PhysicianLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -456,6 +460,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Roles.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
