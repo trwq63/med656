@@ -282,6 +282,80 @@ namespace UAHFitVault.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// The controller for resetting the user password
+        /// </summary>
+        /// <param name="userId">User Id for the user to change the password</param>
+        /// <returns></returns>
+        public ActionResult ResetPassword (string userId)
+        {
+            SystemAdminResetPasswordViewModel model = new SystemAdminResetPasswordViewModel();
+            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var result = manager.FindById(userId);
+            if (result != null) // User was found. Should always be found.
+            {
+                model.Username = result.UserName;
+            }
+            else
+            {   // UserId was not found in the database.
+                string errorString = "ERROR: UserId " + userId.ToString() + " could not be found in the database.";
+                ModelState.AddModelError("", errorString);
+            }
+            return View(model);
+        }
+
+        /// <summary>
+        /// The controller for when the system admin presses the submit button when changing a user's password.
+        /// </summary>
+        /// <param name="inModel">Model for input</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ResetPassword (SystemAdminResetPasswordViewModel inModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                // Model has a problem.
+                return View(inModel);
+            }            
+            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            ApplicationUser user = manager.FindByName(inModel.Username);
+
+            if (user != null)
+            {
+                // User exists
+                string resetPasswordToken = manager.GeneratePasswordResetToken(user.Id); // Generate new pw reset token
+                if (resetPasswordToken == null)
+                {
+                    ModelState.AddModelError("", "Error generating password reset token.");
+                    return View(inModel);
+                }
+
+                var result = manager.ResetPassword(user.Id, resetPasswordToken, inModel.Password);
+                if (result.Succeeded)
+                {   // Password update succeeded
+                    return RedirectToAction("ResetPasswordConfirmation");
+                }
+                else
+                {   // Password update failed
+                    foreach (string error in result.Errors)
+                    {
+                        ModelState.AddModelError("", "Error updating password:  " + error);
+                    }
+                }
+            }
+
+            return View(inModel);
+        }
+
+        /// <summary>
+        /// The controller for reset password confirmation
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ResetPasswordConfirmation ()
+        {
+            return View();
+        }
+
         #region Protected Methods
 
         /// <summary>
