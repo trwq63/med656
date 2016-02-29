@@ -194,5 +194,11 @@ namespace UAHFitVault.Controllers
 
             return PartialView();
         }
+
+        public ActionResult GraphData() {
+
+
+            return PartialView();
+        }
     }
 }
