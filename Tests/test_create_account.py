@@ -79,6 +79,7 @@ def test_delete_patient(logoff):
     """
     This test will delete a patient account using the System Admin account and verify the user cannot login
     Validation is done on the login step
+    Note: this is incorrect. It needs to verify that Physicians can delete patient accounts rq# 3.1.1.1.2.6
 
     :param logoff: Makes sure the web session is in a logged off state at the start of the test
     :return:
