@@ -1,0 +1,412 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>WebUI package &mdash; WebUITest 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="WebUITest 1.0 documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="webui-package">
+<h1>WebUI package<a class="headerlink" href="#webui-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-WebUI.WebUI">
+<span id="webui-webui-module"></span><h2>WebUI.WebUI module<a class="headerlink" href="#module-WebUI.WebUI" title="Permalink to this headline">¶</a></h2>
+<p>These are the web user interface utilities used to drive the web tests.</p>
+<dl class="class">
+<dt id="WebUI.WebUI.WebUI">
+<em class="property">class </em><code class="descclassname">WebUI.WebUI.</code><code class="descname">WebUI</code><span class="sig-paren">(</span><em>baseurl='http://localhost:25396/'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>This class keeps track of the web session. It uses Firefox as the web driver. Its baseurl is the start page of
+the software. By default it is the localhost on port 25396.</p>
+<dl class="method">
+<dt id="WebUI.WebUI.WebUI.approve_account">
+<code class="descname">approve_account</code><span class="sig-paren">(</span><em>username</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.approve_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.approve_account" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logs in as the system admin and approves an account with the given username</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>username</strong> &#8211; Username of the account to approve</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="WebUI.WebUI.WebUI.check_login">
+<code class="descname">check_login</code><span class="sig-paren">(</span><em>t=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.check_login"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.check_login" title="Permalink to this definition">¶</a></dt>
+<dd><p>This will verify you are logged in. It checks for the manage account link that only appears if you are
+logged in.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>t</strong> &#8211; A timeout in seconds to wait for the management link to appear</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="WebUI.WebUI.WebUI.check_logoff">
+<code class="descname">check_logoff</code><span class="sig-paren">(</span><em>t=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.check_logoff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.check_logoff" title="Permalink to this definition">¶</a></dt>
+<dd><p>This will check that there is no logged in user for the session</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>t</strong> &#8211; time in seconds to wait for the login button to appear. The default is 10.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="WebUI.WebUI.WebUI.check_request_account">
+<code class="descname">check_request_account</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.check_request_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.check_request_account" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates that the account request was successful</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="WebUI.WebUI.WebUI.confirm_account_info">
+<code class="descname">confirm_account_info</code><span class="sig-paren">(</span><em>email=''</em>, <em>address=''</em>, <em>phonenum=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.confirm_account_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.confirm_account_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>This procedure will confirm account information of whatever information is provided.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>email</strong> &#8211; the expected email address</li>
+<li><strong>address</strong> &#8211; the expected home address</li>
+<li><strong>phonenum</strong> &#8211; the expected phone number</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="WebUI.WebUI.WebUI.create_patient">
+<code class="descname">create_patient</code><span class="sig-paren">(</span><em>user</em>, <em>pwd</em>, <em>email</em>, <em>first_name</em>, <em>last_name</em>, <em>address</em>, <em>phone_number</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.create_patient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.create_patient" title="Permalink to this definition">¶</a></dt>
+<dd><p>This will create a patient account. It expects the physician to be logged in when called.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user</strong> &#8211; </li>
+<li><strong>pwd</strong> &#8211; </li>
+<li><strong>email</strong> &#8211; </li>
+<li><strong>first_name</strong> &#8211; </li>
+<li><strong>last_name</strong> &#8211; </li>
+<li><strong>address</strong> &#8211; </li>
+<li><strong>phone_number</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="WebUI.WebUI.WebUI.delete_account">
+<code class="descname">delete_account</code><span class="sig-paren">(</span><em>user</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.delete_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.delete_account" title="Permalink to this definition">¶</a></dt>
+<dd><p>This logs in as the system admin and deletes the specified user</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user</strong> &#8211; username of the account to delete</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="WebUI.WebUI.WebUI.driver">
+<code class="descname">driver</code><em class="property"> = &lt;selenium.webdriver.firefox.webdriver.WebDriver (session=&quot;1df19ada-2570-4600-b820-11b5cd8f9bd2&quot;)&gt;</em><a class="headerlink" href="#WebUI.WebUI.WebUI.driver" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="WebUI.WebUI.WebUI.get_page">
+<code class="descname">get_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.get_page"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.get_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper procedure to return the current web pages source useful to validate responses on the page</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="WebUI.WebUI.WebUI.go_home">
+<code class="descname">go_home</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.go_home"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.go_home" title="Permalink to this definition">¶</a></dt>
+<dd><p>Navigates the web session back to the base url</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="WebUI.WebUI.WebUI.login">
+<code class="descname">login</code><span class="sig-paren">(</span><em>user</em>, <em>pwd</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.login"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.login" title="Permalink to this definition">¶</a></dt>
+<dd><p>This will make sure you are logged in as the user specified. It will log you out if you are already logged in.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user</strong> &#8211; Username to log in as</li>
+<li><strong>pwd</strong> &#8211; Password for the given username</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="WebUI.WebUI.WebUI.logoff">
+<code class="descname">logoff</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.logoff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.logoff" title="Permalink to this definition">¶</a></dt>
+<dd><p>This will log the logged in user off.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="WebUI.WebUI.WebUI.request_account">
+<code class="descname">request_account</code><span class="sig-paren">(</span><em>account_type</em>, <em>user</em>, <em>pwd</em>, <em>email</em>, <em>first_name</em>, <em>last_name</em>, <em>address</em>, <em>phone_number</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.request_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.request_account" title="Permalink to this definition">¶</a></dt>
+<dd><p>This will fill out a request for an account</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>account_type</strong> &#8211; The type of account to request. can either be Physician or Exp Admin</li>
+<li><strong>user</strong> &#8211; The username of the new account</li>
+<li><strong>pwd</strong> &#8211; The password of the new account</li>
+<li><strong>email</strong> &#8211; The email address of the new account</li>
+<li><strong>first_name</strong> &#8211; The first name of the user</li>
+<li><strong>last_name</strong> &#8211; The last name of the user</li>
+<li><strong>address</strong> &#8211; The home address of the user</li>
+<li><strong>phone_number</strong> &#8211; The phone number of the user</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="WebUI.WebUI.WebUI.reset_user_password">
+<code class="descname">reset_user_password</code><span class="sig-paren">(</span><em>user</em>, <em>new_pwd</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.reset_user_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.reset_user_password" title="Permalink to this definition">¶</a></dt>
+<dd><p>This procedure will make the system admin reset an accounts password</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user</strong> &#8211; username of the account to touch</li>
+<li><strong>new_pwd</strong> &#8211; the new password to give the account</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="WebUI.WebUI.WebUI.set_account_info">
+<code class="descname">set_account_info</code><span class="sig-paren">(</span><em>pwd=''</em>, <em>current_pwd=''</em>, <em>email=''</em>, <em>address=''</em>, <em>phonenum=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.set_account_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.set_account_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>This procedure will set the account info to any info provided if provided
+It assumes the user is already logged in</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pwd</strong> &#8211; the new password desired</li>
+<li><strong>current_pwd</strong> &#8211; the current password. needed to change passwords</li>
+<li><strong>email</strong> &#8211; the new email address</li>
+<li><strong>address</strong> &#8211; the new home address</li>
+<li><strong>phonenum</strong> &#8211; the new phone number</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="WebUI.WebUI.WebUI.upload_files">
+<code class="descname">upload_files</code><span class="sig-paren">(</span><em>files</em>, <em>activity_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.upload_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.upload_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>This will uplaod files for a patient with the given activities</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>files</strong> &#8211; Relative paths to files to be uploaded</li>
+<li><strong>activity_dict</strong> &#8211; A dictionary with index of activity and elements of stime and ftime</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-WebUI">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-WebUI" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">WebUI package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-WebUI.WebUI">WebUI.WebUI module</a></li>
+<li><a class="reference internal" href="#module-WebUI">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/WebUI.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Timothy Wilkins.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/WebUI.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

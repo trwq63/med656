@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>test_login &mdash; WebUITest 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="WebUITest 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for test_login</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">These tests are to verify that the accounts can be logged into</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">WebUI.WebUI</span> <span class="kn">import</span> <span class="n">WebUI</span>
+
+<span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="test_login_physician"><a class="viewcode-back" href="../test_login.html#test_login.test_login_physician">[docs]</a><span class="k">def</span> <span class="nf">test_login_physician</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This test will login as the testPhysician.</span>
+<span class="sd">    Validation is on the login step.</span>
+
+<span class="sd">    :param logoff: Makes sure the session is in a logged off state at the start of the test</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;testPhysician&#39;</span><span class="p">,</span> <span class="s1">&#39;P@ssword10&#39;</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">status</span><span class="p">,</span> <span class="s1">&#39;Could not login: </span><span class="se">\n</span><span class="s1">{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="test_login_experiment_admin"><a class="viewcode-back" href="../test_login.html#test_login.test_login_experiment_admin">[docs]</a><span class="k">def</span> <span class="nf">test_login_experiment_admin</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This test will login as the testExpAdmin.</span>
+<span class="sd">    Validation is on the login step.</span>
+
+<span class="sd">    :param logoff: Makes sure the session is in a logged off state at the start of the test</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;testExpAdmin&#39;</span><span class="p">,</span> <span class="s1">&#39;P@ssword10&#39;</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">status</span><span class="p">,</span> <span class="s1">&#39;Could not login: </span><span class="se">\n</span><span class="s1">{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="test_login_patient"><a class="viewcode-back" href="../test_login.html#test_login.test_login_patient">[docs]</a><span class="k">def</span> <span class="nf">test_login_patient</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This test will login as the testPatient.</span>
+<span class="sd">    Validation is on the login step.</span>
+
+<span class="sd">    :param logoff: Makes sure the session is in a logged off state at the start of the test</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;testPatient&#39;</span><span class="p">,</span> <span class="s1">&#39;P@ssword10&#39;</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">status</span><span class="p">,</span> <span class="s1">&#39;Could not login: </span><span class="se">\n</span><span class="s1">{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="test_login_system_admin"><a class="viewcode-back" href="../test_login.html#test_login.test_login_system_admin">[docs]</a><span class="k">def</span> <span class="nf">test_login_system_admin</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This test will login as the fitadmin.</span>
+<span class="sd">    Validation is on the login step.</span>
+
+<span class="sd">    :param logoff: Makes sure the session is in a logged off state at the start of the test</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;fitadmin&#39;</span><span class="p">,</span> <span class="s1">&#39;Password1!&#39;</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">status</span><span class="p">,</span> <span class="s1">&#39;Could not login: </span><span class="se">\n</span><span class="s1">{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="test_login_bad_pass"><a class="viewcode-back" href="../test_login.html#test_login.test_login_bad_pass">[docs]</a><span class="k">def</span> <span class="nf">test_login_bad_pass</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This test will verify that a user cannot login with an incorrect password</span>
+<span class="sd">    Validation is done by checking for &quot;Invalid login attempt&quot; in the web page</span>
+
+<span class="sd">    :param logoff: Makes sure the session is in a logged off state at the start of the test</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;testPhysician&#39;</span><span class="p">,</span> <span class="s1">&#39;!nc0rrect&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="s2">&quot;Invalid login attempt.&quot;</span> <span class="ow">in</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="test_login_bad_user"><a class="viewcode-back" href="../test_login.html#test_login.test_login_bad_user">[docs]</a><span class="k">def</span> <span class="nf">test_login_bad_user</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This test will verify that a user cannot login with an incorrect username</span>
+<span class="sd">    Validation is done by checking for &quot;Invalid login attempt&quot; in the web page</span>
+
+<span class="sd">    :param logoff: Makes sure the session is in a logged off state at the start of the test</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;fake&#39;</span><span class="p">,</span> <span class="s1">&#39;P@ssword10&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="s2">&quot;Invalid login attempt.&quot;</span> <span class="ow">in</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">()</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Timothy Wilkins.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
