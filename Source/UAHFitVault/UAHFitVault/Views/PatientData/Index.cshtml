@@ -6,7 +6,7 @@
 @{ 
     List<string> zephyrDataTypes = Enum.GetNames(typeof(ZephyrDataTypes)).Cast<string>().Select(z => z.Replace("_", " ")).ToList();
     List<string> zephyrSummaryTypes = Enum.GetNames(typeof(ZephyrSummaryDataTypes)).Cast<string>().Select(z => z.Replace("_", " ")).ToList();
-   // List<string> zephyrDataTypes = Enum.GetNames(typeof(ZephyrDataTypes)).Cast<string>().Select(z => z.Replace("_", " ")).ToList();
+    List<string> basicPeakDataTypes = Enum.GetNames(typeof(BasisPeakTypes)).Cast<string>().Select(z => z.Replace("_", " ")).ToList();
 }
 
 <h2>View Patient Data</h2>
@@ -37,7 +37,7 @@
                         </div>
                         <div class="col s1">
                             <label>
-                                <input id="@id" type="checkbox">
+                                <input id="@id" type="checkbox" >
                                 <span class="lever"></span>
                             </label>
                         </div>
@@ -46,9 +46,12 @@
             }
         </div>
     </div>
-    <!--Device Data Category Selection-->
+    <!--Zephyr Device Data Category Selection-->
     <div class="row center-align section">
-        <div class="col s3 card-panel hoverable">
+        <div id="zephyrDataTypes" class="col s3 card-panel hoverable hide">
+            <div class="card-title">
+                <label>Zephyr Data Types</label>
+            </div>
             @foreach (string dataType in zephyrDataTypes) {
                 <p>
                     <div class="switch row">
@@ -68,14 +71,68 @@
                 </p>
             }
         </div>
-        <div class="col s8 offset-s1 card-panel hoverable" >
+        <!--Zephyr Summary Data Selection-->
+        <div id="zephyrSummaryTypes" class="col s8 offset-s1 card-col2 hoverable" >
+            <div class="card-title">
+                <label>Zephyr Summary Data Types</label>
+            </div>
             @foreach (string dataType in zephyrSummaryTypes) {
+                if (zephyrSummaryTypes.IndexOf(dataType) % 2 != 0) {
+                <div class="col1">
+                    <p>
+                        <div class="switch row">
+                            @{
+                                string id = dataType + "Id";
+                            }
+                            <div class="col s8">
+                                <label class="form-label" for="@id">@dataType</label>
+                            </div>
+                            <div class="col s1">
+                                <label>
+                                    <input id="@id" type="checkbox">
+                                    <span class="lever"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </p>
+                </div>
+                }
+                else {
+                    <div class="col2">
+                        <p>
+                            <div class="switch row">
+                                @{
+                                    string id = dataType + "Id";
+                                }
+                                <div class="col s8">
+                                    <label class="form-label" for="@id">@dataType</label>
+                                </div>
+                                <div class="col s1">
+                                    <label>
+                                        <input id="@id" type="checkbox">
+                                        <span class="lever"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </p>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <!--BasisPeak Device Data Category Selection-->
+    <div class="row center-align section">
+        <div id="basisPeakDataTypes" class="col s3 card-panel hoverable hide">
+            <div class="card-title">
+                <label>BasisPeak Data Types</label>
+            </div>
+            @foreach (string dataType in basicPeakDataTypes) {
                 <p>
                     <div class="switch row">
                         @{
                             string id = dataType + "Id";
                         }
-                        <div class="col s6">
+                        <div class="col s8">
                             <label class="form-label" for="@id">@dataType</label>
                         </div>
                         <div class="col s1">
@@ -86,20 +143,60 @@
                         </div>
                     </div>
                 </p>
-             }
+            }
         </div>
     </div>
+    <div class="row section">
+        <button id="btnSubmit" class="waves-green btn" onclick="showData()">Submit</button>
+    </div>
+    <div class="row" id="zephyrReport"></div>
+    <br />
+    <div class="row" id="basisPeakReport"></div>
+    <br />
+    <div class="row" id="microsoftBandReport"></div>
 </div>
 
 @section scripts {
     <script src="~/Scripts/pickadate/picker.js"></script>
     <script src="~/Scripts/pickadate/picker.date.js"></script>
     <script>
-            $(document).ready(function () {
-                $('.datepicker').pickadate({
-                    selectMonths: true, // Creates a dropdown to control month
-                    selectYears: 5 // Creates a dropdown of 5 years to control year
-                });
+        $(document).ready(function () {
+            $('.datepicker').pickadate({
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 5 // Creates a dropdown of 5 years to control year
             });
+
+            $('#ZephyrId').click(function () {
+                if ($('#ZephyrId').prop('checked')) {
+                    $("#zephyrDataTypes").removeClass('hide');
+                }
+                else {
+                    $("#zephyrDataTypes").addClass('hide');
+                }
+            });
+
+            $('#BasisPeakId').click(function () {
+                if ($('#BasisPeakId').prop('checked')) {
+                    $("#basisPeakDataTypes").removeClass('hide');
+                }
+                else {
+                    $("#basisPeakDataTypes").addClass('hide');
+                }
+
+            });
+        });
+
+        function showButtons() {
+            if (($('#ZephyrId').prop('checked')) || ($('#BasisPeakId').prop('checked'))) {
+                $("#btnSubmit").addClass('hide');
+            }
+            else {
+                $("#btnSubmit").removeClass('hide');
+            }
+        }
+
+        function showData() {
+            
+        }
     </script>
 }

@@ -157,5 +157,11 @@ namespace UAHFitVault.Controllers
 
             return View(medicalDevices);
         }
+
+        public ActionResult GraphData() {
+
+
+            return PartialView();
+        }
     }
 }
