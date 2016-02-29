@@ -29,6 +29,7 @@ if "%1" == "help" (
 	echo.  epub       to make an epub
 	echo.  latex      to make LaTeX files, you can set PAPER=a4 or PAPER=letter
 	echo.  text       to make text files
+    echo.  pdf        to make pdf files
 	echo.  man        to make manual pages
 	echo.  texinfo    to make Texinfo files
 	echo.  gettext    to make PO message catalogs
@@ -71,6 +72,13 @@ if errorlevel 9009 (
 
 :sphinx_ok
 
+if "%1" == "pdf" (
+	%SPHINXBUILD% -b pdf %ALLSPHINXOPTS% %BUILDDIR%/pdf
+	if errorlevel 1 exit /b 1
+	echo.
+	echo.Build finished. The PDF pagess are in %BUILDDIR%/pdf.
+	goto end
+)
 
 if "%1" == "html" (
 	%SPHINXBUILD% -b html %ALLSPHINXOPTS% %BUILDDIR%/html
