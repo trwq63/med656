@@ -10,6 +10,7 @@ def test_username_cannot_be_copied(logoff):
     """
     This test creates a new user, tries to create another user with the same name, then creates third unique user
     Validatin is done on all three steps. This verifies that the username must be unique.
+    Note: Need a step added to check that usernames cannot be changed to a copy
 
     :param logoff: Makes sure the session is in a logged off state before the test starts.
     :return:
