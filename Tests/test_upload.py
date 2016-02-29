@@ -5,25 +5,19 @@ import pymysql
 web_sess = WebUI()
 
 
-def test_single_file_no_activity(logoff):
+def test_single_file_no_activity(login_tpatient):
     activity_dict = {}
     f = './Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv'
 
-    web_sess.login("testPatient","P@ssword10")
-    if web_sess.check_login():
-        assert web_sess.upload_files(f,activity_dict)
-    #entry = db.query('')
+    assert web_sess.upload_files(f, activity_dict)
     assert 'upload success' in web_sess.get_page()
 
 
-def test_multi_file_no_activity(logoff):
+def test_multi_file_no_activity(login_tpatient):
     activity_dict = {}
     f = './Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv; ./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_BB.csv'
 
-    web_sess.login("testPatient","P@ssword10")
-    if web_sess.check_login():
-        assert web_sess.upload_files(f,activity_dict)
-    #entry = db.query('')
+    assert web_sess.upload_files(f,activity_dict)
     assert 'upload success' in web_sess.get_page()
 
 
@@ -39,11 +33,11 @@ def test_single_file_multi_activity():
 def test_multi_file_multi_activity():
     assert False
 
-def test_zephyr():
+def test_zephyr_data_upload():
     assert False
 
-def test_basis_peak():
+def test_basis_peak_data_upload():
     assert False
 
-def test_mband():
+def test_mband_data_upload():
     assert False
