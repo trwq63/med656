@@ -12,6 +12,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using UAHFitVault.Database.Entities;
+using UAHFitVault.LogicLayer.Models;
+using UAHFitVault.LogicLayer.LogicFiles;
+using UAHFitVault.Models;
 
 namespace UAHFitVault.Controllers
 {
@@ -149,13 +152,41 @@ namespace UAHFitVault.Controllers
         /// <param name="patientUserId">Patient's user id</param>
         /// <returns></returns>
         public ActionResult Index(string patientUserId)
-        { 
-            PatientUserId = patientUserId;
+        {
+            List<PatientDataByDevice> dataByDevice = new List<PatientDataByDevice>();
 
-            //Get a list of all the medical devices a patient may have uploaded data for.
-            List<string> medicalDevices = _medicalDeviceService.GetMedicalDevices().Where(d => d.Name != "Unknown").Select(d => d.Name).ToList();
+            //If no patientUserId check to see if the user is a patient
+            if (string.IsNullOrEmpty(patientUserId)) {
+                //If the user is a patient get the current logged in user id.
+                if (User.IsInRole(UserRole.Patient.ToString())) {
+                    patientUserId = User.Identity.GetUserId();
+                }
+            }
 
-            return View(medicalDevices);
+            //If there is still no user id return nothing to view.
+            if (!string.IsNullOrEmpty(patientUserId)) {
+
+                PatientUserId = patientUserId;
+
+                Patient patient = _patientService.GetPatient(UserManager.FindById(patientUserId).PatientId);                
+
+                if (patient.PatientData != null && patient.PatientData.Count > 0) {
+                    List<PatientData> patientData = patient.PatientData;
+
+                    //Get a list of all the medical devices a patient may have uploaded data for.
+                    List<string> medicalDevices = _medicalDeviceService.GetMedicalDevices().Where(d => d.Name != "Unknown").Select(d => d.Name).ToList();
+
+                    //Sort patient data records by device.
+                    foreach (string device in medicalDevices) {
+                        PatientDataByDevice deviceData = PatientDataLogic.SortPatientData(patientData, device);
+                        if (deviceData != null) {
+                            dataByDevice.Add(deviceData);
+                        }
+                    }
+                }
+                //Sort patient data records by type.
+            }
+            return View(dataByDevice);
         }
 
         public ActionResult GraphData() {

@@ -11,6 +11,8 @@ using UAHFitVault.Database.Entities;
 using UAHFitVault.LogicLayer.Enums;
 using UAHFitVault.LogicLayer.LogicFiles;
 using UAHFitVault.Helpers;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
 
 namespace UAHFitVault.Controllers
 {
@@ -18,6 +20,11 @@ namespace UAHFitVault.Controllers
     public class PatientController : Controller
     {
         #region Private Members
+
+        /// <summary>
+        /// UserManager object used to get the logged in user's information
+        /// </summary>
+        private ApplicationUserManager _userManager;
 
         /// <summary>
         /// Service object for accessing patient data database functions.
@@ -62,7 +69,25 @@ namespace UAHFitVault.Controllers
         /// <summary>
         /// Service for accessing medical devices.
         /// </summary>
-        private readonly IMedicalDeviceService _medicalDeviceService;       
+        private readonly IMedicalDeviceService _medicalDeviceService;
+
+        #endregion
+
+        #region Private Properties
+
+        /// <summary>
+        /// User manager object needed throughout the controller to access applicationuser objects.
+        /// </summary>
+        /// <returns></returns>
+        private ApplicationUserManager UserManager {
+            get {
+                if (_userManager == null) {
+                    _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                }
+
+                return _userManager;
+            }
+        }
 
         #endregion
 
@@ -160,13 +185,14 @@ namespace UAHFitVault.Controllers
 
                 //var user = System.Web.HttpContext.Current.User.Identity.GetUserId();
 
-                Patient patient = _patientService.GetPatient(1);               
+                Patient patient = _patientService.GetPatient(UserManager.FindById(User.Identity.GetUserId()).PatientId);               
 
                 PatientData patientData = new PatientData() {
                     Id = Guid.NewGuid(),
                     DataType = (int)fileType,
                     Name = file.FileName,
                     UploadDate = DateTime.Now,
+                    //TODO: Fix the date here
                     Date = DateTime.Now,                    
                     MedicalDeviceId = medicalDevice.Id,
                     Patient = patient
