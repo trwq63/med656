@@ -4,13 +4,6 @@
     ViewBag.Title="Confirm Update User";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>@ViewBag.Title</title>
-</head>
-<body>
 @using (Html.BeginForm("ConfirmUpdateUser", "Manage", FormMethod.Post))
 {
     <h2>@ViewBag.Title</h2>
@@ -114,5 +107,4 @@
     <input type="submit" class="btn btn-default" value="Confirm" />
     <input type="button" value="Cancel" class="btn" onclick="location.href = '/Account/LoginRedirect';" />
 }
-</body>
-</html>
+<br /><br />
