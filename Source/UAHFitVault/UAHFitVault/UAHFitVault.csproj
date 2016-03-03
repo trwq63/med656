@@ -294,6 +294,7 @@
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.0.js" />
     <Content Include="Scripts\jquery-2.2.0.min.js" />
+    <Content Include="Scripts\jquery-2.2.0.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -434,7 +435,6 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-2.2.0.min.map" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UAHFitVault.DataAccess\UAHFitVault.DataAccess.csproj">
