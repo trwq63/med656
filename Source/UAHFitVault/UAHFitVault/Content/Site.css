@@ -58,3 +58,9 @@ textarea {
   width: 300px;
   margin-right: 5px;
 }
+
+.picker select{
+    display: inline;
+    background-color: #FFFFFF;
+    width: 25%;
+}

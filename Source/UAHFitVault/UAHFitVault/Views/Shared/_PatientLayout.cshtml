@@ -36,6 +36,11 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/materialize")
+    <script>
+        $(document).ready(function () {
+            $('select').material_select();
+        });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
