@@ -97,7 +97,7 @@ namespace UAHFitVault.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Physician, Patient.
+        ///   Looks up a localized string similar to Physician,Patient.
         /// </summary>
         internal static string ROLES_PATIENTDATA {
             get {
