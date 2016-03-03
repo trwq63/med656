@@ -1,202 +1,68 @@
 ﻿@using UAHFitVault.Database.Entities;
 @using UAHFitVault.LogicLayer.Enums;
+@using UAHFitVault.LogicLayer.Models;
 
-@model List<string>
+@model List<PatientDataByDevice>
+
+@section headers{
+    <link type="text/css" rel="stylesheet" href="~/Content/patentData.css" media="screen,projection" />   
+    <link type="text/css" rel="stylesheet" href="~/Content/tableCard.css" media="screen,projection" />   
+}
 
 @{ 
-    List<string> zephyrDataTypes = Enum.GetNames(typeof(ZephyrDataTypes)).Cast<string>().Select(z => z.Replace("_", " ")).ToList();
-    List<string> zephyrSummaryTypes = Enum.GetNames(typeof(ZephyrSummaryDataTypes)).Cast<string>().Select(z => z.Replace("_", " ")).ToList();
-    List<string> basicPeakDataTypes = Enum.GetNames(typeof(BasisPeakTypes)).Cast<string>().Select(z => z.Replace("_", " ")).ToList();
+    //List <string> devices = Model.Select(m => m.MedicalDevice).ToList();
+    //List<string> zephyrDataTypes = Enum.GetNames(typeof(ZephyrDataTypes)).Cast<string>().Select(z => z.Replace("_", " ")).ToList();
+    //List<string> zephyrSummaryTypes = Enum.GetNames(typeof(ZephyrSummaryDataTypes)).Cast<string>().Select(z => z.Replace("_", " ")).ToList();
+    //List<string> basicPeakDataTypes = Enum.GetNames(typeof(BasisPeakTypes)).Cast<string>().Select(z => z.Replace("_", " ")).ToList();
 }
 
 <h2>View Patient Data</h2>
 
-<div class="rows col s12">
-    <!--DatePickers-->
-    <div id="date-pickers" class="row center-align section">
-        <div class="col s3 offset-s3">
-            <label class="form-label"  for="fromDate">From Date</label>
-            <input id="fromDate" class="datepicker" type="text" />
+<div class="col s12">
+    <div class="patientTabs">
+        <div class="patientTabs__header">
+            Medical Devices
         </div>
-        <div class="col s3">
-            <label class="form-label" for="toDate">To Date</label>
-            <input id="toDate" class="datepicker" type="text" />
-        </div>
-    </div>
-    <!--Medical device selection-->
-    <div class="row center-align section">
-        <div class="col s3 offset-s4 card-panel hoverable">
-            @foreach (string device in Model) {
-                <p>
-                    <div class="switch row">
-                        @{
-                            string id = device + "Id";
-                        }
-                        <div class="col s6">
-                            <label class="form-label" for="@id">@device</label>
-                        </div>
-                        <div class="col s1">
-                            <label>
-                                <input id="@id" type="checkbox" >
-                                <span class="lever"></span>
-                            </label>
-                        </div>
-                    </div>
-                </p>
+        <table class="tableCard__table">
+            @foreach (PatientDataByDevice device in Model) {
+                <tr class="tableCard__tableRow" data-deviceName="@device.MedicalDevice">
+                    <td>@device.MedicalDevice</td>
+            </tr>
+            <tr class="tableCard__collapsableRow" data-deviceName="@device.MedicalDevice" data-deviceType="accel">
+                <td>Accelerometer</td>
+            </tr>
             }
-        </div>
+        </table>
     </div>
-    <!--Zephyr Device Data Category Selection-->
-    <div class="row center-align section">
-        <div id="zephyrDataTypes" class="col s3 card-panel hoverable hide">
-            <div class="card-title">
-                <label>Zephyr Data Types</label>
-            </div>
-            @foreach (string dataType in zephyrDataTypes) {
-                <p>
-                    <div class="switch row">
-                        @{
-                            string id = dataType + "Id";
-                        }
-                        <div class="col s8">
-                            <label class="form-label" for="@id">@dataType</label>
-                        </div>
-                        <div class="col s1">
-                            <label>
-                                <input id="@id" type="checkbox">
-                                <span class="lever"></span>
-                            </label>
-                        </div>
-                    </div>
-                </p>
-            }
-        </div>
-        <!--Zephyr Summary Data Selection-->
-        <div id="zephyrSummaryTypes" class="col s8 offset-s1 card-col2 hoverable" >
-            <div class="card-title">
-                <label>Zephyr Summary Data Types</label>
-            </div>
-            @foreach (string dataType in zephyrSummaryTypes) {
-                if (zephyrSummaryTypes.IndexOf(dataType) % 2 != 0) {
-                <div class="col1">
-                    <p>
-                        <div class="switch row">
-                            @{
-                                string id = dataType + "Id";
-                            }
-                            <div class="col s8">
-                                <label class="form-label" for="@id">@dataType</label>
-                            </div>
-                            <div class="col s1">
-                                <label>
-                                    <input id="@id" type="checkbox">
-                                    <span class="lever"></span>
-                                </label>
-                            </div>
-                        </div>
-                    </p>
-                </div>
-                }
-                else {
-                    <div class="col2">
-                        <p>
-                            <div class="switch row">
-                                @{
-                                    string id = dataType + "Id";
-                                }
-                                <div class="col s8">
-                                    <label class="form-label" for="@id">@dataType</label>
-                                </div>
-                                <div class="col s1">
-                                    <label>
-                                        <input id="@id" type="checkbox">
-                                        <span class="lever"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </p>
-                    </div>
-                }
-            }
-        </div>
+    <div class="col s8">
+
     </div>
-    <!--BasisPeak Device Data Category Selection-->
-    <div class="row center-align section">
-        <div id="basisPeakDataTypes" class="col s3 card-panel hoverable hide">
-            <div class="card-title">
-                <label>BasisPeak Data Types</label>
-            </div>
-            @foreach (string dataType in basicPeakDataTypes) {
-                <p>
-                    <div class="switch row">
-                        @{
-                            string id = dataType + "Id";
-                        }
-                        <div class="col s8">
-                            <label class="form-label" for="@id">@dataType</label>
-                        </div>
-                        <div class="col s1">
-                            <label>
-                                <input id="@id" type="checkbox">
-                                <span class="lever"></span>
-                            </label>
-                        </div>
-                    </div>
-                </p>
-            }
-        </div>
-    </div>
-    <div class="row section">
-        <button id="btnSubmit" class="waves-green btn" onclick="showData()">Submit</button>
-    </div>
-    <div class="row" id="zephyrReport"></div>
-    <br />
-    <div class="row" id="basisPeakReport"></div>
-    <br />
-    <div class="row" id="microsoftBandReport"></div>
 </div>
 
 @section scripts {
-    <script src="~/Scripts/pickadate/picker.js"></script>
-    <script src="~/Scripts/pickadate/picker.date.js"></script>
     <script>
         $(document).ready(function () {
-            $('.datepicker').pickadate({
-                selectMonths: true, // Creates a dropdown to control month
-                selectYears: 5 // Creates a dropdown of 5 years to control year
-            });
-
-            $('#ZephyrId').click(function () {
-                if ($('#ZephyrId').prop('checked')) {
-                    $("#zephyrDataTypes").removeClass('hide');
-                }
-                else {
-                    $("#zephyrDataTypes").addClass('hide');
-                }
-            });
-
-            $('#BasisPeakId').click(function () {
-                if ($('#BasisPeakId').prop('checked')) {
-                    $("#basisPeakDataTypes").removeClass('hide');
-                }
-                else {
-                    $("#basisPeakDataTypes").addClass('hide');
-                }
-
-            });
+            $('select').material_select();
         });
 
-        function showButtons() {
-            if (($('#ZephyrId').prop('checked')) || ($('#BasisPeakId').prop('checked'))) {
-                $("#btnSubmit").addClass('hide');
-            }
-            else {
-                $("#btnSubmit").removeClass('hide');
-            }
+        $(".tableCard__tableRow").click(function (element) {
+            var name = $(element.currentTarget).data("devicename");
+            $(".tableCard__collapsableRow").removeClass("tableCard__collapsableRow--isOpen");
+            $(".tableCard__tableRow").removeClass("tableCard__tableRow--isActive");
+            $(element).addClass("tableCard__tableRow--isActive");
+            $(".tableCard__collapsableRow[data-deviceName='" + name + "']").addClass("tableCard__collapsableRow--isOpen");
+        });
+
+        function expandDeviceType(element) {
+            var name = $(element).data("deviceName");
+
         }
 
-        function showData() {
-            
+        function changeTabs(element) {            
+            var name = $(element).data("deviceName");
+            $(".patientTabs__tab").removeClass("patientTabs__tab--isActive");
+            $(elment).addClass("patientTabs__tab--isActive");
         }
+
     </script>
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace UAHFitVault.Database.Entities
@@ -36,6 +37,8 @@ namespace UAHFitVault.Database.Entities
 
         #region Navigation Properties
         public virtual Physician Physician { get; set; }
+
+        public virtual List<PatientData> PatientData { get; set; }
 
         #endregion
     }

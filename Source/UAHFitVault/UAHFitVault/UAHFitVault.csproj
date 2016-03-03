@@ -257,7 +257,9 @@
     <Content Include="Content\materialize\css\materialize.min.css" />
     <Content Include="Content\materialize\font\material-design-icons\LICENSE.txt" />
     <Content Include="Content\materialize\font\material-design-icons\Material-Design-Icons.svg" />
+    <Content Include="Content\patentData.css" />
     <Content Include="Content\select-activity.css" />
+    <Content Include="Content\tableCard.css" />
     <Content Include="Content\user-dashboards.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -423,8 +425,8 @@
     <Content Include="Views\Physician\EditPatient.cshtml" />
     <Content Include="Views\Physician\ViewPatientData.cshtml" />
     <Content Include="Views\Physician\ResetPassword.cshtml" />
-	<Content Include="Views\Admin\ResetPasswordConfirmation.cshtml" />
-	<Content Include="Views\PatientData\Index.cshtml" />
+    <Content Include="Views\Admin\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\PatientData\Index.cshtml" />
     <None Include="Views\Shared\_PhysicianLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
