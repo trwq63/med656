@@ -59,6 +59,10 @@ textarea {
   margin-right: 5px;
 }
 
+.input-field .material-icons.active{
+    color: #000;
+}
+
 .picker select{
     display: inline;
     background-color: #FFFFFF;

@@ -12,59 +12,62 @@
 <h2 style="text-align:center">Select Data to Upload</h2>
 
 <div class="col s12 center-align">
-      <form id="dataform" action="@Url.Action("ProcessData", "Patient")" method="post" enctype="multipart/form-data">
-          @Html.AntiForgeryToken()
-          <div>
-              <label class="black-text center-align">To upload data, use the browse button and select a file or list of files to process for upload.</label>
-              <div class="file-field input-field">
-                  <div class="btn">
-                      <input name="Files" type="file" multiple>
-                      <span>Browse</span>
-                  </div>
-                  <div class="file-path-wrapper">
-                      <input class="file-path validate" type="text" placeholder="Upload one or more files">
-                  </div>
-              </div>
-              <label class="black-text center-align">Provide a date range for when the data was collected.</label>
-              <div class="row">
-                  <div class="col s12 offset-s3">
-                      <div class="col m3 s6 offset-s2">
-                          <label for="FromDate">From Date</label>
-                          <input id="FromDate" name="FromDate" type="date" class="datepicker">
-                      </div>
-                      <div class="col m3 s6">
-                          <label for="ToDate">To Date</label>
-                          <input id="ToDate" name="ToDate" type="date" class="datepicker">
-                      </div>
-                  </div>
-              </div>
-              <label class="black-text center-align">Select the device for the data.</label>
-              <div class="row">
-                  @if (medicalDevices != null && medicalDevices.Count > 0) {
-                      foreach (MedicalDevice device in medicalDevices) {
-                          int index = medicalDevices.IndexOf(device);
-                          string id = "device" + index;
-                          <input name="MedicalDeviceType" type="radio" id="@id" value="@device.Name" />
-                          <label for="@id">@device.Name</label>
-                      }
-                  }
-              </div>
-          </div>
-          <div class="divider grey section-divider"></div>
-          <div>
-              <label class="black-text">Add Activities</label>
-          </div>
-          <div class="divider grey section-divider"></div>
-          <div class="col s12 center-align">
-              <button id="btnSubmit" class="btn waves-effect waves-light button-section" type="submit" name="submit">
-                  Submit
-                  <i class="material-icons right">send</i>
-              </button>
-              <button id="btnClear" class="btn waves-effect waves-light button-section" type="button" name="action">
-                  Clear
-              </button>
-          </div>          
-      </form>
+    <form id="dataform" action="@Url.Action("ProcessData", "Patient")" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <div>
+            <label class="black-text center-align">To upload data, use the browse button and select a file or list of files to process for upload.</label>
+            <div class="file-field input-field">
+                <div class="btn">
+                    <input name="Files" type="file" multiple>
+                    <span>Browse</span>
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                </div>
+            </div>
+            <label class="black-text center-align">Provide a date range for when the data was collected.</label>
+            <div class="row">
+                <div class="col s12 offset-s3">
+                    <div class="input-field col m3 s6 offset-s2">    
+                        <i class="material-icons prefix">today</i>
+                        <input id="FromDate" name="FromDate" type="text" class="datepicker">
+                        <label for="FromDate">From Date</label>                        
+                    </div>
+                    <div class="input-field col m3 s6">
+                        <i class="material-icons prefix">today</i>
+                        <input id="ToDate" name="ToDate" type="text" class="datepicker">
+                        <label for="ToDate">To Date</label>
+                    </div>
+                </div>
+            </div>
+            <label class="black-text center-align">Select the device for the data.</label>
+            <div class="row">
+                @if (medicalDevices != null && medicalDevices.Count > 0) {
+                    foreach (MedicalDevice device in medicalDevices) {
+                        int index = medicalDevices.IndexOf(device);
+                        string id = "device" + index;
+                        <input name="MedicalDeviceType" type="radio" id="@id" value="@device.Name" />
+                        <label for="@id">@device.Name</label>
+                    }
+                }
+            </div>
+        </div>
+        <div class="divider grey section-divider"></div>
+        <div>
+            <label class="black-text">Add Activities</label>
+        </div>
+        <div class="divider grey section-divider"></div>
+        <div class="col s12 center-align">
+            <button id="btnSubmit" class="btn waves-effect waves-light button-section" type="submit" name="submit">
+                Submit
+                <i class="material-icons right">send</i>
+            </button>
+            <button id="btnClear" class="btn waves-effect waves-light button-section" type="button" name="action">
+                Clear
+            </button>
+        </div>
+    </form>
+
 </div>
 
 
