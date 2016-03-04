@@ -18,7 +18,7 @@
               <label class="black-text center-align">To upload data, use the browse button and select a file or list of files to process for upload.</label>
               <div class="file-field input-field">
                   <div class="btn">
-                      <input name="files" type="file" multiple>
+                      <input name="Files" type="file" multiple>
                       <span>Browse</span>
                   </div>
                   <div class="file-path-wrapper">
@@ -29,12 +29,12 @@
               <div class="row">
                   <div class="col s12 offset-s3">
                       <div class="col m3 s6 offset-s2">
-                          <label for="fromDate">From Date</label>
-                          <input id="fromDate" type="date" class="datepicker">
+                          <label for="FromDate">From Date</label>
+                          <input id="FromDate" name="FromDate" type="date" class="datepicker">
                       </div>
                       <div class="col m3 s6">
-                          <label for="toDate">To Date</label>
-                          <input id="toDate" type="date" class="datepicker">
+                          <label for="ToDate">To Date</label>
+                          <input id="ToDate" name="ToDate" type="date" class="datepicker">
                       </div>
                   </div>
               </div>
@@ -44,7 +44,7 @@
                       foreach (MedicalDevice device in medicalDevices) {
                           int index = medicalDevices.IndexOf(device);
                           string id = "device" + index;
-                          <input name="medicalDeviceType" type="radio" id="@id" value="@device.Name" />
+                          <input name="MedicalDeviceType" type="radio" id="@id" value="@device.Name" />
                           <label for="@id">@device.Name</label>
                       }
                   }

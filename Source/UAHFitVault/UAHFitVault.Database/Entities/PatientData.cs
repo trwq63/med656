@@ -23,7 +23,9 @@ namespace UAHFitVault.Database.Entities
         [Required]
         public string Name { get; set; }
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime FromDate { get; set; }
+        [Required]
+        public DateTime ToDate { get; set; }
         [Required]
         public DateTime UploadDate { get; set; }
         [Required]
