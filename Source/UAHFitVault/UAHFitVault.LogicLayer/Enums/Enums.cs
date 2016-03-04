@@ -19,7 +19,7 @@
         Unknown,
         Summary,
         EventData,
-        Accel,
+        Accelerometer,
         ECG,
         Breathing
     }
