@@ -13,6 +13,7 @@ using UAHFitVault.LogicLayer.LogicFiles;
 using UAHFitVault.Helpers;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
+using UAHFitVault.Models;
 
 namespace UAHFitVault.Controllers
 {
@@ -175,17 +176,17 @@ namespace UAHFitVault.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ProcessData(HttpPostedFileBase[] files, string medicalDeviceType) {
+        public ActionResult ProcessData(UploadDataViewModel model) {
 
-            MedicalDevice medicalDevice = PatientLogic.DetermineDeviceType(MedicalDevices, medicalDeviceType);
+            MedicalDevice medicalDevice = PatientLogic.DetermineDeviceType(MedicalDevices, model.MedicalDeviceType);
 
-            foreach (HttpPostedFileBase file in files) { 
+            foreach (HttpPostedFileBase file in model.Files) { 
                 
                 File_Type fileType = PatientLogic.DetermineFileType(file.FileName, medicalDevice);
 
                 //var user = System.Web.HttpContext.Current.User.Identity.GetUserId();
 
-                Patient patient = _patientService.GetPatient(UserManager.FindById(User.Identity.GetUserId()).PatientId);               
+                Patient patient = _patientService.GetPatient(UserManager.FindById(User.Identity.GetUserId()).PatientId);
 
                 PatientData patientData = new PatientData() {
                     Id = Guid.NewGuid(),
@@ -193,7 +194,8 @@ namespace UAHFitVault.Controllers
                     Name = file.FileName,
                     UploadDate = DateTime.Now,
                     //TODO: Fix the date here
-                    Date = DateTime.Now,                    
+                    FromDate = model.FromDate,
+                    ToDate = model.ToDate,           
                     MedicalDeviceId = medicalDevice.Id,
                     Patient = patient
                 };
