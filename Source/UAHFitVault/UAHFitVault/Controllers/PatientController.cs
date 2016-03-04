@@ -205,7 +205,7 @@ namespace UAHFitVault.Controllers
                 }
                 else if(medicalDevice.Name == Device_Type.Zephyr.ToString()) { 
                     switch (fileType) {
-                        case File_Type.Accel:
+                        case File_Type.Accelerometer:
                             ProcessZephyrAccelData(file, patientData);
                             break;
                         case File_Type.Breathing:

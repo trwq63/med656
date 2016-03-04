@@ -1,16 +1,15 @@
 ﻿.tableCard {
-    position: absolute;
     height: 600px;
-    width: 600px;
+    width: 300px;
     border-radius: 2px;
     background-color: #ffffff;
     font-family: 'Roboto', sans-serif;
     color: #2D2D2D;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    -moz-transition: all 0.2s ease-in-out, transform 0.4s ease-in-out;
-    -o-transition: all 0.2s ease-in-out, transform 0.4s ease-in-out;
-    -webkit-transition: all 0.2s ease-in-out, transform 0.4s ease-in-out;
-    transition: all 0.2s ease-in-out, transform 0.4s ease-in-out;
+    box-shadow: 0 3px 6px;   /*rgba(0,0,0.16), 0 3px, 6px  rgba(0,0,0.23);*/
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 .tableCard__header {
@@ -18,8 +17,8 @@
     height: 56px;
     padding-top: 14px;
     padding-left: 20px;
-    background-color: #3F51B5;
-    color: #fff;
+    background-color: #BBDEFB;
+    color: #212121;
     font-size: 19px;
 }
 
