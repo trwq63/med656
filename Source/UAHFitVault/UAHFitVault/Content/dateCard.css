@@ -1,0 +1,43 @@
+﻿.dateCard{
+    height: 120px;
+    width: 100%;
+    border-radius: 2px;
+    background-color: #ffffff;
+    color: #202020;
+    box-shadow: 0 3px 6px;   /*rgba(0,0,0.16), 0 3px, 6px  rgba(0,0,0.23);*/
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.dateCard__header{
+    width: 100%;
+    height: 56px;
+    padding-top: 14px;
+    padding-left: 20px;
+    background-color: #3F51B5;
+    color: #fff;
+    font-size: 19px;
+}
+
+.dateCard__container {
+    width: 100%;
+    height: 56px;
+    padding-left: 0;
+    padding-right: 0;
+    font-size: 18px;
+}
+
+.dateCard__fromDate {
+    width: 50%;
+    height: 100%;
+    text-align: center;
+}
+
+.dateCard__toDate {
+    width: 50%;
+    height: 100%;
+    text-align: center;
+}
+
