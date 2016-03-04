@@ -19,7 +19,20 @@
 <h2>View Patient Data</h2>
 
 <div class="col s12">
-    <div class="tableCard">
+    <div class="row dateCard">
+        <div class="dateCard__header">
+            Date Range Filter
+        </div>
+        <div class="dateCard__container">
+            <div class="dateCard__fromDate">
+                <input id="fromDate" name="FromDate" type="date" class="datepicker"/>
+            </div>
+            <div class="dateCard__toDate">
+                <input id="toDate" name="ToDate" type="date" class="datepicker" />
+            </div>
+        </div>
+    </div>
+    <div class="row tableCard">
         <div class="tableCard__header">
             Medical Devices
         </div>
@@ -34,7 +47,7 @@
             }
         </table>
     </div>
-    <div class="col s8">
+    <div class="row col s8">
 
     </div>
 </div>
@@ -42,7 +55,10 @@
 @section scripts {
     <script>
         $(document).ready(function () {
-            $('select').material_select();
+            $('.datepicker').pickadate({
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 15 // Creates a dropdown of 15 years to control year
+            });
         });
 
         $(".tableCard__tableRow").click(function (element) {
