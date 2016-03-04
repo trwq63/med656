@@ -7,12 +7,32 @@ def pre_existing_users():
     web_sess = WebUI()
     web_sess.request_account('Physician', 'testPhysician', 'P@ssword10', 'tphysician@aol.com',
                              'test', 'test', 'home', '123-456-7890')
+    web_sess.approve_account('testPhysician')
     web_sess.request_account('Exp Admin', 'testExpAdmin', 'P@ssword10', 'texpadmin@aol.com',
                              'test', 'test', 'home', '123-456-7890')
-    web_sess.create_patient('testPatient', 'P@ssword10', 'tpatient@aol.com',
-                            'test', 'test', 'home', '123-456-7890')
-    web_sess.create_patient('testPatient2', 'P@ssword10', 'tpatient@aol.com',
-                            'test', 'test', 'home', '123-456-7890')
+    web_sess.approve_account('testExpAdmin')
+    web_sess.create_patient('testPhysician',
+                            'P@ssword10',
+                            'testPatient',
+                            'P@ssword10',
+                            '3 March, 1954',
+                            'Alabama',
+                            '200',
+                            '72',
+                            'male',
+                            'white',
+                            'non_hispanic')
+    web_sess.create_patient('testPhysician',
+                            'P@ssword10',
+                            'testPatient2',
+                            'P@ssword10',
+                            '10 November, 1999',
+                            'Guam',
+                            '156',
+                            '65',
+                            'female',
+                            'hawaiian',
+                            'non_hispanic')
 
 
 @pytest.fixture

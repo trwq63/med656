@@ -2,6 +2,7 @@
 These are the web user interface utilities used to drive the web tests.
 """
 from selenium import webdriver
+from selenium.webdriver.support import select
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
@@ -48,7 +49,6 @@ class WebUI:
         :param pwd: Password for the given username
         :return:
         """
-        self.go_home()
         if self.check_login(t=1):
             self.logoff()
         try:
@@ -60,18 +60,21 @@ class WebUI:
             return False
         return True
 
-    def check_login(self, t=5):
+    def check_login(self, user='', t=5):
         """
         This will verify you are logged in. It checks for the manage account link that only appears if you are
         logged in.
 
         :param t: A timeout in seconds to wait for the management link to appear
+        :param user: Check to see if this is the user that is logged in
         :return:
         """
         try:
-            wait = WebDriverWait(self.driver, t).until(
+            WebDriverWait(self.driver, t).until(
                 ec.presence_of_element_located((By.CSS_SELECTOR, 'a[title=Manage]'))
             )
+            if user != '':
+                return user in self.driver.find_element_by_css_selector('a[title=Manage]').text
         except:
             return False
         return True
@@ -105,7 +108,8 @@ class WebUI:
 
     def request_account(self, account_type, user, pwd, email, first_name, last_name, address, phone_number):
         """
-        This will fill out a request for an account
+        This will fill out a request for an account. To request an account you must be logged out therefore
+        this procedure will make sure you are logged out
 
         :param account_type: The type of account to request. can either be Physician or Exp Admin
         :param user: The username of the new account
@@ -117,7 +121,8 @@ class WebUI:
         :param phone_number: The phone number of the user
         :return:
         """
-        self.driver.get(self.baseurl)
+        if not self.check_logoff(t=1):
+            self.logoff()
         try:
             self.driver.find_element(by='id',value='requestAccountLink').click()
             if account_type == 'Physician':
@@ -145,11 +150,9 @@ class WebUI:
         :param username: Username of the account to approve
         :return:
         """
-        self.driver.get(self.baseurl)
         try:
-            if self.check_login():
-                self.logoff()
-            self.login('fitadmin','Password1!')
+            if not self.check_login(user='fitadmin'):
+                self.login('fitadmin','Password1!')
             # find the account to approve and click the approve button
             return False
         except:
@@ -184,33 +187,51 @@ class WebUI:
             return False
         return True
 
-    def create_patient(self, user, pwd, email, first_name, last_name, address, phone_number):
+    def create_patient(self, phy, phy_pass, user, pwd, bday, location, weight, height, gender, race, ethnicity):
         """
         This will create a patient account. It expects the physician to be logged in when called.
 
         :param user:
         :param pwd:
-        :param email:
-        :param first_name:
-        :param last_name:
-        :param address:
-        :param phone_number:
         :return:
         """
-        self.driver.get(self.baseurl)
+        if not self.check_login(phy, t=1):
+            self.login(phy, phy_pass)
         try:
-            self.driver.find_element(by='id',value='requestAccountLink').click()
-            self.driver.find_element(by='css selector',value='[for=radioPhysician]').click()
-            self.driver.find_element(by='id',value='FirstName').send_keys(first_name)
-            self.driver.find_element(by='id',value='LastName').send_keys(last_name)
-            self.driver.find_element(by='id',value='Email').send_keys(email)
-            self.driver.find_element(by='id',value='Username').send_keys(user)
-            self.driver.find_element(by='id',value='Password').send_keys(pwd)
-            self.driver.find_element(by='id',value='ConfirmPassword').send_keys(pwd)
-            self.driver.find_element(by='id',value='Address').send_keys(address)
-            self.driver.find_element(by='id',value='PhoneNumber').send_keys(phone_number)
-            self.driver.find_element(by='id',value='ReasonForAccount').send_keys('test')
-            self.driver.find_element(by='css selector',value='input[type=submit]').click()
+            self.driver.find_element_by_css_selector('button[onClick=createPatient()]').click()
+            self.driver.find_element_by_id('Username').send_keys(user)
+            self.driver.find_element_by_id('Password').send_keys(pwd)
+            self.driver.find_element_by_id('Birthdate').send_keys(bday)
+            select.Select(self.driver.find_element_by_id('Location')).select_by_visible_text(location)
+            self.driver.find_element_by_id('Weight').send_keys(weight)
+            self.driver.find_element_by_id('Height').send_keys(height)
+            if gender == 'male':
+                self.driver.find_element_by_id('genderMale').click()
+            elif gender == 'female':
+                self.driver.find_element_by_id('genderFemale').click()
+            else:
+                return False
+            if race == 'american_indian':
+                self.driver.find_element_by_id('raceAmericanIndian').click()
+            elif race == 'asian':
+                self.driver.find_element_by_id('raceAsian').click()
+            elif race == 'black':
+                self.driver.find_element_by_id('raceBlack').click()
+            elif race == 'hawaiian':
+                self.driver.find_element_by_id('raceHawaiian').click()
+            elif race == 'white':
+                self.driver.find_element_by_id('raceWhite').click()
+            elif race == 'other':
+                self.driver.find_element_by_id('raceOther').click()
+            else:
+                return False
+            if ethnicity == 'non_hispanic':
+                self.driver.find_element_by_id('ethnicityNonHispanic').click()
+            elif ethnicity == 'hispanic':
+                self.driver.find_element_by_id('ethnicityHispanic').click()
+            else:
+                return False
+            self.driver.find_element_by_css_selector('input[type=submit]').click()
         except:
             return False
         return True
@@ -222,7 +243,6 @@ class WebUI:
         :param user: username of the account to delete
         :return:
         """
-        self.driver.get(self.baseurl)
         try:
             if self.check_login():
                 self.logoff()

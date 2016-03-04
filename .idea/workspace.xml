@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e3cd79ef-8e85-4526-b60f-344a866da87e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/WebUI/WebUI.py" afterPath="$PROJECT_DIR$/Tests/WebUI/WebUI.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/conftest.py" afterPath="$PROJECT_DIR$/Tests/conftest.py" />
     </list>
     <ignored path="med656.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,7 +29,7 @@
         <entry file="file://$PROJECT_DIR$/Tests/conftest.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="25" column="18" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="18" />
+              <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -35,11 +37,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WebUI.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="WebUI.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Tests/WebUI/WebUI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="300" column="60" selection-start-line="300" selection-start-column="60" selection-end-line="300" selection-end-column="60" />
+            <state vertical-scroll-proportion="0.01674877">
+              <caret line="233" column="53" selection-start-line="233" selection-start-column="53" selection-end-line="233" selection-end-column="53" />
               <folding>
                 <element signature="e#80#110#0" expanded="true" />
               </folding>
@@ -51,17 +53,17 @@
         <entry file="file://$PROJECT_DIR$/Tests/docs/conf.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-11.724138">
-              <caret line="21" column="38" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="38" />
+              <caret line="25" column="38" selection-start-line="25" selection-start-column="38" selection-end-line="25" selection-end-column="38" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.rst" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.rst" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Tests/docs/index.rst">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.30357143">
-              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -107,15 +109,15 @@
         <option value="$PROJECT_DIR$/Tests/test_register.py" />
         <option value="$PROJECT_DIR$/Tests/test_security.py" />
         <option value="$PROJECT_DIR$/Tests/test_create_account.py" />
-        <option value="$PROJECT_DIR$/Tests/conftest.py" />
         <option value="$PROJECT_DIR$/Tests/test_edit_account.py" />
         <option value="$PROJECT_DIR$/Tests/test_login.py" />
         <option value="$PROJECT_DIR$/Tests/test_password.py" />
         <option value="$PROJECT_DIR$/Tests/test_username.py" />
         <option value="$PROJECT_DIR$/Tests/test_upload.py" />
-        <option value="$PROJECT_DIR$/Tests/WebUI/WebUI.py" />
         <option value="$PROJECT_DIR$/Tests/docs/conf.py" />
         <option value="$PROJECT_DIR$/Tests/docs/index.rst" />
+        <option value="$PROJECT_DIR$/Tests/WebUI/WebUI.py" />
+        <option value="$PROJECT_DIR$/Tests/conftest.py" />
       </list>
     </option>
   </component>
@@ -423,7 +425,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32885906" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32885906" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -656,21 +658,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.724138">
+          <caret line="25" column="38" selection-start-line="25" selection-start-column="38" selection-end-line="25" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/index.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Tests/test_security.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/conftest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="18" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -682,29 +690,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/docs/conf.py">
+    <entry file="file://$PROJECT_DIR$/Tests/conftest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.724138">
-          <caret line="21" column="38" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="38" />
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Tests/WebUI/WebUI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="300" column="60" selection-start-line="300" selection-start-column="60" selection-end-line="300" selection-end-column="60" />
+        <state vertical-scroll-proportion="0.01674877">
+          <caret line="233" column="53" selection-start-line="233" selection-start-column="53" selection-end-line="233" selection-end-column="53" />
           <folding>
             <element signature="e#80#110#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/docs/index.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30357143">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
