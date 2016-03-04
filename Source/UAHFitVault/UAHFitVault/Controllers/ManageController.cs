@@ -116,11 +116,11 @@ namespace UAHFitVault.Controllers
                     model.Username = user.UserName;
                     model.Weight = patient.Weight;
                     model.Height = patient.Height;
-                    model.Race = patient.Race;
-                    model.Ethnicity = patient.Ethnicity;
-                    model.Location = patient.Location;
+                    model.Race = patient.Race.ToString();
+                    model.Ethnicity = patient.Ethnicity.ToString();
+                    model.Location = patient.Location.ToString();
                     model.Birthdate = patient.Birthdate;     
-                    model.Gender = patient.Gender;
+                    model.Gender = patient.Gender.ToString();
 
                     break;
 
@@ -212,12 +212,12 @@ namespace UAHFitVault.Controllers
                 Patient patient = new Patient();
                 patient = _patientService.GetPatient(user.PatientId);
                 patient.Birthdate = model.Birthdate;
-                patient.Ethnicity = model.Ethnicity;
-                patient.Race = model.Race;
                 patient.Height = model.Height;
                 patient.Weight = model.Weight;
-                patient.Location = model.Location;
-                patient.Gender = model.Gender;
+                patient.Ethnicity = (int)Enum.Parse(typeof(PatientEthnicity), model.Ethnicity);
+                patient.Gender = (int)Enum.Parse(typeof(PatientGender), model.Gender);
+                patient.Location = (int)Enum.Parse(typeof(Location), model.Location);
+                patient.Race = (int)Enum.Parse(typeof(PatientRace), model.Race);
                 _patientService.SaveChanges();
             }
             else if (User.IsInRole("Physician"))

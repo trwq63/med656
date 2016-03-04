@@ -25,7 +25,7 @@ namespace UAHFitVault.Models
         public float Weight { get; set; }
 
         [Display(Name = "Gender")]
-        public int Gender { get; set; }
+        public string Gender { get; set; }
 
         [Display(Name = "Birthdate")]
         public DateTime Birthdate { get; set; }
@@ -34,13 +34,13 @@ namespace UAHFitVault.Models
         public int Height { get; set; }
 
         [Display(Name = "Location")]
-        public int Location { get; set; }
+        public string Location { get; set; }
 
         [Display(Name = "Ethnicity")]
-        public int Ethnicity { get; set; }
+        public string Ethnicity { get; set; }
 
         [Display(Name = "Race")]
-        public int Race { get; set; }
+        public string Race { get; set; }
 
         [EmailAddress]
         [Display(Name = "Email")]
@@ -75,7 +75,7 @@ namespace UAHFitVault.Models
         public float Weight { get; set; }
 
         [Display(Name = "Gender")]
-        public int Gender { get; set; }
+        public string Gender { get; set; }
 
         [Display(Name = "Birthdate")]
         public DateTime Birthdate { get; set; }
@@ -84,13 +84,13 @@ namespace UAHFitVault.Models
         public int Height { get; set; }
 
         [Display(Name = "Location")]
-        public int Location { get; set; }
+        public string Location { get; set; }
 
         [Display(Name = "Ethnicity")]
-        public int Ethnicity { get; set; }
+        public string Ethnicity { get; set; }
 
         [Display(Name = "Race")]
-        public int Race { get; set; }
+        public string Race { get; set; }
 
         [EmailAddress]
         [Display(Name = "Email")]
