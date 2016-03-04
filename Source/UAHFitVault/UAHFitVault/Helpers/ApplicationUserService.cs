@@ -51,7 +51,7 @@ namespace UAHFitVault.Helpers
 
             if (manager != null) {
                 pendingUsers = new List<ApplicationUser>();
-                pendingUsers = manager.Users.Where(u => u.Status == (int)Account_Status.Pending && u.PhysicianId > 0 && u.ExperimentAdministratorId > 0).ToList();
+                pendingUsers = manager.Users.Where(u => u.Status == (int)Account_Status.Pending && (u.PhysicianId > 0 || u.ExperimentAdministratorId > 0)).ToList();
             }
 
             return pendingUsers;
