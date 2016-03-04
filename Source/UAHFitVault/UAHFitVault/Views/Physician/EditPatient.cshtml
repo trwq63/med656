@@ -25,7 +25,7 @@
         </tr>
         <tr>
             <td>@Html.LabelFor(m => m.Birthdate)</td>
-            <td>@Html.TextBoxFor(m => m.Birthdate, new { @type = "date", @class = "datepicker" })</td>
+            <td>@Html.TextBoxFor(m => m.Birthdate, Convert.ToDateTime(Model.Birthdate).ToString("d MMMM, yyyy"), new { @type = "date", @class = "datepicker" })</td>
             <td>@Html.LabelFor(m => m.Weight)</td>
             <td>@Html.TextBoxFor(m => m.Weight)</td>
             <td>@Html.LabelFor(m => m.Height)</td>
