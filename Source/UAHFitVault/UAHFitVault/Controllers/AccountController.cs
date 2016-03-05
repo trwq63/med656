@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using UAHFitVault.DataAccess;
 using UAHFitVault.Database.Entities;
+using UAHFitVault.LogicLayer.Enums;
 using UAHFitVault.Models;
 
 namespace UAHFitVault.Controllers
@@ -74,22 +75,14 @@ namespace UAHFitVault.Controllers
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result) {
                 case SignInStatus.Success:
-                    /*                    if (User.IsInRole("Physician")) {
-                        return RedirectToLocal("/Physician/Index");
+                    var user = UserManager.FindByName(model.UserName);
+                    if (user.Status != (int)Account_Status.Active)
+                    {
+                        // User is pending and not approved.
+                        AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                        ModelState.AddModelError("", "ERROR: Access denied.");
+                        return View(model);
                     }
-                    else if (User.IsInRole("ExperimentAdmin")) {
-                        return RedirectToLocal("/Experiment/Index");
-                    }
-                    else if (User.IsInRole("Patient")) {
-                        return RedirectToLocal("/Patient/Index");
-                    }
-                    else if (User.IsInRole("SystemAdmin")) {
-                        return RedirectToLocal("/Admin/Index");
-                    }
-                    else {
-                        return RedirectToLocal("/Account");
-                    }
-                                        */
                     return RedirectToLocal("/Account/LoginRedirect");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
