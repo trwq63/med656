@@ -5,8 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using UAHFitVault.Helpers;
 using UAHFitVault.Models;
-using UAHFitVault.LogicLayer.Enums;
-using System.Web.UI.WebControls;
 
 namespace UAHFitVault.Controllers
 {
@@ -26,10 +24,7 @@ namespace UAHFitVault.Controllers
         /// <returns></returns>
         public ActionResult CreateExperiment ()
         {
-            CreateExperimentViewModel model = new CreateExperimentViewModel();
-            
-
-            return View(model);
+            return View();
         }
 
         /// <summary>
