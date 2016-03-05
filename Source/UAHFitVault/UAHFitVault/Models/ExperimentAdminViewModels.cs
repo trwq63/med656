@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using UAHFitVault.LogicLayer.Enums;
+using System;
+using System.Web.UI.WebControls;
 
 namespace UAHFitVault.Models
 {
