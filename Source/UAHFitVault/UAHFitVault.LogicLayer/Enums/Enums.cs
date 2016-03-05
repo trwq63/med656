@@ -199,7 +199,37 @@
         TxPower,
         Core_Temperature
     }
-
+    
+    /// <summary>
+    /// Details the activities that a data set will be tagged with
+    /// </summary>
+    public enum ActivityType
+    {
+        Home_Cooking = 0,
+        Home_Doing_Housework = 1,
+        Home_Eating = 2,
+        Home_Watching_TV = 3,
+        Home_Napping = 4,
+        Home_Sleeping = 5,
+        Home_Sitting = 6,
+        Home_Gardening = 7,
+        Driving = 8,
+        Using_Transportation = 9,
+        Shopping = 10,
+        Office_Work = 11,
+        Workplace_Activities = 12,
+        Walking = 13,
+        Running = 14,
+        Climbing_Stairs = 15,
+        Low_Intensity_Exercise = 16,
+        Medium_Intensity_Exercise = 17,
+        High_Intensity_Exercise = 18,
+        Playing_Sports = 19,
+        Swimming = 20,
+        Hiking = 21,
+        Biking = 22,
+        Miscellaneous = 23
+    }
     /// <summary>
     /// Different BasisPeak Data types
     /// </summary>
