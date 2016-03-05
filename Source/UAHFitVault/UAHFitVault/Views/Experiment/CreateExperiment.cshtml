@@ -11,6 +11,7 @@
     List<string> races = Enum.GetNames(typeof(PatientRace)).ToList();
     List<string> ethnicities = Enum.GetNames(typeof(PatientEthnicity)).ToList();
     List<string> locations = Enum.GetNames(typeof(Location)).ToList();
+    List<string> activities = Enum.GetNames(typeof(ActivityType)).ToList();
 
     // Age range: 18 to 120
     for (int i = 18; i <= 120; i++) { ages.Add(i); } // Add all 18 and up ages to the list.
@@ -32,6 +33,7 @@
 
 @using (Html.BeginForm("CreateExperiment", "Experiment", FormMethod.Post))
 {
+    @Html.ValidationSummary("", new { @class = "text-danger" })
     <table>
         <tr>
             <td>@Html.LabelFor(m => m.ExperimentName)</td>
@@ -69,12 +71,21 @@
         </tr>
         <tr>
             <td>
-            @{int i = 0;}
             @foreach (string gender in genders)
             {
-                string genderId = "genders[" + i + "]";
-                <input type="checkbox" id="@genderId" class="filled-in" /><label for="@genderId">@gender</label>
-                i++;
+                bool genderWasSelected = false;
+                string genderId = "genders" + gender;
+                if (Model.selectedGenders != null)
+                {
+                    foreach (string genderSelected in Model.selectedGenders)
+                    {
+                        if (genderId == genderSelected)
+                        {
+                            genderWasSelected = true;
+                        }
+                    }
+                }
+                <input type="checkbox" id="@genderId" class="filled-in" name="selectedGenders" value="@genderId" @(Html.Raw(genderWasSelected ? "checked" : "")) /><label for="@genderId">@gender</label>
             }
             </td>
         </tr>
@@ -86,8 +97,19 @@
             <td>
             @foreach (string race in races)
             {
+                bool raceWasSelected = false;
                 string raceId = "race" + race;
-                <input type="checkbox" id="@raceId" class="filled-in" /><label for="@raceId">@race</label>
+                if (Model.selectedRaces != null)
+                {
+                    foreach (string raceSelected in Model.selectedRaces)
+                    {
+                        if (raceId == raceSelected)
+                        {
+                            raceWasSelected = true;
+                        }
+                    }
+                }
+                <input type="checkbox" id="@raceId" class="filled-in" name="selectedRaces" value="@raceId" @(Html.Raw(raceWasSelected ? "checked" : "")) /><label for="@raceId">@race</label>
             }
             </td>
         </tr>
@@ -99,8 +121,19 @@
             <td>
             @foreach (string ethnicity in ethnicities)
             {
+                bool ethnicityWasSelected = false;
                 string ethnicityId = "ethnicity" + ethnicity;
-                <input type="checkbox" id="@ethnicityId" class="filled-in" /><label for="@ethnicityId">@ethnicity</label>
+                if (Model.selectedEthnicities != null)
+                {
+                    foreach (string ethnicitySelected in Model.selectedEthnicities)
+                    {
+                        if (ethnicityId == ethnicitySelected)
+                        {
+                            ethnicityWasSelected = true;
+                        }
+                    }
+                }
+                <input type="checkbox" id="@ethnicityId" class="filled-in" name="selectedEthnicities" value="@ethnicityId" @(Html.Raw(ethnicityWasSelected ? "checked" : "")) /><label for="@ethnicityId">@ethnicity</label>
             }
             </td>
         </tr>
@@ -112,8 +145,19 @@
             <td>
             @foreach (string location in locations)
             {
-                string locationId = "ethnicity" + location;
-                <input type="checkbox" id="@locationId" class="filled-in" /><label for="@locationId">@location</label>
+                bool locationWasSelected = false;
+                string locationId = "location" + location;
+                if (Model.selectedLocations != null)
+                {
+                    foreach (string locationSelected in Model.selectedLocations)
+                    {
+                        if (locationId == locationSelected)
+                        {
+                            locationWasSelected = true;
+                        }
+                    }
+                }
+                <input type="checkbox" id="@locationId" class="filled-in" name="selectedLocations" value="@locationId" @(Html.Raw(locationWasSelected ? "checked" : "")) /><label for="@locationId">@location</label>
             }
             </td>
         </tr>
@@ -122,7 +166,24 @@
             <td><h5>Activities</h5></td>
         </tr>
         <tr>
-
+            <td>
+                @foreach (string activity in activities)
+                {
+                    bool activityWasSelected = false;
+                    string activityId = "activity" + activity;
+                    if (Model.selectedActivities != null)
+                    {
+                        foreach (string activitySelected in Model.selectedActivities)
+                        {
+                            if (activityId == activitySelected)
+                            {
+                                activityWasSelected = true;
+                            }
+                        }
+                    }
+                    <input type="checkbox" id="@activityId" class="filled-in" name="selectedActivities" value="@activityId" @(Html.Raw(activityWasSelected ? "checked" : "")) /><label for="@activityId">@activity.Replace("_", " ")</label>
+                }
+            </td>
         </tr>
     </table>
     <input type="submit" value="Submit" class="btn" />

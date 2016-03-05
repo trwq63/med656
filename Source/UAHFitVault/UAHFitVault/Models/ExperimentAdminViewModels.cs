@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using UAHFitVault.LogicLayer.Enums;
 using System;
+using System.Web.UI.WebControls;
 
 namespace UAHFitVault.Models
 {
@@ -35,15 +36,10 @@ namespace UAHFitVault.Models
         [Display(Name = "End of Height Range (inches)")]
         public int heightRangeEnd { get; set; }
 
-        public List<bool> races; // Races
-
-        public List<bool> genders; // Sexes
-
-        public List<int> locations; // Select location
-
-        public List<int> ethnicities; // Ethnicities
-
-        public List<int> activities; // Activity tags
-        
+        public string[] selectedGenders;        // Selected genders
+        public string[] selectedRaces;          // Selected races
+        public string[] selectedLocations;      // Selected locations
+        public string[] selectedEthnicities;    // Selected ethnicities
+        public string[] selectedActivities;     // Selected activity tags        
     }
 }

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using UAHFitVault.Helpers;
 using UAHFitVault.Models;
 using UAHFitVault.LogicLayer.Enums;
+using System.Web.UI.WebControls;
 
 namespace UAHFitVault.Controllers
 {
@@ -25,7 +26,10 @@ namespace UAHFitVault.Controllers
         /// <returns></returns>
         public ActionResult CreateExperiment ()
         {
-            return View();
+            CreateExperimentViewModel model = new CreateExperimentViewModel();
+            
+
+            return View(model);
         }
 
         /// <summary>
@@ -33,27 +37,38 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult CreateExperiment (CreateExperimentViewModel model)
+        public ActionResult CreateExperiment (CreateExperimentViewModel model,
+            string[] selectedGenders, string[] selectedRaces, string[] selectedEthnicities,
+            string[] selectedLocations, string[] selectedActivities)
         {
-            /*  Code doesn't work
-            int maxGenders = Enum.GetNames(typeof(PatientGender)).Length;
-
-            for (int i = 0; i < maxGenders; i++)
+            if (selectedGenders != null)
             {
-                if (model.genders[i] == true)
-                {
-
-                }
-                else {
-                    ModelState.AddModelError("", "ERROR: No race was checked");
-                }
+                model.selectedGenders = selectedGenders;
             }
-            */
+            if (selectedRaces != null)
+            {
+                model.selectedRaces = selectedRaces;
+            }
+            if (selectedEthnicities != null)
+            {
+                model.selectedEthnicities = selectedEthnicities;
+            }
+            if (selectedLocations != null)
+            {
+                model.selectedLocations = selectedLocations;
+            }
+            if (selectedActivities != null)
+            {
+                model.selectedActivities = selectedActivities;
+            }
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(model);
             }
-            return View();
+
+            // Need to generate DB Query to store in db and save the experiment criteria to the db
+            
+            return View(model);
         }
     }
 }
