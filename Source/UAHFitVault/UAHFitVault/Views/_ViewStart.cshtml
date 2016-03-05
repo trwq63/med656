@@ -17,6 +17,10 @@
         else if (User.IsInRole(UserRole.Patient.ToString())) {
             cLayout = "~/Views/Shared/_PatientLayout.cshtml";
         }
+        else if (User.IsInRole(UserRole.Experiment_Administrator.ToString().Replace("_", " ")))
+        {
+            cLayout = "~/Views/Shared/_ExperimentAdminLayout.cshtml";
+        }
         else {
             cLayout = "~/Views/Shared/_Layout.cshtml";
         }
