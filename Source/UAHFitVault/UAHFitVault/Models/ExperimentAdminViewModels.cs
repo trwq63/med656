@@ -40,4 +40,17 @@ namespace UAHFitVault.Models
         public string[] selectedEthnicities;    // Selected ethnicities
         public string[] selectedActivities;     // Selected activity tags        
     }
+
+    public class ViewExperimentsViewModel
+    {
+        /// <summary>
+        /// All of the experiments
+        /// </summary>
+        public List<Experiment> Experiments { get; set; }
+
+        /// <summary>
+        /// Store the data for easy access in the view
+        /// </summary>
+        public List<List<List<string>>> VisualExperimentCriteria { get; set; }
+    }
 }

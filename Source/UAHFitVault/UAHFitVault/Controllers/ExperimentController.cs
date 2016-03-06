@@ -42,6 +42,19 @@ namespace UAHFitVault.Controllers
 
             List<Experiment> AllExperiments = new List<Experiment>();
             AllExperiments.AddRange(_experimentService.GetExperiments(manager.FindByName(User.Identity.Name).ExperimentAdministratorId));
+
+
+
+            ViewExperimentsViewModel model = new ViewExperimentsViewModel();
+            model.Experiments = AllExperiments;
+            // Get all of the experiments parsed data
+            for (int i = 0; i < AllExperiments.Count; i++)
+            {
+                model.VisualExperimentCriteria.Add(ParseQueryString(AllExperiments.ElementAt(i).QueryString));
+            }
+
+
+
             return View(AllExperiments);
         }
         
@@ -183,6 +196,79 @@ namespace UAHFitVault.Controllers
         #endregion
 
         #region Private Methods
+        /// <summary>
+        /// Reads in a query string input and parses it in to a two-dimensional array.
+        /// </summary>
+        /// <param name="queryString">Input query string</param>
+        /// <returns></returns>
+        private List<List<string>> ParseQueryString (string queryString)
+        {
+            // For first index, 0=genders, 1=races, 2=ethnicity, 3=location, 4=activites
+            List<List<string>> returnList = new List<List<string>>();
+
+            List<string> races = new List<string>();
+            List<string> genders = new List<string>();
+            List<string> ethnicities = new List<string>();
+            List<string> locations = new List<string>();
+            List<string> activities = new List<string>();
+
+            queryString = queryString.Replace("races:", "").Replace("genders:", "")
+                .Replace("locations:", "").Replace("activities:", "").Replace("ethnicities:", "");
+
+            string[] splitQueryString = queryString.Split(';');
+            
+            for (int i = 0; i < 5; i++)
+            {
+                string[] splitInput = splitQueryString[i].Split(','); // Split up all of the commas
+                switch (i)
+                {
+                    case 0:
+                        // Genders
+                        for (int j = 0; j < splitInput.Length; j++)
+                        {
+                            genders.Add(splitInput[j]);
+                        }
+                        break;
+                    case 1:
+                        // Races
+                        for (int j = 0; j < splitInput.Length; j++)
+                        {
+                            races.Add(splitInput[j]);
+                        }
+                        break;
+                    case 2:
+                        // Ethnicities
+                        for (int j = 0; j < splitInput.Length; j++)
+                        {
+                            ethnicities.Add(splitInput[j]);
+                        }
+                        break;
+                    case 3:
+                        // Locations
+                        for (int j = 0; j < splitInput.Length; j++)
+                        {
+                            locations.Add(splitInput[j]);
+                        }
+                        break;
+                    case 4:
+                        // Activities
+                        for (int j = 0; j < splitInput.Length; j++)
+                        {
+                            activities.Add(splitInput[j]);
+                        }
+                        break;
+                }
+            }
+
+            returnList.Add(races);
+            returnList.Add(genders);
+            returnList.Add(ethnicities);
+            returnList.Add(locations);
+            returnList.Add(activities);
+            
+            return returnList;
+        }
+
         /// <summary>
         /// This function produces a single string from an input array of strings
         /// </summary>
