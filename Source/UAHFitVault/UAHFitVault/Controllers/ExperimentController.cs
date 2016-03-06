@@ -56,26 +56,6 @@ namespace UAHFitVault.Controllers
             string[] selectedGenders, string[] selectedRaces, string[] selectedEthnicities,
             string[] selectedLocations, string[] selectedActivities)
         {
-            // Check to make sure ranges are correct.
-            if (model.ageRangeStart > model.ageRangeEnd)
-            {
-                ModelState.AddModelError("", "ERROR: Starting age is lower than end of age range.");
-            }
-            if (model.weightRangeBegin > model.weightRangeEnd)
-            {
-                ModelState.AddModelError("", "ERROR: Begin of weight range is less than the end.");
-            }
-            if (model.heightRangeBegin > model.heightRangeEnd)
-            {
-                ModelState.AddModelError("", "ERROR: Begin of height range is less than the end.");
-            }
-            // TO DO: Check if the experiment name already exists for the user.
-
-            // Check model state
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
             string genderString = "genders:";
             string raceString = "races:";
             string ethnicityString = "ethnicities:";
@@ -143,6 +123,31 @@ namespace UAHFitVault.Controllers
                 activityString += GenerateStringFromStringArray(allActivities);
             }
 
+            // These need to be down here to ensure the model is repopulated if the user enters bad criteria.
+            // Check to make sure ranges are correct.
+            if (model.ageRangeStart > model.ageRangeEnd)
+            {
+                ModelState.AddModelError("", "ERROR: The starting age in the age range is less than the ending age.");
+            }
+            if (model.weightRangeBegin > model.weightRangeEnd)
+            {
+                ModelState.AddModelError("", "ERROR: The beginning of weight range is less than the end.");
+            }
+            if (model.heightRangeBegin > model.heightRangeEnd)
+            {
+                ModelState.AddModelError("", "ERROR: The beginning of height range is less than the end.");
+            }
+            // Check if experiment name already exists.
+            if (ExperimentNameIsUsed(model.ExperimentName))
+            {
+                ModelState.AddModelError("", "ERROR: That experiment name is already in use.");
+            }
+            // Check model state
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             string queryString = genderString + raceString + ethnicityString + locationString + activityString;
             ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
@@ -189,6 +194,24 @@ namespace UAHFitVault.Controllers
             }
             returnString += ";";
             return returnString;
+        }
+
+        /// <summary>
+        /// Checks to see if the experiment name is already used
+        /// </summary>
+        /// <param name="experimentName">Experiment name</param>
+        /// <returns>True if the experiment name exists, false otherwise</returns>
+        private bool ExperimentNameIsUsed (string experimentName)
+        {
+            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+            Experiment temp = _experimentService.GetExperimentByName(experimentName,
+                        manager.FindByName(User.Identity.Name).ExperimentAdministratorId);
+            if (temp != null)
+            {
+                return true; // Experiment name is used
+            }
+            return false;
         }
         #endregion
     }
