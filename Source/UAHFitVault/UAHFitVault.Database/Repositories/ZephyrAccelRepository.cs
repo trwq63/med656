@@ -28,7 +28,7 @@ namespace UAHFitVault.Database.Repositories
         /// </summary>
         /// <param name="id">Id of the patient data record</param>
         /// <returns></returns>
-        public IEnumerable<ZephyrAccelerometer> GetZephyrAccelByPatientDataId(Guid id) {
+        public IEnumerable<ZephyrAccelerometer> GetZephyrAccelByPatientDataId(string id) {
             IEnumerable<ZephyrAccelerometer> zephyrAccel = this.DbContext.ZephyrAccelerometer.Where(p => p.PatientDataId == id);                                                    
 
             return zephyrAccel;

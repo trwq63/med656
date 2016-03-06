@@ -94,6 +94,14 @@
     <Compile Include="Migrations\201603040127357_patientdata-daterange-add.Designer.cs">
       <DependentUpon>201603040127357_patientdata-daterange-add.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603060353136_change-patientdataid_string.cs" />
+    <Compile Include="Migrations\201603060353136_change-patientdataid_string.Designer.cs">
+      <DependentUpon>201603060353136_change-patientdataid_string.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603060403178_activity-addstartstoptimes.cs" />
+    <Compile Include="Migrations\201603060403178_activity-addstartstoptimes.Designer.cs">
+      <DependentUpon>201603060403178_activity-addstartstoptimes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\ZephyrAccelerometer.cs" />
@@ -142,6 +150,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603040127357_patientdata-daterange-add.resx">
       <DependentUpon>201603040127357_patientdata-daterange-add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603060353136_change-patientdataid_string.resx">
+      <DependentUpon>201603060353136_change-patientdataid_string.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603060403178_activity-addstartstoptimes.resx">
+      <DependentUpon>201603060403178_activity-addstartstoptimes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

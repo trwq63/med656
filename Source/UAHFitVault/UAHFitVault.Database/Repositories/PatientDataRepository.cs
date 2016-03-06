@@ -35,6 +35,20 @@ namespace UAHFitVault.Database.Repositories
             return patientData;
         }
 
+        /// <summary>
+        /// Get a patient data record by id.
+        /// </summary>
+        /// <param name="id">Id of the patient data record.</param>
+        /// <returns></returns>
+        public PatientData GetById(string id) {
+            PatientData data = null;
+            if (!string.IsNullOrEmpty(id)) {
+                data = DbContext.PatientData.FirstOrDefault(p => p.Id == id);
+            }
+
+            return data;
+        }
+
         #endregion
     }
 }
