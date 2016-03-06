@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using UAHFitVault.Database.Entities;
 
 namespace UAHFitVault.Models
 {
