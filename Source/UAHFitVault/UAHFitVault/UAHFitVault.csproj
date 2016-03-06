@@ -429,6 +429,7 @@
     <Content Include="Views\Admin\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Shared\_ExperimentAdminLayout.cshtml" />
     <Content Include="Views\Experiment\CreateExperiment.cshtml" />
+    <Content Include="Views\Experiment\CreateExperimentConfirmation.cshtml" />
     <None Include="Views\Shared\_PhysicianLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -57,11 +57,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExperimentService.cs" />
     <Compile Include="IAccountRequestService.cs" />
     <Compile Include="BasisPeakServices\BasisPeakSummaryService.cs" />
     <Compile Include="BasisPeakServices\IBasisPeakSummaryService.cs" />
     <Compile Include="ExperimentAdminService.cs" />
     <Compile Include="IExperimentAdminService.cs" />
+    <Compile Include="IExperimentService.cs" />
     <Compile Include="IMedicalDeviceService.cs" />
     <Compile Include="IPatientDataService.cs" />
     <Compile Include="IPatientService.cs" />
