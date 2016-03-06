@@ -1,1 +1,31 @@
-﻿<h4>Experiment Administrator Home Page</h4>
+﻿
+@using UAHFitVault.Database.Entities
+@model List<Experiment>
+
+<h4>Experiment Administrator Home Page</h4>
+@if (Model != null)
+{
+    <table class="centered responsive-table striped">
+        <thead>
+            <tr>
+                <th data-field="name">Experiment Name</th>
+                <th data-field="dbquery">Database Query</th>
+                <th data-field="lastmodified">Last Modified</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.QueryString</td>
+                <td>@item.LastModified.ToString()</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <h4>You do not have any experiments to view.</h4>
+}

@@ -32,9 +32,17 @@ namespace UAHFitVault.Controllers
 
         #region Public Methods
         // GET: Experiment
+        /// <summary>
+        /// Display the view for the experiment administrator to view the experiments
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
-            return View();
+            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+            List<Experiment> AllExperiments = new List<Experiment>();
+            AllExperiments.AddRange(_experimentService.GetExperiments(manager.FindByName(User.Identity.Name).ExperimentAdministratorId));
+            return View(AllExperiments);
         }
         
         /// <summary>
