@@ -11,6 +11,7 @@ namespace UAHFitVault.Database.Migrations
         {
             AutomaticMigrationsEnabled = false;
             MigrationsDirectory = @"Migrations";
+            CommandTimeout = 10000; // migration timeout
         }
 
         protected override void Seed(UAHFitVault.Database.FitVaultContext context)

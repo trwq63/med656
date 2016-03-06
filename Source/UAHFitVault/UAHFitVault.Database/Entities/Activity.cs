@@ -19,7 +19,9 @@ namespace UAHFitVault.Database.Entities
 
         public int Id { get; set; }
         [Required]
-        public DateTime Timestamp { get; set; }
+        public DateTime StartTime { get; set; }
+        [Required]
+        public DateTime EndTime { get; set; }
         [Required]
         public int DataActivity { get; set; }
 

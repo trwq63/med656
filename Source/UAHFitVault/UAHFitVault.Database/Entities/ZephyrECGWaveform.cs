@@ -28,7 +28,7 @@ namespace UAHFitVault.Database.Entities
 
         #region Navigation Properties
         [Required]
-        public virtual Guid PatientDataId { get; set; }
+        public virtual string PatientDataId { get; set; }
 
         [ForeignKey("PatientDataId")]
         public virtual PatientData PatientData { get; set; }
