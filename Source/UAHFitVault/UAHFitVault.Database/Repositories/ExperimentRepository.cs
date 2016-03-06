@@ -22,12 +22,32 @@ namespace UAHFitVault.Database.Repositories
         #region Repository Public Functions
 
         /// <summary>
+        /// Get an experiment using the experiment id
+        /// </summary>
+        /// <param name="experimentId">Experiment Id</param>
+        /// <param name="experimentAdminId">Experiment Administrator Id</param>
+        /// <returns></returns>
+        public Experiment GetExperimentById (int experimentId, int experimentAdminId)
+        {
+            // Only return experiments that belong to the current user
+            Experiment experiment = this.DbContext.Experiments.Where(p => p.Id == experimentId)
+                .Where(p => p.ExperimentAdministrator.Id == experimentId)
+                .FirstOrDefault();
+
+            return experiment;
+        }
+
+        /// <summary>
         /// Get a Experiment using experiment name.
         /// </summary>
         /// <param name="name">Name of Experiment</param>
-        /// <returns></returns>
-        public Experiment GetExperimentByName(string name) {
-            Experiment experiment = this.DbContext.Experiments.Where(p => p.Name == name).FirstOrDefault();
+        /// <param name="experimentAdminId">Id of the Experiment Administrator</param>
+        /// <returns>Experiment</returns>
+        public Experiment GetExperimentByName(string name, int experimentAdminId) {
+            // Only return experiments that belong to the current user
+            Experiment experiment = this.DbContext.Experiments.Where(p => p.Name == name)
+                .Where(p => p.ExperimentAdministrator.Id == experimentAdminId)
+                .FirstOrDefault();
 
             return experiment;
         }

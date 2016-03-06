@@ -50,11 +50,12 @@ namespace UAHFitVault.DataAccess
         /// Delete an experiment
         /// </summary>
         /// <param name="experimentId">Id of the experiment to delete</param>
-        public void DeleteExperiment (int experimentId)
+        /// <param name="experimentAdminId">Id of the experiment administrator</param>
+        public void DeleteExperiment (int experimentId, int experimentAdminId)
         {
             if (experimentId > 0)
             {
-                _experimentRepository.Delete(GetExperiment(experimentId));
+                _experimentRepository.Delete(_experimentRepository.GetExperimentById(experimentId, experimentAdminId));
             }
         }
 
@@ -62,17 +63,48 @@ namespace UAHFitVault.DataAccess
         /// Get the Experiment
         /// </summary>
         /// <param name="experimentId">Id of the experiment to get</param>
+        /// <param name="experimentAdminId">Id of the experiment administrator</param>
         /// <returns>Experiment</returns>
-        public Experiment GetExperiment (int experimentId)
+        public Experiment GetExperimentById (int experimentId, int experimentAdminId)
         {
             Experiment experiment = null;
             if (experimentId > 0)
             {
-                experiment = _experimentRepository.GetById(experimentId);
+                experiment = _experimentRepository.GetExperimentById(experimentId, experimentAdminId);
             }
             return experiment;
         }
 
+        /// <summary>
+        /// Get the experiment using the experiment name
+        /// </summary>
+        /// <param name="experimentName">Name of the experiment</param>
+        /// <param name="experimentAdminId">Id of the experiment administrator</param>
+        /// <returns></returns>
+        public Experiment GetExperimentByName (string experimentName, int experimentAdminId)
+        {
+            Experiment experiment = null;
+            if (!string.IsNullOrEmpty(experimentName))
+            {
+                experiment = _experimentRepository.GetExperimentByName(experimentName, experimentAdminId);
+            }
+            return experiment;
+        }
+
+        /// <summary>
+        /// Get all of the experiments for the experiment administrator
+        /// </summary>
+        /// <param name="experimentAdminId">Experiment administrator Id</param>
+        /// <returns></returns>
+        public IEnumerable<Experiment> GetExperiments (int experimentAdminId)
+        {
+            if (experimentAdminId > 0)
+            {
+                return _experimentRepository.GetAll().Where(p => p.ExperimentAdministrator.Id == experimentAdminId);
+            }
+            return null;
+        }
+        
         /// <summary>
         /// Save changes to database
         /// </summary>
