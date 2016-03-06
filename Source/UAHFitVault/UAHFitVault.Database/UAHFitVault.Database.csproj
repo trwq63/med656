@@ -101,9 +101,11 @@
     <Compile Include="Entities\ZephyrECGWaveform.cs" />
     <Compile Include="Entities\ZephyrEventData.cs" />
     <Compile Include="Entities\ZephyrSummaryData.cs" />
+    <Compile Include="Repositories\ExperimentRepository.cs" />
     <Compile Include="Repositories\IAccountRequestRepository.cs" />
     <Compile Include="Repositories\AccountRequestRepository.cs" />
     <Compile Include="Repositories\IBasisPeakSummaryRepository.cs" />
+    <Compile Include="Repositories\IExperimentRepository.cs" />
     <Compile Include="Repositories\IExperimentAdminRepository.cs" />
     <Compile Include="Repositories\IPatientRepository.cs" />
     <Compile Include="Repositories\IPatientDataRepository.cs" />
