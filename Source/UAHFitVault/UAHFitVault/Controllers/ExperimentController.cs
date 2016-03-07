@@ -45,13 +45,13 @@ namespace UAHFitVault.Controllers
 
 
 
-            ViewExperimentsViewModel model = new ViewExperimentsViewModel();
-            model.Experiments = AllExperiments;
-            // Get all of the experiments parsed data
-            for (int i = 0; i < AllExperiments.Count; i++)
-            {
-                model.VisualExperimentCriteria.Add(ParseQueryString(AllExperiments.ElementAt(i).QueryString));
-            }
+            //ViewExperimentsViewModel model = new ViewExperimentsViewModel();
+            //model.Experiments = AllExperiments;
+            //// Get all of the experiments parsed data
+            //for (int i = 0; i < AllExperiments.Count; i++)
+            //{
+            //    model.VisualExperimentCriteria.Add(ParseQueryString(AllExperiments.ElementAt(i).QueryString));
+            //}
 
 
 
