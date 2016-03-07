@@ -1,0 +1,20 @@
+﻿@using UAHFitVault.Database.Entities
+@using UAHFitVault.LogicLayer.Enums;
+
+@model List<PatientData>
+
+@{ 
+    List<string> fileNames = Model.Select(d => d.Name).ToList();
+    //string dataType = Model.Select(m => m.DataType).Cast<File_Type>().Select(s => s.ToString().Replace("_", " ")).FirstOrDefault();
+}
+
+
+@foreach (PatientData dataRecord in Model) {    
+    string dataType = ((File_Type)dataRecord.DataType).ToString().Replace("_", " ");
+    string id = dataType + Model.IndexOf(dataRecord);       
+    
+    <li class="verticalSelect__select" data-datatype="@dataType)">   
+        <input id="@id" type="checkbox" name="checkbox" value="@dataRecord.Id"/> 
+        <label class="verticalSelect__label" for="@id">@dataRecord.Name</label>      
+    </li>
+}

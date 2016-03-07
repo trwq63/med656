@@ -189,7 +189,7 @@ namespace UAHFitVault.Controllers
                 Patient patient = _patientService.GetPatient(UserManager.FindById(User.Identity.GetUserId()).PatientId);
 
                 PatientData patientData = new PatientData() {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.NewGuid().ToString(),
                     DataType = (int)fileType,
                     Name = file.FileName,
                     UploadDate = DateTime.Now,

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using UAHFitVault.LogicLayer.Models;
 
 namespace UAHFitVault.Models
 {
@@ -13,8 +10,26 @@ namespace UAHFitVault.Models
     {
         #region Public Properties
 
-        public SelectList Medical { get; set; }
+        public List<LineGraphModel> LineGraphModels { get; set; }
 
+        #endregion
+
+        #region Public Constructors
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public PatientDataViewModel() {
+            LineGraphModels = new List<LineGraphModel>();
+        }
+
+        /// <summary>
+        /// Constructor used to initialize object properties at construction.
+        /// </summary>
+        /// <param name="lineGraphModels"></param>
+        public PatientDataViewModel(List<LineGraphModel> lineGraphModels) {
+            LineGraphModels = lineGraphModels;
+        }
         #endregion
     }
 }

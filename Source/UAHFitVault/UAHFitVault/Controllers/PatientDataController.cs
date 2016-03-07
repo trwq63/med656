@@ -15,6 +15,8 @@ using UAHFitVault.Database.Entities;
 using UAHFitVault.LogicLayer.Models;
 using UAHFitVault.LogicLayer.LogicFiles;
 using UAHFitVault.Models;
+using UAHFitVault.Resources;
+using Newtonsoft.Json;
 
 namespace UAHFitVault.Controllers
 {
@@ -44,7 +46,7 @@ namespace UAHFitVault.Controllers
         /// <summary>
         /// Service object for accessing Zephyr Accelerometer database functions.
         /// </summary>
-        private readonly IZephyrAccelService _accelService;
+        private readonly IZephyrAccelService _zephyrAccelService;
 
         /// <summary>
         /// Service object for accessing Zephyr Breathing Waveform database functions.
@@ -126,14 +128,14 @@ namespace UAHFitVault.Controllers
         /// <param name="patientService">Service object for accessing patient database functions.</param>
         /// <param name="basisPeakService">Service object for accessing basis peak summary database functions.</param>
         /// <param name="medicalDeviceService">Service for accessing medical devices.</param>
-        public PatientDataController(IPatientDataService patientDataService, IZephyrAccelService accelService,
+        public PatientDataController(IPatientDataService patientDataService, IZephyrAccelService zephyrAccelService,
                                     IZephyrBreathingService breathingService, IZephyrECGService ecgService,
                                     IZephyrEventDataService eventDataService, IZephyrSummaryService summaryService,
                                     IPatientService patientService, IBasisPeakSummaryService basisPeakService,
                                     IMedicalDeviceService medicalDeviceService) {
 
             _patientDataService = patientDataService;
-            _accelService = accelService;
+            _zephyrAccelService = zephyrAccelService;
             _breathingService = breathingService;
             _ecgService = ecgService;
             _eventDataService = eventDataService;
@@ -189,10 +191,71 @@ namespace UAHFitVault.Controllers
             return View(dataByDevice);
         }
 
-        public ActionResult GraphData() {
+        /// <summary>
+        /// Create the graph to be displayed to the user.
+        /// </summary>
+        /// <param name="patientData">List of patient data records to be displayed.</param>
+        /// <returns></returns>
+        public string GraphData(DateTime date, DateTime startTime, DateTime endTime, List<string> patientData) {
 
+            PatientDataViewModel graphViewModel = new PatientDataViewModel();
 
-            return PartialView();
+            DateTime start = new DateTime(date.Year, date.Month, date.Day, startTime.Hour, startTime.Minute, startTime.Second);
+            DateTime end = new DateTime(date.Year, date.Month, date.Day, endTime.Hour, endTime.Minute, endTime.Second);
+
+            foreach (string record in patientData) {
+                PatientData dataRecord = _patientDataService.GetPatientData(record);
+
+                switch (dataRecord.MedicalDevice.Name) {
+                    case "Zephyr":
+                        switch ((File_Type)dataRecord.DataType) {
+                            case File_Type.Accelerometer:
+                                List<ZephyrAccelerometer> zephyrAccelData = new List<ZephyrAccelerometer>();
+                                zephyrAccelData = _zephyrAccelService.GetZephyrAccelerometerData(dataRecord, start, end).ToList();
+                                if(zephyrAccelData.Count > 0) {
+                                    LineGraphModel lineModel = new LineGraphModel() {
+                                        XAxisName = AxisNames.ACCEL_X_AXIS,
+                                        YAxisName = AxisNames.ACCEL_Y_AXIS,
+                                        XAxisData = zephyrAccelData.Select(z => z.Time).ToList(),
+                                        YAxisData = zephyrAccelData.Select(z => z.Vertical).Select(v => (double)v).ToList() 
+                                    };
+                                    graphViewModel.LineGraphModels.Add(lineModel);
+                                }
+                                
+                                break;
+                            case File_Type.Breathing:
+                                break;
+                            case File_Type.ECG:
+                                break;
+                            case File_Type.EventData:
+                                break;
+                            case File_Type.Summary:
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case "BasisPeak":
+                        break;
+                    case "Microsoft Band":
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            string jsonResult;
+
+            if(graphViewModel.LineGraphModels.Count > 0) {
+                jsonResult = JsonConvert.SerializeObject(graphViewModel);
+            }
+            else {
+                Dictionary<string, string> errorMsg = new Dictionary<string, string>();
+                errorMsg.Add("error", "No Data Found");
+                jsonResult = JsonConvert.SerializeObject(errorMsg);
+            }
+
+            return jsonResult;
         }
 
         public ActionResult GraphData() {
