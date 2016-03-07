@@ -1,6 +1,7 @@
 ﻿
-@using UAHFitVault.Database.Entities
-@model List<Experiment>
+@using UAHFitVault.Models
+
+@model ViewExperimentsViewModel
 
 <h4>Experiment Administrator Home Page</h4>
 @if (Model != null)
@@ -9,18 +10,33 @@
         <thead>
             <tr>
                 <th data-field="name">Experiment Name</th>
-                <th data-field="dbquery">Database Query</th>
+                <th data-field="races">Races</th>
+                <th data-field="genders">Genders</th>
+                <th data-field="ethnicities">Ethnicities</th>
+                <th data-field="locations">Locations</th>
+                <th data-field="activities">Activities</th>
                 <th data-field="lastmodified">Last Modified</th>
             </tr>
         </thead>
         <tbody>
-        @foreach (var item in Model)
+            @{ int i = 0;}
+        @foreach (var item in Model.Experiments)
         {
             <tr>
                 <td>@item.Name</td>
-                <td>@item.QueryString</td>
+                <td>@foreach (string str in Model.ExperimentCriteria.ElementAt(i).selectedGenders)
+                { @str.Replace("_", " ") <br />}</td>
+                <td>@foreach (string str in Model.ExperimentCriteria.ElementAt(i).selectedRaces)
+                { @str.Replace("_", " ") <br />}</td>
+                <td>@foreach (string str in Model.ExperimentCriteria.ElementAt(i).selectedEthnicities)
+                { @str.Replace("_", " ") <br />}</td>
+                <td>@foreach (string str in Model.ExperimentCriteria.ElementAt(i).selectedLocations)
+                { @str.Replace("_", " ") <br />}</td>
+                <td>@foreach (string str in Model.ExperimentCriteria.ElementAt(i).selectedActivities)
+                { @str.Replace("_", " ") <br />}</td>
                 <td>@item.LastModified.ToString()</td>
             </tr>
+            i++;
         }
         </tbody>
     </table>

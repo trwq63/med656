@@ -10,6 +10,7 @@ using UAHFitVault.DataAccess;
 using UAHFitVault.Database.Entities;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 
 
 namespace UAHFitVault.Controllers
@@ -39,23 +40,20 @@ namespace UAHFitVault.Controllers
         public ActionResult Index()
         {
             ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-
-            List<Experiment> AllExperiments = new List<Experiment>();
-            AllExperiments.AddRange(_experimentService.GetExperiments(manager.FindByName(User.Identity.Name).ExperimentAdministratorId));
-
-
-
+                        
             ViewExperimentsViewModel model = new ViewExperimentsViewModel();
-            model.Experiments = AllExperiments;
+            model.Experiments = new List<Experiment>();
+            model.Experiments.AddRange(_experimentService.GetExperiments(manager.FindByName(User.Identity.Name).ExperimentAdministratorId));
+            model.ExperimentCriteria = new List<CreateExperimentViewModel>();
+
             // Get all of the experiments parsed data
-            for (int i = 0; i < AllExperiments.Count; i++)
+            for (int i = 0; i < model.Experiments.Count; i++)
             {
-                model.VisualExperimentCriteria.Add(ParseQueryString(AllExperiments.ElementAt(i).QueryString));
+                CreateExperimentViewModel temp = JsonConvert.DeserializeObject<CreateExperimentViewModel>(model.Experiments.ElementAt(i).QueryString);
+                model.ExperimentCriteria.Add(temp);
             }
-
-
-
-            return View(AllExperiments);
+            
+            return View(model);
         }
         
         /// <summary>
@@ -77,71 +75,68 @@ namespace UAHFitVault.Controllers
             string[] selectedGenders, string[] selectedRaces, string[] selectedEthnicities,
             string[] selectedLocations, string[] selectedActivities)
         {
-            string genderString = "genders:";
-            string raceString = "races:";
-            string ethnicityString = "ethnicities:";
-            string locationString = "locations:";
-            string activityString = "activities:";
+            CreateExperimentViewModel serializedModel = new CreateExperimentViewModel();
+            serializedModel = model;
 
             // Generate Gender string
             if (selectedGenders != null)
             {
-                // No genders were selected, so get all genders
                 model.selectedGenders = selectedGenders;
-                genderString += GenerateStringFromStringArray(selectedGenders);
+                serializedModel.selectedGenders = selectedGenders;
             }
             else
-            {
+            {                
+                // No genders were selected, so get all genders
                 string[] allGenders = Enum.GetNames(typeof(PatientGender));
-                genderString += GenerateStringFromStringArray(allGenders);
+                serializedModel.selectedGenders = allGenders;
             }
 
             // Generate Races string
             if (selectedRaces != null)
             {
                 model.selectedRaces = selectedRaces;
-                raceString += GenerateStringFromStringArray(selectedRaces);
+                serializedModel.selectedRaces = selectedRaces;
             }
             else
             {
                 string[] allRaces = Enum.GetNames(typeof(PatientRace));
-                raceString += GenerateStringFromStringArray(allRaces);
+                serializedModel.selectedRaces = allRaces;
             }
 
-            // Generate ethnicity string
+            // Generate Ethnicity string
             if (selectedEthnicities != null)
             {
                 model.selectedEthnicities = selectedEthnicities;
-                ethnicityString += GenerateStringFromStringArray(selectedEthnicities);
+                serializedModel.selectedEthnicities = selectedEthnicities;
             }
             else
             {
                 string[] allEthnicities = Enum.GetNames(typeof(PatientEthnicity));
-                ethnicityString += GenerateStringFromStringArray(allEthnicities);
+                serializedModel.selectedEthnicities = allEthnicities;
             }
 
-            // Generate locations string
+            // Generate Locations string
             if (selectedLocations != null)
             {
                 model.selectedLocations = selectedLocations;
-                locationString += GenerateStringFromStringArray(selectedLocations);
+                serializedModel.selectedLocations = selectedLocations;
             }
             else
             {
                 string[] allLocations = Enum.GetNames(typeof(Location));
-                locationString += GenerateStringFromStringArray(allLocations);
+                serializedModel.selectedLocations = allLocations;
             }
 
-            // Generate activities string
+            // Generate Activities string
             if (selectedActivities != null)
             {
                 model.selectedActivities = selectedActivities;
-                activityString += GenerateStringFromStringArray(selectedActivities);
+                serializedModel.selectedActivities = selectedActivities;
             }
             else
             {
                 string[] allActivities = Enum.GetNames(typeof(ActivityType));
-                activityString += GenerateStringFromStringArray(allActivities);
+                serializedModel.selectedActivities = allActivities;
             }
 
             // These need to be down here to ensure the model is repopulated if the user enters bad criteria.
@@ -169,7 +164,8 @@ namespace UAHFitVault.Controllers
                 return View(model);
             }
 
-            string queryString = genderString + raceString + ethnicityString + locationString + activityString;
+            string queryString = JsonConvert.SerializeObject(serializedModel);
+
             ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
             Experiment experiment = new Experiment();

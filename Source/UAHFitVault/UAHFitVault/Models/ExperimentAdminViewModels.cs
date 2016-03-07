@@ -51,6 +51,6 @@ namespace UAHFitVault.Models
         /// <summary>
         /// Store the data for easy access in the view
         /// </summary>
-        public List<List<List<string>>> VisualExperimentCriteria { get; set; }
+        public List<CreateExperimentViewModel> ExperimentCriteria { get; set; }
     }
 }
