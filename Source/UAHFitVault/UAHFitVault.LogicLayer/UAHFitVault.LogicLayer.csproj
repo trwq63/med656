@@ -48,6 +48,7 @@
     <Compile Include="LogicFiles\PatientDataLogic.cs" />
     <Compile Include="LogicFiles\PatientLogic.cs" />
     <Compile Include="LogicFiles\ZephyrLogic.cs" />
+    <Compile Include="Models\LineGraphModel.cs" />
     <Compile Include="Models\PatientDataByDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ZephyrConstants.cs" />
