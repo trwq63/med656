@@ -257,11 +257,5 @@ namespace UAHFitVault.Controllers
 
             return jsonResult;
         }
-
-        public ActionResult GraphData() {
-
-
-            return PartialView();
-        }
     }
 }
