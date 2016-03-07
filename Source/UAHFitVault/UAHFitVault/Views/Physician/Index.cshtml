@@ -2,7 +2,7 @@
 
 @model List<PatientManagementViewModel>
 
-@{ 
+@{
     CreatePatientViewModel createPatient = new CreatePatientViewModel();
 }
 
@@ -21,7 +21,7 @@
 
 <!-- Create Patient Modal Structure -->
 <div id="createModal" class="modal">
-    @{ 
+    @{
         Html.RenderPartial("~/Views/Physician/_PartialPhysicianAddPatient.cshtml", createPatient);
     }
 </div>
@@ -40,14 +40,13 @@
                 <tr>
                     <td>@patient.Username</td>
                     <td>
-                        @Html.ActionLink("View Patient Data", "Index", "PatientData",
-                            new { patientUserId = @patient.UserId },
-                            new { @class = "waves-effect waves-light btn grey" }
-                        )
-                        <button class="waves-effect waves-light btn blue" onclick="editPatient(patient)">
+                        <button class="waves-effect waves-light btn grey" onclick="location.href = '/Physician/ViewPatientData?username=@patient.Username';">
+                            View Patient Data
+                        </button>
+                        <button class="waves-effect waves-light btn blue" onclick="location.href = '/Physician/EditPatient?username=@patient.Username';">
                             Edit Patient
                         </button>
-                        <button class="waves-effect waves-light btn red" onclick="deletePatient(patient)">
+                        <button class="waves-effect waves-light btn red" onclick="location.href = '/Physician/DeletePatient?username=@patient.Username';">
                             Delete Patient
                         </button>
                     </td>
@@ -84,7 +83,7 @@
         }
 
         function viewPatient(patient) {
-            
+
         }
 
         function editPatient(patient) {
