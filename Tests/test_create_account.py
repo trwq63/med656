@@ -24,7 +24,7 @@ def test_create_physician(logoff):
 
     web_sess.request_account('Physician', user, pwd, email, first_name, last_name, address, phone_number)
     assert web_sess.check_request_account()
-    web_sess.approve_account(user)
+    web_sess.approve_account('{} {}'.format(first_name, last_name))
     web_sess.login(user, pwd)
     assert web_sess.check_login()
 
@@ -47,7 +47,7 @@ def test_create_experiment_admin(logoff):
 
     web_sess.request_account('Exp Admin',user,pwd,email,first_name,last_name,address,phone_number)
     assert web_sess.check_request_account()
-    web_sess.approve_account(user)
+    web_sess.approve_account('{} {}'.format(first_name, last_name))
     web_sess.login(user, pwd)
     assert web_sess.check_login()
 
@@ -62,15 +62,27 @@ def test_create_patient(login_tphysician):
     """
     user = 'pfry'
     pwd = 'P@ssword10'
-    email = 'pfry@futurama.com'
-    first_name = 'Phillip'
-    last_name = 'Fry'
-    address = '304 Wherever Street, New New York City, New New York'
-    phone_number = '123-456-7890'
+    bday = '3 March, 1954'
+    loc = 'Alabama'
+    wght = '200'
+    hght = '72'
+    gen = 'male'
+    race = 'white'
+    eth = 'non_hispanic'
+    physician = 'testPhysician'
 
-    web_sess.create_patient(user,pwd,email,first_name,last_name,address,phone_number)
-    # note: this needs to be updated to check the patient creation
-    assert web_sess.check_request_account()
+    web_sess.create_patient(physician,
+                        pwd,
+                        user,
+                        pwd,
+                        bday,
+                        loc,
+                        wght,
+                        hght,
+                        gen,
+                        race,
+                        eth)
+    assert web_sess.check_create_patient()
     web_sess.login(user, pwd)
     assert web_sess.check_login()
 
@@ -86,10 +98,12 @@ def test_delete_patient(logoff):
     """
     user = 'pfry'
     pwd = 'P@ssword10'
+    phy = 'testPhysician'
+    phy_pass = 'P@ssword10'
 
-    web_sess.delete_account(user)
+    web_sess.delete_patient(phy, phy_pass, user)
     web_sess.login(user, pwd)
-    assert web_sess.check_login()
+    assert not web_sess.check_login()
 
 
 def test_delete_physician(logoff):
@@ -101,11 +115,12 @@ def test_delete_physician(logoff):
     :return:
     """
     user = 'hfarnswroth'
+    username = 'Hubert Farnsworth'
     pwd = 'P@ssword10'
 
-    web_sess.delete_account(user)
+    web_sess.delete_account(username)
     web_sess.login(user, pwd)
-    assert web_sess.check_login()
+    assert not web_sess.check_login()
 
 
 def test_delete_experiment_admin(logoff):
@@ -117,8 +132,9 @@ def test_delete_experiment_admin(logoff):
     :return:
     """
     user = 'awong'
+    username = 'Amy Wong'
     pwd = 'P@ssword10'
 
-    web_sess.delete_account(user)
+    web_sess.delete_account(username)
     web_sess.login(user, pwd)
-    assert web_sess.check_login()
+    assert not web_sess.check_login()
