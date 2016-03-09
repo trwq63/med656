@@ -2,9 +2,12 @@
 These tests are to make sure password functionality meets the requirements
 """
 from WebUI.WebUI import WebUI
+from time import sleep
 
 web_sess = WebUI()
 
+'''
+Removed this test because it overlaps with other portions of the automated testing
 
 def test_good_password(logoff):
     """
@@ -23,7 +26,9 @@ def test_good_password(logoff):
     phone_number = '123-456-7890'
 
     web_sess.request_account('Physician', user, pwd, email, first_name, last_name, address, phone_number)
-    assert web_sess.check_request_account()
+    status = web_sess.check_request_account()
+    assert status == True
+'''
 
 
 def test_password_length(logoff):
@@ -43,7 +48,8 @@ def test_password_length(logoff):
     phone_number = '123-456-7890'
 
     web_sess.request_account('Physician', user, pwd, email, first_name, last_name, address, phone_number)
-    assert 'Passwords must be at least 10 characters long' in web_sess.get_page()
+    sleep(3)
+    assert 'The Password must be at least 10 characters long.' in web_sess.get_page()
 
 
 def test_password_case(logoff):
@@ -114,9 +120,10 @@ def test_reset_password(login_sysadmin):
     :param login_sysadmin:
     :return:
     """
-    user = 'testPatient2'
+    user = 'testPhysician2'
+    username = 'test physician2'
     pwd = 'Password1!'
 
-    assert web_sess.reset_user_password(user, pwd)
+    assert web_sess.reset_user_password(username, pwd)
     web_sess.login(user, pwd)
     assert web_sess.check_login()
