@@ -213,11 +213,12 @@ namespace UAHFitVault.Controllers
                                 List<ZephyrAccelerometer> zephyrAccelData = new List<ZephyrAccelerometer>();
                                 zephyrAccelData = _zephyrAccelService.GetZephyrAccelerometerData(dataRecord, start, end).ToList();
                                 if(zephyrAccelData.Count > 0) {
+                                    List<double> accelData = ZephyrLogic.ConvertAccelWaveformToGs(zephyrAccelData.Select(z => z.Vertical).ToList());
                                     LineGraphModel lineModel = new LineGraphModel() {
                                         XAxisName = AxisNames.ACCEL_X_AXIS,
                                         YAxisName = AxisNames.ACCEL_Y_AXIS,
                                         XAxisData = zephyrAccelData.Select(z => z.Time).ToList(),
-                                        YAxisData = zephyrAccelData.Select(z => z.Vertical).Select(v => (double)v).ToList() 
+                                        YAxisData = accelData
                                     };
                                     graphViewModel.LineGraphModels.Add(lineModel);
                                 }
