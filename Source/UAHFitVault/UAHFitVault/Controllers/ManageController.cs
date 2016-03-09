@@ -80,7 +80,7 @@ namespace UAHFitVault.Controllers
                 accountRole = UserRole.Physician.ToString();
             }
             else if (User.IsInRole(UserRole.Experiment_Administrator.ToString().Replace("_", " "))) {
-                
+                userRole = UserRole.Experiment_Administrator;
                 accountRole = UserRole.Experiment_Administrator.ToString().Replace("_", " ");
             } else
             {

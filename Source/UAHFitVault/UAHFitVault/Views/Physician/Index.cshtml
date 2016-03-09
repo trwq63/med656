@@ -2,7 +2,7 @@
 
 @model List<PatientManagementViewModel>
 
-@{ 
+@{
     CreatePatientViewModel createPatient = new CreatePatientViewModel();
 }
 
@@ -21,7 +21,7 @@
 
 <!-- Create Patient Modal Structure -->
 <div id="createModal" class="modal">
-    @{ 
+    @{
         Html.RenderPartial("~/Views/Physician/_PartialPhysicianAddPatient.cshtml", createPatient);
     }
 </div>
@@ -65,7 +65,7 @@
         $(document).ready(function () {
             $('.datepicker').pickadate({
                 selectMonths: true, // Creates a dropdown to control month
-                selectYears: 15 // Creates a dropdown of 15 years to control year
+                selectYears: 50 // Creates a dropdown of 15 years to control year
             });
         });
 

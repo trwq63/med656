@@ -1,0 +1,297 @@
+﻿@using UAHFitVault.Database.Entities;
+@using UAHFitVault.LogicLayer.Enums;
+@using UAHFitVault.LogicLayer.Models;
+
+@model List<PatientDataByDevice>
+
+@section headers{
+    <link type="text/css" rel="stylesheet" href="~/Content/dateCard.css" media="screen,projection" />   
+    <link type="text/css" rel="stylesheet" href="~/Content/tableCard.css" media="screen,projection" />   
+    <link type="text/css" href="~/Content/verticalSelect.css" rel="stylesheet" media="screen,projection" />
+    <link type="text/css" href="~/Content/lineGraph.css" rel="stylesheet" media="screen,projection" />
+}
+
+@{ 
+
+    //List <string> devices = Model.Select(m => m.MedicalDevice).ToList();
+    //List<string> zephyrDataTypes = Enum.GetNames(typeof(ZephyrDataTypes)).Cast<string>().Select(z => z.Replace("_", " ")).ToList();
+    //List<string> zephyrSummaryTypes = Enum.GetNames(typeof(ZephyrSummaryDataTypes)).Cast<string>().Select(z => z.Replace("_", " ")).ToList();
+    //List<string> basicPeakDataTypes = Enum.GetNames(typeof(BasisPeakTypes)).Cast<string>().Select(z => z.Replace("_", " ")).ToList();
+}
+
+<h2>View Patient Data</h2>
+
+<div class="col s12">
+    <div class="col s6">
+        <div class="row dateCard">
+            <div class="dateCard__header">
+                Date and Time Filter
+            </div>
+            <div class="row dateCard__container">
+                <div class="input-field dateCard__date">
+                    <i class="material-icons prefix">today</i>
+                    <input id="date" name="Date" type="text" class="datepicker" />
+                    <label for="date">Select Date</label>
+                </div>
+                <div class="input-field dateCard__date">
+                    <i class="material-icons prefix">timer</i>
+                    <input id="startTime" name="FromDate" type="text" class="timepicker" />
+                    <label for="startTime">Start Time</label>
+                </div>
+                <div class="input-field dateCard__date">
+                    <i class="material-icons prefix">timer</i>
+                    <input id="endTime" name="ToDate" type="text" class="timepicker" />
+                    <label for="endTime">End Time</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row col s12">
+        <div class="col s5">
+            <div class="tableCard">
+                <div class="tableCard__header">
+                    Medical Devices
+                </div>
+                <table class="tableCard__table">
+                    @foreach (PatientDataByDevice device in Model) {
+                        <tr class="tableCard__tableRow" data-devicename="@device.MedicalDevice">
+                            <td>@device.MedicalDevice</td>
+                            <td><i class="material-icons">arrow_drop_down</i></td>
+                        </tr>
+
+                        List<string> dataTypes = device.DataRecords.Select(d => d.DataType)
+                                            .Distinct().Cast<File_Type>().Select(d => d.ToString().Replace("_", " ")).ToList();
+
+                        foreach (string type in dataTypes) {
+                            <tr class="tableCard__collapsableRow" data-devicename="@device.MedicalDevice" data-datatype="@type">
+                                <td>@type</td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="col m2 s5">
+            @foreach (PatientDataByDevice device in Model) {
+                @Html.Partial("~/Views/PatientData/_PartialDataRecords.cshtml", device);
+            }
+        </div>
+    </div>  
+    <div class="row col s12">
+        <button id="btnSubmit" class="btn waves-green">Submit</button>
+    </div> 
+    <div id="graphContainer" class="lineGraph hide"></div>
+</div>
+
+@section scripts {
+<script src="~/Scripts/pickadate/picker.js"></script>
+<script src="~/Scripts/pickadate/picker.date.js"></script>
+<script src="~/Scripts/pickadate/picker.time.js"></script>
+<script src="~/Scripts/d3/d3.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.datepicker').pickadate({
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 10 // Creates a dropdown of 15 years to control year
+        });
+        $('.timepicker').pickatime({
+            clear: 'Clear',
+            format: 'h:i A',
+            interval: 15,
+            closeOnSelect: true,
+            closeOnClear: true
+        });
+    });
+
+    $("#btnSubmit").click(function () {
+        var date = $('#date').val();
+        var startTime = $("#startTime").val();
+        var endTime = $("#endTime").val();
+        if (date != "" && startTime != "" && endTime != "") {
+            var files = getCheckedFiles();
+            $.ajax({
+                type: "POST",
+                data: {
+                    date: date,
+                    startTime: startTime,
+                    endTime: endTime,
+                    patientData: files
+                },
+                url: "/PatientData/GraphData",
+                success: function (data) {
+                    $('#graphContainer').removeClass('hide');
+                    var result = JSON.parse(data);
+                    if (!result.error) {
+                        drawGraph(result);
+                    }
+                    else {
+                        alert(result.error);
+                    }
+                },
+                error: function (error) {
+                    alert("No Data Found");
+                }
+            });
+        }
+        else {
+            alert("Please enter a date and start and end times for filtering data.");
+        }
+    });    
+
+    $(".tableCard__tableRow").click(function (element) {
+        var name = $(element.currentTarget).data("devicename");
+        $(".tableCard__collapsableRow").removeClass("tableCard__collapsableRow--isOpen");
+        $(".tableCard__tableRow").removeClass("tableCard__tableRow--isActive");
+        $(element.currentTarget).addClass("tableCard__tableRow--isActive");
+        $(".tableCard__collapsableRow[data-devicename='" + name + "']").addClass("tableCard__collapsableRow--isOpen");
+    });
+
+    $(".tableCard__collapsableRow").click(function (element) {
+        var name = $(element.currentTarget).data("datatype");
+        $(".verticalSelect__select").removeClass("verticalSelect__select--isActive");
+        $(element.currentTarget).addClass("verticalSelect__select--isActive");
+        $(".verticalSelect").addClass("verticalSelect--isOffScreen");
+        setTimeout(function () {
+            $(".verticalSelect[data-datatype='" + name + "']").removeClass("verticalSelect--isOffScreen");
+        }, 400);
+    });
+
+    function getCheckedFiles() {
+        var checkboxes = document.getElementsByName("checkbox");
+        var checkedBoxes = [];
+        // loop through all checkboxes to find any that are checked.
+        for (var i = 0; i < checkboxes.length; i++) {
+            // And stick the checked ones values into the array
+            if (checkboxes[i].checked) {
+                checkedBoxes.push(checkboxes[i].value);
+            }
+        }
+        // Return the array if it is non-empty, or null
+        return checkedBoxes.length > 0 ? checkedBoxes : null;
+    };
+
+    function drawGraph(data) {
+
+        var xAxisData = data.LineGraphModels[0].XAxisData;
+        var yAxisData = data.LineGraphModels[0].YAxisData;
+        var xAxisName = data.LineGraphModels[0].XAxisName;
+        var yAxisName = data.LineGraphModels[0].YAxisName;
+
+        var linegraph = [];
+        for (i = 0; i < xAxisData.length; i++) {
+            var linePoint = { x: new Date(xAxisData[i]), y: yAxisData[i] };
+           // var = linegraph[i].x = xAxisData[i];
+            //linegraph[i].y = yAxisData[i];
+            linegraph.push(linePoint);
+        }
+
+        var mindate = getMinDate(linegraph);
+        var maxdate = getMaxDate(linegraph);
+        //linegraph.x = formatDate.parse(linegraph.x);
+
+        // define dimensions of graph
+        var m = [20, 20, 20, 20]; // margins
+        var w = 1000 - m[1] - m[3]; // width
+        var h = 600 - m[0] - m[2]; // height
+
+        var x = d3.time.scale().domain([mindate, maxdate]).range([0, w]);
+        var y = d3.scale.linear().domain([-.5, .5]).range([h, 0]);
+
+        // create a line function that can convert data[] into x and y points
+        var line = d3.svg.line()
+			// assign the X function to plot our line as we wish
+			.x(function (d) {
+			    // verbose logging to show what's actually being done
+			    //console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
+			    // return the X coordinate where we want to plot this datapoint
+			    return x(d.x);
+			})
+			.y(function (d) {
+			    // verbose logging to show what's actually being done
+			    //console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
+			    // return the Y coordinate where we want to plot this datapoint
+			    return y(d.y);
+			})
+
+        // Add an SVG element with the desired dimensions and margin.
+        var graph = d3.select("#graphContainer").append("svg:svg")
+              .attr("width", w + m[1] + m[3])
+              .attr("height", h + m[0] + m[2]);
+            //.append("svg:g")
+            //  .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+
+        // create yAxis
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient('bottom')
+           // .ticks(d3.time.minutes, 1)
+            .tickFormat(d3.time.format('%X'))
+            .tickSize(10)
+            .tickPadding(8);
+
+        // Add the x-axis.
+        graph.append("svg:g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(25," + h + ")")              
+              .call(xAxis)
+            .append("text")
+              .attr("x", w)
+              .attr("dx", ".71em")
+              .style("text-anchor", "end")
+              .text(xAxisName);
+
+
+        // create left yAxis
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .ticks(10)
+            .orient("left");
+
+        // Add the y-axis to the left
+        graph.append("svg:g")
+              .attr("class", "y axis")
+              .attr("transform", "translate(25,0)")
+              .call(yAxis)
+            .append("text")
+              .attr("transform", "rotate(-90)")
+              .attr("y", 6)
+              .attr("dy", ".71em")
+              //.style("text-anchor", "end")
+              .text(yAxisName);
+
+        // Add the line by appending an svg:path element with the data line we created above
+        // do this AFTER the axes above so that the line is above the tick-lines
+        graph.append("svg:path")
+            .datum(linegraph)
+            .attr("class", "line")
+            .attr("d", line);
+    }
+
+    function getMinDate(dates) {
+        var mindate = null;
+
+        for(i = 0; i < (dates.length -1); i++){
+            if (dates[i].x < mindate || mindate == null) {
+                mindate = dates[i].x;
+            }
+        }
+
+        return mindate;
+    }
+
+    function getMaxDate(dates) {
+        var maxdate = null;
+
+        for (i = 0; i < (dates.length - 1) ; i++) {
+            if (dates[i].x > maxdate || maxdate == null) {
+                maxdate = dates[i].x;
+            }
+        }
+
+        return maxdate;
+    }
+
+    
+
+</script>
+}

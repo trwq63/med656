@@ -28,7 +28,7 @@ namespace UAHFitVault.Database.Repositories
         /// </summary>
         /// <param name="id">Id of the patient data record</param>
         /// <returns></returns>
-        public IEnumerable<ZephyrECGWaveform> GetZephyrECGByPatientDataId(Guid id) {
+        public IEnumerable<ZephyrECGWaveform> GetZephyrECGByPatientDataId(string id) {
             IEnumerable<ZephyrECGWaveform> zephyrEcg = this.DbContext.ZephyrECGWaveform.Where(p => p.PatientDataId == id);                                                    
 
             return zephyrEcg;

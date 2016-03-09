@@ -1,55 +1,31 @@
 ﻿
-@{
-    ViewBag.Title = "Index";
+@using UAHFitVault.Database.Entities
+@model List<Experiment>
+
+<h4>Experiment Administrator Home Page</h4>
+@if (Model != null)
+{
+    <table class="centered responsive-table striped">
+        <thead>
+            <tr>
+                <th data-field="name">Experiment Name</th>
+                <th data-field="dbquery">Database Query</th>
+                <th data-field="lastmodified">Last Modified</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.QueryString</td>
+                <td>@item.LastModified.ToString()</td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }
-
-@section headers{
-    <link rel='stylesheet' type='text/css' href="~/Content/user-dashboards.css" media="screen,projection" />    
-    <link type="text/css" rel="stylesheet" href="~/Content/select-activity.css" media="screen,projection" />
+else
+{
+    <h4>You do not have any experiments to view.</h4>
 }
-
-<nav id="mainNav" class="top blue darken-3">
-    <div class="nav-wrapper">
-        <a href="#" class="brand-logo">Logo</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li data-menuachor="runExperiment">
-                <a href="#runExperiment">Run Experiment</a>
-            </li>
-            <li data-menuachor="createExperiment">
-                <a href="#createExperiment">Create Experiment</a>
-            </li>
-            <li>@Html.Partial("_LogoffPartial")</li>
-        </ul>
-    </div>
-</nav>
-
-<div id="sideNav">
-    <ul id="sideMenu">
-        <li data-menuanchor="runExperiment">
-            <a href="#runExperiment"></a>
-        </li>
-        <li data-menuanchor="createExperiment">
-            <a href="#createExperiment"></a>
-        </li>
-    </ul>
-</div>
-
-<div id="fullpage" class="fullpage-wrapper loaded">
-    <section id="runExperiment" class="section hierarchical-timig fp-section fp-table active" data-anchor="runExperiment" data-delay="500">
-        <h2>Run Experiment</h2>
-    </section>
-    <section id="createExperiment" class="section hierarchical-timig fp-section fp-table" data-anchor="createExperiment" data-delay="500">
-        <h2>Create Experiment</h2>
-    </section>
-</div>
-
-@section scripts{
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#fullpage').fullpage({
-                css3: true,
-                scrollingSpeed: 1000
-            });
-        });
-    </script>
-}    

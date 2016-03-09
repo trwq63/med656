@@ -50,10 +50,10 @@ namespace UAHFitVault.DataAccess
         /// </summary>
         /// <param name="id">Id of the patient data record</param>
         /// <returns></returns>
-        public PatientData GetPatientData(int id) {
+        public PatientData GetPatientData(string id) {
             PatientData patientData = null;
 
-            if(id > 0) {
+            if(!string.IsNullOrEmpty(id)) {
                 patientData = _repository.GetById(id);
             }
 

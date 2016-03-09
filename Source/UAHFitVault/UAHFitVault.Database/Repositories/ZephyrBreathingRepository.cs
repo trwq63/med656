@@ -28,7 +28,7 @@ namespace UAHFitVault.Database.Repositories
         /// </summary>
         /// <param name="id">Id of the patient data record</param>
         /// <returns></returns>
-        public IEnumerable<ZephyrBreathingWaveform> GetZephyrBreathingByPatientDataId(Guid id) {
+        public IEnumerable<ZephyrBreathingWaveform> GetZephyrBreathingByPatientDataId(string id) {
             IEnumerable<ZephyrBreathingWaveform> zephyrBreathing = this.DbContext.ZephyrBreathingWaveform.Where(p => p.PatientDataId == id);                                                    
 
             return zephyrBreathing;

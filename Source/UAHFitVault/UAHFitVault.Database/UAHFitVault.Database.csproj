@@ -86,6 +86,22 @@
     <Compile Include="Migrations\201602150218599_patient-change-age-to-birthdate.Designer.cs">
       <DependentUpon>201602150218599_patient-change-age-to-birthdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603020319412_patientdata-fk-fix.cs" />
+    <Compile Include="Migrations\201603020319412_patientdata-fk-fix.Designer.cs">
+      <DependentUpon>201603020319412_patientdata-fk-fix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603040127357_patientdata-daterange-add.cs" />
+    <Compile Include="Migrations\201603040127357_patientdata-daterange-add.Designer.cs">
+      <DependentUpon>201603040127357_patientdata-daterange-add.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603060353136_change-patientdataid_string.cs" />
+    <Compile Include="Migrations\201603060353136_change-patientdataid_string.Designer.cs">
+      <DependentUpon>201603060353136_change-patientdataid_string.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603060403178_activity-addstartstoptimes.cs" />
+    <Compile Include="Migrations\201603060403178_activity-addstartstoptimes.Designer.cs">
+      <DependentUpon>201603060403178_activity-addstartstoptimes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\ZephyrAccelerometer.cs" />
@@ -93,9 +109,11 @@
     <Compile Include="Entities\ZephyrECGWaveform.cs" />
     <Compile Include="Entities\ZephyrEventData.cs" />
     <Compile Include="Entities\ZephyrSummaryData.cs" />
+    <Compile Include="Repositories\ExperimentRepository.cs" />
     <Compile Include="Repositories\IAccountRequestRepository.cs" />
     <Compile Include="Repositories\AccountRequestRepository.cs" />
     <Compile Include="Repositories\IBasisPeakSummaryRepository.cs" />
+    <Compile Include="Repositories\IExperimentRepository.cs" />
     <Compile Include="Repositories\IExperimentAdminRepository.cs" />
     <Compile Include="Repositories\IPatientRepository.cs" />
     <Compile Include="Repositories\IPatientDataRepository.cs" />
@@ -128,6 +146,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201602150218599_patient-change-age-to-birthdate.resx">
       <DependentUpon>201602150218599_patient-change-age-to-birthdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603020319412_patientdata-fk-fix.resx">
+      <DependentUpon>201603020319412_patientdata-fk-fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603040127357_patientdata-daterange-add.resx">
+      <DependentUpon>201603040127357_patientdata-daterange-add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603060353136_change-patientdataid_string.resx">
+      <DependentUpon>201603060353136_change-patientdataid_string.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603060403178_activity-addstartstoptimes.resx">
+      <DependentUpon>201603060403178_activity-addstartstoptimes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

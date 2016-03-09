@@ -15,6 +15,6 @@ namespace UAHFitVault.Database.Repositories
         /// </summary>
         /// <param name="id">Id of the patient data record</param>
         /// <returns></returns>
-        IEnumerable<BasisPeakSummaryData> GetBasisPeakSummaryByPatientDataId(Guid id);
+        IEnumerable<BasisPeakSummaryData> GetBasisPeakSummaryByPatientDataId(string id);
     }
 }
