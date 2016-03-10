@@ -10,7 +10,8 @@
 {
     @Html.ValidationSummary("", new { @class = "text-danger" })
 
-    <p align="center">Are you sure that you wish to delete the experiment <b>@Model.ExperimentName@Html.HiddenFor(m => m.ExperimentName)</b>?</p>
-    <p align="center"><input type="submit" value="Confirm" class="btn green" />
+    <p style="text-align: center;">Are you sure that you wish to delete the experiment <b>@Model.ExperimentName@Html.HiddenFor(m => m.ExperimentName)</b>?</p>
+    <br />
+    <p style="text-align: center;"><input type="submit" value="Confirm" class="btn green" />
     <input type="button" value="Cancel" class="btn red" onclick="location.href = '/Account/LoginRedirect';" /></p>
 }
