@@ -7,7 +7,7 @@ namespace UAHFitVault.Models
     /// <summary>
     /// Model for creating experiments
     /// </summary>
-    public class CreateExperimentViewModel
+    public class ExperimentViewModel
     {
         /// <summary>
         /// The name of the experiment
@@ -54,7 +54,7 @@ namespace UAHFitVault.Models
     /// </summary>
     public class ViewExperimentCriteriaViewModel
     {
-        public CreateExperimentViewModel experiment { get; set; }
+        public ExperimentViewModel experiment { get; set; }
     }
 
     /// <summary>
@@ -82,6 +82,6 @@ namespace UAHFitVault.Models
         /// <summary>
         /// Store the data for easy access in the view
         /// </summary>
-        public List<CreateExperimentViewModel> ExperimentCriteria { get; set; }
+        public List<ExperimentViewModel> ExperimentCriteria { get; set; }
     }
 }

@@ -44,12 +44,12 @@ namespace UAHFitVault.Controllers
             ViewAllExperimentsViewModel model = new ViewAllExperimentsViewModel();
             model.Experiments = new List<Experiment>();
             model.Experiments.AddRange(_experimentService.GetExperiments(manager.FindByName(User.Identity.Name).ExperimentAdministratorId));
-            model.ExperimentCriteria = new List<CreateExperimentViewModel>();
+            model.ExperimentCriteria = new List<ExperimentViewModel>();
 
             // Get all of the experiments parsed data
             for (int i = 0; i < model.Experiments.Count; i++)
             {
-                CreateExperimentViewModel temp = JsonConvert.DeserializeObject<CreateExperimentViewModel>(model.Experiments.ElementAt(i).QueryString);
+                ExperimentViewModel temp = JsonConvert.DeserializeObject<ExperimentViewModel>(model.Experiments.ElementAt(i).QueryString);
                 model.ExperimentCriteria.Add(temp);
             }
             
@@ -62,7 +62,7 @@ namespace UAHFitVault.Controllers
         /// <returns></returns>
         public ActionResult CreateExperiment ()
         {
-            CreateExperimentViewModel model = new CreateExperimentViewModel();
+            ExperimentViewModel model = new ExperimentViewModel();
             return View(model);
         }
 
@@ -71,11 +71,11 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult CreateExperiment (CreateExperimentViewModel model,
+        public ActionResult CreateExperiment (ExperimentViewModel model,
             string[] selectedGenders, string[] selectedRaces, string[] selectedEthnicities,
             string[] selectedLocations, string[] selectedActivities)
         {
-            CreateExperimentViewModel serializedModel = new CreateExperimentViewModel();
+            ExperimentViewModel serializedModel = new ExperimentViewModel();
             
             serializedModel.ageRangeStart = model.ageRangeStart;
             serializedModel.ageRangeEnd = model.ageRangeEnd;
@@ -256,9 +256,10 @@ namespace UAHFitVault.Controllers
             ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             int userId = manager.FindByName(User.Identity.Name).ExperimentAdministratorId;
             Experiment experiment = _experimentService.GetExperimentByName(experimentName, userId);
-            CreateExperimentViewModel temp = new CreateExperimentViewModel();
+            model.patientList = GetPatientsForExperiment(experiment);
 
-            temp = JsonConvert.DeserializeObject<CreateExperimentViewModel>(experiment.QueryString);
+            ExperimentViewModel temp = new ExperimentViewModel();
+            temp = JsonConvert.DeserializeObject<ExperimentViewModel>(experiment.QueryString);
 
             model.criteriaModel.experiment = temp;
 
@@ -277,6 +278,20 @@ namespace UAHFitVault.Controllers
         #endregion
 
         #region Private Methods
+        /// <summary>
+        /// Gets the patients matched with an experiment
+        /// </summary>
+        /// <param name="experiment">Experiment to match the patients with</param>
+        /// <returns></returns>
+        private List<Patient> GetPatientsForExperiment (Experiment experiment)
+        {
+            List<Patient> returnList = new List<Patient>();
+            List<Patient> patientList = new List<Patient>();
+            // Need to figure out how to do this.. ugh.
+            ExperimentViewModel model = null;
+
+            return returnList;
+        }
         /// <summary>
         /// Checks to see if the experiment name is already used
         /// </summary>
