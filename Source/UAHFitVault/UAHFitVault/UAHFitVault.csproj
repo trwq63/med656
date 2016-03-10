@@ -430,6 +430,10 @@
     <Content Include="Views\Shared\_ExperimentAdminLayout.cshtml" />
     <Content Include="Views\Experiment\CreateExperiment.cshtml" />
     <Content Include="Views\Experiment\CreateExperimentConfirmation.cshtml" />
+    <Content Include="Views\Experiment\DeleteExperiment.cshtml" />
+    <Content Include="Views\Experiment\DeleteExperimentConfirmation.cshtml" />
+    <Content Include="Views\Experiment\ViewExperiment.cshtml" />
+    <Content Include="Views\Experiment\_PartialViewExperimentCriteria.cshtml" />
     <None Include="Views\Shared\_PhysicianLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>

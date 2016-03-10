@@ -41,7 +41,7 @@ namespace UAHFitVault.Controllers
         {
             ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
                         
-            ViewExperimentsViewModel model = new ViewExperimentsViewModel();
+            ViewAllExperimentsViewModel model = new ViewAllExperimentsViewModel();
             model.Experiments = new List<Experiment>();
             model.Experiments.AddRange(_experimentService.GetExperiments(manager.FindByName(User.Identity.Name).ExperimentAdministratorId));
             model.ExperimentCriteria = new List<CreateExperimentViewModel>();
@@ -187,6 +187,84 @@ namespace UAHFitVault.Controllers
             return Redirect("/Experiment/CreateExperimentConfirmation");
         }
 
+
+        /// <summary>
+        /// Deletes an experiment from the database
+        /// </summary>
+        /// <param name="experimentName">Name of the experiment to delete</param>
+        /// <returns></returns>
+        public ActionResult DeleteExperiment (string experimentName)
+        {
+            DeleteExperimentViewModel model = new DeleteExperimentViewModel();
+            model.ExperimentName = experimentName;
+            
+            return View(model);
+        }
+
+        /// <summary>
+        /// Deletes an experiment from the database.
+        /// </summary>
+        /// <param name="experimentName">Name of the experiment to delete</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult DeleteExperiment (DeleteExperimentViewModel model)
+        {
+            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            ExperimentAdministrator user = _experimentAdminService.GetExperimentAdministrator(
+                manager.FindByName(User.Identity.Name).ExperimentAdministratorId);
+            int userId = manager.FindByName(User.Identity.Name).ExperimentAdministratorId;
+            Experiment experiment = _experimentService.GetExperimentByName(model.ExperimentName, userId);
+            if (experiment.ExperimentAdministrator == user) // Confirm the user owns the experiment
+            {
+                // Get the experiment ID
+                int experimentId = experiment.Id;
+                _experimentService.DeleteExperiment(experimentId, userId);
+                _experimentService.SaveChanges();
+            }
+            else
+            {
+                ModelState.AddModelError("", "ERROR: You do not own that experiment.");
+                return View(model);
+            }
+            return Redirect("/Experiment/DeleteExperimentConfirmation");
+        }
+
+        /// <summary>
+        /// Displays a confirmation page for deleting the experiment.
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult DeleteExperimentConfirmation()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Displays information about the experiment
+        /// </summary>
+        /// <param name="experimentName">Name of the experiment</param>
+        /// <returns></returns>
+        public ActionResult ViewExperiment (string experimentName)
+        {
+            ViewExperimentViewModel model = new ViewExperimentViewModel();
+            model.criteriaModel = new ViewExperimentCriteriaViewModel();
+
+            if (experimentName != null)
+            {
+                model.experimentName = experimentName;
+            }
+
+            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            int userId = manager.FindByName(User.Identity.Name).ExperimentAdministratorId;
+            Experiment experiment = _experimentService.GetExperimentByName(experimentName, userId);
+            CreateExperimentViewModel temp = new CreateExperimentViewModel();
+
+            temp = JsonConvert.DeserializeObject<CreateExperimentViewModel>(experiment.QueryString);
+
+            model.criteriaModel.experiment = temp;
+
+            return View(model);
+        }
+
         /// <summary>
         /// Confirmation of successful experiment creation
         /// </summary>
@@ -199,100 +277,6 @@ namespace UAHFitVault.Controllers
         #endregion
 
         #region Private Methods
-        /// <summary>
-        /// Reads in a query string input and parses it in to a two-dimensional array.
-        /// </summary>
-        /// <param name="queryString">Input query string</param>
-        /// <returns></returns>
-        private List<List<string>> ParseQueryString (string queryString)
-        {
-            // For first index, 0=genders, 1=races, 2=ethnicity, 3=location, 4=activites
-            List<List<string>> returnList = new List<List<string>>();
-
-            List<string> races = new List<string>();
-            List<string> genders = new List<string>();
-            List<string> ethnicities = new List<string>();
-            List<string> locations = new List<string>();
-            List<string> activities = new List<string>();
-
-            queryString = queryString.Replace("races:", "").Replace("genders:", "")
-                .Replace("locations:", "").Replace("activities:", "").Replace("ethnicities:", "");
-
-            string[] splitQueryString = queryString.Split(';');
-            
-            for (int i = 0; i < 5; i++)
-            {
-                string[] splitInput = splitQueryString[i].Split(','); // Split up all of the commas
-                switch (i)
-                {
-                    case 0:
-                        // Genders
-                        for (int j = 0; j < splitInput.Length; j++)
-                        {
-                            genders.Add(splitInput[j]);
-                        }
-                        break;
-                    case 1:
-                        // Races
-                        for (int j = 0; j < splitInput.Length; j++)
-                        {
-                            races.Add(splitInput[j]);
-                        }
-                        break;
-                    case 2:
-                        // Ethnicities
-                        for (int j = 0; j < splitInput.Length; j++)
-                        {
-                            ethnicities.Add(splitInput[j]);
-                        }
-                        break;
-                    case 3:
-                        // Locations
-                        for (int j = 0; j < splitInput.Length; j++)
-                        {
-                            locations.Add(splitInput[j]);
-                        }
-                        break;
-                    case 4:
-                        // Activities
-                        for (int j = 0; j < splitInput.Length; j++)
-                        {
-                            activities.Add(splitInput[j]);
-                        }
-                        break;
-                }
-            }
-
-            returnList.Add(races);
-            returnList.Add(genders);
-            returnList.Add(ethnicities);
-            returnList.Add(locations);
-            returnList.Add(activities);
-            
-            return returnList;
-        }
-
-        /// <summary>
-        /// This function produces a single string from an input array of strings
-        /// </summary>
-        /// <param name="input">Array of strings to be processed.</param>
-        /// <returns></returns>
-        private string GenerateStringFromStringArray (string[] input)
-        {
-            string returnString = "";
-            
-            for (int i = 0; i < input.Length; i++)
-            {
-                returnString += input[i];
-                if (i < (input.Length-1))
-                {
-                    returnString += ",";
-                }
-            }
-            returnString += ";";
-            return returnString;
-        }
-
         /// <summary>
         /// Checks to see if the experiment name is already used
         /// </summary>

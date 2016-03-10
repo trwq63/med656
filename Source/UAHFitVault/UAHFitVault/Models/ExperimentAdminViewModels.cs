@@ -36,12 +36,43 @@ namespace UAHFitVault.Models
 
         public string[] selectedGenders;        // Selected genders
         public string[] selectedRaces;          // Selected races
-        public string[] selectedLocations;      // Selected locations
         public string[] selectedEthnicities;    // Selected ethnicities
+        public string[] selectedLocations;      // Selected locations
         public string[] selectedActivities;     // Selected activity tags        
     }
 
-    public class ViewExperimentsViewModel
+    /// <summary>
+    /// Model for deleting an experiment
+    /// </summary>
+    public class DeleteExperimentViewModel
+    {
+        public string ExperimentName { get; set; }
+    }
+
+    /// <summary>
+    /// Model for viewing matching criteria data for an experiment
+    /// </summary>
+    public class ViewExperimentCriteriaViewModel
+    {
+        public CreateExperimentViewModel experiment { get; set; }
+    }
+
+    /// <summary>
+    /// Model for viewing experiments
+    /// </summary>
+    public class ViewExperimentViewModel
+    {
+        public string experimentName { get; set; }
+
+        public ViewExperimentCriteriaViewModel criteriaModel { get; set; }
+
+        public List<Patient> patientList { get; set; }
+    }
+
+    /// <summary>
+    /// Model for viewing experiments
+    /// </summary>
+    public class ViewAllExperimentsViewModel
     {
         /// <summary>
         /// All of the experiments
