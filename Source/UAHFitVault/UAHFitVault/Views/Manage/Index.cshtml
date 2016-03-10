@@ -171,13 +171,11 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-    <script src="~/Scripts/pickadate/picker.js"></script>
-    <script src="~/Scripts/pickadate/picker.date.js"></script>
     <script>
             $(document).ready(function () {
                 $('.datepicker').pickadate({
                     selectMonths: true, // Creates a dropdown to control month
-                    selectYears: 15 // Creates a dropdown of 15 years to control year
+                    selectYears: 50 // Creates a dropdown of 15 years to control year
                 });
             });
     </script>

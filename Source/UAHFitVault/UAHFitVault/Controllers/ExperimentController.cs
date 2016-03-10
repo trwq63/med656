@@ -21,13 +21,15 @@ namespace UAHFitVault.Controllers
         #region Private Members
         private readonly IExperimentAdminService _experimentAdminService;
         private readonly IExperimentService _experimentService;
+        private readonly IPatientService _patientService;
         #endregion
 
         #region Public Constructor
-        public ExperimentController (IExperimentAdminService expAdminService, IExperimentService expService)
+        public ExperimentController (IExperimentAdminService expAdminService, IExperimentService expService, IPatientService patientService)
         {
             _experimentAdminService = expAdminService;
             _experimentService = expService;
+            _patientService = patientService;
         }
         #endregion
 
@@ -256,7 +258,7 @@ namespace UAHFitVault.Controllers
             ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             int userId = manager.FindByName(User.Identity.Name).ExperimentAdministratorId;
             Experiment experiment = _experimentService.GetExperimentByName(experimentName, userId);
-            model.patientList = GetPatientsForExperiment(experiment);
+            model.patientList = GetPatientsForExperiment(experiment);   // Get the patients from the database
 
             ExperimentViewModel temp = new ExperimentViewModel();
             temp = JsonConvert.DeserializeObject<ExperimentViewModel>(experiment.QueryString);
@@ -285,13 +287,49 @@ namespace UAHFitVault.Controllers
         /// <returns></returns>
         private List<Patient> GetPatientsForExperiment (Experiment experiment)
         {
-            List<Patient> returnList = new List<Patient>();
             List<Patient> patientList = new List<Patient>();
             // Need to figure out how to do this.. ugh.
-            ExperimentViewModel model = null;
+            ExperimentViewModel model = JsonConvert.DeserializeObject<ExperimentViewModel>(experiment.QueryString);
 
-            return returnList;
+            List<Patient> patients = _patientService.GetPatients().ToList(); // Get all patients
+
+            // NOTE:  This is a horribly slow algorithm.  Need to improve this later.
+            foreach (Patient patient in patients)
+            {
+                foreach (string race in model.selectedRaces)
+                {
+                    foreach (string ethnicity in model.selectedEthnicities)
+                    {
+                        foreach (string gender in model.selectedGenders)
+                        {
+                            foreach (string location in model.selectedLocations)
+                            {
+                                if ( (Enum.GetName(typeof(PatientRace), patient.Race) == race) &&
+                                     (Enum.GetName(typeof(PatientEthnicity), patient.Ethnicity) == ethnicity) &&
+                                     (Enum.GetName(typeof(PatientGender), patient.Gender) == gender) &&
+                                     (Enum.GetName(typeof(Location), patient.Location) == location) )
+                                {
+                                    if ((patient.Weight <= model.weightRangeEnd) && (patient.Weight >= model.weightRangeBegin))
+                                    {
+                                        if ((patient.Height <= model.heightRangeEnd) && (patient.Height >= model.heightRangeBegin))
+                                        {
+                                            if ((DateTime.Now-patient.Birthdate).TotalDays <= (model.ageRangeEnd*365) &&
+                                                ((DateTime.Now-patient.Birthdate).TotalDays >= (model.ageRangeStart*365)))
+                                            {
+                                                patientList.Add(patient);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            return patientList;
         }
+
         /// <summary>
         /// Checks to see if the experiment name is already used
         /// </summary>
