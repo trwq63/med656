@@ -115,10 +115,10 @@
                                 <label>Ethnicity</label>
                             </div>
                             <div class="left-align">
-                                @foreach (string enthicity in ethnicities) {
-                                    string enthicityId = "enthicity" + enthicity;
-                                    @Html.RadioButtonFor(m => m.Ethnicity, enthicity, new { id = enthicityId, name = enthicity })
-                                    <label for="@enthicityId">@enthicity</label>
+                                @foreach (string ethnicity in ethnicities) {
+                                    string ethnicityId = "ethnicity" + ethnicity;
+                                    @Html.RadioButtonFor(m => m.Ethnicity, ethnicity, new { id = ethnicityId, name = ethnicity })
+                                    <label for="@ethnicityId">@ethnicity</label>
                                 }
                             </div>
                         </div>

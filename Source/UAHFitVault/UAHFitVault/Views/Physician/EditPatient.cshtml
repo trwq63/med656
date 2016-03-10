@@ -68,7 +68,7 @@
             <td>
                 @foreach (string ethnicity in ethnicities)
                 {
-                    string ethnicityId = "enthicity" + ethnicity;
+                    string ethnicityId = "ethnicity" + ethnicity;
                     if (Model.Ethnicity == ((int)Enum.Parse(typeof(PatientEthnicity), ethnicity)).ToString())
                     {
                         @Html.RadioButtonFor(m => m.Ethnicity, ethnicity, new { id = ethnicityId, name = ethnicity, @checked = true })
