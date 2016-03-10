@@ -76,7 +76,14 @@ namespace UAHFitVault.Controllers
             string[] selectedLocations, string[] selectedActivities)
         {
             CreateExperimentViewModel serializedModel = new CreateExperimentViewModel();
-            serializedModel = model;
+            
+            serializedModel.ageRangeStart = model.ageRangeStart;
+            serializedModel.ageRangeEnd = model.ageRangeEnd;
+            serializedModel.weightRangeBegin = model.weightRangeBegin;
+            serializedModel.weightRangeEnd = model.weightRangeEnd;
+            serializedModel.heightRangeBegin = model.heightRangeBegin;
+            serializedModel.heightRangeEnd = model.heightRangeEnd;
+            
 
             // Generate Gender string
             if (selectedGenders != null)

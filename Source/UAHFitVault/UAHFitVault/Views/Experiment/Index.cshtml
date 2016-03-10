@@ -3,43 +3,57 @@
 
 @model ViewExperimentsViewModel
 
-<h4>Experiment Administrator Home Page</h4>
+<h2 class="center-align">View Experiments</h2>
 @if (Model != null)
 {
-    <table class="centered responsive-table striped">
-        <thead>
-            <tr>
-                <th data-field="name">Experiment Name</th>
-                <th data-field="races">Races</th>
-                <th data-field="genders">Genders</th>
-                <th data-field="ethnicities">Ethnicities</th>
-                <th data-field="locations">Locations</th>
-                <th data-field="activities">Activities</th>
-                <th data-field="lastmodified">Last Modified</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{ int i = 0;}
-        @foreach (var item in Model.Experiments)
+    <div class="row card-panel light-blue lighten-1">
+        <div class="col s4 black-text"><h5>Experiment Name</h5></div>
+        @* Removed, because displaying all locations and activities displays a bunch of data.
+        <div class="col s1">Age</div>
+        <div class="col s1">Height</div>
+        <div class="col s1">Weight</div>
+        <div class="col s1">Genders</div>
+        <div class="col s1">Races</div>
+        <div class="col s1">Ethnicities</div>
+        <div class="col s1">Locations</div>
+        <div class="col s1">Activities</div>
+            *@
+        <div class="col s4 black-text"><h5>Last Modified</h5></div>
+        <div class="col s4 black-text"><h5>Actions</h5></div>
+    </div>
+    int i = 0;
+    foreach (var item in Model.Experiments)
+    {
+        if ((i % 2) == 0)
         {
-            <tr>
-                <td>@item.Name</td>
-                <td>@foreach (string str in Model.ExperimentCriteria.ElementAt(i).selectedGenders)
-                { @str.Replace("_", " ") <br />}</td>
-                <td>@foreach (string str in Model.ExperimentCriteria.ElementAt(i).selectedRaces)
-                { @str.Replace("_", " ") <br />}</td>
-                <td>@foreach (string str in Model.ExperimentCriteria.ElementAt(i).selectedEthnicities)
-                { @str.Replace("_", " ") <br />}</td>
-                <td>@foreach (string str in Model.ExperimentCriteria.ElementAt(i).selectedLocations)
-                { @str.Replace("_", " ") <br />}</td>
-                <td>@foreach (string str in Model.ExperimentCriteria.ElementAt(i).selectedActivities)
-                { @str.Replace("_", " ") <br />}</td>
-                <td>@item.LastModified.ToString()</td>
-            </tr>
-            i++;
+            @Html.Raw("<div class=\"row blue card-panel lighten-4\">")
         }
-        </tbody>
-    </table>
+        else
+        {
+            @Html.Raw("<div class=\"row light-blue card-panel lighten-4\">")
+        }
+                <div class="col s4 black-text">@item.Name</div>
+                @* Removed, because displaying all locations and activities displays a bunch of data.
+    <div class="col s1">@Model.ExperimentCriteria.ElementAt(i).ageRangeStart to @Model.ExperimentCriteria.ElementAt(i).ageRangeEnd</div>
+    <div class="col s1">@Model.ExperimentCriteria.ElementAt(i).heightRangeBegin to @Model.ExperimentCriteria.ElementAt(i).heightRangeEnd</div>
+    <div class="col s1">@Model.ExperimentCriteria.ElementAt(i).weightRangeBegin to @Model.ExperimentCriteria.ElementAt(i).weightRangeEnd</div>
+    <div class="col s1">@foreach (string str in Model.ExperimentCriteria.ElementAt(i).selectedGenders)
+    { @str.Replace("_", " ") <br />}</div>
+    <div class="col s1">@foreach (string str in Model.ExperimentCriteria.ElementAt(i).selectedRaces)
+    { @str.Replace("_", " ") <br />}</div>
+    <div class="col s1">@foreach (string str in Model.ExperimentCriteria.ElementAt(i).selectedEthnicities)
+    { @str.Replace("_", " ") <br />}</div>
+    <div class="col s1">@foreach (string str in Model.ExperimentCriteria.ElementAt(i).selectedLocations)
+    { @str.Replace("_", " ") <br />}</div>
+    <div class="col s1">@foreach (string str in Model.ExperimentCriteria.ElementAt(i).selectedActivities)
+    { @str.Replace("_", " ") <br />}</div>
+                *@
+                <div class="col s4 black-text">@item.LastModified.ToString()</div>
+                <div class="col s4 black-text"><input type="button" class="btn blue-grey" value="View" onclick="location.href='/Experiment/ViewExperiment?experimentId=@Model.Experiments.ElementAt(i).Id';" />
+                <input type="button" class="btn red" value="Delete" /></div>
+            i++;
+        @Html.Raw("</div>")
+        }
 }
 else
 {
