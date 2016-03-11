@@ -25,7 +25,7 @@ namespace UAHFitVault.Controllers
         #endregion
 
         #region Public Constructor
-        public ExperimentController (IExperimentAdminService expAdminService, IExperimentService expService, IPatientService patientService)
+        public ExperimentController(IExperimentAdminService expAdminService, IExperimentService expService, IPatientService patientService)
         {
             _experimentAdminService = expAdminService;
             _experimentService = expService;
@@ -42,7 +42,7 @@ namespace UAHFitVault.Controllers
         public ActionResult Index()
         {
             ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                        
+
             ViewAllExperimentsViewModel model = new ViewAllExperimentsViewModel();
             model.Experiments = new List<Experiment>();
             model.Experiments.AddRange(_experimentService.GetExperiments(manager.FindByName(User.Identity.Name).ExperimentAdministratorId));
@@ -54,15 +54,15 @@ namespace UAHFitVault.Controllers
                 ExperimentViewModel temp = JsonConvert.DeserializeObject<ExperimentViewModel>(model.Experiments.ElementAt(i).QueryString);
                 model.ExperimentCriteria.Add(temp);
             }
-            
+
             return View(model);
         }
-        
+
         /// <summary>
         /// Displays the view for an experiment administrator to create an experiment
         /// </summary>
         /// <returns></returns>
-        public ActionResult CreateExperiment ()
+        public ActionResult CreateExperiment()
         {
             ExperimentViewModel model = new ExperimentViewModel();
             return View(model);
@@ -73,19 +73,19 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult CreateExperiment (ExperimentViewModel model,
+        public ActionResult CreateExperiment(ExperimentViewModel model,
             string[] selectedGenders, string[] selectedRaces, string[] selectedEthnicities,
             string[] selectedLocations, string[] selectedActivities)
         {
             ExperimentViewModel serializedModel = new ExperimentViewModel();
-            
+
             serializedModel.ageRangeStart = model.ageRangeStart;
             serializedModel.ageRangeEnd = model.ageRangeEnd;
             serializedModel.weightRangeBegin = model.weightRangeBegin;
             serializedModel.weightRangeEnd = model.weightRangeEnd;
             serializedModel.heightRangeBegin = model.heightRangeBegin;
             serializedModel.heightRangeEnd = model.heightRangeEnd;
-            
+
 
             // Generate Gender string
             if (selectedGenders != null)
@@ -94,7 +94,7 @@ namespace UAHFitVault.Controllers
                 serializedModel.selectedGenders = selectedGenders;
             }
             else
-            {                
+            {
                 // No genders were selected, so get all genders
                 string[] allGenders = Enum.GetNames(typeof(PatientGender));
                 serializedModel.selectedGenders = allGenders;
@@ -195,11 +195,11 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="experimentName">Name of the experiment to delete</param>
         /// <returns></returns>
-        public ActionResult DeleteExperiment (string experimentName)
+        public ActionResult DeleteExperiment(string experimentName)
         {
             DeleteExperimentViewModel model = new DeleteExperimentViewModel();
             model.ExperimentName = experimentName;
-            
+
             return View(model);
         }
 
@@ -209,7 +209,7 @@ namespace UAHFitVault.Controllers
         /// <param name="experimentName">Name of the experiment to delete</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult DeleteExperiment (DeleteExperimentViewModel model)
+        public ActionResult DeleteExperiment(DeleteExperimentViewModel model)
         {
             ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             ExperimentAdministrator user = _experimentAdminService.GetExperimentAdministrator(
@@ -245,7 +245,7 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="experimentName">Name of the experiment</param>
         /// <returns></returns>
-        public ActionResult ViewExperiment (string experimentName)
+        public ActionResult ViewExperiment(string experimentName)
         {
             ViewExperimentViewModel model = new ViewExperimentViewModel();
             model.criteriaModel = new ViewExperimentCriteriaViewModel();
@@ -285,49 +285,89 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="experiment">Experiment to match the patients with</param>
         /// <returns></returns>
-        private List<Patient> GetPatientsForExperiment (Experiment experiment)
+        private List<Patient> GetPatientsForExperiment(Experiment experiment)
         {
             List<Patient> patientList = new List<Patient>();
-            // Need to figure out how to do this.. ugh.
+
             ExperimentViewModel model = JsonConvert.DeserializeObject<ExperimentViewModel>(experiment.QueryString);
+            
+            List<Patient> patientsMatchingRace = new List<Patient>();
+            List<Patient> patientsMatchingGender = new List<Patient>();
+            List<Patient> patientsMatchingEthnicities = new List<Patient>();
+            List<Patient> patientsMatchingLocations = new List<Patient>();
 
-            List<Patient> patients = _patientService.GetPatients().ToList(); // Get all patients
-
-            // NOTE:  This is a horribly slow algorithm.  Need to improve this later.
-            foreach (Patient patient in patients)
+            foreach (string gender in model.selectedGenders)
             {
-                foreach (string race in model.selectedRaces)
+                patientsMatchingRace.AddRange(_experimentService.GetPatientsOfType(typeof(PatientGender), gender));
+            }
+            foreach (string race in model.selectedRaces)
+            {
+                patientsMatchingGender.AddRange(_experimentService.GetPatientsOfType(typeof(PatientRace), race));
+            }
+            foreach (string ethnicity in model.selectedEthnicities)
+            {
+                patientsMatchingEthnicities.AddRange(_experimentService.GetPatientsOfType(typeof(PatientEthnicity), ethnicity));
+            }
+            foreach (string location in model.selectedLocations)
+            {
+                patientsMatchingLocations.AddRange(_experimentService.GetPatientsOfType(typeof(Location), location));
+            }
+
+            patientList = FindPatientsMatchingCriteria(patientsMatchingGender, patientsMatchingRace,
+                patientsMatchingEthnicities, patientsMatchingLocations, model);
+
+            return patientList;
+        }
+
+        /// <summary>
+        /// Function to find the common patients in all of the lists
+        /// </summary>
+        /// <param name="patientsMatchingGender">List of patients matching gender</param>
+        /// <param name="patientsMatchingRace">List of patients matching race</param>
+        /// <param name="patientsMatchingEthnicity">List of patients matching ethnicity</param>
+        /// <param name="patientsMatchingLocation">List of patients matching location</param>
+        /// <param name="model">Model</param>
+        /// <returns></returns>
+        private List<Patient> FindPatientsMatchingCriteria(List<Patient> patientsMatchingGender, List<Patient> patientsMatchingRace,
+            List<Patient> patientsMatchingEthnicity, List<Patient> patientsMatchingLocation, ExperimentViewModel model)
+        {
+            List<Patient> list = new List<Patient>();
+
+            foreach (Patient p1 in patientsMatchingGender)
+            {
+                bool found = false;
+                foreach (Patient p2 in patientsMatchingRace)
                 {
-                    foreach (string ethnicity in model.selectedEthnicities)
+                    foreach (Patient p3 in patientsMatchingEthnicity)
                     {
-                        foreach (string gender in model.selectedGenders)
+                        foreach (Patient p4 in patientsMatchingLocation)
                         {
-                            foreach (string location in model.selectedLocations)
+                            if ((p1 == p2) && (p2 == p3) && (p3 == p4))
                             {
-                                if ( (Enum.GetName(typeof(PatientRace), patient.Race) == race) &&
-                                     (Enum.GetName(typeof(PatientEthnicity), patient.Ethnicity) == ethnicity) &&
-                                     (Enum.GetName(typeof(PatientGender), patient.Gender) == gender) &&
-                                     (Enum.GetName(typeof(Location), patient.Location) == location) )
+                                // Patient is in all lists
+                                if ((p4.Weight <= model.weightRangeEnd) && (p4.Weight >= model.weightRangeBegin))
                                 {
-                                    if ((patient.Weight <= model.weightRangeEnd) && (patient.Weight >= model.weightRangeBegin))
+                                    if ((p4.Height <= model.heightRangeEnd) && (p4.Height >= model.heightRangeBegin))
                                     {
-                                        if ((patient.Height <= model.heightRangeEnd) && (patient.Height >= model.heightRangeBegin))
+                                        if ((DateTime.Now - p4.Birthdate).TotalDays <= (model.ageRangeEnd * 365) &&
+                                            ((DateTime.Now - p4.Birthdate).TotalDays >= (model.ageRangeStart * 365)))
                                         {
-                                            if ((DateTime.Now-patient.Birthdate).TotalDays <= (model.ageRangeEnd*365) &&
-                                                ((DateTime.Now-patient.Birthdate).TotalDays >= (model.ageRangeStart*365)))
-                                            {
-                                                patientList.Add(patient);
-                                            }
+                                            list.Add(p4);
+                                            found = true;
+                                            break;
                                         }
                                     }
                                 }
                             }
                         }
+                        if (found) { break; }
                     }
+                    if (found) { break; }
                 }
             }
-            
-            return patientList;
+
+
+            return list;
         }
 
         /// <summary>
@@ -335,7 +375,7 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="experimentName">Experiment name</param>
         /// <returns>True if the experiment name exists, false otherwise</returns>
-        private bool ExperimentNameIsUsed (string experimentName)
+        private bool ExperimentNameIsUsed(string experimentName)
         {
             ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
 

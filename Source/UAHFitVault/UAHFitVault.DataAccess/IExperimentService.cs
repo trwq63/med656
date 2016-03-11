@@ -47,6 +47,14 @@ namespace UAHFitVault.DataAccess
         IEnumerable<Experiment> GetExperiments(int experimentAdminId);
 
         /// <summary>
+        /// Get all of the patients of the input type
+        /// </summary>
+        /// <param name="type">Input Type</param>
+        /// <param name="value">Value to look for</param>
+        /// <returns></returns>
+        IEnumerable<Patient> GetPatientsOfType(Type type, string value);
+
+        /// <summary>
         /// Save changes to database
         /// </summary>
         void SaveChanges();

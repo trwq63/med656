@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UAHFitVault.Database.Entities;
 using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Repositories;
+using UAHFitVault.LogicLayer.Enums;
 
 namespace UAHFitVault.DataAccess
 {
@@ -15,6 +16,7 @@ namespace UAHFitVault.DataAccess
 
         private readonly IExperimentRepository _experimentRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IPatientRepository _patientRepository;
 
         #endregion
 
@@ -24,10 +26,11 @@ namespace UAHFitVault.DataAccess
         /// </summary>
         /// <param name="repository">Experiment Repository interface dependency</param>
         /// <param name="unitOfWork">UnitOfWork interface dependency</param>
-        public ExperimentService(IExperimentRepository repository, IUnitOfWork unitOfWork)
+        public ExperimentService(IExperimentRepository repository, IUnitOfWork unitOfWork, IPatientRepository patientRepository)
         {
             _experimentRepository = repository;
             _unitOfWork = unitOfWork;
+            _patientRepository = patientRepository;
         }
 
         #endregion
@@ -37,7 +40,7 @@ namespace UAHFitVault.DataAccess
         /// Create an experiment
         /// </summary>
         /// <param name="experiment">Experiment to create</param>
-        public void CreateExperiment (Experiment experiment)
+        public void CreateExperiment(Experiment experiment)
         {
             if (experiment != null)
             {
@@ -51,7 +54,7 @@ namespace UAHFitVault.DataAccess
         /// </summary>
         /// <param name="experimentId">Id of the experiment to delete</param>
         /// <param name="experimentAdminId">Id of the experiment administrator</param>
-        public void DeleteExperiment (int experimentId, int experimentAdminId)
+        public void DeleteExperiment(int experimentId, int experimentAdminId)
         {
             if (experimentId > 0)
             {
@@ -69,7 +72,7 @@ namespace UAHFitVault.DataAccess
         /// <param name="experimentId">Id of the experiment to get</param>
         /// <param name="experimentAdminId">Id of the experiment administrator</param>
         /// <returns>Experiment</returns>
-        public Experiment GetExperimentById (int experimentId, int experimentAdminId)
+        public Experiment GetExperimentById(int experimentId, int experimentAdminId)
         {
             Experiment experiment = null;
             if (experimentId > 0)
@@ -85,7 +88,7 @@ namespace UAHFitVault.DataAccess
         /// <param name="experimentName">Name of the experiment</param>
         /// <param name="experimentAdminId">Id of the experiment administrator</param>
         /// <returns></returns>
-        public Experiment GetExperimentByName (string experimentName, int experimentAdminId)
+        public Experiment GetExperimentByName(string experimentName, int experimentAdminId)
         {
             Experiment experiment = null;
             if (!string.IsNullOrEmpty(experimentName))
@@ -100,7 +103,7 @@ namespace UAHFitVault.DataAccess
         /// </summary>
         /// <param name="experimentAdminId">Experiment administrator Id</param>
         /// <returns></returns>
-        public IEnumerable<Experiment> GetExperiments (int experimentAdminId)
+        public IEnumerable<Experiment> GetExperiments(int experimentAdminId)
         {
             if (experimentAdminId > 0)
             {
@@ -108,7 +111,39 @@ namespace UAHFitVault.DataAccess
             }
             return null;
         }
-        
+
+        /// <summary>
+        /// Get all of the patients of the input type
+        /// </summary>
+        /// <param name="type">Input Type</param>
+        /// <param name="value">Value to look for</param>
+        /// <returns></returns>
+        public IEnumerable<Patient> GetPatientsOfType(Type type, string value)
+        {
+            if (type == typeof(PatientRace))
+            {
+                // Race
+                return _patientRepository.GetAll().Where(p => p.Race == (int)Enum.Parse(type, value));
+            }
+            if (type == typeof(PatientGender))
+            {
+                // Gender
+                return _patientRepository.GetAll().Where(p => p.Gender == (int)Enum.Parse(type, value));
+            }
+            if (type == typeof(PatientEthnicity))
+            {
+                // Ethnicity
+                return _patientRepository.GetAll().Where(p => p.Ethnicity == (int)Enum.Parse(type, value));
+            }
+            if (type == typeof(Location))
+            {
+                // Location
+                return _patientRepository.GetAll().Where(p => p.Location == (int)Enum.Parse(type, value));
+            }
+            // Error occured
+            return null;
+        }
+
         /// <summary>
         /// Save changes to database
         /// </summary>
