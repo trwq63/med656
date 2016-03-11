@@ -112,7 +112,7 @@ namespace UAHFitVault.Controllers
             }
             else if (User.IsInRole("Patient"))
             {
-                return RedirectToLocal("/Patient/Index");
+                return RedirectToLocal("/PatientData/Index");
             }
             else if (User.IsInRole("System Administrator"))
             {

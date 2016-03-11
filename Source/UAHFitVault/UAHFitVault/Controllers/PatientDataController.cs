@@ -51,7 +51,7 @@ namespace UAHFitVault.Controllers
         /// <summary>
         /// Service object for accessing Zephyr Breathing Waveform database functions.
         /// </summary>
-        private readonly IZephyrBreathingService _breathingService;
+        private readonly IZephyrBreathingService _zephyrBreathingService;
 
         /// <summary>
         /// Service object for accessing Zephyr ECG Waveform database functions.
@@ -129,14 +129,14 @@ namespace UAHFitVault.Controllers
         /// <param name="basisPeakService">Service object for accessing basis peak summary database functions.</param>
         /// <param name="medicalDeviceService">Service for accessing medical devices.</param>
         public PatientDataController(IPatientDataService patientDataService, IZephyrAccelService zephyrAccelService,
-                                    IZephyrBreathingService breathingService, IZephyrECGService ecgService,
+                                    IZephyrBreathingService zephyrBreathingService, IZephyrECGService ecgService,
                                     IZephyrEventDataService eventDataService, IZephyrSummaryService summaryService,
                                     IPatientService patientService, IBasisPeakSummaryService basisPeakService,
                                     IMedicalDeviceService medicalDeviceService) {
 
             _patientDataService = patientDataService;
             _zephyrAccelService = zephyrAccelService;
-            _breathingService = breathingService;
+            _zephyrBreathingService = zephyrBreathingService;
             _ecgService = ecgService;
             _eventDataService = eventDataService;
             _summaryService = summaryService;
@@ -210,21 +210,30 @@ namespace UAHFitVault.Controllers
                     case "Zephyr":
                         switch ((File_Type)dataRecord.DataType) {
                             case File_Type.Accelerometer:
-                                List<ZephyrAccelerometer> zephyrAccelData = new List<ZephyrAccelerometer>();
-                                zephyrAccelData = _zephyrAccelService.GetZephyrAccelerometerData(dataRecord, start, end).ToList();
-                                if(zephyrAccelData.Count > 0) {
+                                List<ZephyrAccelerometer> zephyrAccelData = _zephyrAccelService.GetZephyrAccelerometerData(dataRecord, start, end).ToList();
+                                if(zephyrAccelData != null && zephyrAccelData.Count > 0) {
                                     List<double> accelData = ZephyrLogic.ConvertAccelWaveformToGs(zephyrAccelData.Select(z => z.Vertical).ToList());
                                     LineGraphModel lineModel = new LineGraphModel() {
-                                        XAxisName = AxisNames.ACCEL_X_AXIS,
-                                        YAxisName = AxisNames.ACCEL_Y_AXIS,
+                                        XAxisName = AxisNames.ZEPHYR_ACCEL_X_AXIS,
+                                        YAxisName = AxisNames.ZEPHYR_ACCEL_Y_AXIS,
                                         XAxisData = zephyrAccelData.Select(z => z.Time).ToList(),
                                         YAxisData = accelData
                                     };
                                     graphViewModel.LineGraphModels.Add(lineModel);
-                                }
-                                
+                                }                                
                                 break;
                             case File_Type.Breathing:
+                                List<ZephyrBreathingWaveform> zephryBreathingData = 
+                                    _zephyrBreathingService.GetZephyrBreathingWaveformData(dataRecord, start, end).ToList();
+                                if (zephryBreathingData != null && zephryBreathingData.Count > 0) {
+                                    LineGraphModel lineModel = new LineGraphModel() {
+                                        XAxisName = AxisNames.ZEPHYR_BREATHING_X_AXIS,
+                                        YAxisName = AxisNames.ZEPHYR_BREATHING_Y_AXIS,
+                                        XAxisData = zephryBreathingData.Select(z => z.Time).ToList(),
+                                        YAxisData = zephryBreathingData.Select(z => z.Data).Select(d => (double)d).ToList()
+                                    };
+                                    graphViewModel.LineGraphModels.Add(lineModel);
+                                }
                                 break;
                             case File_Type.ECG:
                                 break;

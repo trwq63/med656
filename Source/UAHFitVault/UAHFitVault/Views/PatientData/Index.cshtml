@@ -188,6 +188,8 @@
 
         var mindate = getMinDate(linegraph);
         var maxdate = getMaxDate(linegraph);
+        var minData = getMinData(linegraph);
+        var maxData = getMaxData(linegraph);
         //linegraph.x = formatDate.parse(linegraph.x);
 
         // define dimensions of graph
@@ -196,7 +198,7 @@
         var h = 600 - m[0] - m[2]; // height
 
         var x = d3.time.scale().domain([mindate, maxdate]).range([0, w]);
-        var y = d3.scale.linear().domain([-.5, .5]).range([h, 0]);
+        var y = d3.scale.linear().domain([minData, maxData]).range([h, 0]);
 
         // create a line function that can convert data[] into x and y points
         var line = d3.svg.line()
@@ -268,6 +270,7 @@
             .attr("d", line);
     }
 
+    //Get the minimum date from an array of dates.
     function getMinDate(dates) {
         var mindate = null;
 
@@ -280,6 +283,7 @@
         return mindate;
     }
 
+    //Get the maximum date from an array of dates.
     function getMaxDate(dates) {
         var maxdate = null;
 
@@ -292,6 +296,31 @@
         return maxdate;
     }
 
+    //Get the minimum value from an array of data.
+    function getMinData(data) {
+        var minValue = null;
+
+        for (i = 0; i < (data.length - 1) ; i++) {
+            if (data[i].y < minValue || minValue == null) {
+                minValue = data[i].y;
+            }
+        }
+
+        return minValue;
+    }
+
+    //Get the maximum value from an array of data.
+    function getMaxData(data) {
+        var maxdata = null;
+
+        for (i = 0; i < (data.length - 1) ; i++) {
+            if (data[i].y > maxdata || maxdata == null) {
+                maxdata = data[i].y;
+            }
+        }
+
+        return maxdata;
+    }
     
 
 </script>
