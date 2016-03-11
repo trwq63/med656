@@ -5,6 +5,7 @@ using UAHFitVault.Database.Entities;
 using UAHFitVault.Database.Repositories;
 using UAHFitVault.Database;
 using EntityFramework.BulkInsert.Extensions;
+using System;
 
 namespace UAHFitVault.DataAccess.ZephyrServices
 {
@@ -44,7 +45,22 @@ namespace UAHFitVault.DataAccess.ZephyrServices
             if (patientData == null)
                 return _repository.GetAll();
             else
-                return _repository.GetAll().Where(r => r.PatientDataId == patientData.Id);
+                return _repository.GetMany(r => r.PatientDataId == patientData.Id);
+        }
+
+        /// <summary>
+        /// Get the Zephyr ECG WaveForm data for the given a patient data record or all records for all patients during
+        /// the given time period.
+        /// </summary>
+        /// <param name="patientData">PatientData object used to retrieve the Zephyr ECG WaveForm Data records</param>
+        /// <param name="startTime">Start time of date/time filter</param>
+        /// <param name="endTime">End time of date/time filter</param>
+        /// <returns></returns>
+        public IEnumerable<ZephyrECGWaveform> GetZephyrECGWaveFormData(PatientData patientData, DateTime startTime, DateTime endTime) {
+            if (patientData == null)
+                return _repository.GetAll();
+            else
+                return _repository.GetMany(r => r.PatientDataId == patientData.Id && r.Time >= startTime && r.Time <= endTime);
         }
 
         /// <summary>

@@ -20,7 +20,8 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         IEnumerable<ZephyrBreathingWaveform> GetZephyrBreathingWaveformData(PatientData patientData);
 
         /// <summary>
-        /// Get the Zephyr Breathing Waveform data for the given a patient data record or all records for all patients.
+        /// Get the Zephyr Breathing Waveform data for the given a patient data record or all records for all patients
+        /// during the time provided.
         /// </summary>
         /// <param name="patientData">PatientData object used to retrieve the Zephyr Breathing Waveform Data records</param>
         /// <param name="startTime">Start time of date/time filter</param>
