@@ -229,7 +229,7 @@ namespace UAHFitVault.Controllers
                 }
             }           
 
-            return RedirectToAction("Index", "Patient");
+            return RedirectToAction("Index", "PatientData");
         }
 
         #region Protected Methods
