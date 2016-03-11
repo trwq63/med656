@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UAHFitVault.LogicLayer.Resources
+﻿namespace UAHFitVault.LogicLayer.Resources
 {
     /// <summary>
     /// Class is used to define constant values for Zephyr waveform data conversions
@@ -31,5 +25,17 @@ namespace UAHFitVault.LogicLayer.Resources
         /// 1G represents 83 bits on the accelermeter scale.
         /// </summary>
         public const int ACCEL_1G_COUNTS = 83;
+
+        /// <summary>
+        /// Maxiumum possible G value out from the accelerometer
+        /// </summary>
+        public const int ACCEL_MAX_VALUE_G = 16;
+
+        /// <summary>
+        /// Minimum possible G value out from the accelerometer
+        /// </summary>
+        public const int ACCEL_MIN_VALUE_G = -16;
+
+
     }
 }

@@ -63,18 +63,36 @@ namespace UAHFitVault.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Time.
         /// </summary>
-        internal static string ACCEL_X_AXIS {
+        internal static string ZEPHYR_ACCEL_X_AXIS {
             get {
-                return ResourceManager.GetString("ACCEL_X_AXIS", resourceCulture);
+                return ResourceManager.GetString("ZEPHYR_ACCEL_X_AXIS", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to G&apos;s.
         /// </summary>
-        internal static string ACCEL_Y_AXIS {
+        internal static string ZEPHYR_ACCEL_Y_AXIS {
             get {
-                return ResourceManager.GetString("ACCEL_Y_AXIS", resourceCulture);
+                return ResourceManager.GetString("ZEPHYR_ACCEL_Y_AXIS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time.
+        /// </summary>
+        internal static string ZEPHYR_BREATHING_X_AXIS {
+            get {
+                return ResourceManager.GetString("ZEPHYR_BREATHING_X_AXIS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Raw breathing sensor output.
+        /// </summary>
+        internal static string ZEPHYR_BREATHING_Y_AXIS {
+            get {
+                return ResourceManager.GetString("ZEPHYR_BREATHING_Y_AXIS", resourceCulture);
             }
         }
     }
