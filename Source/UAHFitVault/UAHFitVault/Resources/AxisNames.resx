@@ -117,16 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ZEPHYR_ACCEL_X_AXIS" xml:space="preserve">
+  <data name="GENERIC_X_AXIS" xml:space="preserve">
     <value>Time</value>
+  </data>
+  <data name="GENERIC_Y_AXIS" xml:space="preserve">
+    <value>Amplitude</value>
   </data>
   <data name="ZEPHYR_ACCEL_Y_AXIS" xml:space="preserve">
     <value>G's</value>
-  </data>
-  <data name="ZEPHYR_BREATHING_X_AXIS" xml:space="preserve">
-    <value>Time</value>
-  </data>
-  <data name="ZEPHYR_BREATHING_Y_AXIS" xml:space="preserve">
-    <value>Raw breathing sensor output</value>
   </data>
 </root>
