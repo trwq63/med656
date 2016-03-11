@@ -8,7 +8,7 @@
         Unknown,
         Zephyr,
         BasisPeak,
-        MicrosoftBand
+        Microsoft_Band
     }
 
     /// <summary>
@@ -19,7 +19,7 @@
         Unknown,
         Summary,
         EventData,
-        Accel,
+        Accelerometer,
         ECG,
         Breathing
     }
@@ -151,6 +151,56 @@
     }
 
     /// <summary>
+    /// Different Zephyr Data types
+    /// </summary>
+    public enum ZephyrDataTypes
+    {
+        Accelerometer,
+        Breathing_Waveforms,
+        ECG_Waveforms,
+        Event_Data,
+        Summary
+    }
+
+    /// <summary>
+    /// The various information found in a Zephyr summary report.
+    /// </summary>
+    public enum ZephyrSummaryDataTypes
+    {
+        Heart_Rate,
+        Breathing_Rate,
+        Skin_Temperature,
+        Posture,
+        Activity,
+        Peak_Accelerometer,
+        Battery_Volts,
+        Battery_Level,
+        Breathing_Rate_Amplitude,
+        Breating_Rate_Confidence,
+        Breating_Rate_Noise,
+        ECG_Amplitude,
+        ECG_Noise,
+        Heart_Rate_Confidence,
+        HRV,
+        System_Confidence,
+        Galvanic_Skin_Resistance,
+        ROG_State,
+        ROG_Time,
+        Accel_Vertical_Min,
+        Accel_Vertical_Max,
+        Accel_Lateral_Min,
+        Accel_Lateral_Max,
+        Accel_Sagittal_Min,
+        Accel_Sagittal_Max,
+        Device_Temperature,
+        Status_Information,
+        Link_Quality,
+        RSSI,
+        TxPower,
+        Core_Temperature
+    }
+    
+    /// <summary>
     /// Details the activities that a data set will be tagged with
     /// </summary>
     public enum ActivityType
@@ -180,4 +230,16 @@
         Biking = 22,
         Miscellaneous = 23
     }
+    /// <summary>
+    /// Different BasisPeak Data types
+    /// </summary>
+    public enum BasisPeakTypes
+    {
+        Calories,
+        Galvanic_Skin_Resistance,
+        Heart_Rate,
+        Skin_Temperature,
+        Steps
+    };
+    
 }

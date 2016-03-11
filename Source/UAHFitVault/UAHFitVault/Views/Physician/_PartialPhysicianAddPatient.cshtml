@@ -115,10 +115,10 @@
                                 <label>Ethnicity</label>
                             </div>
                             <div class="left-align">
-                                @foreach (string enthicity in ethnicities) {
-                                    string enthicityId = "enthicity" + enthicity;
-                                    @Html.RadioButtonFor(m => m.Ethnicity, enthicity, new { id = enthicityId, name = enthicity })
-                                    <label for="@enthicityId">@enthicity</label>
+                                @foreach (string ethnicity in ethnicities) {
+                                    string ethnicityId = "ethnicity" + ethnicity;
+                                    @Html.RadioButtonFor(m => m.Ethnicity, ethnicity, new { id = ethnicityId, name = ethnicity })
+                                    <label for="@ethnicityId">@ethnicity</label>
                                 }
                             </div>
                         </div>
@@ -141,61 +141,3 @@
     </div>
 </div>
 
-
-
-
-
-@*<form action="/Physician/CreatePatient" method="post">
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <table>
-        <tr>
-            <td>@Html.LabelFor(m => m.Password)</td>
-            <td>@Html.TextBoxFor(m => m.Password)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(m => m.Birthdate)</td>
-            <td>@Html.TextBoxFor(m => m.Birthdate, new { @class = "datepicker picker__input", @type = "date" })</td>
-            <td>@Html.LabelFor(m => m.Weight)</td>
-            <td>@Html.TextBoxFor(m => m.Weight)</td>
-            <td>@Html.LabelFor(m => m.Height)</td>
-            <td>@Html.TextBoxFor(m => m.Height)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(m => m.Gender)</td>
-            <td>
-                <input name="Gender" type="radio" id="radioMale" value="Male" />
-                <label for="radioMale">Male</label><br />
-                <input name="Gender" type="radio" id="radioFemale" value="Female" />
-                <label for="radioFemale">Female</label>
-            </td>
-            <td>@Html.LabelFor(m => m.Ethnicity)</td>
-            <td>
-                <input name="Ethnicity" type="radio" id="radioHispanic" value="Hispanic" />
-                <label for="radioHispanic">Hispanic</label><br />
-                <input name="Ethnicity" type="radio" id="radioNonHispanic" value="Non-Hispanic" />
-                <label for="radioNonHispanic">Non-Hispanic</label>
-            </td>
-            <td>@Html.LabelFor(m => m.Race)</td>
-            <td>
-                <input name="Race" type="radio" id="radioWhite" value="White" />
-                <label for="radioWhite">White</label><br />
-                <input name="Race" type="radio" id="radioBlack" value="Black" />
-                <label for="radioBlack">Black</label><br />
-                <input name="Race" type="radio" id="radioAsian" value="Asian" />
-                <label for="radioAsian">Asian</label><br />
-                <input name="Race" type="radio" id="radioNativeAmerican" value="American Indian" />
-                <label for="radioNativeAmerican">American Indian/Alaska Native</label><br />
-                <input name="Race" type="radio" id="radioHawaiian" value="Native Hawaiian" />
-                <label for="radioHawaiian" ">Native Hawaiian</label><br />
-                <input name="Race" type="radio" id="radioOther" value="Other" />
-                <label for="radioOther">Other</label>
-
-            </td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(m => m.Location)</td>
-            <td>@Html.TextBoxFor(m => m.Location)</td>
-        </tr>
-    </table>
-    <input type="submit" value="submit" class="btn btn-default" />
-</form>*@

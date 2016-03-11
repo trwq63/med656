@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UAHFitVault.Database.Entities;
 
 namespace UAHFitVault.DataAccess.ZephyrServices
@@ -27,6 +28,16 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// <param name="patientData">PatientData object used to retrieve the Zephyr Accelerometer Data records</param>
         /// <returns></returns>
         IEnumerable<ZephyrAccelerometer> GetZephyrAccelerometerData(PatientData patientData);
+
+        /// <summary>
+        /// Get the Zephyr Accelerometer data for the given a patient data record or all records for all patients.
+        /// Filter what is returned by time.
+        /// </summary>
+        /// <param name="patientData">PatientData object used to retrieve the Zephyr Accelerometer Data records</param>
+        /// <param name="startTime">Start time of date/time filter</param>
+        /// <param name="endTime">End time of date/time filter</param>
+        /// <returns></returns>
+        IEnumerable<ZephyrAccelerometer> GetZephyrAccelerometerData(PatientData patientData, DateTime startTime, DateTime endTime);
 
         /// <summary>
         /// Bulk Insert Zephyr Acceleromater Data into the database

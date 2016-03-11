@@ -6,11 +6,14 @@ from WebUI.WebUI import WebUI
 def pre_existing_users():
     web_sess = WebUI()
     web_sess.request_account('Physician', 'testPhysician', 'P@ssword10', 'tphysician@aol.com',
-                             'test', 'test', 'home', '123-456-7890')
-    web_sess.approve_account('testPhysician')
+                             'test', 'physician', 'home', '123-456-7890')
+    web_sess.approve_account('test physician')
+    web_sess.request_account('Physician', 'testPhysician2', 'P@ssword10', 'tphysician2@aol.com',
+                             'test', 'physician2', 'home', '123-456-7890')
+    web_sess.approve_account('test physician2')
     web_sess.request_account('Exp Admin', 'testExpAdmin', 'P@ssword10', 'texpadmin@aol.com',
-                             'test', 'test', 'home', '123-456-7890')
-    web_sess.approve_account('testExpAdmin')
+                             'test', 'expadmin', 'home', '123-456-7890')
+    web_sess.approve_account('test expadmin')
     web_sess.create_patient('testPhysician',
                             'P@ssword10',
                             'testPatient',

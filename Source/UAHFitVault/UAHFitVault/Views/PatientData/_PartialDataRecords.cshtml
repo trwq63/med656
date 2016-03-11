@@ -1,0 +1,23 @@
+﻿@using UAHFitVault.LogicLayer.Models;
+@using UAHFitVault.LogicLayer.Enums;
+@using UAHFitVault.Database.Entities;
+
+@model PatientDataByDevice
+
+@{ 
+    List<File_Type> dataTypes = Model.DataRecords.Select(d => d.DataType).Cast<File_Type>().ToList();
+}
+
+@foreach (File_Type type in dataTypes) {
+    <div class="verticalSelect verticalSelect--isOffScreen" data-datatype="@type.ToString().Replace("_"," ")">
+        <div class="verticalSelect__header">
+            @type.ToString().Replace("_"," ")
+        </div>
+        <ul class="verticalSelect__selectList">
+            @{ 
+                List<PatientData> patientData = Model.DataRecords.Where(d => d.DataType == (int)@type).ToList();
+            }
+            @Html.Partial("~/Views/PatientData/_PartialDataItems.cshtml", patientData)
+        </ul>
+    </div>
+}

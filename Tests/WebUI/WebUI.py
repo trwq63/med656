@@ -6,6 +6,7 @@ from selenium.webdriver.support import select
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+import sys
 
 
 class WebUI:
@@ -23,6 +24,8 @@ class WebUI:
         :return:
         """
         self.baseurl = baseurl
+        self.go_home()
+        self.driver.maximize_window()
 
     def go_home(self):
         """
@@ -143,18 +146,19 @@ class WebUI:
             return False
         return True
 
-    def approve_account(self, username):
+    def approve_account(self, user):
         """
         Logs in as the system admin and approves an account with the given username
 
         :param username: Username of the account to approve
         :return:
         """
+        self.go_home()
         try:
             if not self.check_login(user='fitadmin'):
                 self.login('fitadmin','Password1!')
             # find the account to approve and click the approve button
-            return False
+            self.driver.find_element_by_xpath("//tr/td[text()='{}']/../td/button[text()='Approve']".format(user)).click()
         except:
             return False
         return True
@@ -198,43 +202,58 @@ class WebUI:
         if not self.check_login(phy, t=1):
             self.login(phy, phy_pass)
         try:
-            self.driver.find_element_by_css_selector('button[onClick=createPatient()]').click()
+            self.driver.find_element_by_css_selector('button[onclick=createPatient\(\)]').click()
             self.driver.find_element_by_id('Username').send_keys(user)
             self.driver.find_element_by_id('Password').send_keys(pwd)
-            self.driver.find_element_by_id('Birthdate').send_keys(bday)
+            self.driver.find_element_by_id('Birthdate').click()
+            # temporary work around
+            self.driver.find_element_by_css_selector('button[class=picker__button--today').click()
             select.Select(self.driver.find_element_by_id('Location')).select_by_visible_text(location)
             self.driver.find_element_by_id('Weight').send_keys(weight)
             self.driver.find_element_by_id('Height').send_keys(height)
             if gender == 'male':
-                self.driver.find_element_by_id('genderMale').click()
+                self.driver.find_element_by_css_selector('label[for=genderMale]').click()
             elif gender == 'female':
-                self.driver.find_element_by_id('genderFemale').click()
+                self.driver.find_element_by_css_selector('label[for=genderFemale]').click()
             else:
                 return False
             if race == 'american_indian':
-                self.driver.find_element_by_id('raceAmericanIndian').click()
+                self.driver.find_element_by_css_selector('label[for=raceAmericanIndian]').click()
             elif race == 'asian':
-                self.driver.find_element_by_id('raceAsian').click()
+                self.driver.find_element_by_css_selector('label[for=raceAsian]').click()
             elif race == 'black':
-                self.driver.find_element_by_id('raceBlack').click()
+                self.driver.find_element_by_css_selector('label[for=raceBlack]').click()
             elif race == 'hawaiian':
-                self.driver.find_element_by_id('raceHawaiian').click()
+                self.driver.find_element_by_css_selector('label[for=raceHawaiian]').click()
             elif race == 'white':
-                self.driver.find_element_by_id('raceWhite').click()
+                self.driver.find_element_by_css_selector('label[for=raceWhite]').click()
             elif race == 'other':
-                self.driver.find_element_by_id('raceOther').click()
+                self.driver.find_element_by_css_selector('label[for=raceOther]').click()
             else:
                 return False
             if ethnicity == 'non_hispanic':
-                self.driver.find_element_by_id('ethnicityNonHispanic').click()
+                # workaround: ethnicity misspelling
+                self.driver.find_element_by_css_selector('label[for=enthicityNonHispanic]').click()
             elif ethnicity == 'hispanic':
-                self.driver.find_element_by_id('ethnicityHispanic').click()
+                self.driver.find_element_by_css_selector('label[for=ethnicityHispanic]').click()
             else:
                 return False
-            self.driver.find_element_by_css_selector('input[type=submit]').click()
+            self.driver.find_element_by_css_selector('button[type=submit]').click()
         except:
+            e = sys.exc_info()
+            print (e)
             return False
         return True
+
+    def check_create_patient(self):
+        """
+        Validates that the patient creation was successful
+
+        :return:
+        """
+        if 'Account Confirmation' in self.driver.page_source:
+            return True
+        return False
 
     def delete_account(self, user):
         """
@@ -250,6 +269,24 @@ class WebUI:
             self.driver.find_element(by='css selector', value='a[href$=\"/Admin/ManageUsers\"]').click()
             self.driver.find_element_by_xpath("//tr/td[text()='{}']/../td/button/i[text()='delete']/..".format(user)).click()
 
+        except:
+            return False
+        return True
+
+    def delete_patient(self, phy, phy_pass, user):
+        """
+        This logs in as the physician and deletes the specified user
+
+        :param phy: name of the physician that the patient belongs to
+        :param phy_pass: password of the physician
+        :param user: username of the account to delete
+        :return:
+        """
+        try:
+            if not self.check_login(phy, t=1):
+                self.login(phy, phy_pass)
+            self.driver.find_element_by_xpath("//tr/td[text()='{}']/../td/button[contains(text(),'Delete Patient')]".format(user)).click()
+            self.driver.find_element_by_css_selector('input[type=submit]').click()
         except:
             return False
         return True
@@ -332,5 +369,7 @@ class WebUI:
             self.driver.find_element_by_id('ConfirmPassword').send_keys(new_pwd)
             self.driver.find_element_by_css_selector('input[type=submit]').click()
         except:
+            e = sys.exc_info()
+            print (e)
             return False
         return True

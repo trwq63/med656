@@ -19,11 +19,13 @@ namespace UAHFitVault.Database.Entities
 
         #region Scalar Properties
 
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime FromDate { get; set; }
+        [Required]
+        public DateTime ToDate { get; set; }
         [Required]
         public DateTime UploadDate { get; set; }
         [Required]

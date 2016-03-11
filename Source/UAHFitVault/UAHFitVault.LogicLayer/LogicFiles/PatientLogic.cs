@@ -50,7 +50,7 @@ namespace UAHFitVault.LogicLayer.LogicFiles
                         break;
                     case "Zephyr":
                         if (fileName.Contains("Accel")) {
-                            fileType = File_Type.Accel;
+                            fileType = File_Type.Accelerometer;
                         }
                         else if (fileName.Contains("Breathing")) {
                             fileType = File_Type.Breathing;

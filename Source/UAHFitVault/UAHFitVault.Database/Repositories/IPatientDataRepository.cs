@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UAHFitVault.Database.Entities;
 using UAHFitVault.Database.Infrastructure;
 
@@ -16,5 +15,12 @@ namespace UAHFitVault.Database.Repositories
         /// <param name="id">Id of the patient</param>
         /// <returns></returns>
         IEnumerable<PatientData> GetPatientDataByPatientId(int id);
+
+        /// <summary>
+        /// Get a patient data record by id.
+        /// </summary>
+        /// <param name="id">Id of the patient data record.</param>
+        /// <returns></returns>
+        PatientData GetById(string id);
     }
 }

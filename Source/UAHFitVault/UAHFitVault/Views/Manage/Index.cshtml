@@ -74,7 +74,7 @@
                 <td>
                     @foreach (string ethnicity in ethnicities)
                     {
-                        string ethnicityId = "enthicity" + ethnicity;
+                        string ethnicityId = "ethnicity" + ethnicity;
                         if (Model.Ethnicity == ((int)Enum.Parse(typeof(PatientEthnicity), ethnicity)).ToString())
                         {
                             @Html.RadioButtonFor(m => m.Ethnicity, ethnicity, new { id = ethnicityId, name = ethnicity, @checked = true })
@@ -171,11 +171,14 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
+    <script src="~/Scripts/pickadate/picker.js"></script>
+    <script src="~/Scripts/pickadate/picker.date.js"></script>
     <script>
             $(document).ready(function () {
                 $('.datepicker').pickadate({
                     selectMonths: true, // Creates a dropdown to control month
-                    selectYears: 50 // Creates a dropdown of 15 years to control year
+                    selectYears: 100,
+                    max: Date.now()
                 });
             });
     </script>

@@ -28,7 +28,7 @@ namespace UAHFitVault.Database.Repositories
         /// </summary>
         /// <param name="id">Id of the patient data record</param>
         /// <returns></returns>
-        public IEnumerable<BasisPeakSummaryData> GetBasisPeakSummaryByPatientDataId(Guid id) {
+        public IEnumerable<BasisPeakSummaryData> GetBasisPeakSummaryByPatientDataId(string id) {
             IEnumerable<BasisPeakSummaryData> basisSummaries = this.DbContext.BasisPeakSummaryData.Where(p => p.PatientDataId == id);                                                    
 
             return basisSummaries;

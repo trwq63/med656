@@ -11,6 +11,9 @@ using UAHFitVault.Database.Entities;
 using UAHFitVault.LogicLayer.Enums;
 using UAHFitVault.LogicLayer.LogicFiles;
 using UAHFitVault.Helpers;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
+using UAHFitVault.Models;
 
 namespace UAHFitVault.Controllers
 {
@@ -18,6 +21,11 @@ namespace UAHFitVault.Controllers
     public class PatientController : Controller
     {
         #region Private Members
+
+        /// <summary>
+        /// UserManager object used to get the logged in user's information
+        /// </summary>
+        private ApplicationUserManager _userManager;
 
         /// <summary>
         /// Service object for accessing patient data database functions.
@@ -62,7 +70,25 @@ namespace UAHFitVault.Controllers
         /// <summary>
         /// Service for accessing medical devices.
         /// </summary>
-        private readonly IMedicalDeviceService _medicalDeviceService;       
+        private readonly IMedicalDeviceService _medicalDeviceService;
+
+        #endregion
+
+        #region Private Properties
+
+        /// <summary>
+        /// User manager object needed throughout the controller to access applicationuser objects.
+        /// </summary>
+        /// <returns></returns>
+        private ApplicationUserManager UserManager {
+            get {
+                if (_userManager == null) {
+                    _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                }
+
+                return _userManager;
+            }
+        }
 
         #endregion
 
@@ -86,9 +112,19 @@ namespace UAHFitVault.Controllers
         #endregion
 
         #region Public Constructors
+
         /// <summary>
         /// Default constructor
         /// </summary>
+        /// <param name="patientDataService">Service object for accessing patient data database functions.</param>
+        /// <param name="accelService">Service object for accessing Zephyr Accelerometer database functions.</param>
+        /// <param name="breathingService">Service object for accessing Zephyr Breathing Waveform database functions.</param>
+        /// <param name="ecgService">Service object for accessing Zephyr ECG Waveform database functions.</param>
+        /// <param name="eventDataService">Service object for accessing Zephyr Event Data database functions.</param>
+        /// <param name="summaryService">Service object for accessing Zephyr Summary database functions.</param>
+        /// <param name="patientService">Service object for accessing patient database functions.</param>
+        /// <param name="basisPeakService">Service object for accessing basis peak summary database functions.</param>
+        /// <param name="medicalDeviceService">Service for accessing medical devices.</param>
         public PatientController(IPatientDataService patientDataService, IZephyrAccelService accelService,
                                     IZephyrBreathingService breathingService, IZephyrECGService ecgService,
                                     IZephyrEventDataService eventDataService, IZephyrSummaryService summaryService,
@@ -140,24 +176,26 @@ namespace UAHFitVault.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ProcessData(HttpPostedFileBase[] files, string medicalDeviceType) {
+        public ActionResult ProcessData(UploadDataViewModel model) {
 
-            MedicalDevice medicalDevice = PatientLogic.DetermineDeviceType(MedicalDevices, medicalDeviceType);
+            MedicalDevice medicalDevice = PatientLogic.DetermineDeviceType(MedicalDevices, model.MedicalDeviceType);
 
-            foreach (HttpPostedFileBase file in files) { 
+            foreach (HttpPostedFileBase file in model.Files) { 
                 
                 File_Type fileType = PatientLogic.DetermineFileType(file.FileName, medicalDevice);
 
                 //var user = System.Web.HttpContext.Current.User.Identity.GetUserId();
 
-                Patient patient = _patientService.GetPatient(1);               
+                Patient patient = _patientService.GetPatient(UserManager.FindById(User.Identity.GetUserId()).PatientId);
 
                 PatientData patientData = new PatientData() {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.NewGuid().ToString(),
                     DataType = (int)fileType,
                     Name = file.FileName,
                     UploadDate = DateTime.Now,
-                    Date = DateTime.Now,                    
+                    //TODO: Fix the date here
+                    FromDate = model.FromDate,
+                    ToDate = model.ToDate,           
                     MedicalDeviceId = medicalDevice.Id,
                     Patient = patient
                 };
@@ -167,7 +205,7 @@ namespace UAHFitVault.Controllers
                 }
                 else if(medicalDevice.Name == Device_Type.Zephyr.ToString()) { 
                     switch (fileType) {
-                        case File_Type.Accel:
+                        case File_Type.Accelerometer:
                             ProcessZephyrAccelData(file, patientData);
                             break;
                         case File_Type.Breathing:
@@ -186,7 +224,7 @@ namespace UAHFitVault.Controllers
                             break;
                     }
                 }
-                else if(medicalDevice.Name.Trim() == Device_Type.MicrosoftBand.ToString()) {
+                else if(medicalDevice.Name.Trim() == Device_Type.Microsoft_Band.ToString().Replace("_", "")) {
                     //TODO: Create msband process methods.
                 }
             }           
