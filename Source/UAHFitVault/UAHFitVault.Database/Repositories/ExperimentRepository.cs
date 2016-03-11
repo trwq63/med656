@@ -29,9 +29,8 @@ namespace UAHFitVault.Database.Repositories
         /// <returns></returns>
         public Experiment GetExperimentById (int experimentId, int experimentAdminId)
         {
-            // Only return experiments that belong to the current user
             Experiment experiment = this.DbContext.Experiments.Where(p => p.Id == experimentId)
-                .Where(p => p.ExperimentAdministrator.Id == experimentId)
+                .Where(p => p.ExperimentAdministrator.Id == experimentAdminId)
                 .FirstOrDefault();
 
             return experiment;

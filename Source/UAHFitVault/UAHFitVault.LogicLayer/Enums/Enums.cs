@@ -11,7 +11,7 @@
         Microsoft_Band
     }
 
-    /// <summary>v
+    /// <summary>
     /// Enum defines the different data file types supported by the system.
     /// </summary>
     public enum File_Type

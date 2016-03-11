@@ -1,6 +1,6 @@
 ﻿@using UAHFitVault.LogicLayer.Enums
 
-@model UAHFitVault.Models.CreateExperimentViewModel
+@model UAHFitVault.Models.ExperimentViewModel
 
 @{
     ViewBag.Title = "CreateExperiment";
@@ -79,13 +79,13 @@
                 {
                     foreach (string genderSelected in Model.selectedGenders)
                     {
-                        if (genderId == genderSelected)
+                        if (gender == genderSelected)
                         {
                             genderWasSelected = true;
                         }
                     }
                 }
-                <input type="checkbox" id="@genderId" class="filled-in" name="selectedGenders" value="@genderId" @(Html.Raw(genderWasSelected ? "checked" : "")) /><label for="@genderId">@gender</label>
+                <input type="checkbox" id="@genderId" class="filled-in" name="selectedGenders" value="@gender" @(Html.Raw(genderWasSelected ? "checked" : "")) /><label for="@genderId">@gender</label>
             }
             </td>
         </tr>
@@ -103,13 +103,13 @@
                 {
                     foreach (string raceSelected in Model.selectedRaces)
                     {
-                        if (raceId == raceSelected)
+                        if (race == raceSelected)
                         {
                             raceWasSelected = true;
                         }
                     }
                 }
-                <input type="checkbox" id="@raceId" class="filled-in" name="selectedRaces" value="@raceId" @(Html.Raw(raceWasSelected ? "checked" : "")) /><label for="@raceId">@race</label>
+                <input type="checkbox" id="@raceId" class="filled-in" name="selectedRaces" value="@race" @(Html.Raw(raceWasSelected ? "checked" : "")) /><label for="@raceId">@race</label>
             }
             </td>
         </tr>
@@ -127,13 +127,13 @@
                 {
                     foreach (string ethnicitySelected in Model.selectedEthnicities)
                     {
-                        if (ethnicityId == ethnicitySelected)
+                        if (ethnicity == ethnicitySelected)
                         {
                             ethnicityWasSelected = true;
                         }
                     }
                 }
-                <input type="checkbox" id="@ethnicityId" class="filled-in" name="selectedEthnicities" value="@ethnicityId" @(Html.Raw(ethnicityWasSelected ? "checked" : "")) /><label for="@ethnicityId">@ethnicity</label>
+                <input type="checkbox" id="@ethnicityId" class="filled-in" name="selectedEthnicities" value="@ethnicity" @(Html.Raw(ethnicityWasSelected ? "checked" : "")) /><label for="@ethnicityId">@ethnicity</label>
             }
             </td>
         </tr>
@@ -151,13 +151,13 @@
                 {
                     foreach (string locationSelected in Model.selectedLocations)
                     {
-                        if (locationId == locationSelected)
+                        if (location == locationSelected)
                         {
                             locationWasSelected = true;
                         }
                     }
                 }
-                <input type="checkbox" id="@locationId" class="filled-in" name="selectedLocations" value="@locationId" @(Html.Raw(locationWasSelected ? "checked" : "")) /><label for="@locationId">@location</label>
+                <input type="checkbox" id="@locationId" class="filled-in" name="selectedLocations" value="@location" @(Html.Raw(locationWasSelected ? "checked" : "")) /><label for="@locationId">@location</label>
             }
             </td>
         </tr>
@@ -175,13 +175,13 @@
                     {
                         foreach (string activitySelected in Model.selectedActivities)
                         {
-                            if (activityId == activitySelected)
+                            if (activity == activitySelected)
                             {
                                 activityWasSelected = true;
                             }
                         }
                     }
-                    <input type="checkbox" id="@activityId" class="filled-in" name="selectedActivities" value="@activityId" @(Html.Raw(activityWasSelected ? "checked" : "")) /><label for="@activityId">@activity.Replace("_", " ")</label>
+                    <input type="checkbox" id="@activityId" class="filled-in" name="selectedActivities" value="@activity" @(Html.Raw(activityWasSelected ? "checked" : "")) /><label for="@activityId">@activity.Replace("_", " ")</label>
                 }
             </td>
         </tr>

@@ -7,7 +7,7 @@ namespace UAHFitVault.Models
     /// <summary>
     /// Model for creating experiments
     /// </summary>
-    public class CreateExperimentViewModel
+    public class ExperimentViewModel
     {
         /// <summary>
         /// The name of the experiment
@@ -36,12 +36,43 @@ namespace UAHFitVault.Models
 
         public string[] selectedGenders;        // Selected genders
         public string[] selectedRaces;          // Selected races
-        public string[] selectedLocations;      // Selected locations
         public string[] selectedEthnicities;    // Selected ethnicities
+        public string[] selectedLocations;      // Selected locations
         public string[] selectedActivities;     // Selected activity tags        
     }
 
-    public class ViewExperimentsViewModel
+    /// <summary>
+    /// Model for deleting an experiment
+    /// </summary>
+    public class DeleteExperimentViewModel
+    {
+        public string ExperimentName { get; set; }
+    }
+
+    /// <summary>
+    /// Model for viewing matching criteria data for an experiment
+    /// </summary>
+    public class ViewExperimentCriteriaViewModel
+    {
+        public ExperimentViewModel experiment { get; set; }
+    }
+
+    /// <summary>
+    /// Model for viewing experiments
+    /// </summary>
+    public class ViewExperimentViewModel
+    {
+        public string experimentName { get; set; }
+
+        public ViewExperimentCriteriaViewModel criteriaModel { get; set; }
+
+        public List<Patient> patientList { get; set; }
+    }
+
+    /// <summary>
+    /// Model for viewing experiments
+    /// </summary>
+    public class ViewAllExperimentsViewModel
     {
         /// <summary>
         /// All of the experiments
@@ -51,6 +82,6 @@ namespace UAHFitVault.Models
         /// <summary>
         /// Store the data for easy access in the view
         /// </summary>
-        public List<List<List<string>>> VisualExperimentCriteria { get; set; }
+        public List<ExperimentViewModel> ExperimentCriteria { get; set; }
     }
 }

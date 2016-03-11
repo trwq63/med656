@@ -10,6 +10,7 @@ using UAHFitVault.DataAccess;
 using UAHFitVault.Database.Entities;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 
 
 namespace UAHFitVault.Controllers
@@ -20,13 +21,15 @@ namespace UAHFitVault.Controllers
         #region Private Members
         private readonly IExperimentAdminService _experimentAdminService;
         private readonly IExperimentService _experimentService;
+        private readonly IPatientService _patientService;
         #endregion
 
         #region Public Constructor
-        public ExperimentController (IExperimentAdminService expAdminService, IExperimentService expService)
+        public ExperimentController (IExperimentAdminService expAdminService, IExperimentService expService, IPatientService patientService)
         {
             _experimentAdminService = expAdminService;
             _experimentService = expService;
+            _patientService = patientService;
         }
         #endregion
 
@@ -39,23 +42,20 @@ namespace UAHFitVault.Controllers
         public ActionResult Index()
         {
             ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                        
+            ViewAllExperimentsViewModel model = new ViewAllExperimentsViewModel();
+            model.Experiments = new List<Experiment>();
+            model.Experiments.AddRange(_experimentService.GetExperiments(manager.FindByName(User.Identity.Name).ExperimentAdministratorId));
+            model.ExperimentCriteria = new List<ExperimentViewModel>();
 
-            List<Experiment> AllExperiments = new List<Experiment>();
-            AllExperiments.AddRange(_experimentService.GetExperiments(manager.FindByName(User.Identity.Name).ExperimentAdministratorId));
-
-
-
-            //ViewExperimentsViewModel model = new ViewExperimentsViewModel();
-            //model.Experiments = AllExperiments;
-            //// Get all of the experiments parsed data
-            //for (int i = 0; i < AllExperiments.Count; i++)
-            //{
-            //    model.VisualExperimentCriteria.Add(ParseQueryString(AllExperiments.ElementAt(i).QueryString));
-            //}
-
-
-
-            return View(AllExperiments);
+            // Get all of the experiments parsed data
+            for (int i = 0; i < model.Experiments.Count; i++)
+            {
+                ExperimentViewModel temp = JsonConvert.DeserializeObject<ExperimentViewModel>(model.Experiments.ElementAt(i).QueryString);
+                model.ExperimentCriteria.Add(temp);
+            }
+            
+            return View(model);
         }
         
         /// <summary>
@@ -64,7 +64,7 @@ namespace UAHFitVault.Controllers
         /// <returns></returns>
         public ActionResult CreateExperiment ()
         {
-            CreateExperimentViewModel model = new CreateExperimentViewModel();
+            ExperimentViewModel model = new ExperimentViewModel();
             return View(model);
         }
 
@@ -73,75 +73,79 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult CreateExperiment (CreateExperimentViewModel model,
+        public ActionResult CreateExperiment (ExperimentViewModel model,
             string[] selectedGenders, string[] selectedRaces, string[] selectedEthnicities,
             string[] selectedLocations, string[] selectedActivities)
         {
-            string genderString = "genders:";
-            string raceString = "races:";
-            string ethnicityString = "ethnicities:";
-            string locationString = "locations:";
-            string activityString = "activities:";
+            ExperimentViewModel serializedModel = new ExperimentViewModel();
+            
+            serializedModel.ageRangeStart = model.ageRangeStart;
+            serializedModel.ageRangeEnd = model.ageRangeEnd;
+            serializedModel.weightRangeBegin = model.weightRangeBegin;
+            serializedModel.weightRangeEnd = model.weightRangeEnd;
+            serializedModel.heightRangeBegin = model.heightRangeBegin;
+            serializedModel.heightRangeEnd = model.heightRangeEnd;
+            
 
             // Generate Gender string
             if (selectedGenders != null)
             {
-                // No genders were selected, so get all genders
                 model.selectedGenders = selectedGenders;
-                genderString += GenerateStringFromStringArray(selectedGenders);
+                serializedModel.selectedGenders = selectedGenders;
             }
             else
-            {
+            {                
+                // No genders were selected, so get all genders
                 string[] allGenders = Enum.GetNames(typeof(PatientGender));
-                genderString += GenerateStringFromStringArray(allGenders);
+                serializedModel.selectedGenders = allGenders;
             }
 
             // Generate Races string
             if (selectedRaces != null)
             {
                 model.selectedRaces = selectedRaces;
-                raceString += GenerateStringFromStringArray(selectedRaces);
+                serializedModel.selectedRaces = selectedRaces;
             }
             else
             {
                 string[] allRaces = Enum.GetNames(typeof(PatientRace));
-                raceString += GenerateStringFromStringArray(allRaces);
+                serializedModel.selectedRaces = allRaces;
             }
 
-            // Generate ethnicity string
+            // Generate Ethnicity string
             if (selectedEthnicities != null)
             {
                 model.selectedEthnicities = selectedEthnicities;
-                ethnicityString += GenerateStringFromStringArray(selectedEthnicities);
+                serializedModel.selectedEthnicities = selectedEthnicities;
             }
             else
             {
                 string[] allEthnicities = Enum.GetNames(typeof(PatientEthnicity));
-                ethnicityString += GenerateStringFromStringArray(allEthnicities);
+                serializedModel.selectedEthnicities = allEthnicities;
             }
 
-            // Generate locations string
+            // Generate Locations string
             if (selectedLocations != null)
             {
                 model.selectedLocations = selectedLocations;
-                locationString += GenerateStringFromStringArray(selectedLocations);
+                serializedModel.selectedLocations = selectedLocations;
             }
             else
             {
                 string[] allLocations = Enum.GetNames(typeof(Location));
-                locationString += GenerateStringFromStringArray(allLocations);
+                serializedModel.selectedLocations = allLocations;
             }
 
-            // Generate activities string
+            // Generate Activities string
             if (selectedActivities != null)
             {
                 model.selectedActivities = selectedActivities;
-                activityString += GenerateStringFromStringArray(selectedActivities);
+                serializedModel.selectedActivities = selectedActivities;
             }
             else
             {
                 string[] allActivities = Enum.GetNames(typeof(ActivityType));
-                activityString += GenerateStringFromStringArray(allActivities);
+                serializedModel.selectedActivities = allActivities;
             }
 
             // These need to be down here to ensure the model is repopulated if the user enters bad criteria.
@@ -169,7 +173,8 @@ namespace UAHFitVault.Controllers
                 return View(model);
             }
 
-            string queryString = genderString + raceString + ethnicityString + locationString + activityString;
+            string queryString = JsonConvert.SerializeObject(serializedModel);
+
             ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
             Experiment experiment = new Experiment();
@@ -182,6 +187,85 @@ namespace UAHFitVault.Controllers
             _experimentService.SaveChanges();
 
             return Redirect("/Experiment/CreateExperimentConfirmation");
+        }
+
+
+        /// <summary>
+        /// Deletes an experiment from the database
+        /// </summary>
+        /// <param name="experimentName">Name of the experiment to delete</param>
+        /// <returns></returns>
+        public ActionResult DeleteExperiment (string experimentName)
+        {
+            DeleteExperimentViewModel model = new DeleteExperimentViewModel();
+            model.ExperimentName = experimentName;
+            
+            return View(model);
+        }
+
+        /// <summary>
+        /// Deletes an experiment from the database.
+        /// </summary>
+        /// <param name="experimentName">Name of the experiment to delete</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult DeleteExperiment (DeleteExperimentViewModel model)
+        {
+            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            ExperimentAdministrator user = _experimentAdminService.GetExperimentAdministrator(
+                manager.FindByName(User.Identity.Name).ExperimentAdministratorId);
+            int userId = manager.FindByName(User.Identity.Name).ExperimentAdministratorId;
+            Experiment experiment = _experimentService.GetExperimentByName(model.ExperimentName, userId);
+            if (experiment.ExperimentAdministrator == user) // Confirm the user owns the experiment
+            {
+                // Get the experiment ID
+                int experimentId = experiment.Id;
+                _experimentService.DeleteExperiment(experimentId, userId);
+                _experimentService.SaveChanges();
+            }
+            else
+            {
+                ModelState.AddModelError("", "ERROR: You do not own that experiment.");
+                return View(model);
+            }
+            return Redirect("/Experiment/DeleteExperimentConfirmation");
+        }
+
+        /// <summary>
+        /// Displays a confirmation page for deleting the experiment.
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult DeleteExperimentConfirmation()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Displays information about the experiment
+        /// </summary>
+        /// <param name="experimentName">Name of the experiment</param>
+        /// <returns></returns>
+        public ActionResult ViewExperiment (string experimentName)
+        {
+            ViewExperimentViewModel model = new ViewExperimentViewModel();
+            model.criteriaModel = new ViewExperimentCriteriaViewModel();
+
+            if (experimentName != null)
+            {
+                model.experimentName = experimentName;
+            }
+
+            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            int userId = manager.FindByName(User.Identity.Name).ExperimentAdministratorId;
+            Experiment experiment = _experimentService.GetExperimentByName(experimentName, userId);
+            model.patientList = GetPatientsForExperiment(experiment);   // Get the patients from the database
+
+            ExperimentViewModel temp = new ExperimentViewModel();
+            temp = JsonConvert.DeserializeObject<ExperimentViewModel>(experiment.QueryString);
+
+            model.criteriaModel.experiment = temp;
+
+            return View(model);
         }
 
         /// <summary>
@@ -197,97 +281,53 @@ namespace UAHFitVault.Controllers
 
         #region Private Methods
         /// <summary>
-        /// Reads in a query string input and parses it in to a two-dimensional array.
+        /// Gets the patients matched with an experiment
         /// </summary>
-        /// <param name="queryString">Input query string</param>
+        /// <param name="experiment">Experiment to match the patients with</param>
         /// <returns></returns>
-        private List<List<string>> ParseQueryString (string queryString)
+        private List<Patient> GetPatientsForExperiment (Experiment experiment)
         {
-            // For first index, 0=genders, 1=races, 2=ethnicity, 3=location, 4=activites
-            List<List<string>> returnList = new List<List<string>>();
+            List<Patient> patientList = new List<Patient>();
+            // Need to figure out how to do this.. ugh.
+            ExperimentViewModel model = JsonConvert.DeserializeObject<ExperimentViewModel>(experiment.QueryString);
 
-            List<string> races = new List<string>();
-            List<string> genders = new List<string>();
-            List<string> ethnicities = new List<string>();
-            List<string> locations = new List<string>();
-            List<string> activities = new List<string>();
+            List<Patient> patients = _patientService.GetPatients().ToList(); // Get all patients
 
-            queryString = queryString.Replace("races:", "").Replace("genders:", "")
-                .Replace("locations:", "").Replace("activities:", "").Replace("ethnicities:", "");
-
-            string[] splitQueryString = queryString.Split(';');
-            
-            for (int i = 0; i < 5; i++)
+            // NOTE:  This is a horribly slow algorithm.  Need to improve this later.
+            foreach (Patient patient in patients)
             {
-                string[] splitInput = splitQueryString[i].Split(','); // Split up all of the commas
-                switch (i)
+                foreach (string race in model.selectedRaces)
                 {
-                    case 0:
-                        // Genders
-                        for (int j = 0; j < splitInput.Length; j++)
+                    foreach (string ethnicity in model.selectedEthnicities)
+                    {
+                        foreach (string gender in model.selectedGenders)
                         {
-                            genders.Add(splitInput[j]);
+                            foreach (string location in model.selectedLocations)
+                            {
+                                if ( (Enum.GetName(typeof(PatientRace), patient.Race) == race) &&
+                                     (Enum.GetName(typeof(PatientEthnicity), patient.Ethnicity) == ethnicity) &&
+                                     (Enum.GetName(typeof(PatientGender), patient.Gender) == gender) &&
+                                     (Enum.GetName(typeof(Location), patient.Location) == location) )
+                                {
+                                    if ((patient.Weight <= model.weightRangeEnd) && (patient.Weight >= model.weightRangeBegin))
+                                    {
+                                        if ((patient.Height <= model.heightRangeEnd) && (patient.Height >= model.heightRangeBegin))
+                                        {
+                                            if ((DateTime.Now-patient.Birthdate).TotalDays <= (model.ageRangeEnd*365) &&
+                                                ((DateTime.Now-patient.Birthdate).TotalDays >= (model.ageRangeStart*365)))
+                                            {
+                                                patientList.Add(patient);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
-                        break;
-                    case 1:
-                        // Races
-                        for (int j = 0; j < splitInput.Length; j++)
-                        {
-                            races.Add(splitInput[j]);
-                        }
-                        break;
-                    case 2:
-                        // Ethnicities
-                        for (int j = 0; j < splitInput.Length; j++)
-                        {
-                            ethnicities.Add(splitInput[j]);
-                        }
-                        break;
-                    case 3:
-                        // Locations
-                        for (int j = 0; j < splitInput.Length; j++)
-                        {
-                            locations.Add(splitInput[j]);
-                        }
-                        break;
-                    case 4:
-                        // Activities
-                        for (int j = 0; j < splitInput.Length; j++)
-                        {
-                            activities.Add(splitInput[j]);
-                        }
-                        break;
+                    }
                 }
             }
-
-            returnList.Add(races);
-            returnList.Add(genders);
-            returnList.Add(ethnicities);
-            returnList.Add(locations);
-            returnList.Add(activities);
             
-            return returnList;
-        }
-
-        /// <summary>
-        /// This function produces a single string from an input array of strings
-        /// </summary>
-        /// <param name="input">Array of strings to be processed.</param>
-        /// <returns></returns>
-        private string GenerateStringFromStringArray (string[] input)
-        {
-            string returnString = "";
-            
-            for (int i = 0; i < input.Length; i++)
-            {
-                returnString += input[i];
-                if (i < (input.Length-1))
-                {
-                    returnString += ",";
-                }
-            }
-            returnString += ";";
-            return returnString;
+            return patientList;
         }
 
         /// <summary>

@@ -55,7 +55,11 @@ namespace UAHFitVault.DataAccess
         {
             if (experimentId > 0)
             {
-                _experimentRepository.Delete(_experimentRepository.GetExperimentById(experimentId, experimentAdminId));
+                Experiment experiment = _experimentRepository.GetExperimentById(experimentId, experimentAdminId);
+                if (experiment != null)
+                {
+                    _experimentRepository.Delete(experiment);
+                }
             }
         }
 

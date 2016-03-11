@@ -1,31 +1,36 @@
 ﻿
-@using UAHFitVault.Database.Entities
-@model List<Experiment>
+@using UAHFitVault.Models
 
-<h4>Experiment Administrator Home Page</h4>
-@if (Model != null)
+@model ViewAllExperimentsViewModel
+
+<h2 class="center-align">View Experiments</h2>
+@if (Model.Experiments.Count != 0)
 {
-    <table class="centered responsive-table striped">
-        <thead>
-            <tr>
-                <th data-field="name">Experiment Name</th>
-                <th data-field="dbquery">Database Query</th>
-                <th data-field="lastmodified">Last Modified</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in Model)
+    <div class="row card-panel light-blue lighten-2">
+        <div class="col s4 black-text"><font size="5"><b>Experiment Name</b></font></div>
+        <div class="col s4 black-text"><font size="5"><b>Last Modified</b></font></div>
+        <div class="col s4 black-text"><font size="5"><b>Actions</b></font></div>
+    </div>
+    int i = 0;
+    foreach (var item in Model.Experiments)
+    {
+        if ((i % 2) == 0)
         {
-            <tr>
-                <td>@item.Name</td>
-                <td>@item.QueryString</td>
-                <td>@item.LastModified.ToString()</td>
-            </tr>
+            @Html.Raw("<div class=\"row blue card-panel lighten-4\">")
         }
-        </tbody>
-    </table>
+        else
+        {
+            @Html.Raw("<div class=\"row blue card-panel lighten-3\">")
+        }
+                <div class="col s4 black-text">@item.Name</div>
+                <div class="col s4 black-text">@item.LastModified.ToString()</div>
+                <div class="col s4 black-text"><input type="button" class="btn blue-grey" value="View" onclick="location.href='/Experiment/ViewExperiment?experimentName=@item.Name';" />
+                <input type="button" class="btn red" value="Delete" onclick="location.href='/Experiment/DeleteExperiment?experimentName=@item.Name';" /></div>
+            i++;
+        @Html.Raw("</div>")
+        }
 }
 else
 {
-    <h4>You do not have any experiments to view.</h4>
+    <h5>You do not have any experiments to view.</h5>
 }
