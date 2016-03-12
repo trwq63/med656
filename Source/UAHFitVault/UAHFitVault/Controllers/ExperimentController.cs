@@ -290,84 +290,35 @@ namespace UAHFitVault.Controllers
             List<Patient> patientList = new List<Patient>();
 
             ExperimentViewModel model = JsonConvert.DeserializeObject<ExperimentViewModel>(experiment.QueryString);
+            ExperimentCriteria criteria = CopyModelToCriteria(model);
+
             
-            List<Patient> patientsMatchingRace = new List<Patient>();
-            List<Patient> patientsMatchingGender = new List<Patient>();
-            List<Patient> patientsMatchingEthnicities = new List<Patient>();
-            List<Patient> patientsMatchingLocations = new List<Patient>();
-
-            foreach (string gender in model.selectedGenders)
-            {
-                patientsMatchingRace.AddRange(_experimentService.GetPatientsOfType(typeof(PatientGender), gender));
-            }
-            foreach (string race in model.selectedRaces)
-            {
-                patientsMatchingGender.AddRange(_experimentService.GetPatientsOfType(typeof(PatientRace), race));
-            }
-            foreach (string ethnicity in model.selectedEthnicities)
-            {
-                patientsMatchingEthnicities.AddRange(_experimentService.GetPatientsOfType(typeof(PatientEthnicity), ethnicity));
-            }
-            foreach (string location in model.selectedLocations)
-            {
-                patientsMatchingLocations.AddRange(_experimentService.GetPatientsOfType(typeof(Location), location));
-            }
-
-            patientList = FindPatientsMatchingCriteria(patientsMatchingGender, patientsMatchingRace,
-                patientsMatchingEthnicities, patientsMatchingLocations, model);
+            patientList.AddRange(_experimentService.GetPatientsForExperiment(criteria));
 
             return patientList;
         }
 
         /// <summary>
-        /// Function to find the common patients in all of the lists
+        /// Copy the members of the model to an ExperimentCriteria object
         /// </summary>
-        /// <param name="patientsMatchingGender">List of patients matching gender</param>
-        /// <param name="patientsMatchingRace">List of patients matching race</param>
-        /// <param name="patientsMatchingEthnicity">List of patients matching ethnicity</param>
-        /// <param name="patientsMatchingLocation">List of patients matching location</param>
         /// <param name="model">Model</param>
         /// <returns></returns>
-        private List<Patient> FindPatientsMatchingCriteria(List<Patient> patientsMatchingGender, List<Patient> patientsMatchingRace,
-            List<Patient> patientsMatchingEthnicity, List<Patient> patientsMatchingLocation, ExperimentViewModel model)
+        private ExperimentCriteria CopyModelToCriteria(ExperimentViewModel model)
         {
-            List<Patient> list = new List<Patient>();
+            ExperimentCriteria criteria = new ExperimentCriteria();
 
-            foreach (Patient p1 in patientsMatchingGender)
-            {
-                bool found = false;
-                foreach (Patient p2 in patientsMatchingRace)
-                {
-                    foreach (Patient p3 in patientsMatchingEthnicity)
-                    {
-                        foreach (Patient p4 in patientsMatchingLocation)
-                        {
-                            if ((p1 == p2) && (p2 == p3) && (p3 == p4))
-                            {
-                                // Patient is in all lists
-                                if ((p4.Weight <= model.weightRangeEnd) && (p4.Weight >= model.weightRangeBegin))
-                                {
-                                    if ((p4.Height <= model.heightRangeEnd) && (p4.Height >= model.heightRangeBegin))
-                                    {
-                                        if ((DateTime.Now - p4.Birthdate).TotalDays <= (model.ageRangeEnd * 365) &&
-                                            ((DateTime.Now - p4.Birthdate).TotalDays >= (model.ageRangeStart * 365)))
-                                        {
-                                            list.Add(p4);
-                                            found = true;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        if (found) { break; }
-                    }
-                    if (found) { break; }
-                }
-            }
+            criteria.ageRangeEnd = model.ageRangeEnd;
+            criteria.ageRangeStart = model.ageRangeStart;
+            criteria.heightRangeEnd = model.heightRangeEnd;
+            criteria.heightRangeBegin = model.heightRangeBegin;
+            criteria.weightRangeBegin = model.weightRangeBegin;
+            criteria.weightRangeEnd = model.weightRangeEnd;
+            criteria.selectedGenders = model.selectedGenders;
+            criteria.selectedRaces = model.selectedRaces;
+            criteria.selectedEthnicities = model.selectedEthnicities;
+            criteria.selectedLocations = model.selectedLocations;
 
-
-            return list;
+            return criteria;
         }
 
         /// <summary>

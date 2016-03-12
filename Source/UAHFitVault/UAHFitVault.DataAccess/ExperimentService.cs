@@ -112,35 +112,16 @@ namespace UAHFitVault.DataAccess
             return null;
         }
 
+
         /// <summary>
-        /// Get all of the patients of the input type
+        /// Retrieve the patients for an experiment
         /// </summary>
-        /// <param name="type">Input Type</param>
-        /// <param name="value">Value to look for</param>
+        /// <param name="criteria">Patient criteria to match</param>
         /// <returns></returns>
-        public IEnumerable<Patient> GetPatientsOfType(Type type, string value)
+        public IEnumerable<Patient> GetPatientsForExperiment (ExperimentCriteria criteria)
         {
-            if (type == typeof(PatientRace))
-            {
-                // Race
-                return _patientRepository.GetAll().Where(p => p.Race == (int)Enum.Parse(type, value));
-            }
-            if (type == typeof(PatientGender))
-            {
-                // Gender
-                return _patientRepository.GetAll().Where(p => p.Gender == (int)Enum.Parse(type, value));
-            }
-            if (type == typeof(PatientEthnicity))
-            {
-                // Ethnicity
-                return _patientRepository.GetAll().Where(p => p.Ethnicity == (int)Enum.Parse(type, value));
-            }
-            if (type == typeof(Location))
-            {
-                // Location
-                return _patientRepository.GetAll().Where(p => p.Location == (int)Enum.Parse(type, value));
-            }
-            // Error occured
+            // Need to get all of the patients here in the database and return the list
+
             return null;
         }
 
@@ -152,5 +133,14 @@ namespace UAHFitVault.DataAccess
             _unitOfWork.Commit();
         }
         #endregion
+    }
+
+    /// <summary>
+    /// Class for holding all of the experiment criteria members
+    /// </summary>
+    public class ExperimentCriteria
+    {
+        public string[] selectedGenders, selectedRaces, selectedEthnicities, selectedLocations;
+        public int ageRangeStart, ageRangeEnd, weightRangeBegin, weightRangeEnd, heightRangeBegin, heightRangeEnd;
     }
 }
