@@ -292,8 +292,11 @@ namespace UAHFitVault.Controllers
             ExperimentViewModel model = JsonConvert.DeserializeObject<ExperimentViewModel>(experiment.QueryString);
             ExperimentCriteria criteria = CopyModelToCriteria(model);
 
-            
-            patientList.AddRange(_experimentService.GetPatientsForExperiment(criteria));
+            IEnumerable<Patient> patients = _experimentService.GetPatientsForExperiment(criteria);
+            if (patients != null)
+            {
+                patientList.AddRange(patients);
+            }
 
             return patientList;
         }

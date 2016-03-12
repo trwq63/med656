@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using UAHFitVault.Database.Entities;
@@ -121,8 +122,38 @@ namespace UAHFitVault.DataAccess
         public IEnumerable<Patient> GetPatientsForExperiment (ExperimentCriteria criteria)
         {
             // Need to get all of the patients here in the database and return the list
+            char delimiter = '.';
+            string genderString = delimiter.ToString(), raceString = delimiter.ToString(),
+                ethnicityString = delimiter.ToString(), locationString = delimiter.ToString();
 
-            return null;
+            foreach (string str in criteria.selectedGenders)
+            {
+                genderString += str + delimiter.ToString();
+            }
+            foreach (string str in criteria.selectedRaces)
+            {
+                raceString += str + delimiter.ToString();
+            }
+            foreach (string str in criteria.selectedEthnicities)
+            {
+                ethnicityString += str + delimiter.ToString();
+            }
+            foreach (string str in criteria.selectedLocations)
+            {
+                locationString += str + delimiter.ToString();
+            }
+
+            IEnumerable<Patient> patientList;
+            patientList = _patientRepository.GetAll().Where(p => genderString.Contains(delimiter.ToString() + Enum.GetName(typeof(PatientGender), p.Gender) + delimiter.ToString()))
+                .Where(p => raceString.Contains(delimiter.ToString() + Enum.GetName(typeof(PatientRace), p.Race) + delimiter.ToString()))
+                .Where(p => ethnicityString.Contains(delimiter.ToString() + Enum.GetName(typeof(PatientEthnicity), p.Ethnicity) + delimiter.ToString()))
+                .Where(p => locationString.Contains(delimiter.ToString() + Enum.GetName(typeof(Location), p.Location) + delimiter.ToString()))
+                .Where(p => ((DateTime.Now-p.Birthdate).Days <= (365*criteria.ageRangeEnd)) &&
+                ((DateTime.Now-p.Birthdate).Days >= (365*criteria.ageRangeStart)))
+                .Where(p => ((p.Height <= criteria.heightRangeEnd) && (p.Height >= criteria.heightRangeBegin)))
+                .Where(p => ((p.Weight <= criteria.weightRangeEnd) && (p.Weight >= criteria.weightRangeBegin)));
+
+            return patientList;
         }
 
         /// <summary>
