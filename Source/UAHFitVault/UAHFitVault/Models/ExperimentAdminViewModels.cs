@@ -46,6 +46,8 @@ namespace UAHFitVault.Models
     /// </summary>
     public class ViewPatientViewModel
     {
+        public string ActivityTagFilter { get; set; }
+
         public Patient patient { get; set; }
     }
 

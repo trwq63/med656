@@ -271,11 +271,27 @@ namespace UAHFitVault.Controllers
         /// <summary>
         /// Displays the information about the patient
         /// </summary>
+        /// <param name="patientId">Patient Id</param>
         /// <returns></returns>
         public ActionResult ViewPatient (int patientId)
         {
             ViewPatientViewModel model = new ViewPatientViewModel();
             model.patient = _patientService.GetPatient(patientId);
+            model.ActivityTagFilter = "All";
+            return View(model);
+        }
+
+        /// <summary>
+        /// Displays the information about the patient.  This is used when the activity tag is selected.
+        /// </summary>
+        /// <param name="model">Model</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ViewPatient (ViewPatientViewModel model)
+        {
+            model.patient = _patientService.GetPatient(model.patient.Id);
+            string activityTag = model.ActivityTagFilter.Replace(" ", "_");
+            // Get all data sessions for patient matching activityTag
             return View(model);
         }
 

@@ -3,6 +3,14 @@
 
 @{
     ViewBag.Title = "View Patient";
+    List<string> activityTags = new List<string>();
+    activityTags.Add("All");
+    activityTags.AddRange(Enum.GetNames(typeof(ActivityType)).ToList());
+
+    for (int i = 0; i < activityTags.Count; i++)
+    {
+        activityTags[i] = activityTags[i].Replace("_", " ");
+    }
 }
 
 @if (Model != null)
@@ -32,7 +40,23 @@
     </table>
 
     <hr />
-    <h5>Sessions</h5>
-    <br /><br /><h1 align="center">TBD</h1>
-}
+    <table>
+    <tr>
+        <td><h5>Sessions</h5></td>
+        @using (Html.BeginForm("ViewPatient", "Experiment", FormMethod.Post))
+        {@Html.HiddenFor(m => m.patient.Id)
+        <td style="width: 200px; text-align: right">Filter by Activity Tag</td>
+        <td style="width: 250px;">@Html.DropDownListFor(m => m.ActivityTagFilter, new SelectList(activityTags),
+            new { @class = "browser-default validate" })
+        </td>
+        <td style="width: 150px;"><input type="submit" class="btn green" value="Filter" /></td>
+        }
+    </tr>
+    </table>
+    <br />
+    if (Model.ActivityTagFilter != null)
+    {
+        <h5>Displaying data filtered by @Model.ActivityTagFilter</h5>}
+    }
+<br /><h1 align="center">TBD</h1>
 
