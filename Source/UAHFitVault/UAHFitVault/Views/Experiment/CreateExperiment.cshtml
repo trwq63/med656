@@ -95,22 +95,27 @@
         </tr>
         <tr>
             <td>
-            @foreach (string race in races)
-            {
-                bool raceWasSelected = false;
-                string raceId = "race" + race;
-                if (Model.selectedRaces != null)
-                {
-                    foreach (string raceSelected in Model.selectedRaces)
+                <table>
+                    <tr>
+                    @foreach (string race in races)
                     {
-                        if (race == raceSelected)
+                        bool raceWasSelected = false;
+                        string raceId = "race" + race;
+                        if (Model.selectedRaces != null)
                         {
-                            raceWasSelected = true;
+                            foreach (string raceSelected in Model.selectedRaces)
+                            {
+                                if (race == raceSelected)
+                                {
+                                    raceWasSelected = true;
+                                }
+                            }
                         }
+                        <td><input type="checkbox" id="@raceId" class="filled-in" name="selectedRaces" value="@race" @(Html.Raw(raceWasSelected ? "checked" : "")) />
+                        <label for="@raceId">@race</label></td>
                     }
-                }
-                <input type="checkbox" id="@raceId" class="filled-in" name="selectedRaces" value="@race" @(Html.Raw(raceWasSelected ? "checked" : "")) /><label for="@raceId">@race</label>
-            }
+                    </tr>
+                </table>
             </td>
         </tr>
         @*Ethnicities*@
@@ -143,6 +148,9 @@
         </tr>
         <tr>
             <td>
+            <table>
+                <tr>
+            @{int i = 0;}
             @foreach (string location in locations)
             {
                 bool locationWasSelected = false;
@@ -157,8 +165,11 @@
                         }
                     }
                 }
-                <input type="checkbox" id="@locationId" class="filled-in" name="selectedLocations" value="@location" @(Html.Raw(locationWasSelected ? "checked" : "")) /><label for="@locationId">@location</label>
+                if ((i % 5) == 0 && (i != 0)) { @Html.Raw("</tr><tr>")} i++;
+                <td><input type="checkbox" id="@locationId" class="filled-in" name="selectedLocations" value="@location" @(Html.Raw(locationWasSelected ? "checked" : "")) /><label for="@locationId">@location</label></td>
             }
+                </tr>
+            </table>
             </td>
         </tr>
         @*Activities*@
@@ -167,6 +178,9 @@
         </tr>
         <tr>
             <td>
+                <table>
+                    <tr>
+                    @{ i = 0;}
                 @foreach (string activity in activities)
                 {
                     bool activityWasSelected = false;
@@ -181,8 +195,11 @@
                             }
                         }
                     }
-                    <input type="checkbox" id="@activityId" class="filled-in" name="selectedActivities" value="@activity" @(Html.Raw(activityWasSelected ? "checked" : "")) /><label for="@activityId">@activity.Replace("_", " ")</label>
+                    if ((i % 4 == 0) && (i != 0)) { @Html.Raw("</tr><tr>")} i++;
+                    <td><input type="checkbox" id="@activityId" class="filled-in" name="selectedActivities" value="@activity" @(Html.Raw(activityWasSelected ? "checked" : "")) /><label for="@activityId">@activity.Replace("_", " ")</label></td>
                 }
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>

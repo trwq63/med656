@@ -269,6 +269,17 @@ namespace UAHFitVault.Controllers
         }
 
         /// <summary>
+        /// Displays the information about the patient
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ViewPatient (int patientId)
+        {
+            ViewPatientViewModel model = new ViewPatientViewModel();
+            model.patient = _patientService.GetPatient(patientId);
+            return View(model);
+        }
+
+        /// <summary>
         /// Confirmation of successful experiment creation
         /// </summary>
         /// <returns></returns>

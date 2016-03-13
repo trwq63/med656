@@ -42,6 +42,14 @@ namespace UAHFitVault.Models
     }
 
     /// <summary>
+    /// Model for viewing patient data
+    /// </summary>
+    public class ViewPatientViewModel
+    {
+        public Patient patient { get; set; }
+    }
+
+    /// <summary>
     /// Model for deleting an experiment
     /// </summary>
     public class DeleteExperimentViewModel

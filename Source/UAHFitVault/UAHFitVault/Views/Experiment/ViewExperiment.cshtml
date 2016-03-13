@@ -23,11 +23,13 @@
 {
     <table class="striped centered">
         <tr class="black-text blue lighten-2">
-            <td>Participant Number</td>
             <td>Patient ID</td>
             <td>Gender</td>
             <td>Race</td>
             <td>Ethnicity</td>
+            <td>Age</td>
+            <td>Height<br /><font size="1">(inches)</font></td>
+            <td>Weight<br /><font size="1">(pounds)</font></td>
             <td>Location</td>
             <td>Action</td>
         </tr>
@@ -42,13 +44,15 @@
             {
                 @Html.Raw("<tr class=\"blue lighten-4 black-text\">")
             }
-                <td>@i</td>
                 <td>@patient.Id.ToString()</td>
                 <td>@Enum.GetName(typeof(PatientGender),patient.Gender)</td>
                 <td>@Enum.GetName(typeof(PatientRace), patient.Race)</td>
                 <td>@Enum.GetName(typeof(PatientEthnicity), patient.Ethnicity)</td>
+                <td>@((DateTime.Now - patient.Birthdate).Days / 365)</td>
+                <td>@patient.Height</td>
+                <td>@patient.Weight</td>
                 <td>@Enum.GetName(typeof(Location), patient.Location)</td>
-                <td><input type="button" value="View Data" class="btn green" /></td>
+                <td><input type="button" value="View Data" class="btn green" onclick="location.href = '/Experiment/ViewPatient?patientId=@patient.Id';"/></td>
             @Html.Raw("</tr>")
             i++;
         }
