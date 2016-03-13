@@ -75,7 +75,7 @@ namespace UAHFitVault.Controllers
         [HttpPost]
         public ActionResult CreateExperiment(ExperimentViewModel model,
             string[] selectedGenders, string[] selectedRaces, string[] selectedEthnicities,
-            string[] selectedLocations, string[] selectedActivities)
+            string[] selectedLocations)
         {
             ExperimentViewModel serializedModel = new ExperimentViewModel();
 
@@ -134,18 +134,6 @@ namespace UAHFitVault.Controllers
             {
                 string[] allLocations = Enum.GetNames(typeof(Location));
                 serializedModel.selectedLocations = allLocations;
-            }
-
-            // Generate Activities string
-            if (selectedActivities != null)
-            {
-                model.selectedActivities = selectedActivities;
-                serializedModel.selectedActivities = selectedActivities;
-            }
-            else
-            {
-                string[] allActivities = Enum.GetNames(typeof(ActivityType));
-                serializedModel.selectedActivities = allActivities;
             }
 
             // These need to be down here to ensure the model is repopulated if the user enters bad criteria.

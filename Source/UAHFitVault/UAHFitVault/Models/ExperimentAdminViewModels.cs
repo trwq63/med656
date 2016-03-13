@@ -37,8 +37,7 @@ namespace UAHFitVault.Models
         public string[] selectedGenders;        // Selected genders
         public string[] selectedRaces;          // Selected races
         public string[] selectedEthnicities;    // Selected ethnicities
-        public string[] selectedLocations;      // Selected locations
-        public string[] selectedActivities;     // Selected activity tags        
+        public string[] selectedLocations;      // Selected locations   
     }
 
     /// <summary>

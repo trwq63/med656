@@ -183,36 +183,6 @@
             </table>
             </td>
         </tr>
-        @*Activities*@
-        <tr>
-            <td><h5>Activities</h5><h6>(Selecting none implies all activities)</h6></td>
-        </tr>
-        <tr>
-            <td>
-                <table>
-                    <tr>
-                    @{ i = 0;}
-                @foreach (string activity in activities)
-                {
-                    bool activityWasSelected = false;
-                    string activityId = "activity" + activity;
-                    if (Model.selectedActivities != null)
-                    {
-                        foreach (string activitySelected in Model.selectedActivities)
-                        {
-                            if (activity == activitySelected)
-                            {
-                                activityWasSelected = true;
-                            }
-                        }
-                    }
-                    if ((i % 4 == 0) && (i != 0)) { @Html.Raw("</tr><tr>")} i++;
-                    <td><input type="checkbox" id="@activityId" class="filled-in" name="selectedActivities" value="@activity" @(Html.Raw(activityWasSelected ? "checked" : "")) /><label for="@activityId">@activity.Replace("_", " ")</label></td>
-                }
-                    </tr>
-                </table>
-            </td>
-        </tr>
     </table>
     <input type="submit" value="Submit" class="btn" />
     <input type="button" value="Cancel" class="btn" onclick="location.href = '/Account/LoginRedirect';"/>
