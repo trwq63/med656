@@ -57,21 +57,21 @@
                     location.reload();
                 }
             });
+        };
 
-            /*
-            Send a request to the admin controller to reject a pending user or disable an active user.
-            */
-            function rejectUser(element) {
-                var userId = element.value;
-                $.ajax({
-                    type: "POST",
-                    url: "/Admin/RejectUser",
-                    data: { userId: userId },
-                    success: function (data) {
-                        location.reload();
-                    }
-                });
-            };
+        /*
+        Send a request to the admin controller to reject a pending user or disable an active user.
+        */
+        function rejectUser(element) {
+            var userId = element.value;
+            $.ajax({
+                type: "POST",
+                url: "/Admin/RejectUser",
+                data: { userId: userId },
+                success: function (data) {
+                    location.reload();
+                }
+            });
         };
 
     </script>
