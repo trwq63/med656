@@ -6,9 +6,9 @@ using UAHFitVault.Database.Infrastructure;
 namespace UAHFitVault.Database.Repositories.MicrosoftBandRepositories
 {
     /// <summary>
-    /// Implementation of the repository base class for the MSBandGryoscope model
+    /// Implementation of the repository base class for the MSBandGyroscope model
     /// </summary>
-    public class MSBandGyroscopeRepository : RepositoryBase<MSBandGryoscope>, IMSBandGyroscopeRepository
+    public class MSBandGyroscopeRepository : RepositoryBase<MSBandGyroscope>, IMSBandGyroscopeRepository
     {
         #region Public Constructor
         /// <summary>
@@ -27,8 +27,8 @@ namespace UAHFitVault.Database.Repositories.MicrosoftBandRepositories
         /// </summary>
         /// <param name="id">Id of the patient data record</param>
         /// <returns></returns>
-        public IEnumerable<MSBandGryoscope> GetMSBandGyroscopeByPatientDataId(string id) {
-            IEnumerable<MSBandGryoscope> msBandGyroscope = this.DbContext.MSBandGyroscrope.Where(p => p.PatientDataId == id);                                                    
+        public IEnumerable<MSBandGyroscope> GetMSBandGyroscopeByPatientDataId(string id) {
+            IEnumerable<MSBandGyroscope> msBandGyroscope = this.DbContext.MSBandGyroscrope.Where(p => p.PatientDataId == id);                                                    
 
             return msBandGyroscope;
         }

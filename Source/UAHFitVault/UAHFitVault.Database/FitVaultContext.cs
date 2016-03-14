@@ -35,7 +35,7 @@ namespace UAHFitVault.Database
         public virtual DbSet<MSBandAccelerometer> MSBandAccelerometer { get; set; }
         public virtual DbSet<MSBandCalories> MSBandCalories { get; set; }
         public virtual DbSet<MSBandDistance> MSBandDistance { get; set; }
-        public virtual DbSet<MSBandGryoscope> MSBandGyroscrope { get; set; }
+        public virtual DbSet<MSBandGyroscope> MSBandGyroscrope { get; set; }
         public virtual DbSet<MSBandHeartRate> MSBandHeartRate { get; set; }
         public virtual DbSet<MSBandPedometer> MSBandPedometer { get; set; }
         public virtual DbSet<MSBandTemperature> MSBandTemperature { get; set; }
