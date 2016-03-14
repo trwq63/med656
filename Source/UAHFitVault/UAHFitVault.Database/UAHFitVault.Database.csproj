@@ -112,27 +112,29 @@
     <Compile Include="Repositories\ExperimentRepository.cs" />
     <Compile Include="Repositories\IAccountRequestRepository.cs" />
     <Compile Include="Repositories\AccountRequestRepository.cs" />
-    <Compile Include="Repositories\IBasisPeakSummaryRepository.cs" />
+    <Compile Include="Repositories\BasisPeakRepositories\IBasisPeakSummaryRepository.cs" />
     <Compile Include="Repositories\IExperimentRepository.cs" />
     <Compile Include="Repositories\IExperimentAdminRepository.cs" />
     <Compile Include="Repositories\IPatientRepository.cs" />
     <Compile Include="Repositories\IPatientDataRepository.cs" />
     <Compile Include="Repositories\IPhysicianRepository.cs" />
     <Compile Include="Repositories\ExperimentAdminRepository.cs" />
-    <Compile Include="Repositories\IZephyrAccelRepository.cs" />
-    <Compile Include="Repositories\IZephyrBreathingRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\IMSBandAccelRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\MSBandAccelRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\IZephyrAccelRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\IZephyrBreathingRepository.cs" />
     <Compile Include="Repositories\IMedicalDeviceRepository.cs" />
-    <Compile Include="Repositories\IZephyrECGRepository.cs" />
-    <Compile Include="Repositories\IZephyrEventDataRepository.cs" />
-    <Compile Include="Repositories\IZephyrSummaryRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\IZephyrECGRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\IZephyrEventDataRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\IZephyrSummaryRepository.cs" />
     <Compile Include="Repositories\MedicalDeviceRepository.cs" />
     <Compile Include="Repositories\PatientRepository.cs" />
-    <Compile Include="Repositories\ZephyrBreathingRepository.cs" />
-    <Compile Include="Repositories\BasisPeakSummaryRepository.cs" />
-    <Compile Include="Repositories\ZephyrSummaryRepository.cs" />
-    <Compile Include="Repositories\ZephyrEventDataRepository.cs" />
-    <Compile Include="Repositories\ZephyrECGRepository.cs" />
-    <Compile Include="Repositories\ZephyrAccelRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\ZephyrBreathingRepository.cs" />
+    <Compile Include="Repositories\BasisPeakRepositories\BasisPeakSummaryRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\ZephyrSummaryRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\ZephyrEventDataRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\ZephyrECGRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\ZephyrAccelRepository.cs" />
     <Compile Include="Repositories\PhysicianRepository.cs" />
     <Compile Include="Repositories\PatientDataRepository.cs" />
   </ItemGroup>
@@ -160,6 +162,7 @@
       <DependentUpon>201603060403178_activity-addstartstoptimes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

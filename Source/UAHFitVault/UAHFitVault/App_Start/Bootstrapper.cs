@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Web.Mvc;
 using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Repositories;
+using UAHFitVault.Database.Repositories.ZephyrRepositories;
+using UAHFitVault.Database.Repositories.BasisPeakRepositories;
 using UAHFitVault.DataAccess;
 using UAHFitVault.DataAccess.ZephyrServices;
 using UAHFitVault.DataAccess.BasisPeakServices;
