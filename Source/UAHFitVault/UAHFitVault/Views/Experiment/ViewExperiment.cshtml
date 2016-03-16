@@ -9,14 +9,14 @@
     experimentCriteriaModel = Model.criteriaModel;
 }
 
-<!-- Create Patient Modal Structure -->
-<div id="createModal" class="modal">
+<div id="viewExperimentCriteria" class="modal">
     @{
         Html.RenderPartial("~/Views/Experiment/_PartialViewExperimentCriteria.cshtml", experimentCriteriaModel);
     }
 </div>
 <div class="col s12 m6 right-align">
     <input type="button" value="View Matching Criteria" class="btn blue lighten-2" onclick="viewMatchingCriteria()" />
+    <input type="button" value="Edit Experiment" class="btn orange lighten-2" onclick="location.href = '/Experiment/EditExperiment?experimentName=@Model.experimentName';" />
 </div>
 <h2>View Experiment - @if (Model.experimentName != null) { <b>@Model.experimentName</b> }</h2> 
 @if (Model.patientList.Count != 0)
@@ -68,7 +68,7 @@ else
 @section scripts{
 <script>
     function viewMatchingCriteria() {
-        $('#createModal').openModal({
+        $('#viewExperimentCriteria').openModal({
             dismissible: true, // Modal can be dismissed by clicking outside of the modal
             opacity: .5, // Opacity of modal background
             in_duration: 200, // Transition in duration
@@ -76,9 +76,8 @@ else
         });
     }
 
-    function cancelCreate() {
-        $('#createModal').closeModal();
+    function cancelViewExperiment() {
+        $('#viewExperimentCriteria').closeModal();
     }
-
 </script>
 }

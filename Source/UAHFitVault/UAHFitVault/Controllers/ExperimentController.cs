@@ -292,6 +292,135 @@ namespace UAHFitVault.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Edit an experiment
+        /// </summary>
+        /// <param name="experimentName">Name of the experiment to edit</param>
+        /// <returns></returns>
+        public ActionResult EditExperiment (string experimentName)
+        {
+            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            int userId = manager.FindByName(User.Identity.Name).ExperimentAdministratorId;
+            Experiment experiment = _experimentService.GetExperimentByName(experimentName, userId);
+
+            ExperimentViewModel temp = new ExperimentViewModel();
+            temp = JsonConvert.DeserializeObject<ExperimentViewModel>(experiment.QueryString);
+            temp.ExperimentName = experimentName;
+
+            return View(temp);
+        }
+        /// <summary>
+        /// Page for editing an experiment
+        /// </summary>
+        /// <param name="model">Model of the experiment</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult EditExperiment (ExperimentViewModel model, 
+            string[] selectedGenders, string[] selectedRaces, string[] selectedEthnicities,
+            string[] selectedLocations)
+        {
+            ExperimentViewModel serializedModel = new ExperimentViewModel();
+
+            serializedModel.ageRangeStart = model.ageRangeStart;
+            serializedModel.ageRangeEnd = model.ageRangeEnd;
+            serializedModel.weightRangeBegin = model.weightRangeBegin;
+            serializedModel.weightRangeEnd = model.weightRangeEnd;
+            serializedModel.heightRangeBegin = model.heightRangeBegin;
+            serializedModel.heightRangeEnd = model.heightRangeEnd;
+
+
+            // Generate Gender string
+            if (selectedGenders != null)
+            {
+                model.selectedGenders = selectedGenders;
+                serializedModel.selectedGenders = selectedGenders;
+            }
+            else
+            {
+                // No genders were selected, so get all genders
+                string[] allGenders = Enum.GetNames(typeof(PatientGender));
+                serializedModel.selectedGenders = allGenders;
+            }
+
+            // Generate Races string
+            if (selectedRaces != null)
+            {
+                model.selectedRaces = selectedRaces;
+                serializedModel.selectedRaces = selectedRaces;
+            }
+            else
+            {
+                string[] allRaces = Enum.GetNames(typeof(PatientRace));
+                serializedModel.selectedRaces = allRaces;
+            }
+
+            // Generate Ethnicity string
+            if (selectedEthnicities != null)
+            {
+                model.selectedEthnicities = selectedEthnicities;
+                serializedModel.selectedEthnicities = selectedEthnicities;
+            }
+            else
+            {
+                string[] allEthnicities = Enum.GetNames(typeof(PatientEthnicity));
+                serializedModel.selectedEthnicities = allEthnicities;
+            }
+
+            // Generate Locations string
+            if (selectedLocations != null)
+            {
+                model.selectedLocations = selectedLocations;
+                serializedModel.selectedLocations = selectedLocations;
+            }
+            else
+            {
+                string[] allLocations = Enum.GetNames(typeof(Location));
+                serializedModel.selectedLocations = allLocations;
+            }
+
+            // These need to be down here to ensure the model is repopulated if the user enters bad criteria.
+            // Check to make sure ranges are correct.
+            if (model.ageRangeStart > model.ageRangeEnd)
+            {
+                ModelState.AddModelError("", "ERROR: The starting age in the age range is less than the ending age.");
+            }
+            if (model.weightRangeBegin > model.weightRangeEnd)
+            {
+                ModelState.AddModelError("", "ERROR: The beginning of weight range is less than the end.");
+            }
+            if (model.heightRangeBegin > model.heightRangeEnd)
+            {
+                ModelState.AddModelError("", "ERROR: The beginning of height range is less than the end.");
+            }
+            // Check model state
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            string queryString = JsonConvert.SerializeObject(serializedModel);
+
+            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+            Experiment experiment = _experimentService.GetExperimentByName(model.ExperimentName, manager.FindByName(User.Identity.Name).ExperimentAdministratorId);
+            experiment.QueryString = queryString;   // Update experiment
+            experiment.Name = model.ExperimentName;
+            experiment.ExperimentAdministrator = _experimentAdminService.GetExperimentAdministrator(manager.FindByName(User.Identity.Name).ExperimentAdministratorId); // current user exp admin id
+            experiment.LastModified = DateTime.Now; // Update date modified
+
+            _experimentService.SaveChanges();       // Save changes
+
+            return Redirect("/Experiment/EditExperimentConfirmation");
+        }
+
+        /// <summary>
+        /// Display confirmation view that an experiment was edited
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult EditExperimentConfirmation ()
+        {
+            return View();
+        }
         #endregion
 
         #region Private Methods

@@ -446,6 +446,8 @@
     <Content Include="Views\PatientData\_PartialDataRecords.cshtml" />
     <Content Include="Views\PatientData\_PartialDataItems.cshtml" />
     <Content Include="Views\Experiment\ViewPatient.cshtml" />
+    <Content Include="Views\Experiment\EditExperiment.cshtml" />
+    <Content Include="Views\Experiment\EditExperimentConfirmation.cshtml" />
     <None Include="Views\Shared\_PhysicianLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
