@@ -9,25 +9,27 @@
     experimentCriteriaModel = Model.criteriaModel;
 }
 
-<!-- Create Patient Modal Structure -->
-<div id="createModal" class="modal">
+<div id="viewExperimentCriteria" class="modal">
     @{
         Html.RenderPartial("~/Views/Experiment/_PartialViewExperimentCriteria.cshtml", experimentCriteriaModel);
     }
 </div>
 <div class="col s12 m6 right-align">
     <input type="button" value="View Matching Criteria" class="btn blue lighten-2" onclick="viewMatchingCriteria()" />
+    <input type="button" value="Edit Experiment" class="btn orange lighten-2" onclick="location.href = '/Experiment/EditExperiment?experimentName=@Model.experimentName';" />
 </div>
 <h2>View Experiment - @if (Model.experimentName != null) { <b>@Model.experimentName</b> }</h2> 
 @if (Model.patientList.Count != 0)
 {
     <table class="striped centered">
-        <tr class="black-text blue lighten-2">
-            <td>Patient Number</td>
+        <tr class="black-text blue lighten-2" style="font-weight: 500">
             <td>Patient ID</td>
             <td>Gender</td>
             <td>Race</td>
             <td>Ethnicity</td>
+            <td>Age</td>
+            <td>Height<br /><font size="1">(inches)</font></td>
+            <td>Weight<br /><font size="1">(pounds)</font></td>
             <td>Location</td>
             <td>Action</td>
         </tr>
@@ -42,13 +44,15 @@
             {
                 @Html.Raw("<tr class=\"blue lighten-4 black-text\">")
             }
-                <td>@i</td>
                 <td>@patient.Id.ToString()</td>
                 <td>@Enum.GetName(typeof(PatientGender),patient.Gender)</td>
                 <td>@Enum.GetName(typeof(PatientRace), patient.Race)</td>
                 <td>@Enum.GetName(typeof(PatientEthnicity), patient.Ethnicity)</td>
+                <td>@((DateTime.Now - patient.Birthdate).Days / 365)</td>
+                <td>@patient.Height</td>
+                <td>@patient.Weight</td>
                 <td>@Enum.GetName(typeof(Location), patient.Location)</td>
-                <td><input type="button" value="View Data" class="btn green" /></td>
+                <td><input type="button" value="View Data" class="btn green" onclick="location.href = '/Experiment/ViewPatient?patientId=@patient.Id';"/></td>
             @Html.Raw("</tr>")
             i++;
         }
@@ -64,7 +68,7 @@ else
 @section scripts{
 <script>
     function viewMatchingCriteria() {
-        $('#createModal').openModal({
+        $('#viewExperimentCriteria').openModal({
             dismissible: true, // Modal can be dismissed by clicking outside of the modal
             opacity: .5, // Opacity of modal background
             in_duration: 200, // Transition in duration
@@ -72,9 +76,8 @@ else
         });
     }
 
-    function cancelCreate() {
-        $('#createModal').closeModal();
+    function cancelViewExperiment() {
+        $('#viewExperimentCriteria').closeModal();
     }
-
 </script>
 }
