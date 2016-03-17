@@ -1,0 +1,52 @@
+﻿@model UAHFitVault.Models.ViewAllExperimentsViewModel
+
+@using UAHFitVault.Models
+@using UAHFitVault.Database.Entities
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.Owin
+
+@{
+    ViewBag.Title = "ViewExperiments";
+    ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+    
+}
+
+<h2>View Experiments</h2>
+
+@if (Model != null)
+{
+    if (Model.ExperimentCriteria.Count <= 0)
+    {
+        @Html.Raw("There are no experiments to view.")
+    }
+    else
+    {
+        // Display all of the experiments in the system
+        <div class="row centered card-panel blue lighten-2">
+            <div class="col s3"><font size="5"><b>Owner</b></font></div>
+            <div class="col s4"><font size="5"><b>Name</b></font></div>
+            <div class="col s3"><font size="5"><b>Last Modified</b></font></div>
+            <div class="col s2"><font size="5"><b>Actions</b></font></div>
+        </div>
+        int i = 0;
+        foreach (Experiment exp in Model.Experiments)
+        {
+            @Html.Raw("<div class=\"row card-panel ")
+            if (i % 2 == 0) { @Html.Raw("blue lighten-3 ")}
+            else { @Html.Raw("blue lighten-4 ") }
+            @Html.Raw("\">")
+                <div class="col s3">@manager.FindByEmail(exp.ExperimentAdministrator.Email).UserName</div>
+                <div class="col s4">@exp.Name</div>
+                <div class="col s3">@exp.LastModified</div>
+                <div class="col s2"><input type="button" class="btn green" value="View" /></div>
+            @Html.Raw("</div>")
+            i++;
+        }
+    }
+}
+else
+{
+    // No experiments
+    @Html.Raw("ERROR: Experiment model was null");
+}
+

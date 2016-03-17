@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,11 @@ namespace UAHFitVault.Controllers
         /// </summary>
         private readonly IPhysicianService _physicianService;
 
+        /// <summary>
+        /// Interface for the experiment service to access experiment database queries
+        /// </summary>
+        private readonly IExperimentService _experimentService;
+
         #endregion
 
         #region Private Properties
@@ -57,10 +63,12 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="patientService">Interface for the patient service to access patient database queries</param>
         /// <param name="physicianService">Interface for the physician service to access physician database queries</param>
-        public PhysicianController(IPatientService patientService, IPhysicianService physicianService)
+        /// <param name="experimentService">Interface for the experiment service to access experiment database queries</param>
+        public PhysicianController(IPatientService patientService, IPhysicianService physicianService, IExperimentService experimentService)
         {
             _patientService = patientService;
-            _physicianService = physicianService;            
+            _physicianService = physicianService;
+            _experimentService = experimentService;       
         }
 
         #endregion
@@ -416,6 +424,32 @@ namespace UAHFitVault.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Displays the view for all of the experiments in the system
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ViewExperiments ()
+        {
+            ViewAllExperimentsViewModel model = new ViewAllExperimentsViewModel();
+            model.Experiments = new List<Experiment>();
+            model.ExperimentCriteria = new List<ExperimentViewModel>();
+
+            try
+            {
+                List<Experiment> experiments = _experimentService.GetAllExperiments().ToList();
+                model.Experiments.AddRange(experiments);
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+            }
+
+            foreach (Experiment exp in model.Experiments)
+            {
+                model.ExperimentCriteria.Add(JsonConvert.DeserializeObject<ExperimentViewModel>(exp.QueryString));
+            }
+            return View(model);
+        }
         #endregion
 
         #region Private Functions
