@@ -21,7 +21,14 @@
         EventData,
         Accelerometer,
         ECG,
-        Breathing
+        Breathing,
+        Calorie,
+        UV,
+        Temperature,
+        Pedometer,
+        HeartRate,
+        Gyroscope,
+        Distance
     }
 
     /// <summary>

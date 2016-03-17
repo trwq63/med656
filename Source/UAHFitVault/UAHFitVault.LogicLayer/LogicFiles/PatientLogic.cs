@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using UAHFitVault.Database.Entities;
 using UAHFitVault.LogicLayer.Enums;
+using System.Text.RegularExpressions;
 
 namespace UAHFitVault.LogicLayer.LogicFiles
 {
@@ -69,6 +70,33 @@ namespace UAHFitVault.LogicLayer.LogicFiles
                         }
                         break;
                     case "Microsoft Band":
+                        if (fileName.Contains("Accel")) {
+                            fileType = File_Type.Accelerometer;
+                        }
+                        else if (fileName.Contains("Calories")) {
+                            fileType = File_Type.Calorie;
+                        }
+                        else if (fileName.Contains("Distance")) {
+                            fileType = File_Type.Distance;
+                        }
+                        else if (fileName.Contains("Gyroscope")) {
+                            fileType = File_Type.Gyroscope;
+                        }
+                        else if (fileName.Contains("HeartRate")) {
+                            fileType = File_Type.HeartRate;
+                        }
+                        else if (fileName.Contains("Pedometer")) {
+                            fileType = File_Type.Pedometer;
+                        }
+                        else if (fileName.Contains("UV")) {
+                            fileType = File_Type.Unknown;
+                        }
+                        else if (fileName.Contains("Temperature")) {
+                            fileType = File_Type.Temperature;
+                        }
+                        else {
+                            fileType = File_Type.Unknown;
+                        }
                         break;
                     default:
                         break;
@@ -342,6 +370,96 @@ namespace UAHFitVault.LogicLayer.LogicFiles
             return basisPeakSummaryData;
         }
 
+        /// <summary>
+        /// Get the date for the data from the first line in a Microsoft band csv file.
+        /// </summary>
+        /// <param name="csvReader">csv reader object</param>
+        /// <returns></returns>
+        public static DateTime FindMSBandDate(CsvReader csvReader) {
+            //First line contains the date of the file that needs to be pulled out.
+            string dateData = string.Empty;
+
+            DateTime date = DateTime.MinValue;
+
+            //Read one time to get the column information for the first line.
+            //This will contain the date information for the file.
+            while (csvReader.ReadNextRecord()) {
+                if (csvReader != null) {
+                    //If the date has not been extracted from the file extract it.
+                    if (string.IsNullOrEmpty(dateData)) {
+                        dateData = csvReader.Columns.FirstOrDefault().Name;
+                        date = ExactMSBandFileDate(dateData);
+                    }
+                }
+                break;
+            }
+
+            return date;
+        }
+
+
+        /// <summary>
+        /// Create a list of ZephyrBreathingWaveform objects from the data read from the csv file selected by the user.
+        /// </summary>
+        /// <param name="csvReader">csv reader object</param>
+        /// <param name="patientData">Patient data record that will be referenced by each zephyr accel data record.</param>
+        /// <param name="date">Date the data in the file was collected.</param>
+        /// <returns></returns>
+        public static List<MSBandAccelerometer> BuildMSBandAccelerometerDataList(CsvReader csvReader, PatientData patientData, DateTime date) {
+            List<MSBandAccelerometer> msBandAccelData = null;
+
+            if (csvReader != null && patientData != null && patientData.Id != null) {
+                msBandAccelData = new List<MSBandAccelerometer>();
+
+                while (csvReader.ReadNextRecord()) {
+                    if (csvReader != null) {
+                        //File should read in the following order.
+                        //Time | BreathingWaveform
+                        string dateFormat = "HH:mm:ss.fff";
+                        string dateInfo = csvReader[0];
+                        DateTime dateTime;
+                        if (DateTime.TryParseExact(dateInfo, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime)) {
+                            date = new DateTime(date.Year, date.Month, date.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond);
+                            MSBandAccelerometer msBandAccel = new MSBandAccelerometer() {
+                                Date = date,
+                                Lateral = (float)Convert.ToDouble(csvReader[1]),
+                                Vertical = (float)Convert.ToDouble(csvReader[2]),
+                                Sagittal = (float)Convert.ToDouble(csvReader[3]),
+                                PatientDataId = patientData.Id
+                            };
+                            msBandAccelData.Add(msBandAccel);
+                        }
+                    }
+                }
+            }
+
+            return msBandAccelData;
+        }
+
+
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// Read the date out of text from a cell in csv file.
+        /// </summary>
+        /// <param name="data">Text from csv file that contains date of date collected.</param>
+        /// <returns></returns>
+        private static DateTime ExactMSBandFileDate(string data) {
+            Regex regex = new Regex(@"\d+-\d+-\d+");
+            DateTime date;
+            try {
+                date = DateTime.Parse(regex.Match(data).Value);
+            }
+            catch (Exception ex) {
+                //Currently no error handling is developed into the system.
+                Console.WriteLine(ex.Message);
+                return DateTime.MinValue;
+            }
+
+            return date;
+        }
 
         #endregion
     }

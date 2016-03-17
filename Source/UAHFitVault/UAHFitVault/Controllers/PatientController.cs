@@ -1,4 +1,6 @@
 ﻿using LumenWorks.Framework.IO.Csv;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,13 +8,12 @@ using System.Web;
 using System.Web.Mvc;
 using UAHFitVault.DataAccess;
 using UAHFitVault.DataAccess.BasisPeakServices;
+using UAHFitVault.DataAccess.MicrosoftBandServices;
 using UAHFitVault.DataAccess.ZephyrServices;
 using UAHFitVault.Database.Entities;
+using UAHFitVault.Helpers;
 using UAHFitVault.LogicLayer.Enums;
 using UAHFitVault.LogicLayer.LogicFiles;
-using UAHFitVault.Helpers;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.AspNet.Identity;
 using UAHFitVault.Models;
 
 namespace UAHFitVault.Controllers
@@ -35,7 +36,7 @@ namespace UAHFitVault.Controllers
         /// <summary>
         /// Service object for accessing Zephyr Accelerometer database functions.
         /// </summary>
-        private readonly IZephyrAccelService _accelService;
+        private readonly IZephyrAccelService _zephyrAccelService;
 
         /// <summary>
         /// Service object for accessing Zephyr Breathing Waveform database functions.
@@ -71,6 +72,11 @@ namespace UAHFitVault.Controllers
         /// Service for accessing medical devices.
         /// </summary>
         private readonly IMedicalDeviceService _medicalDeviceService;
+
+        /// <summary>
+        /// Service object for accessing Microsoft Band Accelerometer database functions.
+        /// </summary>
+        private readonly IMSBandAccelService _msBandAccelService;
 
         #endregion
 
@@ -129,10 +135,10 @@ namespace UAHFitVault.Controllers
                                     IZephyrBreathingService breathingService, IZephyrECGService ecgService,
                                     IZephyrEventDataService eventDataService, IZephyrSummaryService summaryService,
                                     IPatientService patientService, IBasisPeakSummaryService basisPeakService,
-                                    IMedicalDeviceService medicalDeviceService) {
+                                    IMedicalDeviceService medicalDeviceService, IMSBandAccelService msBandAccelService) {
 
             _patientDataService = patientDataService;
-            _accelService = accelService;
+            _zephyrAccelService = accelService;
             _breathingService = breathingService;
             _ecgService = ecgService;
             _eventDataService = eventDataService;
@@ -140,6 +146,7 @@ namespace UAHFitVault.Controllers
             _patientService = patientService;
             _basisPeakService = basisPeakService;
             _medicalDeviceService = medicalDeviceService;
+            _msBandAccelService = msBandAccelService;
 
         }
         #endregion
@@ -193,7 +200,6 @@ namespace UAHFitVault.Controllers
                     DataType = (int)fileType,
                     Name = file.FileName,
                     UploadDate = DateTime.Now,
-                    //TODO: Fix the date here
                     FromDate = model.FromDate,
                     ToDate = model.ToDate,           
                     MedicalDeviceId = medicalDevice.Id,
@@ -224,8 +230,14 @@ namespace UAHFitVault.Controllers
                             break;
                     }
                 }
-                else if(medicalDevice.Name.Trim() == Device_Type.Microsoft_Band.ToString().Replace("_", "")) {
-                    //TODO: Create msband process methods.
+                else if(medicalDevice.Name.Trim() == Device_Type.Microsoft_Band.ToString().Replace("_", " ")) {
+                    switch (fileType) {
+                        case File_Type.Accelerometer:
+                            ProcessMSBandAccelData(file, patientData);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }           
 
@@ -279,7 +291,7 @@ namespace UAHFitVault.Controllers
                 _patientDataService.SaveChanges();
 
                 //Bulk insert zephyr excel records
-                _accelService.BulkInsert(zephyrAccelData);
+                _zephyrAccelService.BulkInsert(zephyrAccelData);
             }
         }
 
@@ -381,7 +393,41 @@ namespace UAHFitVault.Controllers
             }
         }
 
+        /// <summary>
+        /// Insert Microsoft Band accel records from file into database
+        /// </summary>
+        /// <param name="file">Microsoft Band accel file selected for upload from view.</param>
+        /// <param name="patientData">Patient data record created for the patient for this accel data.</param>
+        protected void ProcessMSBandAccelData(HttpPostedFileBase file, PatientData patientData) {
+            List<MSBandAccelerometer> msBandAccelData = null;
 
+            Stream stream = file.InputStream;
+            DateTime date = DateTime.MinValue;
+
+            using (CsvReader csvReader = new CsvReader(new StreamReader(stream), true)) {
+
+                date = PatientLogic.FindMSBandDate(csvReader);
+                stream.Seek(0, SeekOrigin.Begin);
+                if (date != DateTime.MinValue) {
+                    //Assume that the first line which contains the date is now a comment.  Set the comment
+                    //indicator to the character M.
+                    using (CsvReader reader = new CsvReader(new StreamReader(stream), true, ',', '"', '"', 'M', ValueTrimmingOptions.UnquotedOnly)) {
+
+                        msBandAccelData = PatientLogic.BuildMSBandAccelerometerDataList(reader, patientData, date);
+                    }
+                }
+            }
+
+            if (msBandAccelData != null && msBandAccelData.Count > 0) {
+                //Write data to database
+                _patientDataService.CreatePatientData(patientData);
+                _patientDataService.SaveChanges();
+
+                //Bulk insert zephyr excel records
+                _msBandAccelService.BulkInsert(msBandAccelData);
+            }
+            
+        }
 
         #endregion
     }
