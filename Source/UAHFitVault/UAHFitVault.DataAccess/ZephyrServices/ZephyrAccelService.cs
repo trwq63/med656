@@ -2,7 +2,7 @@
 using System.Linq;
 using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Entities;
-using UAHFitVault.Database.Repositories;
+using UAHFitVault.Database.Repositories.ZephyrRepositories;
 using UAHFitVault.Database;
 using EntityFramework.BulkInsert.Extensions;
 using System;

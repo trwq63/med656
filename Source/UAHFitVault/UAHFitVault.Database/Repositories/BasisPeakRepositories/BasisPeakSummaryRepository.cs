@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using UAHFitVault.Database.Infrastructure;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UAHFitVault.Database.Entities;
-using System;
-using System.Collections.Generic;
+using UAHFitVault.Database.Infrastructure;
 
-namespace UAHFitVault.Database.Repositories
+namespace UAHFitVault.Database.Repositories.BasisPeakRepositories
 {
     /// <summary>
     /// Implementation of the repository base class for the BasisPeakSummaryData model

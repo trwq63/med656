@@ -4,7 +4,7 @@ using System.Linq;
 using UAHFitVault.Database;
 using UAHFitVault.Database.Entities;
 using UAHFitVault.Database.Infrastructure;
-using UAHFitVault.Database.Repositories;
+using UAHFitVault.Database.Repositories.ZephyrRepositories;
 
 namespace UAHFitVault.DataAccess.ZephyrServices
 {

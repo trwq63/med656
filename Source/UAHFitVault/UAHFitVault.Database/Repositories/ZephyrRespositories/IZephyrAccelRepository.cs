@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UAHFitVault.Database.Entities;
 using UAHFitVault.Database.Infrastructure;
 
-namespace UAHFitVault.Database.Repositories
+namespace UAHFitVault.Database.Repositories.ZephyrRepositories
 {
     /// <summary>
     /// Interface to implement zephyr accel repository.

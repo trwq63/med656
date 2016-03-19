@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace UAHFitVault.Database.Entities
 {
-    public class MSBandGryoscope
+    public class MSBandGyroscope
     {
         #region Public Constructors
         /// <summary>
         /// Default constructor
         /// </summary>
-        public MSBandGryoscope() {
+        public MSBandGyroscope() {
 
         }
 
