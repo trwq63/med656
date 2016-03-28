@@ -62,18 +62,11 @@
         <div>
             <label class="black-text">Add Activities</label>
             <table class="responsive-table centered">
-                @*<thead>
-                    <tr>
-                        <th data-field="activityType"><label>Select Activity Type</label></th>
-                        <th data-field="startTime"><label>Activity Start Time</label></th>
-                        <th data-field="endTime"><label>Activity End Time</label></th>
-                    </tr>
-                </thead>*@
                 <tbody>
                     <tr>
                         <td>
                             <div class="input-field col s4">
-                                <select id="ActivityType">
+                                <select name="ActivityType[]">
                                     @foreach (string activityType in activityTypes) {
                                         if (activityType == activityTypes.First()) {
                                             <option value="" disabled selected>@activityType</option>
@@ -83,23 +76,23 @@
                                         }
                                     }
                                 </select>
-                                <label for="ActivityType">Activity Type</label>
+                                <label for="ActivityType[]">Activity Type</label>
                             </div>                        
                         </td>
                         <td>
                             <div class="input-field col m3 s6 offset-s2">
-                                <input id="StartTime" name="StartTime" type="text" class="timepicker">
-                                <label for="StartTime">Start Time</label>
+                                <input id="StartTime[]" name="StartTime[]" type="text" class="timepicker">
+                                <label for="StartTime[]">Start Time</label>
                             </div>
                         </td>
                         <td>
                             <div class="input-field col m3 s6 offset-s2">
-                                <input id="EndTime" name="EndTime" type="text" class="timepicker">
-                                <label for="EndTime">End Time</label>
+                                <input id="EndTime[]" name="EndTime" type="text" class="timepicker">
+                                <label for="EndTime[]">End Time</label>
                             </div>                       
                         </td>
                         <td>
-                            <button class="btn-floating waves-effect waves-light green btn-add" type="button">
+                            <button class="btn-floating green btn-add" type="button">
                                 <i class="material-icons prefix">add</i>
                             </button>
                         </td>
@@ -133,21 +126,26 @@
                 selectYears: 100,
                 max: Date.now()
             });
-            setTimePicker();
+            setTimePicker();            
         });
         $(document).on('click', '.btn-add', function (e) {
             e.preventDefault();
 
+            $('select').material_select('destroy');
+
             var controlForm = $(this).closest('table'),
                 currentEntry = $(this).parents('tr:first'),
                 newEntry = $(currentEntry.clone()).appendTo(controlForm);
-
+            
             newEntry.find('input').val('');
+          
             controlForm.find('tr:not(:last) .btn-add')
                 .removeClass('btn-add').addClass('btn-remove')
                 .removeClass('green').addClass('red')
                 .html('<i class="material-icons prefix">delete</i>');
             setTimePicker();
+            initDropDown();
+            
         }).on('click', '.btn-remove', function (e) {
             $(this).parents('tr:first').remove();
 
@@ -164,5 +162,10 @@
                 closeOnClear: true
             });
         };
+
+        function initDropDown() {            
+            $('select').material_select('destroy');
+            $('select').material_select();
+        }
 </script>
 } 
