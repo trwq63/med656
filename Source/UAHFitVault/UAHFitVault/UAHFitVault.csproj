@@ -237,6 +237,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ActivityModel.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\PatientDataViewModel.cs" />
     <Compile Include="Models\ExperimentAdminViewModels.cs" />

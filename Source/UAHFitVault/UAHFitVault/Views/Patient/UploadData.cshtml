@@ -66,7 +66,7 @@
                     <tr>
                         <td>
                             <div class="input-field col s4">
-                                <select name="ActivityType[]">
+                                <select name="Activities[].ActivityType">
                                     @foreach (string activityType in activityTypes) {
                                         if (activityType == activityTypes.First()) {
                                             <option value="" disabled selected>@activityType</option>
@@ -76,19 +76,19 @@
                                         }
                                     }
                                 </select>
-                                <label for="ActivityType[]">Activity Type</label>
+                                <label for="Activities[].ActivityType">Activity Type</label>
                             </div>                        
                         </td>
                         <td>
                             <div class="input-field col m3 s6 offset-s2">
-                                <input id="StartTime[]" name="StartTime[]" type="text" class="timepicker">
+                                <input id="StartTime[]" name="Activities[].StartTime" type="text" class="timepicker">
                                 <label for="StartTime[]">Start Time</label>
                             </div>
                         </td>
                         <td>
                             <div class="input-field col m3 s6 offset-s2">
-                                <input id="EndTime[]" name="EndTime" type="text" class="timepicker">
-                                <label for="EndTime[]">End Time</label>
+                                <input id="Activities.EndTime[]" name="Activities[].EndTime" type="text" class="timepicker">
+                                <label for="Activities.EndTime[]">End Time</label>
                             </div>                       
                         </td>
                         <td>
