@@ -450,9 +450,81 @@ namespace UAHFitVault.Controllers
             }
             return View(model);
         }
+
+        /// <summary>
+        /// Displays the experiment information for a specific experiment in the system
+        /// </summary>
+        /// <param name="experimentName">Name of the experiment to view information</param>
+        /// <returns></returns>
+        public ActionResult ViewExperiment (string experimentName, string experimentOwner)
+        {
+            ViewExperimentViewModel model = new ViewExperimentViewModel();
+            model.criteriaModel = new ViewExperimentCriteriaViewModel();
+
+            if (experimentName != null)
+            {
+                model.experimentName = experimentName;
+            }
+
+            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            int userId = manager.FindByName(experimentOwner).ExperimentAdministratorId;
+            Experiment experiment = _experimentService.GetExperimentByName(experimentName, userId);
+            model.patientList = GetPatientsForExperiment(experiment);   // Get the patients from the database
+
+            ExperimentViewModel temp = new ExperimentViewModel();
+            temp = JsonConvert.DeserializeObject<ExperimentViewModel>(experiment.QueryString);
+
+            model.criteriaModel.experiment = temp;
+
+            return View(model);
+        }
         #endregion
 
         #region Private Functions
+
+        /// <summary>
+        /// Gets the patients matched with an experiment
+        /// </summary>
+        /// <param name="experiment">Experiment to match the patients with</param>
+        /// <returns></returns>
+        private List<Patient> GetPatientsForExperiment(Experiment experiment)
+        {
+            List<Patient> patientList = new List<Patient>();
+
+            ExperimentViewModel model = JsonConvert.DeserializeObject<ExperimentViewModel>(experiment.QueryString);
+            ExperimentCriteria criteria = CopyModelToCriteria(model);
+
+            IEnumerable<Patient> patients = _experimentService.GetPatientsForExperiment(criteria);
+            if (patients != null)
+            {
+                patientList.AddRange(patients);
+            }
+
+            return patientList;
+        }
+
+        /// <summary>
+        /// Copy the members of the model to an ExperimentCriteria object
+        /// </summary>
+        /// <param name="model">Model</param>
+        /// <returns></returns>
+        private ExperimentCriteria CopyModelToCriteria(ExperimentViewModel model)
+        {
+            ExperimentCriteria criteria = new ExperimentCriteria();
+
+            criteria.ageRangeEnd = model.ageRangeEnd;
+            criteria.ageRangeStart = model.ageRangeStart;
+            criteria.heightRangeEnd = model.heightRangeEnd;
+            criteria.heightRangeBegin = model.heightRangeBegin;
+            criteria.weightRangeBegin = model.weightRangeBegin;
+            criteria.weightRangeEnd = model.weightRangeEnd;
+            criteria.selectedGenders = model.selectedGenders;
+            criteria.selectedRaces = model.selectedRaces;
+            criteria.selectedEthnicities = model.selectedEthnicities;
+            criteria.selectedLocations = model.selectedLocations;
+
+            return criteria;
+        }
 
         /// <summary>
         /// Checks if the user is already in the database.

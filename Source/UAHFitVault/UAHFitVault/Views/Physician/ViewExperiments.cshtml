@@ -38,7 +38,7 @@
                 <div class="col s3">@manager.FindByEmail(exp.ExperimentAdministrator.Email).UserName</div>
                 <div class="col s4">@exp.Name</div>
                 <div class="col s3">@exp.LastModified</div>
-                <div class="col s2"><input type="button" class="btn green" value="View" /></div>
+                <div class="col s2"><input type="button" class="btn green" value="View" onclick="location.href = '/Physician/ViewExperiment?experimentName=@exp.Name&experimentOwner=@manager.FindByEmail(exp.ExperimentAdministrator.Email).UserName';"/></div>
             @Html.Raw("</div>")
             i++;
         }
