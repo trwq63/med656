@@ -3,41 +3,130 @@ from WebUI.WebUI import WebUI
 web_sess = WebUI()
 
 
-def test_patient_to_patient():
+def test_patient_to_patient(logoff):
     """
-    This procedure tests one patient trying to view a different patients data
+    **Requirements:**
 
-    :return:
+    - 3.1.1.1.1.3: Patient cannot view other patients data
+
+    **Pre Conditions:**
+
+    - logoff fixture
+
+    **Input:**
+
+    - user = 'testPatient'
+    - pwd = 'P@ssword10'
+
+
+    ===============  =================  =============
+    Steps            Expected Result    Actual Result
+    ===============  =================  =============
+    login            User can login
+    ===============  =================  =============
     """
-    web_sess.login('testPatient', 'P@ssword10')
+    print('Starting')
+
+    user = 'testPatient'
+    pwd = 'P@ssword10'
+
+    print('Logging in as ', user)
+    web_sess.login(user, pwd)
     ps = web_sess.driver.get('')
     assert 'Restricted' in ps
 
 
-def test_physician_to_patient():
+def test_physician_to_patient(logoff):
     """
-    This procedure tests a physician cannot view a patient's data that belongs to a patient
-    who belongs to a different physician.
+    **Requirements:**
 
-    :return:
+    - 3.1.1.1.2.4: Physician can only view his patients data
+
+    **Pre Conditions:**
+
+    - logoff fixture
+
+    **Input:**
+
+    - user = ''
+    - pwd = ''
+
+    ===============  =================  =============
+    Steps            Expected Result    Actual Result
+    ===============  =================  =============
+    login            User can login
+    ===============  =================  =============
     """
-    web_sess.login('testPatient', 'P@ssword10')
+    print('Starting')
+
+    user = ''
+    pwd = ''
+
+    print('Logging in as ', user)
+    web_sess.login(user, pwd)
     ps = web_sess.driver.get('')
     assert 'Restricted' in ps
 
 
-def test_patient_cannot_create_patient():
+def test_patient_cannot_create_patient(logoff):
     """
-    This procedure tests that a patient cannot create another patient.
+    **Requirements:**
 
-    :return:
+    - 3.1.1.1.2.5: Only a physician can create a patient
+
+    **Pre Conditions:**
+
+    - logoff fixture
+
+    **Input:**
+
+    - user = ''
+    - pwd = ''
+
+
+    ===============  =================  =============
+    Steps            Expected Result    Actual Result
+    ===============  =================  =============
+    login            User can login
+    ===============  =================  =============
     """
+    print('Starting')
+
+    user = ''
+    pwd = ''
+
+    print('Logging in as ', user)
+    web_sess.login(user, pwd)
     assert False
 
 
 def test_exp_admin_cannot_create_patient():
     """
-    This procedure tests that an experiment admin cannot create another patient.
-    :return:
+    **Requirements:**
+
+    - 3.1.1.1.2.5: Only a physician can create a patient
+
+    **Pre Conditions:**
+
+    - logoff fixture
+
+    **Input:**
+
+    - user = ''
+    - pwd = ''
+
+
+    ===============  =================  =============
+    Steps            Expected Result    Actual Result
+    ===============  =================  =============
+    login            User can login
+    ===============  =================  =============
     """
+    print('Starting')
+
+    user = ''
+    pwd = ''
+
+    print('Logging in as ', user)
+    web_sess.login(user, pwd)
     assert False
