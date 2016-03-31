@@ -16,7 +16,11 @@ def test_create_physician(logoff):
     - 3.1.1.7.1: System Administrators shall verify the creation of a physician account
     - 3.1.6.1: The system shall allow account creation
     - 3.1.6.1.1: The system shall force account approval for physicians
-
+    - 3.1.1.4: System requires a minimum security criteria
+    - 3.1.1.4.1: Password must be at least 10 characters
+    - 3.1.1.4.2: Password shall contain at least 1 upper and 1 lower case character
+    - 3.1.1.4.3: Password shall contain at least 1 number
+    - 3.1.1.4.4: Password shall contain at least 1 special character
 
     **Pre Conditions:**
 
@@ -77,7 +81,11 @@ def test_create_experiment_admin(logoff):
     - 3.1.1.7.1: System Administrators shall verify the creation of a experiment admin account
     - 3.1.6.1: The system shall allow account creation
     - 3.1.6.1.1: The system shall force account approval for experiment admins
-
+    - 3.1.1.4: System requires a minimum security criteria
+    - 3.1.1.4.1: Password must be at least 10 characters
+    - 3.1.1.4.2: Password shall contain at least 1 upper and 1 lower case character
+    - 3.1.1.4.3: Password shall contain at least 1 number
+    - 3.1.1.4.4: Password shall contain at least 1 special character
 
     **Pre Conditions:**
 
@@ -138,6 +146,11 @@ def test_create_patient(login_tphysician):
     - 3.1.1.7.2: Physicians shall create their patients accounts
     - 3.1.6.1: The system shall allow account creation
     - 3.1.6.1.2: Patients shall not need approval for account creation
+    - 3.1.1.4: System requires a minimum security criteria
+    - 3.1.1.4.1: Password must be at least 10 characters
+    - 3.1.1.4.2: Password shall contain at least 1 upper and 1 lower case character
+    - 3.1.1.4.3: Password shall contain at least 1 number
+    - 3.1.1.4.4: Password shall contain at least 1 special character
 
     **Pre Conditions:**
 
