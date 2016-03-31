@@ -61,12 +61,12 @@
         <div class="divider grey section-divider"></div>
         <div>
             <label class="black-text">Add Activities</label>
-            <table class="responsive-table centered">
+            <table id="activityTable" class="responsive-table centered">
                 <tbody>
                     <tr>
                         <td>
                             <div class="input-field col s4">
-                                <select name="Activities[].ActivityType">
+                                <select name="Activities[0].ActivityType">
                                     @foreach (string activityType in activityTypes) {
                                         if (activityType == activityTypes.First()) {
                                             <option value="" disabled selected>@activityType</option>
@@ -81,14 +81,20 @@
                         </td>
                         <td>
                             <div class="input-field col m3 s6 offset-s2">
-                                <input id="StartTime[]" name="Activities[].StartTime" type="text" class="timepicker">
+                                <input name="Activities[0].ActivityDate" type="text" class="datepicker activity_date">
+                                <label>Date</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field col m3 s6 offset-s2">
+                                <input id="StartTime[]" name="Activities[0].StartTime" type="text" class="timepicker startTime">
                                 <label for="StartTime[]">Start Time</label>
                             </div>
                         </td>
                         <td>
                             <div class="input-field col m3 s6 offset-s2">
-                                <input id="Activities.EndTime[]" name="Activities[].EndTime" type="text" class="timepicker">
-                                <label for="Activities.EndTime[]">End Time</label>
+                                <input id="EndTime[]" name="Activities[0].EndTime" type="text" class="timepicker endTime">
+                                <label for="EndTime[]">End Time</label>
                             </div>                       
                         </td>
                         <td>
@@ -121,28 +127,41 @@
 <script src="~/Scripts/pickadate/picker.time.js"></script>
 <script>
         $(document).ready(function () {
-            $('.datepicker').pickadate({
-                selectMonths: true, // Creates a dropdown to control month
-                selectYears: 100,
-                max: Date.now()
-            });
+            setDatePicker();
             setTimePicker();            
         });
         $(document).on('click', '.btn-add', function (e) {
             e.preventDefault();
 
-            $('select').material_select('destroy');
+            $('select').material_select('destroy'); 
+
+            //Get number of rows in the activity table
+            var tableIndex = $('#activityTable').children().length;
 
             var controlForm = $(this).closest('table'),
                 currentEntry = $(this).parents('tr:first'),
                 newEntry = $(currentEntry.clone()).appendTo(controlForm);
             
             newEntry.find('input').val('');
+
+            var activityDate = $('.activity_date').last();
+            var startTime = $('.startTime').last();
+            var endTime = $('.endTime').last();
+
+            var dateAttr = 'Activities[' + tableIndex + '].ActivityDate';
+            var startTimeAttr = 'Activities[' + tableIndex + '].StartTime';
+            var endTimeAttr = 'Activities[' + tableIndex + '].EndTime';
+
+            activityDate.attr('name', dateAttr);
+            startTime.attr('name', startTimeAttr);            
+            endTime.attr('name', endTimeAttr);
           
-            controlForm.find('tr:not(:last) .btn-add')
+            $('.btn-add').first()
                 .removeClass('btn-add').addClass('btn-remove')
                 .removeClass('green').addClass('red')
                 .html('<i class="material-icons prefix">delete</i>');
+            
+            setDatePicker();
             setTimePicker();
             initDropDown();
             
@@ -152,6 +171,14 @@
             e.preventDefault();
             return false;
         });
+
+        function setDatePicker() {
+            $('.datepicker').pickadate({
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 100,
+                max: Date.now()
+            });
+        }
 
         function setTimePicker() {
             $('.timepicker').pickatime({
@@ -164,7 +191,6 @@
         };
 
         function initDropDown() {            
-            $('select').material_select('destroy');
             $('select').material_select();
         }
 </script>
