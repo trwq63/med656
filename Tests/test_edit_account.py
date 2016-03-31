@@ -8,23 +8,89 @@ web_sess = WebUI()
 
 def test_physician_can_edit_his_account(login_tphysician):
     """
-    This test will edit the testPhysician's email address and verify the email address got changed
-    Validation is on both the edit step and the confirmation step
+    **Requirements:**
 
-    :param login_tphysician: Makes sure the session is logged in as the testPhysician at the start of the test
-    :return:
+    - 3.1.1.1.2.2: Physician can update his account
+    - 3.1.6.2: System shall allow users to edit their account
+
+    **Pre Conditions:**
+
+    - login_tphysician fixture
+
+    **Input:**
+
+
+    ===============  =================  =============
+    Steps            Expected Result    Actual Result
+    ===============  =================  =============
+
+    ===============  =================  =============
     """
     assert web_sess.set_account_info(email='tphysician@yahoo.com')
     assert web_sess.confirm_account_info(email='tphysician@yahoo.com')
 
 
 def test_sys_admin_can_edit_patient_account(login_sysadmin):
+    """
+    **Requirements:**
+
+    - 3.1.1.1.4.4: System administrator can update patient account information
+
+    **Pre Conditions:**
+
+    - login_sysadmin fixture
+
+    **Input:**
+
+
+    ===============  =================  =============
+    Steps            Expected Result    Actual Result
+    ===============  =================  =============
+
+    ===============  =================  =============
+    """
     assert False
 
 
 def test_sys_admin_can_edit_exp_admin_account(login_sysadmin):
+    """
+    **Requirements:**
+
+    - 3.1.1.1.4.4: System administrator can update patient account information
+
+    **Pre Conditions:**
+
+    - login_sysadmin fixture
+
+    **Input:**
+
+
+    ===============  =================  =============
+    Steps            Expected Result    Actual Result
+    ===============  =================  =============
+
+    ===============  =================  =============
+    """
     assert False
 
 
 def test_sys_admin_can_edit_physician_account(login_sysadmin):
+    """
+    **Requirements:**
+
+    - 3.1.1.1.4.4: System administrator can update patient account information
+
+    **Pre Conditions:**
+
+    - login_sysadmin fixture
+
+    **Input:**
+
+
+    ===============  =================  =============
+    Steps            Expected Result    Actual Result
+    ===============  =================  =============
+
+    ===============  =================  =============
+    """
     assert False
