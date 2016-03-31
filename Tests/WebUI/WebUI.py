@@ -320,6 +320,8 @@ class WebUI:
             self.driver.find_element_by_css_selector('input[type=submit]').click()
             self.driver.find_element_by_css_selector('input[type=submit]').click()
         except:
+            e = sys.exc_info()
+            print (e)
             return False
         return True
 
@@ -335,18 +337,23 @@ class WebUI:
         try:
             self.driver.find_element_by_css_selector('a[title=Manage]').click()
             if email != '':
-                tmp = self.driver.find_element_by_id('Email').text
+                tmp = self.driver.find_element_by_id('Email').value_of_css_property('value')
+                print(tmp)
                 if tmp != email:
                     return False
             if address != '':
                 tmp = self.driver.find_element_by_id('Address').text
+                print(tmp)
                 if tmp != address:
                     return False
             if phonenum != '':
                 tmp = self.driver.find_element_by_id('PhoneNumber').text
+                print(tmp)
                 if tmp != phonenum:
                     return False
         except:
+            e = sys.exc_info()
+            print (e)
             return False
         return True
 

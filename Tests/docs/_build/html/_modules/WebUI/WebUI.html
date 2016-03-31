@@ -42,9 +42,11 @@
 <span class="sd">These are the web user interface utilities used to drive the web tests.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.support</span> <span class="kn">import</span> <span class="n">select</span>
 <span class="kn">from</span> <span class="nn">selenium.webdriver.common.by</span> <span class="kn">import</span> <span class="n">By</span>
 <span class="kn">from</span> <span class="nn">selenium.webdriver.support.ui</span> <span class="kn">import</span> <span class="n">WebDriverWait</span>
 <span class="kn">from</span> <span class="nn">selenium.webdriver.support</span> <span class="kn">import</span> <span class="n">expected_conditions</span> <span class="k">as</span> <span class="n">ec</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 
 
 <div class="viewcode-block" id="WebUI"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI">[docs]</a><span class="k">class</span> <span class="nc">WebUI</span><span class="p">:</span>
@@ -62,6 +64,8 @@
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">baseurl</span> <span class="o">=</span> <span class="n">baseurl</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">go_home</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">maximize_window</span><span class="p">()</span>
 
 <div class="viewcode-block" id="WebUI.go_home"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.go_home">[docs]</a>    <span class="k">def</span> <span class="nf">go_home</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -88,7 +92,6 @@
 <span class="sd">        :param pwd: Password for the given username</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">go_home</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_login</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
         <span class="k">try</span><span class="p">:</span>
@@ -100,18 +103,21 @@
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span></div>
 
-<div class="viewcode-block" id="WebUI.check_login"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.check_login">[docs]</a>    <span class="k">def</span> <span class="nf">check_login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.check_login"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.check_login">[docs]</a>    <span class="k">def</span> <span class="nf">check_login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This will verify you are logged in. It checks for the manage account link that only appears if you are</span>
 <span class="sd">        logged in.</span>
 
 <span class="sd">        :param t: A timeout in seconds to wait for the management link to appear</span>
+<span class="sd">        :param user: Check to see if this is the user that is logged in</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">wait</span> <span class="o">=</span> <span class="n">WebDriverWait</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">until</span><span class="p">(</span>
+            <span class="n">WebDriverWait</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">until</span><span class="p">(</span>
                 <span class="n">ec</span><span class="o">.</span><span class="n">presence_of_element_located</span><span class="p">((</span><span class="n">By</span><span class="o">.</span><span class="n">CSS_SELECTOR</span><span class="p">,</span> <span class="s1">&#39;a[title=Manage]&#39;</span><span class="p">))</span>
             <span class="p">)</span>
+            <span class="k">if</span> <span class="n">user</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">user</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;a[title=Manage]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span></div>
@@ -145,7 +151,8 @@
 
 <div class="viewcode-block" id="WebUI.request_account"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.request_account">[docs]</a>    <span class="k">def</span> <span class="nf">request_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_type</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This will fill out a request for an account</span>
+<span class="sd">        This will fill out a request for an account. To request an account you must be logged out therefore</span>
+<span class="sd">        this procedure will make sure you are logged out</span>
 
 <span class="sd">        :param account_type: The type of account to request. can either be Physician or Exp Admin</span>
 <span class="sd">        :param user: The username of the new account</span>
@@ -157,7 +164,8 @@
 <span class="sd">        :param phone_number: The phone number of the user</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">baseurl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_logoff</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;requestAccountLink&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">account_type</span> <span class="o">==</span> <span class="s1">&#39;Physician&#39;</span><span class="p">:</span>
@@ -178,20 +186,19 @@
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span></div>
 
-<div class="viewcode-block" id="WebUI.approve_account"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.approve_account">[docs]</a>    <span class="k">def</span> <span class="nf">approve_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.approve_account"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.approve_account">[docs]</a>    <span class="k">def</span> <span class="nf">approve_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Logs in as the system admin and approves an account with the given username</span>
 
 <span class="sd">        :param username: Username of the account to approve</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">baseurl</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">go_home</span><span class="p">()</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_login</span><span class="p">():</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;fitadmin&#39;</span><span class="p">,</span><span class="s1">&#39;Password1!&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_login</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="s1">&#39;fitadmin&#39;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;fitadmin&#39;</span><span class="p">,</span><span class="s1">&#39;Password1!&#39;</span><span class="p">)</span>
             <span class="c1"># find the account to approve and click the approve button</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">&quot;//tr/td[text()=&#39;{}&#39;]/../td/button[text()=&#39;Approve&#39;]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">))</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span></div>
@@ -224,36 +231,69 @@
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span></div>
 
-<div class="viewcode-block" id="WebUI.create_patient"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.create_patient">[docs]</a>    <span class="k">def</span> <span class="nf">create_patient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.create_patient"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.create_patient">[docs]</a>    <span class="k">def</span> <span class="nf">create_patient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phy</span><span class="p">,</span> <span class="n">phy_pass</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">bday</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">gender</span><span class="p">,</span> <span class="n">race</span><span class="p">,</span> <span class="n">ethnicity</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This will create a patient account. It expects the physician to be logged in when called.</span>
 
 <span class="sd">        :param user:</span>
 <span class="sd">        :param pwd:</span>
-<span class="sd">        :param email:</span>
-<span class="sd">        :param first_name:</span>
-<span class="sd">        :param last_name:</span>
-<span class="sd">        :param address:</span>
-<span class="sd">        :param phone_number:</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">baseurl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_login</span><span class="p">(</span><span class="n">phy</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">phy</span><span class="p">,</span> <span class="n">phy_pass</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;requestAccountLink&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;css selector&#39;</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;[for=radioPhysician]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;FirstName&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">first_name</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;LastName&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">last_name</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;Email&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">email</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;Username&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;Password&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">pwd</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;ConfirmPassword&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">pwd</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;Address&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;PhoneNumber&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">phone_number</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;ReasonForAccount&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;css selector&#39;</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="s1">&#39;input[type=submit]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;button[onclick=createPatient\(\)]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s1">&#39;Username&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s1">&#39;Password&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">pwd</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s1">&#39;Birthdate&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+            <span class="c1"># temporary work around</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;button[class=picker__button--today&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+            <span class="n">select</span><span class="o">.</span><span class="n">Select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s1">&#39;Location&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">select_by_visible_text</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s1">&#39;Weight&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s1">&#39;Height&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">height</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">gender</span> <span class="o">==</span> <span class="s1">&#39;male&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;label[for=genderMale]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">gender</span> <span class="o">==</span> <span class="s1">&#39;female&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;label[for=genderFemale]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">if</span> <span class="n">race</span> <span class="o">==</span> <span class="s1">&#39;american_indian&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;label[for=raceAmericanIndian]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">race</span> <span class="o">==</span> <span class="s1">&#39;asian&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;label[for=raceAsian]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">race</span> <span class="o">==</span> <span class="s1">&#39;black&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;label[for=raceBlack]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">race</span> <span class="o">==</span> <span class="s1">&#39;hawaiian&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;label[for=raceHawaiian]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">race</span> <span class="o">==</span> <span class="s1">&#39;white&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;label[for=raceWhite]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">race</span> <span class="o">==</span> <span class="s1">&#39;other&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;label[for=raceOther]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">if</span> <span class="n">ethnicity</span> <span class="o">==</span> <span class="s1">&#39;non_hispanic&#39;</span><span class="p">:</span>
+                <span class="c1"># workaround: ethnicity misspelling</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;label[for=enthicityNonHispanic]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">ethnicity</span> <span class="o">==</span> <span class="s1">&#39;hispanic&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;label[for=ethnicityHispanic]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;button[type=submit]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
         <span class="k">except</span><span class="p">:</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+            <span class="k">print</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span></div>
+
+<div class="viewcode-block" id="WebUI.check_create_patient"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.check_create_patient">[docs]</a>    <span class="k">def</span> <span class="nf">check_create_patient</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validates that the patient creation was successful</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;Account Confirmation&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">page_source</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span></div>
 
 <div class="viewcode-block" id="WebUI.delete_account"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.delete_account">[docs]</a>    <span class="k">def</span> <span class="nf">delete_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -262,7 +302,6 @@
 <span class="sd">        :param user: username of the account to delete</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">baseurl</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_login</span><span class="p">():</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
@@ -270,6 +309,24 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;css selector&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;a[href$=</span><span class="se">\&quot;</span><span class="s1">/Admin/ManageUsers</span><span class="se">\&quot;</span><span class="s1">]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">&quot;//tr/td[text()=&#39;{}&#39;]/../td/button/i[text()=&#39;delete&#39;]/..&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">))</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
 
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="bp">True</span></div>
+
+<div class="viewcode-block" id="WebUI.delete_patient"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.delete_patient">[docs]</a>    <span class="k">def</span> <span class="nf">delete_patient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phy</span><span class="p">,</span> <span class="n">phy_pass</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This logs in as the physician and deletes the specified user</span>
+
+<span class="sd">        :param phy: name of the physician that the patient belongs to</span>
+<span class="sd">        :param phy_pass: password of the physician</span>
+<span class="sd">        :param user: username of the account to delete</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_login</span><span class="p">(</span><span class="n">phy</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">phy</span><span class="p">,</span> <span class="n">phy_pass</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s2">&quot;//tr/td[text()=&#39;{}&#39;]/../td/button[contains(text(),&#39;Delete Patient&#39;)]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">))</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;input[type=submit]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span></div>
@@ -303,6 +360,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;input[type=submit]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;input[type=submit]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
         <span class="k">except</span><span class="p">:</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+            <span class="k">print</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span></div>
 
@@ -318,18 +377,23 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;a[title=Manage]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">email</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
-                <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s1">&#39;Email&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s1">&#39;Email&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">value_of_css_property</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">tmp</span> <span class="o">!=</span> <span class="n">email</span><span class="p">:</span>
                     <span class="k">return</span> <span class="bp">False</span>
             <span class="k">if</span> <span class="n">address</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
                 <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s1">&#39;Address&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">tmp</span> <span class="o">!=</span> <span class="n">address</span><span class="p">:</span>
                     <span class="k">return</span> <span class="bp">False</span>
             <span class="k">if</span> <span class="n">phonenum</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
                 <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s1">&#39;PhoneNumber&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">tmp</span> <span class="o">!=</span> <span class="n">phonenum</span><span class="p">:</span>
                     <span class="k">return</span> <span class="bp">False</span>
         <span class="k">except</span><span class="p">:</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+            <span class="k">print</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span></div>
 
@@ -352,6 +416,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_id</span><span class="p">(</span><span class="s1">&#39;ConfirmPassword&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">new_pwd</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;input[type=submit]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
         <span class="k">except</span><span class="p">:</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+            <span class="k">print</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span></div></div>
 </pre></div>

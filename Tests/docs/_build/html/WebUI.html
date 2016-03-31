@@ -24,6 +24,9 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="WebUITest 1.0 documentation" href="index.html" />
+    <link rel="up" title="Tests" href="modules.html" />
+    <link rel="next" title="conftest module" href="conftest.html" />
+    <link rel="prev" title="Tests" href="modules.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
@@ -52,7 +55,7 @@
 the software. By default it is the localhost on port 25396.</p>
 <dl class="method">
 <dt id="WebUI.WebUI.WebUI.approve_account">
-<code class="descname">approve_account</code><span class="sig-paren">(</span><em>username</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.approve_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.approve_account" title="Permalink to this definition">¶</a></dt>
+<code class="descname">approve_account</code><span class="sig-paren">(</span><em>user</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.approve_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.approve_account" title="Permalink to this definition">¶</a></dt>
 <dd><p>Logs in as the system admin and approves an account with the given username</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -67,17 +70,36 @@ the software. By default it is the localhost on port 25396.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="WebUI.WebUI.WebUI.check_create_patient">
+<code class="descname">check_create_patient</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.check_create_patient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.check_create_patient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates that the patient creation was successful</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="WebUI.WebUI.WebUI.check_login">
-<code class="descname">check_login</code><span class="sig-paren">(</span><em>t=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.check_login"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.check_login" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_login</code><span class="sig-paren">(</span><em>user=''</em>, <em>t=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.check_login"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.check_login" title="Permalink to this definition">¶</a></dt>
 <dd><p>This will verify you are logged in. It checks for the manage account link that only appears if you are
 logged in.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>t</strong> &#8211; A timeout in seconds to wait for the management link to appear</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>t</strong> &#8211; A timeout in seconds to wait for the management link to appear</li>
+<li><strong>user</strong> &#8211; Check to see if this is the user that is logged in</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -137,7 +159,7 @@ logged in.</p>
 
 <dl class="method">
 <dt id="WebUI.WebUI.WebUI.create_patient">
-<code class="descname">create_patient</code><span class="sig-paren">(</span><em>user</em>, <em>pwd</em>, <em>email</em>, <em>first_name</em>, <em>last_name</em>, <em>address</em>, <em>phone_number</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.create_patient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.create_patient" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_patient</code><span class="sig-paren">(</span><em>phy</em>, <em>phy_pass</em>, <em>user</em>, <em>pwd</em>, <em>bday</em>, <em>location</em>, <em>weight</em>, <em>height</em>, <em>gender</em>, <em>race</em>, <em>ethnicity</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.create_patient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.create_patient" title="Permalink to this definition">¶</a></dt>
 <dd><p>This will create a patient account. It expects the physician to be logged in when called.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -146,11 +168,6 @@ logged in.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>user</strong> &#8211; </li>
 <li><strong>pwd</strong> &#8211; </li>
-<li><strong>email</strong> &#8211; </li>
-<li><strong>first_name</strong> &#8211; </li>
-<li><strong>last_name</strong> &#8211; </li>
-<li><strong>address</strong> &#8211; </li>
-<li><strong>phone_number</strong> &#8211; </li>
 </ul>
 </td>
 </tr>
@@ -177,9 +194,31 @@ logged in.</p>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="WebUI.WebUI.WebUI.delete_patient">
+<code class="descname">delete_patient</code><span class="sig-paren">(</span><em>phy</em>, <em>phy_pass</em>, <em>user</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.delete_patient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.delete_patient" title="Permalink to this definition">¶</a></dt>
+<dd><p>This logs in as the physician and deletes the specified user</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>phy</strong> &#8211; name of the physician that the patient belongs to</li>
+<li><strong>phy_pass</strong> &#8211; password of the physician</li>
+<li><strong>user</strong> &#8211; username of the account to delete</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="WebUI.WebUI.WebUI.driver">
-<code class="descname">driver</code><em class="property"> = &lt;selenium.webdriver.firefox.webdriver.WebDriver (session=&quot;1df19ada-2570-4600-b820-11b5cd8f9bd2&quot;)&gt;</em><a class="headerlink" href="#WebUI.WebUI.WebUI.driver" title="Permalink to this definition">¶</a></dt>
+<code class="descname">driver</code><em class="property"> = &lt;selenium.webdriver.firefox.webdriver.WebDriver (session=&quot;ced6a590-789e-4cab-86a5-53101da49176&quot;)&gt;</em><a class="headerlink" href="#WebUI.WebUI.WebUI.driver" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -248,7 +287,8 @@ logged in.</p>
 <dl class="method">
 <dt id="WebUI.WebUI.WebUI.request_account">
 <code class="descname">request_account</code><span class="sig-paren">(</span><em>account_type</em>, <em>user</em>, <em>pwd</em>, <em>email</em>, <em>first_name</em>, <em>last_name</em>, <em>address</em>, <em>phone_number</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WebUI/WebUI.html#WebUI.request_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#WebUI.WebUI.WebUI.request_account" title="Permalink to this definition">¶</a></dt>
-<dd><p>This will fill out a request for an account</p>
+<dd><p>This will fill out a request for an account. To request an account you must be logged out therefore
+this procedure will make sure you are logged out</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -366,6 +406,10 @@ It assumes the user is already logged in</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">Tests</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">Tests</a></li>
+      <li>Next: <a href="conftest.html" title="next chapter">conftest module</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>

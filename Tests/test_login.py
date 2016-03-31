@@ -8,75 +8,224 @@ web_sess = WebUI()
 
 def test_login_physician(logoff):
     """
-    This test will login as the testPhysician.
-    Validation is on the login step.
+    **Requirements:**
 
-    :param logoff: Makes sure the session is in a logged off state at the start of the test
-    :return:
+    - 3.1.1: System shall provide user authentication
+    - 3.1.1.5: System shall allow user to log out of account
+
+    **Pre Conditions:**
+
+    - logoff fixture
+
+    **Input:**
+
+    - user = 'testPhysician'
+    - password = 'P@ssword10'
+
+    **Expected Results:**
+
+    User 'testPhysician' sees the home page after logging in
+
+    ========  ===============  =============
+    Steps     Expected Result  Actual Result
+    ========  ===============  =============
+    login     Login Success!
+    ========  ===============  =============
     """
-    web_sess.login('testPhysician', 'P@ssword10')
+    print('Starting')
+    user = 'testPhysician'
+    password = 'P@ssword10'
+
+    print('Logging in as {}/{}'.format(user, password))
+    web_sess.login(user, password)
+    print('Checking for Manage button')
     status = web_sess.check_login()
     assert status, 'Could not login: \n{}'.format(web_sess.get_page())
 
 
 def test_login_experiment_admin(logoff):
     """
-    This test will login as the testExpAdmin.
-    Validation is on the login step.
+    **Requirements:**
 
-    :param logoff: Makes sure the session is in a logged off state at the start of the test
-    :return:
+    - 3.1.1: System shall provide user authentication
+    - 3.1.1.5: System shall allow user to log out of account
+
+    **Pre Conditions:**
+
+    - logoff fixture
+
+    **Input:**
+
+    - user = 'testExpAdmin'
+    - password = 'P@ssword10'
+
+    **Expected Results:**
+
+    User 'testPhysician' sees the home page after logging in
+
+    ========  ===============  =============
+    Steps     Expected Result  Actual Result
+    ========  ===============  =============
+    login     Login Success!
+    ========  ===============  =============
     """
-    web_sess.login('testExpAdmin', 'P@ssword10')
+    print('Starting')
+
+    user = 'testExpAdmin'
+    password = 'P@ssword10'
+
+    print('Logging in as {}/{}'.format(user, password))
+    web_sess.login(user, password)
+    print('Checking for Manage button')
     status = web_sess.check_login()
     assert status, 'Could not login: \n{}'.format(web_sess.get_page())
 
 
 def test_login_patient(logoff):
     """
-    This test will login as the testPatient.
-    Validation is on the login step.
+    **Requirements:**
 
-    :param logoff: Makes sure the session is in a logged off state at the start of the test
-    :return:
+    - 3.1.1: System shall provide user authentication
+    - 3.1.1.5: System shall allow user to log out of account
+
+    **Pre Conditions:**
+
+    - logoff fixture
+
+    **Input:**
+
+    - user = 'testPatient'
+    - password = 'P@ssword10'
+
+    **Expected Results:**
+
+    User 'testPhysician' sees the home page after logging in
+
+    ========  ===============  =============
+    Steps     Expected Result  Actual Result
+    ========  ===============  =============
+    login     Login Success!
+    ========  ===============  =============
     """
-    web_sess.login('testPatient', 'P@ssword10')
+    print('Starting')
+
+    user = 'testPatient'
+    password = 'P@ssword10'
+
+    print('Logging in as {}/{}'.format(user, password))
+    web_sess.login(user, password)
+    print('Checking for Manage button')
     status = web_sess.check_login()
     assert status, 'Could not login: \n{}'.format(web_sess.get_page())
 
 
 def test_login_system_admin(logoff):
     """
-    This test will login as the fitadmin.
-    Validation is on the login step.
+    **Requirements:**
 
-    :param logoff: Makes sure the session is in a logged off state at the start of the test
-    :return:
+    - 3.1.1: System shall provide user authentication
+    - 3.1.1.5: System shall allow user to log out of account
+
+    **Pre Conditions:**
+
+    - logoff fixture
+
+    **Input:**
+
+    - user = 'fitadmin'
+    - password = 'P@ssword10'
+
+    **Expected Results:**
+
+    User 'testPhysician' sees the home page after logging in
+
+    ========  ===============  =============
+    Steps     Expected Result  Actual Result
+    ========  ===============  =============
+    login     Login Success!
+    ========  ===============  =============
     """
-    web_sess.login('fitadmin', 'Password1!')
+    print('Starting')
+
+    user = 'fitadmin'
+    password = 'P@ssword10'
+
+    print('Logging in as {}/{}'.format(user, password))
+    web_sess.login(user, password)
     status = web_sess.check_login()
     assert status, 'Could not login: \n{}'.format(web_sess.get_page())
 
 
 def test_login_bad_pass(logoff):
     """
-    This test will verify that a user cannot login with an incorrect password
-    Validation is done by checking for "Invalid login attempt" in the web page
+    **Requirements:**
 
-    :param logoff: Makes sure the session is in a logged off state at the start of the test
-    :return:
+    - 3.1.1: System shall provide user authentication
+
+    **Pre Conditions:**
+
+    - logoff fixture
+
+    **Input:**
+
+    - user = 'testPhysician'
+    - password = '!nc0rrect'
+    - expected = 'Invalid login attempt.'
+
+    **Expected Results:**
+
+    User 'testPhysician' sees the home page after logging in
+
+    ========  ===============  =============
+    Steps     Expected Result  Actual Result
+    ========  ===============  =============
+    login     Invalid login
+    ========  ===============  =============
     """
-    web_sess.login('testPhysician', '!nc0rrect')
-    assert "Invalid login attempt." in web_sess.get_page()
+    print('Starting')
+
+    user = 'testPhysician'
+    password = '!nc0rrect'
+    expected = 'Invalid login attempt.'
+
+    print('Logging in as {}/{}'.format(user, password))
+    web_sess.login(user, password)
+    print('Checking for {} in web page'.format(expected))
+    assert expected in web_sess.get_page()
 
 
 def test_login_bad_user(logoff):
     """
-    This test will verify that a user cannot login with an incorrect username
-    Validation is done by checking for "Invalid login attempt" in the web page
+    **Requirements:**
 
-    :param logoff: Makes sure the session is in a logged off state at the start of the test
-    :return:
+    - 3.1.1: System shall provide user authentication
+
+    **Pre Conditions:**
+
+    - logoff fixture
+
+    **Input:**
+
+    - user = 'fake'
+    - password = 'P@ssword10'
+    - expected = 'Invalid login attempt.'
+
+    **Expected Results:**
+
+    User 'testPhysician' sees the home page after logging in
+
+    ========  ===============  =============
+    Steps     Expected Result  Actual Result
+    ========  ===============  =============
+    login     Invalid login
+    ========  ===============  =============
     """
-    web_sess.login('fake', 'P@ssword10')
-    assert "Invalid login attempt." in web_sess.get_page()
+    print('Starting')
+
+    user = 'fake'
+    password = '!nc0rrect'
+    expected = 'Invalid login attempt.'
+
+    print('Logging in as {}/{}'.format(user, password))
+    web_sess.login(user, password)
+    assert expected in web_sess.get_page()

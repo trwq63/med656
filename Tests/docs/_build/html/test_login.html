@@ -24,6 +24,9 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="WebUITest 1.0 documentation" href="index.html" />
+    <link rel="up" title="Tests" href="modules.html" />
+    <link rel="next" title="test_password module" href="test_password.html" />
+    <link rel="prev" title="test_edit_account module" href="test_edit_account.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
@@ -110,15 +113,38 @@ Validation is on the login step.</p>
 <dl class="function">
 <dt id="test_login.test_login_physician">
 <code class="descclassname">test_login.</code><code class="descname">test_login_physician</code><span class="sig-paren">(</span><em>logoff</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_login.html#test_login_physician"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_login.test_login_physician" title="Permalink to this definition">¶</a></dt>
-<dd><p>This test will login as the testPhysician.
-Validation is on the login step.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logoff</strong> &#8211; Makes sure the session is in a logged off state at the start of the test</td>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.1: System shall provide user authentication</li>
+<li>3.1.1.5: System shall allow user to log out of account</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>logoff fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<ul class="simple">
+<li>user = &#8216;testPhysician&#8217;</li>
+<li>password = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword">'P<span>&#64;</span>ssword</a>&#8216;</li>
+</ul>
+<p><strong>Expected Results:</strong></p>
+<p>User &#8216;testPhysician&#8217; sees the home page after logging in</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="42%" />
+<col width="36%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>login</td>
+<td>Login Success!</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -152,6 +178,10 @@ Validation is on the login step.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">Tests</a><ul>
+      <li>Previous: <a href="test_edit_account.html" title="previous chapter">test_edit_account module</a></li>
+      <li>Next: <a href="test_password.html" title="next chapter">test_password module</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>
