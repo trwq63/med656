@@ -1,0 +1,62 @@
+﻿@model UAHFitVault.Models.ViewPatientViewModel
+@using UAHFitVault.LogicLayer.Enums
+
+@{
+    ViewBag.Title = "View Patient";
+    List<string> activityTags = new List<string>();
+    activityTags.Add("All");
+    activityTags.AddRange(Enum.GetNames(typeof(ActivityType)).ToList());
+
+    for (int i = 0; i < activityTags.Count; i++)
+    {
+        activityTags[i] = activityTags[i].Replace("_", " ");
+    }
+}
+
+@if (Model != null)
+{
+    <h5>View Patient - <i>Patient #@if (Model.patient.Id.ToString() != null) { @Model.patient.Id.ToString(); }</i></h5>
+
+    <table class="centered">
+        <tr class="blue lighten-2" style="font-weight:500">
+            <td>Id</td>
+            <td>Gender</td>
+            <td>Race</td>
+            <td>Ethnicity</td>
+            <td>Age</td>
+            <td>Height<br /><font size="1">(inches)</font></td>
+            <td>Weight<br /><font size="1">(pounds)</font></td>
+            <td>Location</td>
+        </tr>
+        <tr class="blue lighten-3">
+            <td>@Model.patient.Id</td>
+            <td>@Enum.GetName(typeof(PatientGender), Model.patient.Gender)</td>
+            <td>@Enum.GetName(typeof(PatientRace), Model.patient.Race)</td>
+            <td>@Enum.GetName(typeof(PatientEthnicity), Model.patient.Ethnicity)</td>
+            <td>@((DateTime.Now - Model.patient.Birthdate).Days / 365)</td>
+            <td>@Model.patient.Height</td>
+            <td>@Model.patient.Weight</td>
+            <td>@Enum.GetName(typeof(Location), Model.patient.Location)</td>
+    </table>
+
+    <hr />
+    <table>
+    <tr>
+        <td><h5>Sessions</h5></td>
+        @using (Html.BeginForm("ViewPatient", "Experiment", FormMethod.Post))
+        {@Html.HiddenFor(m => m.patient.Id)
+        <td style="width: 200px; text-align: right">Filter by Activity Tag</td>
+        <td style="width: 250px;">@Html.DropDownListFor(m => m.ActivityTagFilter, new SelectList(activityTags),
+            new { @class = "browser-default validate" })
+        </td>
+        <td style="width: 150px;"><input type="submit" class="btn green" value="Filter" /></td>
+        }
+    </tr>
+    </table>
+    <br />
+    if (Model.ActivityTagFilter != null)
+    {
+        <h5>Displaying data filtered by @Model.ActivityTagFilter</h5>}
+    }
+<br /><h1 align="center">TBD</h1>
+

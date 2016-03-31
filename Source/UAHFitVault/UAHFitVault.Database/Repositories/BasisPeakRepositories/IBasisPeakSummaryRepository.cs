@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UAHFitVault.Database.Entities;
 using UAHFitVault.Database.Infrastructure;
 
-namespace UAHFitVault.Database.Repositories
+namespace UAHFitVault.Database.Repositories.BasisPeakRepositories
 {
     /// <summary>
     /// Interface to implement the basis peak summary repository

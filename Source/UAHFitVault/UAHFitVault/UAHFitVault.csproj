@@ -434,17 +434,20 @@
     <Content Include="Views\Physician\EditPatient.cshtml" />
     <Content Include="Views\Physician\ViewPatientData.cshtml" />
     <Content Include="Views\Physician\ResetPassword.cshtml" />
-	<Content Include="Views\Admin\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Admin\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\PatientData\Index.cshtml" />
     <Content Include="Views\Shared\_ExperimentAdminLayout.cshtml" />
     <Content Include="Views\Experiment\CreateExperiment.cshtml" />
     <Content Include="Views\Experiment\CreateExperimentConfirmation.cshtml" />
-	<Content Include="Views\Experiment\DeleteExperiment.cshtml" />
+    <Content Include="Views\Experiment\DeleteExperiment.cshtml" />
     <Content Include="Views\Experiment\DeleteExperimentConfirmation.cshtml" />
     <Content Include="Views\Experiment\ViewExperiment.cshtml" />
     <Content Include="Views\Experiment\_PartialViewExperimentCriteria.cshtml" />
     <Content Include="Views\PatientData\_PartialDataRecords.cshtml" />
     <Content Include="Views\PatientData\_PartialDataItems.cshtml" />
+    <Content Include="Views\Experiment\ViewPatient.cshtml" />
+    <Content Include="Views\Experiment\EditExperiment.cshtml" />
+    <Content Include="Views\Experiment\EditExperimentConfirmation.cshtml" />
     <None Include="Views\Shared\_PhysicianLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -70,6 +70,22 @@
     <Compile Include="IPhysicianService.cs" />
     <Compile Include="MedicalDeviceService.cs" />
     <Compile Include="AccountRequestService.cs" />
+    <Compile Include="MicrosoftBandServices\IMSBandHeartRateService.cs" />
+    <Compile Include="MicrosoftBandServices\IMSBandUVService.cs" />
+    <Compile Include="MicrosoftBandServices\IMSBandTemperatureService.cs" />
+    <Compile Include="MicrosoftBandServices\IMSBandPedometerService.cs" />
+    <Compile Include="MicrosoftBandServices\IMSBandGyroscopeService.cs" />
+    <Compile Include="MicrosoftBandServices\IMSBandDistanceService.cs" />
+    <Compile Include="MicrosoftBandServices\IMSBandCaloriesService.cs" />
+    <Compile Include="MicrosoftBandServices\IMSBandAccelService.cs" />
+    <Compile Include="MicrosoftBandServices\MSBandHeartRateService.cs" />
+    <Compile Include="MicrosoftBandServices\MSBandUVService.cs" />
+    <Compile Include="MicrosoftBandServices\MSBandTemperatureService.cs" />
+    <Compile Include="MicrosoftBandServices\MSBandPedometerService.cs" />
+    <Compile Include="MicrosoftBandServices\MSBandGyroscopeService.cs" />
+    <Compile Include="MicrosoftBandServices\MSBandDistanceService.cs" />
+    <Compile Include="MicrosoftBandServices\MSBandCaloriesService.cs" />
+    <Compile Include="MicrosoftBandServices\MSBandAccelService.cs" />
     <Compile Include="ZephyrServices\IZephyrAccelService.cs" />
     <Compile Include="ZephyrServices\IZephyrBreathingService.cs" />
     <Compile Include="ZephyrServices\IZephyrECGService.cs" />
@@ -90,10 +106,12 @@
       <Project>{cc650f84-b0a0-4c8a-a521-bb36e9f0dd87}</Project>
       <Name>UAHFitVault.Database</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UAHFitVault.LogicLayer\UAHFitVault.LogicLayer.csproj">
+      <Project>{e4fb774a-188d-4dcd-9b8b-5fc8060a9e11}</Project>
+      <Name>UAHFitVault.LogicLayer</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MicrosoftBandServices\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config">

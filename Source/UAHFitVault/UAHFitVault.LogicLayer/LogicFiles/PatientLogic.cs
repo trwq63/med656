@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using UAHFitVault.Database.Entities;
 using UAHFitVault.LogicLayer.Enums;
+using System.Text.RegularExpressions;
 
 namespace UAHFitVault.LogicLayer.LogicFiles
 {
@@ -69,6 +70,33 @@ namespace UAHFitVault.LogicLayer.LogicFiles
                         }
                         break;
                     case "Microsoft Band":
+                        if (fileName.Contains("Accel")) {
+                            fileType = File_Type.Accelerometer;
+                        }
+                        else if (fileName.Contains("Calories")) {
+                            fileType = File_Type.Calorie;
+                        }
+                        else if (fileName.Contains("Distance")) {
+                            fileType = File_Type.Distance;
+                        }
+                        else if (fileName.Contains("Gyroscope")) {
+                            fileType = File_Type.Gyroscope;
+                        }
+                        else if (fileName.Contains("HeartRate")) {
+                            fileType = File_Type.HeartRate;
+                        }
+                        else if (fileName.Contains("Pedometer")) {
+                            fileType = File_Type.Pedometer;
+                        }
+                        else if (fileName.Contains("UV")) {
+                            fileType = File_Type.UV;
+                        }
+                        else if (fileName.Contains("Temperature")) {
+                            fileType = File_Type.Temperature;
+                        }
+                        else {
+                            fileType = File_Type.Unknown;
+                        }
                         break;
                     default:
                         break;
@@ -119,7 +147,7 @@ namespace UAHFitVault.LogicLayer.LogicFiles
         /// Create a list of ZephyrECGWaveform objects from the data read from the csv file selected by the user.
         /// </summary>
         /// <param name="csvReader">csv reader object</param>
-        /// <param name="patientData">Patient data record that will be referenced by each zephyr accel data record.</param>
+        /// <param name="patientData">Patient data record that will be referenced by each zephyr ecg data record.</param>
         /// <returns></returns>
         public static List<ZephyrECGWaveform> BuildZephyrEcgDataList(CsvReader csvReader, PatientData patientData) {
             List<ZephyrECGWaveform> zephyrEcgData = null;
@@ -153,7 +181,7 @@ namespace UAHFitVault.LogicLayer.LogicFiles
         /// Create a list of ZephyrBreathingWaveform objects from the data read from the csv file selected by the user.
         /// </summary>
         /// <param name="csvReader">csv reader object</param>
-        /// <param name="patientData">Patient data record that will be referenced by each zephyr accel data record.</param>
+        /// <param name="patientData">Patient data record that will be referenced by each zephyr breathing data record.</param>
         /// <returns></returns>
         public static List<ZephyrBreathingWaveform> BuildZephyrBreathingDataList(CsvReader csvReader, PatientData patientData) {
             List<ZephyrBreathingWaveform> zephyrBreathingData = null;
@@ -187,7 +215,7 @@ namespace UAHFitVault.LogicLayer.LogicFiles
         /// Create a list of ZephyrEventData objects from the data read from the csv file selected by the user.
         /// </summary>
         /// <param name="csvReader">csv reader object</param>
-        /// <param name="patientData">Patient data record that will be referenced by each zephyr accel data record.</param>
+        /// <param name="patientData">Patient data record that will be referenced by each zephyr event data record.</param>
         /// <returns></returns>
         public static List<ZephyrEventData> BuildZephyrEventDataList(CsvReader csvReader, PatientData patientData) {
             List<ZephyrEventData> zephyrEventData = null;
@@ -232,7 +260,7 @@ namespace UAHFitVault.LogicLayer.LogicFiles
         /// Create a list of ZephyrSummaryData objects from the data read from the csv file selected by the user.
         /// </summary>
         /// <param name="csvReader">csv reader object</param>
-        /// <param name="patientData">Patient data record that will be referenced by each zephyr accel data record.</param>
+        /// <param name="patientData">Patient data record that will be referenced by each zephyr summary data record.</param>
         /// <returns></returns>
         public static List<ZephyrSummaryData> BuildZephyrSummaryDataList(CsvReader csvReader, PatientData patientData) {
             List<ZephyrSummaryData> zephyrSummaryData = null;
@@ -303,7 +331,7 @@ namespace UAHFitVault.LogicLayer.LogicFiles
         /// Create a list of BasisPeakSummaryData objects from the data read from the csv file selected by the user.
         /// </summary>
         /// <param name="csvReader">Csv reader object</param>
-        /// <param name="patientData">Patient data record that will be referenced by each zephyr accel data record.</param>
+        /// <param name="patientData">Patient data record that will be referenced by each basispeak summary data record.</param>
         /// <returns></returns>
         public static List<BasisPeakSummaryData> BuildBasisPeakSummaryDataList(CsvReader csvReader, PatientData patientData) {
             List<BasisPeakSummaryData> basisPeakSummaryData = null;
@@ -342,6 +370,359 @@ namespace UAHFitVault.LogicLayer.LogicFiles
             return basisPeakSummaryData;
         }
 
+        /// <summary>
+        /// Get the date for the data from the first line in a Microsoft band csv file.
+        /// </summary>
+        /// <param name="csvReader">csv reader object</param>
+        /// <returns></returns>
+        public static DateTime FindMSBandDate(CsvReader csvReader) {
+            //First line contains the date of the file that needs to be pulled out.
+            string dateData = string.Empty;
+
+            DateTime date = DateTime.MinValue;
+
+            //Read one time to get the column information for the first line.
+            //This will contain the date information for the file.
+            while (csvReader.ReadNextRecord()) {
+                if (csvReader != null) {
+                    //If the date has not been extracted from the file extract it.
+                    if (string.IsNullOrEmpty(dateData)) {
+                        dateData = csvReader.Columns.FirstOrDefault().Name;
+                        date = ExactMSBandFileDate(dateData);
+                    }
+                }
+                break;
+            }
+
+            return date;
+        }
+
+
+        /// <summary>
+        /// Create a list of Microsoft Band Accelerometer objects from the data read from the csv file selected by the user.
+        /// </summary>
+        /// <param name="csvReader">csv reader object</param>
+        /// <param name="patientData">Patient data record that will be referenced by each microsoft band accel data record.</param>
+        /// <param name="date">Date the data in the file was collected.</param>
+        /// <returns></returns>
+        public static List<MSBandAccelerometer> BuildMSBandAccelerometerDataList(CsvReader csvReader, PatientData patientData, DateTime date) {
+            List<MSBandAccelerometer> msBandAccelData = null;
+
+            if (csvReader != null && patientData != null && patientData.Id != null) {
+                msBandAccelData = new List<MSBandAccelerometer>();
+
+                while (csvReader.ReadNextRecord()) {
+                    if (csvReader != null) {
+                        //File should read in the following order.
+                        //Time | Lateral | Vertical | Sagittal
+                        string dateFormat = "HH:mm:ss.fff";
+                        string dateInfo = csvReader[0];
+                        DateTime dateTime;
+                        if (DateTime.TryParseExact(dateInfo, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime)) {
+                            date = new DateTime(date.Year, date.Month, date.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond);
+                            MSBandAccelerometer msBandAccel = new MSBandAccelerometer() {
+                                Date = date,
+                                Lateral = (float)Convert.ToDouble(csvReader[1]),
+                                Vertical = (float)Convert.ToDouble(csvReader[2]),
+                                Sagittal = (float)Convert.ToDouble(csvReader[3]),
+                                PatientDataId = patientData.Id
+                            };
+                            msBandAccelData.Add(msBandAccel);
+                        }
+                    }
+                }
+            }
+
+            return msBandAccelData;
+        }
+
+
+        /// <summary>
+        /// Create a list of Microsoft Band Calorie objects from the data read from the csv file selected by the user.
+        /// </summary>
+        /// <param name="csvReader">csv reader object</param>
+        /// <param name="patientData">Patient data record that will be referenced by each microsoft band calories data record.</param>
+        /// <param name="date">Date the data in the file was collected.</param>
+        /// <returns></returns>
+        public static List<MSBandCalories> BuildMSBandCalorieDataList(CsvReader csvReader, PatientData patientData, DateTime date) {
+            List<MSBandCalories> msBandCalorieData = null;
+
+            if (csvReader != null && patientData != null && patientData.Id != null) {
+                msBandCalorieData = new List<MSBandCalories>();
+
+                while (csvReader.ReadNextRecord()) {
+                    if (csvReader != null) {
+                        //File should read in the following order.
+                        //Time | Total
+                        string dateFormat = "HH:mm:ss";
+                        string dateInfo = csvReader[0];
+                        DateTime dateTime;
+                        if (DateTime.TryParseExact(dateInfo, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime)) {
+                            date = new DateTime(date.Year, date.Month, date.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
+                            MSBandCalories msBandCalories = new MSBandCalories() {
+                                Date = date,
+                                Total = Convert.ToInt32(csvReader[1]),
+                                PatientDataId = patientData.Id
+                            };
+                            msBandCalorieData.Add(msBandCalories);
+                        }
+                    }
+                }
+            }
+
+            return msBandCalorieData;
+        }
+
+
+        /// <summary>
+        /// Create a list of Microsoft Band Distance objects from the data read from the csv file selected by the user.
+        /// </summary>
+        /// <param name="csvReader">csv reader object</param>
+        /// <param name="patientData">Patient data record that will be referenced by each microsoft band distance data record.</param>
+        /// <param name="date">Date the data in the file was collected.</param>
+        /// <returns></returns>
+        public static List<MSBandDistance> BuildMSBandDistanceDataList(CsvReader csvReader, PatientData patientData, DateTime date) {
+            List<MSBandDistance> msBandDistanceData = null;
+
+            if (csvReader != null && patientData != null && patientData.Id != null) {
+                msBandDistanceData = new List<MSBandDistance>();
+
+                while (csvReader.ReadNextRecord()) {
+                    if (csvReader != null) {
+                        //File should read in the following order.
+                        //Time | Motion Type | Pace | Speed | Total
+                        string dateFormat = "HH:mm:ss";
+                        string dateInfo = csvReader[0];
+                        DateTime dateTime;
+                        if (DateTime.TryParseExact(dateInfo, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime)) {
+                            date = new DateTime(date.Year, date.Month, date.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
+                            MSBandDistance msBandDistance = new MSBandDistance() {
+                                Date = date,
+                                MotionType = csvReader[1],
+                                Pace = (float)Convert.ToDouble(csvReader[2]),
+                                Speed = (float)Convert.ToDouble(csvReader[3]),
+                                Total = (float)Convert.ToDouble(csvReader[4]),
+                                PatientDataId = patientData.Id
+                            };
+                            msBandDistanceData.Add(msBandDistance);
+                        }
+                    }
+                }
+            }
+
+            return msBandDistanceData;
+        }
+
+        /// <summary>
+        /// Create a list of Microsoft Band Gyroscope objects from the data read from the csv file selected by the user.
+        /// </summary>
+        /// <param name="csvReader">csv reader object</param>
+        /// <param name="patientData">Patient data record that will be referenced by each microsoft band gyroscope data record.</param>
+        /// <param name="date">Date the data in the file was collected.</param>
+        /// <returns></returns>
+        public static List<MSBandGyroscope> BuildMSBandGyroscopeDataList(CsvReader csvReader, PatientData patientData, DateTime date) {
+            List<MSBandGyroscope> msBandGyroscopeData = null;
+
+            if (csvReader != null && patientData != null && patientData.Id != null) {
+                msBandGyroscopeData = new List<MSBandGyroscope>();
+
+                while (csvReader.ReadNextRecord()) {
+                    if (csvReader != null) {
+                        //File should read in the following order.
+                        //Timestamp | X | Y | Z
+                        string dateFormat = "HH:mm:ss";
+                        string dateInfo = csvReader[0];
+                        DateTime dateTime;
+                        if (DateTime.TryParseExact(dateInfo, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime)) {
+                            date = new DateTime(date.Year, date.Month, date.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
+                            MSBandGyroscope msBandGyroscope = new MSBandGyroscope() {
+                                Timestamp = date,
+                                X = (float)Convert.ToDouble(csvReader[1]),
+                                Y = (float)Convert.ToDouble(csvReader[2]),
+                                Z = (float)Convert.ToDouble(csvReader[3]),
+                                PatientDataId = patientData.Id
+                            };
+                            msBandGyroscopeData.Add(msBandGyroscope);
+                        }
+                    }
+                }
+            }
+
+            return msBandGyroscopeData;
+        }
+
+
+        /// <summary>
+        /// Create a list of Microsoft Band Heart Rate objects from the data read from the csv file selected by the user.
+        /// </summary>
+        /// <param name="csvReader">csv reader object</param>
+        /// <param name="patientData">Patient data record that will be referenced by each microsoft band heart rate data record.</param>
+        /// <param name="date">Date the data in the file was collected.</param>
+        /// <returns></returns>
+        public static List<MSBandHeartRate> BuildMSBandHeartRateDataList(CsvReader csvReader, PatientData patientData, DateTime date) {
+            List<MSBandHeartRate> msBandHeartRateData = null;
+
+            if (csvReader != null && patientData != null && patientData.Id != null) {
+                msBandHeartRateData = new List<MSBandHeartRate>();
+
+                while (csvReader.ReadNextRecord()) {
+                    if (csvReader != null) {
+                        //File should read in the following order.
+                        //Date | Read status | HeartRate
+                        string dateFormat = "HH:mm:ss";
+                        string dateInfo = csvReader[0];
+                        DateTime dateTime;
+                        if (DateTime.TryParseExact(dateInfo, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime)) {
+                            date = new DateTime(date.Year, date.Month, date.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
+                            MSBandHeartRate msBandHeartRate = new MSBandHeartRate() {
+                                Date = date,
+                                ReadStatus = csvReader[1],
+                                HeartRate = Convert.ToInt32(csvReader[2]),
+                                PatientDataId = patientData.Id
+                            };
+                            msBandHeartRateData.Add(msBandHeartRate);
+                        }
+                    }
+                }
+            }
+
+            return msBandHeartRateData;
+        }
+
+
+        /// <summary>
+        /// Create a list of Microsoft Band Pedometer objects from the data read from the csv file selected by the user.
+        /// </summary>
+        /// <param name="csvReader">csv reader object</param>
+        /// <param name="patientData">Patient data record that will be referenced by each microsoft band pedometer data record.</param>
+        /// <param name="date">Date the data in the file was collected.</param>
+        /// <returns></returns>
+        public static List<MSBandPedometer> BuildMSBandPedometerDataList(CsvReader csvReader, PatientData patientData, DateTime date) {
+            List<MSBandPedometer> msBandPedometerData = null;
+
+            if (csvReader != null && patientData != null && patientData.Id != null) {
+                msBandPedometerData = new List<MSBandPedometer>();
+
+                while (csvReader.ReadNextRecord()) {
+                    if (csvReader != null) {
+                        //File should read in the following order.
+                        //Date | Steps
+                        string dateFormat = "HH:mm:ss";
+                        string dateInfo = csvReader[0];
+                        DateTime dateTime;
+                        if (DateTime.TryParseExact(dateInfo, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime)) {
+                            date = new DateTime(date.Year, date.Month, date.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
+                            MSBandPedometer msBandPedometer = new MSBandPedometer() {
+                                Date = date,
+                                Steps = Convert.ToInt32(csvReader[1]),
+                                PatientDataId = patientData.Id
+                            };
+                            msBandPedometerData.Add(msBandPedometer);
+                        }
+                    }
+                }
+            }
+
+            return msBandPedometerData;
+        }
+
+
+        /// <summary>
+        /// Create a list of Microsoft Band Temperature objects from the data read from the csv file selected by the user.
+        /// </summary>
+        /// <param name="csvReader">csv reader object</param>
+        /// <param name="patientData">Patient data record that will be referenced by each microsoft band temperature data record.</param>
+        /// <param name="date">Date the data in the file was collected.</param>
+        /// <returns></returns>
+        public static List<MSBandTemperature> BuildMSBandTemperatureDataList(CsvReader csvReader, PatientData patientData, DateTime date) {
+            List<MSBandTemperature> msBandTemperatureData = null;
+
+            if (csvReader != null && patientData != null && patientData.Id != null) {
+                msBandTemperatureData = new List<MSBandTemperature>();
+
+                while (csvReader.ReadNextRecord()) {
+                    if (csvReader != null) {
+                        //File should read in the following order.
+                        //Date | Temperature
+                        string dateFormat = "HH:mm:ss";
+                        string dateInfo = csvReader[0];
+                        DateTime dateTime;
+                        if (DateTime.TryParseExact(dateInfo, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime)) {
+                            date = new DateTime(date.Year, date.Month, date.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
+                            MSBandTemperature msBandTemperature = new MSBandTemperature() {
+                                Date = date,
+                                Temperature = (float)Convert.ToDouble(csvReader[1]),
+                                PatientDataId = patientData.Id
+                            };
+                            msBandTemperatureData.Add(msBandTemperature);
+                        }
+                    }
+                }
+            }
+
+            return msBandTemperatureData;
+        }
+
+
+        /// <summary>
+        /// Create a list of Microsoft Band UV objects from the data read from the csv file selected by the user.
+        /// </summary>
+        /// <param name="csvReader">csv reader object</param>
+        /// <param name="patientData">Patient data record that will be referenced by each microsoft band uv data record.</param>
+        /// <param name="date">Date the data in the file was collected.</param>
+        /// <returns></returns>
+        public static List<MSBandUV> BuildMSBandUVDataList(CsvReader csvReader, PatientData patientData, DateTime date) {
+            List<MSBandUV> msBandUVData = null;
+
+            if (csvReader != null && patientData != null && patientData.Id != null) {
+                msBandUVData = new List<MSBandUV>();
+
+                while (csvReader.ReadNextRecord()) {
+                    if (csvReader != null) {
+                        //File should read in the following order.
+                        //Date | UVIndex
+                        string dateFormat = "HH:mm:ss";
+                        string dateInfo = csvReader[0];
+                        DateTime dateTime;
+                        if (DateTime.TryParseExact(dateInfo, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime)) {
+                            date = new DateTime(date.Year, date.Month, date.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
+                            MSBandUV msBandUV = new MSBandUV() {
+                                Date = date,
+                                UVIndex = Convert.ToInt32(csvReader[1]),
+                                PatientDataId = patientData.Id
+                            };
+                            msBandUVData.Add(msBandUV);
+                        }
+                    }
+                }
+            }
+
+            return msBandUVData;
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// Read the date out of text from a cell in csv file.
+        /// </summary>
+        /// <param name="data">Text from csv file that contains date of date collected.</param>
+        /// <returns></returns>
+        private static DateTime ExactMSBandFileDate(string data) {
+            Regex regex = new Regex(@"\d+-\d+-\d+");
+            DateTime date;
+            try {
+                date = DateTime.Parse(regex.Match(data).Value);
+            }
+            catch (Exception ex) {
+                //Currently no error handling is developed into the system.
+                Console.WriteLine(ex.Message);
+                return DateTime.MinValue;
+            }
+
+            return date;
+        }
 
         #endregion
     }
