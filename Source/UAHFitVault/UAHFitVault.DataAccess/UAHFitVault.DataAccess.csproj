@@ -57,7 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityService.cs" />
     <Compile Include="ExperimentService.cs" />
+    <Compile Include="IActivityService.cs" />
     <Compile Include="IAccountRequestService.cs" />
     <Compile Include="BasisPeakServices\BasisPeakSummaryService.cs" />
     <Compile Include="BasisPeakServices\IBasisPeakSummaryService.cs" />

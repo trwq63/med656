@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 
@@ -34,6 +35,11 @@ namespace UAHFitVault.Models
         /// </summary>
         [Required]
         public string MedicalDeviceType { get; set; }
+
+        /// <summary>
+        /// User defined activities for the uploaded data set.
+        /// </summary>
+        public List<ActivityModel> Activities { get; set; }
 
         #endregion
 

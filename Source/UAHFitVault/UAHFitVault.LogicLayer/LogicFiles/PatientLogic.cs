@@ -700,6 +700,22 @@ namespace UAHFitVault.LogicLayer.LogicFiles
             return msBandUVData;
         }
 
+        /// <summary>
+        /// Verify the activity created by the user.
+        /// </summary>
+        /// <param name="activity"></param>
+        /// <returns></returns>
+        public static bool IsActivityValid(Activity activity) {
+            bool valid = false;
+            if(activity.StartTime != DateTime.MinValue && activity.EndTime != DateTime.MinValue
+                && activity.StartTime <= activity.EndTime && activity.StartTime.Year != 1
+                && activity.EndTime.Year != 1) {
+
+                valid = true;
+            }
+            return valid;
+        }
+
         #endregion
 
         #region Private Methods
