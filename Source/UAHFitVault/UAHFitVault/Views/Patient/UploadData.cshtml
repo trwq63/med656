@@ -8,7 +8,7 @@
     List<string> activityTypes = new List<string>() {
         "Select Activity Type"
     };
-    activityTypes.AddRange(Enum.GetNames(typeof(ActivityType)).Cast<string>().Select(z => z.Replace("_", " ")).ToList());
+    activityTypes.AddRange(Enum.GetNames(typeof(ActivityType)).Cast<string>().ToList());
 }
 
 @section headers{    
@@ -61,18 +61,18 @@
         <div class="divider grey section-divider"></div>
         <div>
             <label class="black-text">Add Activities</label>
-            <table id="activityTable" class="responsive-table centered">
-                <tbody>
+            <table class="responsive-table centered">
+                <tbody id="activityTable" >
                     <tr>
                         <td>
                             <div class="input-field col s4">
-                                <select name="Activities[0].ActivityType">
+                                <select name="Activities[0].ActivityType" class="activity_type">
                                     @foreach (string activityType in activityTypes) {
                                         if (activityType == activityTypes.First()) {
                                             <option value="" disabled selected>@activityType</option>
                                         }
                                         else {
-                                            <option value="@activityType">@activityType</option>
+                                            <option value="@activityType">@activityType.Replace("_", " ")</option>
                                         }
                                     }
                                 </select>
@@ -144,14 +144,17 @@
             
             newEntry.find('input').val('');
 
+            var activityType = $('.activity_type').last();
             var activityDate = $('.activity_date').last();
             var startTime = $('.startTime').last();
             var endTime = $('.endTime').last();
 
+            var typeAttr = 'Activities[' + tableIndex + '].ActivityType';
             var dateAttr = 'Activities[' + tableIndex + '].ActivityDate';
             var startTimeAttr = 'Activities[' + tableIndex + '].StartTime';
             var endTimeAttr = 'Activities[' + tableIndex + '].EndTime';
 
+            activityType.attr('name', typeAttr);
             activityDate.attr('name', dateAttr);
             startTime.attr('name', startTimeAttr);            
             endTime.attr('name', endTimeAttr);
