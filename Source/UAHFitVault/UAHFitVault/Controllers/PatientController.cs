@@ -112,6 +112,11 @@ namespace UAHFitVault.Controllers
         /// Service object for accessing Microsoft Band UV database functions.
         /// </summary>
         private readonly IMSBandUVService _msBandUVService;
+
+        /// <summary>
+        /// Service object for access activities database functions.
+        /// </summary>
+        private readonly IActivityService _activityService;
         
         #endregion
 
@@ -174,6 +179,7 @@ namespace UAHFitVault.Controllers
         /// <param name="msBandPedometerService">Service object for accessing Microsoft Band Pedometer database functions.</param>
         /// <param name="msBandTemperatureService">Service object for accessing Microsoft Band Temperature database functions.</param>
         /// <param name="msBandUVService">Service object for accessing Microsoft Band UV database functions.</param>
+        /// <param name="activityService">Service object for accessing activity database functions.</param>
         public PatientController(IPatientDataService patientDataService, IZephyrAccelService zephyrAccelService,
                                     IZephyrBreathingService breathingService, IZephyrECGService ecgService,
                                     IZephyrEventDataService eventDataService, IZephyrSummaryService summaryService,
@@ -182,7 +188,7 @@ namespace UAHFitVault.Controllers
                                     IMSBandCaloriesService msBandCaloriesService, IMSBandDistanceService msBandDistanceService, 
                                     IMSBandGyroscopeService msBandGyroscopeService, IMSBandHeartRateService msBandHeartRateService, 
                                     IMSBandPedometerService msBandPedometerService, IMSBandTemperatureService msBandTemperatureService,
-                                    IMSBandUVService msBandUVService) {
+                                    IMSBandUVService msBandUVService, IActivityService activityService) {
 
             _patientDataService = patientDataService;
             _zephyrAccelService = zephyrAccelService;
@@ -201,6 +207,7 @@ namespace UAHFitVault.Controllers
             _msBandPedometerService = msBandPedometerService;
             _msBandTemperatureService = msBandTemperatureService;
             _msBandUVService = msBandUVService;
+            _activityService = activityService;
 
         }
         #endregion
@@ -241,12 +248,13 @@ namespace UAHFitVault.Controllers
 
             MedicalDevice medicalDevice = PatientLogic.DetermineDeviceType(MedicalDevices, model.MedicalDeviceType);
 
+            //If one file is sucessfully inserted then activities need to be inserted if any were entered.
+            bool insertActivities = false;
+
             foreach (HttpPostedFileBase file in model.Files) { 
                 
                 File_Type fileType = PatientLogic.DetermineFileType(file.FileName, medicalDevice);
-
-                //var user = System.Web.HttpContext.Current.User.Identity.GetUserId();
-
+                
                 Patient patient = _patientService.GetPatient(UserManager.FindById(User.Identity.GetUserId()).PatientId);
 
                 PatientData patientData = new PatientData() {
@@ -259,26 +267,46 @@ namespace UAHFitVault.Controllers
                     MedicalDeviceId = medicalDevice.Id,
                     Patient = patient
                 };
+                                
+                bool result = false;
 
                 if(medicalDevice.Name == Device_Type.BasisPeak.ToString()) {
-                    ProcessBasisPeakData(file, patientData);
+                    result = ProcessBasisPeakData(file, patientData);
+                    if (result) {
+                        insertActivities = true;
+                    }
                 }
                 else if(medicalDevice.Name == Device_Type.Zephyr.ToString()) { 
                     switch (fileType) {
                         case File_Type.Accelerometer:
-                            ProcessZephyrAccelData(file, patientData);
+                            result = ProcessZephyrAccelData(file, patientData);
+                            if (result) {
+                                insertActivities = true;
+                            }
                             break;
                         case File_Type.Breathing:
-                            ProcessZephyrBreathingData(file, patientData);
+                            result = ProcessZephyrBreathingData(file, patientData);
+                            if (result) {
+                                insertActivities = true;
+                            }
                             break;
                         case File_Type.ECG:
-                            ProcessZephyrECGData(file, patientData);
+                            result = ProcessZephyrECGData(file, patientData);
+                            if (result) {
+                                insertActivities = true;
+                            }
                             break;
                         case File_Type.EventData:
-                            ProcessZephyrEventData(file, patientData);
+                            result = ProcessZephyrEventData(file, patientData);
+                            if (result) {
+                                insertActivities = true;
+                            }
                             break;
                         case File_Type.Summary:
-                            ProcessZephyrSummaryData(file, patientData);
+                            result = ProcessZephyrSummaryData(file, patientData);
+                            if (result) {
+                                insertActivities = true;
+                            }
                             break;
                         default:
                             break;
@@ -287,34 +315,62 @@ namespace UAHFitVault.Controllers
                 else if(medicalDevice.Name.Trim() == Device_Type.Microsoft_Band.ToString().Replace("_", " ")) {
                     switch (fileType) {
                         case File_Type.Accelerometer:
-                            ProcessMSBandAccelData(file, patientData);
+                            result = ProcessMSBandAccelData(file, patientData);
+                            if (result) {
+                                insertActivities = true;
+                            }
                             break;
                         case File_Type.Calorie:
-                            ProcessMSBandCalorieData(file, patientData);
+                            result = ProcessMSBandCalorieData(file, patientData);
+                            if (result) {
+                                insertActivities = true;
+                            }
                             break;
                         case File_Type.Distance:
-                            ProcessMSBandDistanceData(file, patientData);
+                            result = ProcessMSBandDistanceData(file, patientData);
+                            if (result) {
+                                insertActivities = true;
+                            }
                             break;
                         case File_Type.Gyroscope:
-                            ProcessMSBandGyroscopeData(file, patientData);
+                            result = ProcessMSBandGyroscopeData(file, patientData);
+                            if (result) {
+                                insertActivities = true;
+                            }
                             break;
                         case File_Type.HeartRate:
-                            ProcessMSBandHeartRateData(file, patientData);
+                            result = ProcessMSBandHeartRateData(file, patientData);
+                            if (result) {
+                                insertActivities = true;
+                            }
                             break;
                         case File_Type.Pedometer:
-                            ProcessMSBandPedometerData(file, patientData);
+                            result = ProcessMSBandPedometerData(file, patientData);
+                            if (result) {
+                                insertActivities = true;
+                            }
                             break;
                         case File_Type.Temperature:
-                            ProcessMSBandTemperatureData(file, patientData);
+                            result = ProcessMSBandTemperatureData(file, patientData);
+                            if (result) {
+                                insertActivities = true;
+                            }
                             break;
                         case File_Type.UV:
-                            ProcessMSBandUVData(file, patientData);
+                            result = ProcessMSBandUVData(file, patientData);
+                            if (result) {
+                                insertActivities = true;
+                            }
                             break;
                         default:
                             break;
                     }
                 }
-            }           
+            }
+
+            if (insertActivities && model.Activities.Count > 0) {
+                InsertActivities(model.Activities);
+            }
 
             return RedirectToAction("Index", "PatientData");
         }
@@ -326,7 +382,7 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="file"></param>
         /// <param name="patientData"></param>
-        protected void ProcessBasisPeakData(HttpPostedFileBase file, PatientData patientData) {
+        protected bool ProcessBasisPeakData(HttpPostedFileBase file, PatientData patientData) {
             List<BasisPeakSummaryData> basisPeakSummaryData = null;
 
             Stream stream = file.InputStream;
@@ -343,7 +399,10 @@ namespace UAHFitVault.Controllers
 
                 //Bulk insert zephyr excel records
                 _basisPeakService.BulkInsert(basisPeakSummaryData);
+                return true;
             }
+
+            return false;
         }
 
         /// <summary>
@@ -351,7 +410,7 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="file">Zephyr accel file selected for upload from view.</param>
         /// <param name="patientData">Patient data record created for the patient for this accel data.</param>
-        protected void ProcessZephyrAccelData(HttpPostedFileBase file, PatientData patientData) {
+        protected bool ProcessZephyrAccelData(HttpPostedFileBase file, PatientData patientData) {
             List<ZephyrAccelerometer> zephyrAccelData = null;
 
             Stream stream = file.InputStream;
@@ -367,7 +426,11 @@ namespace UAHFitVault.Controllers
 
                 //Bulk insert zephyr excel records
                 _zephyrAccelService.BulkInsert(zephyrAccelData);
+
+                return true;
             }
+
+            return false;
         }
 
         /// <summary>
@@ -375,7 +438,7 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="file">Zephyr ecg file selected for upload from view.</param>
         /// <param name="patientData">Patient data record created for the patient for this accel data.</param>
-        protected void ProcessZephyrECGData(HttpPostedFileBase file, PatientData patientData) {
+        protected bool ProcessZephyrECGData(HttpPostedFileBase file, PatientData patientData) {
             List<ZephyrECGWaveform> zephyrEcgData = null;
 
             Stream stream = file.InputStream;
@@ -391,7 +454,11 @@ namespace UAHFitVault.Controllers
 
                 //Bulk insert zephyr excel records
                 _ecgService.BulkInsert(zephyrEcgData);
+
+                return true;
             }
+
+            return false;
         }
 
         /// <summary>
@@ -399,7 +466,7 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="file">Zephyr breathing file selected for upload from view.</param>
         /// <param name="patientData">Patient data record created for the patient for this accel data.</param>
-        protected void ProcessZephyrBreathingData(HttpPostedFileBase file, PatientData patientData) {
+        protected bool ProcessZephyrBreathingData(HttpPostedFileBase file, PatientData patientData) {
             List<ZephyrBreathingWaveform> zephyrBreathingData = null;
 
             Stream stream = file.InputStream;
@@ -415,7 +482,11 @@ namespace UAHFitVault.Controllers
 
                 //Bulk insert zephyr excel records
                 _breathingService.BulkInsert(zephyrBreathingData);
+
+                return true;
             }
+
+            return false;
         }
 
 
@@ -424,7 +495,7 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="file">Zephyr breathing file selected for upload from view.</param>
         /// <param name="patientData">Patient data record created for the patient for this accel data.</param>
-        protected void ProcessZephyrEventData(HttpPostedFileBase file, PatientData patientData) {
+        protected bool ProcessZephyrEventData(HttpPostedFileBase file, PatientData patientData) {
             List<ZephyrEventData> zephyrEventData = null;
 
             Stream stream = file.InputStream;
@@ -440,7 +511,11 @@ namespace UAHFitVault.Controllers
 
                 //Bulk insert zephyr excel records
                 _eventDataService.BulkInsert(zephyrEventData);
+
+                return true;
             }
+
+            return false;
         }
 
 
@@ -449,7 +524,7 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="file">Zephyr breathing file selected for upload from view.</param>
         /// <param name="patientData">Patient data record created for the patient for this accel data.</param>
-        protected void ProcessZephyrSummaryData(HttpPostedFileBase file, PatientData patientData) {
+        protected bool ProcessZephyrSummaryData(HttpPostedFileBase file, PatientData patientData) {
             List<ZephyrSummaryData> zephyrSummaryData = null;
 
             Stream stream = file.InputStream;
@@ -465,7 +540,11 @@ namespace UAHFitVault.Controllers
 
                 //Bulk insert zephyr excel records
                 _summaryService.BulkInsert(zephyrSummaryData);
+
+                return true;
             }
+
+            return false;
         }
 
         /// <summary>
@@ -473,7 +552,7 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="file">Microsoft Band accel file selected for upload from view.</param>
         /// <param name="patientData">Patient data record created for the patient for this accel data.</param>
-        protected void ProcessMSBandAccelData(HttpPostedFileBase file, PatientData patientData) {
+        protected bool ProcessMSBandAccelData(HttpPostedFileBase file, PatientData patientData) {
             List<MSBandAccelerometer> msBandAccelData = null;
 
             Stream stream = file.InputStream;
@@ -500,8 +579,11 @@ namespace UAHFitVault.Controllers
 
                 //Bulk insert
                 _msBandAccelService.BulkInsert(msBandAccelData);
+
+                return true;
             }
-            
+
+            return false;         
         }
 
         /// <summary>
@@ -509,7 +591,7 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="file">Microsoft Band calorie file selected for upload from view.</param>
         /// <param name="patientData">Patient data record created for the patient for this calorie data.</param>
-        protected void ProcessMSBandCalorieData(HttpPostedFileBase file, PatientData patientData) {
+        protected bool ProcessMSBandCalorieData(HttpPostedFileBase file, PatientData patientData) {
             List<MSBandCalories> msBandCalorieData = null;
 
             Stream stream = file.InputStream;
@@ -536,8 +618,10 @@ namespace UAHFitVault.Controllers
 
                 //Bulk insert 
                 _msBandCaloriesService.BulkInsert(msBandCalorieData);
-            }
 
+                return true;
+            }
+            return false;
         }
 
 
@@ -546,7 +630,7 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="file">Microsoft Band distance file selected for upload from view.</param>
         /// <param name="patientData">Patient data record created for the patient for this distance data.</param>
-        protected void ProcessMSBandDistanceData(HttpPostedFileBase file, PatientData patientData) {
+        protected bool ProcessMSBandDistanceData(HttpPostedFileBase file, PatientData patientData) {
             List<MSBandDistance> msBandDistanceData = null;
 
             Stream stream = file.InputStream;
@@ -573,8 +657,11 @@ namespace UAHFitVault.Controllers
 
                 //Bulk insert 
                 _msBandDistanceService.BulkInsert(msBandDistanceData);
+
+                return true;
             }
 
+            return false;
         }
 
 
@@ -583,7 +670,7 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="file">Microsoft Band gyroscope file selected for upload from view.</param>
         /// <param name="patientData">Patient data record created for the patient for this gyroscope data.</param>
-        protected void ProcessMSBandGyroscopeData(HttpPostedFileBase file, PatientData patientData) {
+        protected bool ProcessMSBandGyroscopeData(HttpPostedFileBase file, PatientData patientData) {
             List<MSBandGyroscope> msBandGyroscopeData = null;
 
             Stream stream = file.InputStream;
@@ -610,8 +697,11 @@ namespace UAHFitVault.Controllers
 
                 //Bulk insert 
                 _msBandGyroscopeService.BulkInsert(msBandGyroscopeData);
+
+                return true;
             }
 
+            return false;
         }
 
         /// <summary>
@@ -619,7 +709,7 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="file">Microsoft Band heart rate file selected for upload from view.</param>
         /// <param name="patientData">Patient data record created for the patient for this heart rate data.</param>
-        protected void ProcessMSBandHeartRateData(HttpPostedFileBase file, PatientData patientData) {
+        protected bool ProcessMSBandHeartRateData(HttpPostedFileBase file, PatientData patientData) {
             List<MSBandHeartRate> msBandHeartRateData = null;
 
             Stream stream = file.InputStream;
@@ -646,8 +736,11 @@ namespace UAHFitVault.Controllers
 
                 //Bulk insert 
                 _msBandHeartRateService.BulkInsert(msBandHeartRateData);
+
+                return true;
             }
 
+            return false;
         }
 
         /// <summary>
@@ -655,7 +748,7 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="file">Microsoft Band pedometer file selected for upload from view.</param>
         /// <param name="patientData">Patient data record created for the patient for this pedometer data.</param>
-        protected void ProcessMSBandPedometerData(HttpPostedFileBase file, PatientData patientData) {
+        protected bool ProcessMSBandPedometerData(HttpPostedFileBase file, PatientData patientData) {
             List<MSBandPedometer> msBandPedometerData = null;
 
             Stream stream = file.InputStream;
@@ -682,8 +775,11 @@ namespace UAHFitVault.Controllers
 
                 //Bulk insert 
                 _msBandPedometerService.BulkInsert(msBandPedometerData);
+
+                return true;
             }
 
+            return false;
         }
 
 
@@ -692,7 +788,7 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="file">Microsoft Band temperature file selected for upload from view.</param>
         /// <param name="patientData">Patient data record created for the patient for this temperature data.</param>
-        protected void ProcessMSBandTemperatureData(HttpPostedFileBase file, PatientData patientData) {
+        protected bool ProcessMSBandTemperatureData(HttpPostedFileBase file, PatientData patientData) {
             List<MSBandTemperature> msBandTemperatureData = null;
 
             Stream stream = file.InputStream;
@@ -719,8 +815,11 @@ namespace UAHFitVault.Controllers
 
                 //Bulk insert 
                 _msBandTemperatureService.BulkInsert(msBandTemperatureData);
+
+                return true;
             }
 
+            return false;
         }
 
         /// <summary>
@@ -728,7 +827,7 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="file">Microsoft Band uv file selected for upload from view.</param>
         /// <param name="patientData">Patient data record created for the patient for this uv data.</param>
-        protected void ProcessMSBandUVData(HttpPostedFileBase file, PatientData patientData) {
+        protected bool ProcessMSBandUVData(HttpPostedFileBase file, PatientData patientData) {
             List<MSBandUV> msBandUVData = null;
 
             Stream stream = file.InputStream;
@@ -755,8 +854,30 @@ namespace UAHFitVault.Controllers
 
                 //Bulk insert 
                 _msBandUVService.BulkInsert(msBandUVData);
+
+                return true;
             }
 
+            return false;
+        }
+
+        /// <summary>
+        /// Insert activities the user wants associated with the data into the database.
+        /// </summary>
+        /// <param name="activityModels">List of activities created by the user.</param>
+        protected void InsertActivities(List<ActivityModel> activityModels) {            
+            foreach(ActivityModel model in activityModels) {
+                if (model.ActivityType != null) {
+                    Activity activity = new Activity() {
+                        DataActivity = (int)Enum.Parse(typeof(ActivityType), model.ActivityType),
+                        StartTime = model.StartTime,
+                        EndTime = model.EndTime
+                    };
+                    if (PatientLogic.IsActivityValid(activity)) {
+                        _activityService.CreateActivity(activity);
+                    }
+                }
+            }
         }
 
         #endregion
