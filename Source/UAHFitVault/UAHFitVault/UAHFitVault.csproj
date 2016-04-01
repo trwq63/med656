@@ -450,6 +450,7 @@
     <Content Include="Views\Experiment\EditExperimentConfirmation.cshtml" />
     <Content Include="Views\Physician\ViewExperiments.cshtml" />
     <Content Include="Views\Physician\ViewExperiment.cshtml" />
+    <Content Include="Views\Physician\ViewExperimentPatient.cshtml" />
     <None Include="Views\Shared\_PhysicianLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>

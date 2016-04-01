@@ -478,6 +478,19 @@ namespace UAHFitVault.Controllers
 
             return View(model);
         }
+
+        /// <summary>
+        /// Display the information for the patient in the experiment
+        /// </summary>
+        /// <param name="patientId">Id for the patient</param>
+        /// <returns></returns>
+        public ActionResult ViewExperimentPatient (int patientId)
+        {
+            ViewPatientViewModel model = new ViewPatientViewModel();
+            model.ActivityTagFilter = "All";
+            model.patient = _patientService.GetPatient(patientId);
+            return View(model);
+        }
         #endregion
 
         #region Private Functions
