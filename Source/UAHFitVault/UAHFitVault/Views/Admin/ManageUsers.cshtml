@@ -19,45 +19,55 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (UserInfoModel user in Model.Users) {
-                <tr class="@(!string.IsNullOrEmpty(user.Role) ? user.Role.ToString().Replace(" ", "_") : "None") roleRow">
-                    <td>@Html.DisplayFor(i => user.FullName)</td>
-                    @if (!string.IsNullOrEmpty(user.Role)) {
-                        <td>@Html.DisplayFor(i => user.Role)</td>
-                    }
-                    else {
-                        <td>None</td>
-                    }
-                    <td>@user.Status.ToString()</td>
-                    <td>
-                        @{
-                            int index = Model.Users.IndexOf(user);
-                            string enableButtonId = "btnEnable" + index;
-                            string disableButtonId = "btnDisable" + index;
-                            string deleteButtonId = "btnDelete" + index;
-                            string resetPasswordButtonId = "btnResetPassword" + index;
-                        }
-                        @if (user.Status == Account_Status.Inactive) {
-                            <button id="@enableButtonId" class="waves-effect waves-light btn blue" onclick="enableUser(this)" value="@user.UserId">
-                                Enable
-                            </button>
-                        }
-                        else if (user.Status == Account_Status.Active) {
-                            <button id="@disableButtonId" class="waves-effect waves-light btn red" onclick="rejectUser(this)" value="@user.UserId">
-                                Disable
-                            </button>
-                        }
-                        <button id="@deleteButtonId" class="waves-effect waves-light btn grey" onclick="deleteUser(this)" value="@user.UserId">
-                            <i class="material-icons left">delete</i>
-                            Delete
-                        </button>
-                        @{/* Glen: I couldn't figure out how to get the ajax post to accept the userId and reload the view, so I passed the parameter with the location.href.*/}
-                        <button id="@resetPasswordButtonId" class="waves-effect waves-light btn green" onclick="location.href = '/Admin/ResetPassword?userId=@user.UserId';">
-                            Reset Password
-                        </button>
-                    </td>
-                </tr>
+            @if (Model.Users==null)
+            {
             }
+            else
+            {
+                foreach (UserInfoModel user in Model.Users)
+                {
+                    <tr class="@(!string.IsNullOrEmpty(user.Role) ? user.Role.ToString().Replace(" ", "_") : "None") roleRow">
+                        <td>@Html.DisplayFor(i => user.FullName)</td>
+                        @if (!string.IsNullOrEmpty(user.Role))
+                        {
+                            <td>@Html.DisplayFor(i => user.Role)</td>
+                        }
+                        else {
+                            <td>None</td>
+                        }
+                        <td>@user.Status.ToString()</td>
+                        <td>
+                            @{
+                                int index = Model.Users.IndexOf(user);
+                                string enableButtonId = "btnEnable" + index;
+                                string disableButtonId = "btnDisable" + index;
+                                string deleteButtonId = "btnDelete" + index;
+                                string resetPasswordButtonId = "btnResetPassword" + index;
+                            }
+                            @if (user.Status == Account_Status.Inactive)
+                            {
+                                <button id="@enableButtonId" class="waves-effect waves-light btn blue" onclick="enableUser(this)" value="@user.UserId">
+                                    Enable
+                                </button>
+                            }
+                            else if (user.Status == Account_Status.Active)
+                            {
+                                <button id="@disableButtonId" class="waves-effect waves-light btn red" onclick="rejectUser(this)" value="@user.UserId">
+                                    Disable
+                                </button>
+                            }
+                            <button id="@deleteButtonId" class="waves-effect waves-light btn grey" onclick="deleteUser(this)" value="@user.UserId">
+                                <i class="material-icons left">delete</i>
+                                Delete
+                            </button>
+                            @{/* Glen: I couldn't figure out how to get the ajax post to accept the userId and reload the view, so I passed the parameter with the location.href.*/}
+                            <button id="@resetPasswordButtonId" class="waves-effect waves-light btn green" onclick="location.href = '/Admin/ResetPassword?userId=@user.UserId';">
+                                Reset Password
+                            </button>
+                        </td>
+                    </tr>
+                 }
+              }
         </tbody>
     </table>
 </div>
