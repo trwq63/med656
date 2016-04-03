@@ -113,6 +113,14 @@ namespace UAHFitVault.DataAccess
             return null;
         }
 
+        /// <summary>
+        /// Gets all of the experiments in the database
+        /// </summary>
+        public IEnumerable<Experiment> GetAllExperiments ()
+        {
+            return _experimentRepository.GetAll();
+        }
+
 
         /// <summary>
         /// Retrieve the patients for an experiment
