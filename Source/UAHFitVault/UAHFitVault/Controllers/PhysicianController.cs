@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,11 @@ namespace UAHFitVault.Controllers
         /// </summary>
         private readonly IPhysicianService _physicianService;
 
+        /// <summary>
+        /// Interface for the experiment service to access experiment database queries
+        /// </summary>
+        private readonly IExperimentService _experimentService;
+
         #endregion
 
         #region Private Properties
@@ -57,10 +63,12 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="patientService">Interface for the patient service to access patient database queries</param>
         /// <param name="physicianService">Interface for the physician service to access physician database queries</param>
-        public PhysicianController(IPatientService patientService, IPhysicianService physicianService)
+        /// <param name="experimentService">Interface for the experiment service to access experiment database queries</param>
+        public PhysicianController(IPatientService patientService, IPhysicianService physicianService, IExperimentService experimentService)
         {
             _patientService = patientService;
-            _physicianService = physicianService;            
+            _physicianService = physicianService;
+            _experimentService = experimentService;       
         }
 
         #endregion
@@ -416,9 +424,120 @@ namespace UAHFitVault.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Displays the view for all of the experiments in the system
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ViewExperiments ()
+        {
+            ViewAllExperimentsViewModel model = new ViewAllExperimentsViewModel();
+            model.Experiments = new List<Experiment>();
+            model.ExperimentCriteria = new List<ExperimentViewModel>();
+
+            try
+            {
+                List<Experiment> experiments = _experimentService.GetAllExperiments().ToList();
+                model.Experiments.AddRange(experiments);
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+            }
+
+            foreach (Experiment exp in model.Experiments)
+            {
+                model.ExperimentCriteria.Add(JsonConvert.DeserializeObject<ExperimentViewModel>(exp.QueryString));
+            }
+            return View(model);
+        }
+
+        /// <summary>
+        /// Displays the experiment information for a specific experiment in the system
+        /// </summary>
+        /// <param name="experimentName">Name of the experiment to view information</param>
+        /// <returns></returns>
+        public ActionResult ViewExperiment (string experimentName, string experimentOwner)
+        {
+            ViewExperimentViewModel model = new ViewExperimentViewModel();
+            model.criteriaModel = new ViewExperimentCriteriaViewModel();
+
+            if (experimentName != null)
+            {
+                model.experimentName = experimentName;
+            }
+
+            ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            int userId = manager.FindByName(experimentOwner).ExperimentAdministratorId;
+            Experiment experiment = _experimentService.GetExperimentByName(experimentName, userId);
+            model.patientList = GetPatientsForExperiment(experiment);   // Get the patients from the database
+
+            ExperimentViewModel temp = new ExperimentViewModel();
+            temp = JsonConvert.DeserializeObject<ExperimentViewModel>(experiment.QueryString);
+
+            model.criteriaModel.experiment = temp;
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Display the information for the patient in the experiment
+        /// </summary>
+        /// <param name="patientId">Id for the patient</param>
+        /// <returns></returns>
+        public ActionResult ViewExperimentPatient (int patientId)
+        {
+            ViewPatientViewModel model = new ViewPatientViewModel();
+            model.ActivityTagFilter = "All";
+            model.patient = _patientService.GetPatient(patientId);
+            return View(model);
+        }
         #endregion
 
         #region Private Functions
+
+        /// <summary>
+        /// Gets the patients matched with an experiment
+        /// </summary>
+        /// <param name="experiment">Experiment to match the patients with</param>
+        /// <returns></returns>
+        private List<Patient> GetPatientsForExperiment(Experiment experiment)
+        {
+            List<Patient> patientList = new List<Patient>();
+
+            ExperimentViewModel model = JsonConvert.DeserializeObject<ExperimentViewModel>(experiment.QueryString);
+            ExperimentCriteria criteria = CopyModelToCriteria(model);
+
+            IEnumerable<Patient> patients = _experimentService.GetPatientsForExperiment(criteria);
+            if (patients != null)
+            {
+                patientList.AddRange(patients);
+            }
+
+            return patientList;
+        }
+
+        /// <summary>
+        /// Copy the members of the model to an ExperimentCriteria object
+        /// </summary>
+        /// <param name="model">Model</param>
+        /// <returns></returns>
+        private ExperimentCriteria CopyModelToCriteria(ExperimentViewModel model)
+        {
+            ExperimentCriteria criteria = new ExperimentCriteria();
+
+            criteria.ageRangeEnd = model.ageRangeEnd;
+            criteria.ageRangeStart = model.ageRangeStart;
+            criteria.heightRangeEnd = model.heightRangeEnd;
+            criteria.heightRangeBegin = model.heightRangeBegin;
+            criteria.weightRangeBegin = model.weightRangeBegin;
+            criteria.weightRangeEnd = model.weightRangeEnd;
+            criteria.selectedGenders = model.selectedGenders;
+            criteria.selectedRaces = model.selectedRaces;
+            criteria.selectedEthnicities = model.selectedEthnicities;
+            criteria.selectedLocations = model.selectedLocations;
+
+            return criteria;
+        }
 
         /// <summary>
         /// Checks if the user is already in the database.

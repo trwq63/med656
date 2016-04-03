@@ -45,6 +45,12 @@ namespace UAHFitVault.DataAccess
         /// <param name="experimentAdminId">Id of the experiment administrator</param>
         /// <returns></returns>
         IEnumerable<Experiment> GetExperiments(int experimentAdminId);
+
+        /// <summary>
+        /// Gets all of the experiments in the database
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<Experiment> GetAllExperiments();
         
         /// <summary>
         /// Retrieve the patients for an experiment
