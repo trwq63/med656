@@ -19,19 +19,26 @@ namespace UAHFitVault.LogicLayer.LogicFiles
         /// <summary>
         /// Determine which type of medical device was entered by the user.
         /// </summary>
-        /// <param name="medicalDeviceTypes">List of medical devices in the system.</param>
-        /// <param name="deviceType">User selected medical device.</param>
+        /// <param name="filename">patient data record file name</param>
         /// <returns></returns>
-        public static MedicalDevice DetermineDeviceType(List<MedicalDevice> medicalDeviceTypes, string deviceType) {
-            MedicalDevice medicalDevice = null;
+        public static Device_Type DetermineDeviceType(string filename) {
+            Device_Type deviceType = Device_Type.Unknown;
 
-
-            if(medicalDeviceTypes != null && medicalDeviceTypes.Count > 0 && !string.IsNullOrEmpty(deviceType)) {
-                medicalDeviceTypes.RemoveAll(item => item == null);
-                medicalDevice = medicalDeviceTypes.FirstOrDefault(m => m.Name == deviceType);
+            if (!string.IsNullOrEmpty(filename)) {
+                if (filename.Contains("Accelerometer")) {
+                    deviceType = Device_Type.Microsoft_Band;
+                }
+                else if (filename.Contains("Accel")) {
+                    deviceType = Device_Type.Zephyr;
+                }
+                else if (filename.Contains("bodymetrics")) {
+                    deviceType = Device_Type.BasisPeak;
+                }
+                else if (filename.Contains("Summary")) {
+                    deviceType = Device_Type.Zephyr;
+                }
             }
-
-            return medicalDevice;
+            return deviceType;
         }
 
         /// <summary>

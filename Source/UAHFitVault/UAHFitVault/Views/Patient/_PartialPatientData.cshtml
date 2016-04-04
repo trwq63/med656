@@ -1,0 +1,22 @@
+﻿@using UAHFitVault.Models;
+@using UAHFitVault.Database.Entities;
+
+@model List<ExportViewModel>
+
+
+
+@foreach(ExportViewModel patient in Model) { 
+    <div class="verticalSelect verticalSelect--isOffScreen" data-patient="@patient.PatientId">
+        <div class="verticalSelect__header">
+            Patent Data Files
+        </div>
+        <ul class="verticalSelect__selectList">
+            @foreach (PatientData data in patient.PatientData) {
+                <li class="verticalSelect__select" data-patient="@patient.PatientId)">
+                    <input id="@data.Id" type="radio" name="radio" value="@data.Id" />
+                    <label class="verticalSelect__label" for="@data.Id">@data.Name</label>
+                </li>
+            }
+        </ul>
+    </div>
+ }           

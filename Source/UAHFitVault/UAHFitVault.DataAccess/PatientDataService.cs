@@ -42,7 +42,7 @@ namespace UAHFitVault.DataAccess
             if (patient == null)
                 return _repository.GetAll();
             else
-                return _repository.GetAll().Where(r => r.Patient.Id == patient.Id);
+                return _repository.GetMany(r => r.Patient.Id == patient.Id);
         }
 
         /// <summary>

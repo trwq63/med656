@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using UAHFitVault.DataAccess;
@@ -15,6 +16,7 @@ using UAHFitVault.Helpers;
 using UAHFitVault.LogicLayer.Enums;
 using UAHFitVault.LogicLayer.LogicFiles;
 using UAHFitVault.Models;
+using UAHFitVault.Helpers;
 
 namespace UAHFitVault.Controllers
 {
@@ -117,6 +119,11 @@ namespace UAHFitVault.Controllers
         /// Service object for access activities database functions.
         /// </summary>
         private readonly IActivityService _activityService;
+
+        /// <summary>
+        /// Service object for access to physician database functions.
+        /// </summary>
+        private readonly IPhysicianService _physicianService;
         
         #endregion
 
@@ -180,6 +187,7 @@ namespace UAHFitVault.Controllers
         /// <param name="msBandTemperatureService">Service object for accessing Microsoft Band Temperature database functions.</param>
         /// <param name="msBandUVService">Service object for accessing Microsoft Band UV database functions.</param>
         /// <param name="activityService">Service object for accessing activity database functions.</param>
+        /// <param name="physicianService">Service object for accessing physician database functions.</param>
         public PatientController(IPatientDataService patientDataService, IZephyrAccelService zephyrAccelService,
                                     IZephyrBreathingService breathingService, IZephyrECGService ecgService,
                                     IZephyrEventDataService eventDataService, IZephyrSummaryService summaryService,
@@ -188,7 +196,7 @@ namespace UAHFitVault.Controllers
                                     IMSBandCaloriesService msBandCaloriesService, IMSBandDistanceService msBandDistanceService, 
                                     IMSBandGyroscopeService msBandGyroscopeService, IMSBandHeartRateService msBandHeartRateService, 
                                     IMSBandPedometerService msBandPedometerService, IMSBandTemperatureService msBandTemperatureService,
-                                    IMSBandUVService msBandUVService, IActivityService activityService) {
+                                    IMSBandUVService msBandUVService, IActivityService activityService, IPhysicianService physicianService) {
 
             _patientDataService = patientDataService;
             _zephyrAccelService = zephyrAccelService;
@@ -208,6 +216,7 @@ namespace UAHFitVault.Controllers
             _msBandTemperatureService = msBandTemperatureService;
             _msBandUVService = msBandUVService;
             _activityService = activityService;
+            _physicianService = physicianService;
 
         }
         #endregion
@@ -219,6 +228,167 @@ namespace UAHFitVault.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        /// <summary>
+        /// Find all the patient or patients that have data records available to export to display on the view.
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Export() {
+            List<ExportViewModel> viewModel = new List<ExportViewModel>();
+
+            if (User.IsInRole(UserRole.Patient.ToString())) {
+                Patient patient = _patientService.GetPatient(UserManager.FindById(User.Identity.GetUserId()).PatientId);
+                if(patient.PatientData.Count > 0) {
+                    ExportViewModel model = new ExportViewModel() {
+                        PatientId = patient.Id,
+                        Username = User.Identity.Name,
+                        PatientData = patient.PatientData
+                    };
+                    viewModel.Add(model);
+                }
+            }
+            else if (User.IsInRole(UserRole.Physician.ToString())) {
+                Physician physician = _physicianService.GetPhysician(UserManager.FindById(User.Identity.GetUserId()).PhysicianId);
+                foreach (Patient patient in physician.Patients) {
+                    if(patient.PatientData.Count > 0) {
+                        ExportViewModel model = new ExportViewModel() {
+                            PatientId = patient.Id,
+                            Username = User.Identity.Name,
+                            PatientData = patient.PatientData
+                        };
+                        viewModel.Add(model);
+                    }
+                }
+            }
+
+            return View(viewModel);
+        }
+
+        /// <summary>
+        /// Export the contents of the patient data record to the user's harddrive.
+        /// </summary>
+        /// <param name="patientDataId"></param>
+        /// <returns></returns>
+        public string ExportData(string path, string patientDataId) {
+
+            PatientData patientData = _patientDataService.GetPatientData(patientDataId);
+
+            List<string> columnNames = new List<string>();
+            CsvExport export = new CsvExport();
+            
+
+            switch (patientData.DataType) {
+                case (int)File_Type.Accelerometer :
+                    Device_Type deviceType = PatientLogic.DetermineDeviceType(patientData.Name);
+                    switch (deviceType) {
+                        case Device_Type.Zephyr:
+                            break;
+                        case Device_Type.Microsoft_Band:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case (int)File_Type.Breathing:
+                    break;
+                case (int)File_Type.Calorie:
+                    IEnumerable<MSBandCalories> calorieData = _msBandCaloriesService.GetMSBandCaloriesData(patientData);
+                    foreach (MSBandCalories data in calorieData) {
+                        export.AddRow();
+                        export["Time Stamp"] = data.Date;
+                        export["Total Calories(kCal)"] = data.Total;
+                    }
+                    break;
+                case (int)File_Type.Distance:
+                    IEnumerable<MSBandDistance> distanceData = _msBandDistanceService.GetMSBandDistanceData(patientData);
+                    foreach (MSBandDistance data in distanceData) {
+                        export.AddRow();
+                        export["Time Stamp"] = data.Date;
+                        export["Motion Type"] = data.MotionType;
+                        export["Pace(min/km)"] = data.Pace;
+                        export["Speed(km/hr)"] = data.Speed;
+                        export["Total(km)"] = data.Total;
+                    }
+                    break;
+                case (int)File_Type.ECG:
+                    IEnumerable<ZephyrECGWaveform> ecgData = _ecgService.GetZephyrECGWaveFormData(patientData);
+                    var test = typeof(ZephyrECGWaveform).GetProperties();
+                    break;
+                case (int)File_Type.EventData:
+                    IEnumerable<ZephyrEventData> eventData = _eventDataService.GetZephyrEventData(patientData);
+                    foreach (ZephyrEventData data in eventData) {
+                        export.AddRow();
+                        export["SeqNo"] = "0";
+                        export["Time Stamp"] = data.Date;
+                        export["EventCode"] = data.EventCode;
+                        export["Type"] = data.Type;
+                        export["Source"] = data.Source;
+                        export["EventID"] = data.EventId;
+                        export["EventSpecificData"] = data.EventSpecificData;
+                    }
+                    break;
+                case (int)File_Type.Gyroscope:
+                    IEnumerable<MSBandGyroscope> gyroscopeData = _msBandGyroscopeService.GetMSBandGyroscopeData(patientData);
+                    foreach (MSBandGyroscope data in gyroscopeData) {
+                        export.AddRow();
+                        export["Time Stamp"] = data.Date;
+                        export["X-Axis(Â°/s)"] = data.X;
+                        export["Y-Axis(Â°/s)"] = data.Y;
+                        export["Z-Axis(Â°/s)"] = data.Z;
+                    }
+                    break;
+                case (int)File_Type.HeartRate:
+                    IEnumerable<MSBandHeartRate> heartRateData = _msBandHeartRateService.GetMSBandHeartRateData(patientData);
+                    foreach (MSBandHeartRate data in heartRateData) {
+                        export.AddRow();
+                        export["Time Stamp"] = data.Date;
+                        export["Read Status"] = data.ReadStatus;
+                        export["Heart Rate(bpm)"] = data.HeartRate;
+                    }
+                    break;
+                case (int)File_Type.Pedometer:
+                    IEnumerable<MSBandPedometer> pedometerData = _msBandPedometerService.GetMSBandPedometerData(patientData);
+                    foreach (MSBandPedometer data in pedometerData) {
+                        export.AddRow();
+                        export["Time Stamp"] = data.Date;
+                        export["Steps"] = data.Steps;
+                    }
+                    break;
+                case (int)File_Type.Summary:
+                    Device_Type deviceType = PatientLogic.DetermineDeviceType(patientData.Name);
+                    switch (deviceType) {
+                        case Device_Type.Zephyr:
+                            break;
+                        case Device_Type.BasisPeak:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case (int)File_Type.Temperature:
+                    IEnumerable<MSBandTemperature> temperatureData = _msBandTemperatureService.GetMSBandTemperatureData(patientData);
+                    foreach (MSBandTemperature data in temperatureData) {
+                        export.AddRow();
+                        export["Time Stamp"] = data.Date;
+                        export["Temperature(Â°C)"] = data.Temperature;
+                    }
+                    break;
+                case (int)File_Type.UV:                    
+                    IEnumerable<MSBandUV> uvData = _msBandUVService.GetMSBandUVData(patientData);
+                    foreach (MSBandUV data in uvData) {
+                        export.AddRow();
+                        export["Time Stamp"] = data.Date;
+                        export["UV Index (0-4)"] = data.UVIndex;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            export.ExportToFile(@path + "\\" + patientData.Name);
+
+            return null;
         }
 
         /// <summary>
