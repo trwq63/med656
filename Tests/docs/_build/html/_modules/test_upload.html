@@ -39,47 +39,216 @@
             
   <h1>Source code for test_upload</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">WebUI.WebUI</span> <span class="kn">import</span> <span class="n">WebUI</span>
-<span class="kn">import</span> <span class="nn">pymysql</span>
 
-<span class="c1">#db = pymysql.connect()</span>
 <span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="test_single_file_no_activity"><a class="viewcode-back" href="../test_upload.html#test_upload.test_single_file_no_activity">[docs]</a><span class="k">def</span> <span class="nf">test_single_file_no_activity</span><span class="p">(</span><span class="n">login_tpatient</span><span class="p">):</span>
-    <span class="n">activity_dict</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="s1">&#39;./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv&#39;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
 
-    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">upload_files</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">activity_dict</span><span class="p">)</span>
+<span class="sd">    - 3.1.2: System shall process medical data</span>
+<span class="sd">    - 3.1.2.1: System shall process one or more medical data file at a time</span>
+<span class="sd">    - 3.1.2.3: There will be an interface to select data and activities</span>
+<span class="sd">    - 3.1.2.5: System shall process CSV files</span>
+<span class="sd">    - 3.2.4.2: System shall support Basis Peak data</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - login_tpatient fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+<span class="sd">    - activity_dict = {}</span>
+<span class="sd">    - file = &#39;./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv&#39;</span>
+
+
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    Steps            Expected Result    Actual Result</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    empty</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">activity_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="nb">file</span> <span class="o">=</span> <span class="s1">&#39;./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv&#39;</span>
+
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">upload_files</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">activity_dict</span><span class="p">)</span>
     <span class="k">assert</span> <span class="s1">&#39;upload success&#39;</span> <span class="ow">in</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="test_multi_file_no_activity"><a class="viewcode-back" href="../test_upload.html#test_upload.test_multi_file_no_activity">[docs]</a><span class="k">def</span> <span class="nf">test_multi_file_no_activity</span><span class="p">(</span><span class="n">login_tpatient</span><span class="p">):</span>
-    <span class="n">activity_dict</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="s1">&#39;./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv; ./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_BB.csv&#39;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
 
-    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">upload_files</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">activity_dict</span><span class="p">)</span>
+<span class="sd">    - 3.1.2: System shall process medical data</span>
+<span class="sd">    - 3.1.2.1: System shall process one or more medical data file at a time</span>
+<span class="sd">    - 3.1.2.3: There will be an interface to select data and activities</span>
+<span class="sd">    - 3.1.2.5: System shall process CSV files</span>
+
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - login_tpatient fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+<span class="sd">    - activity_dict = {}</span>
+<span class="sd">    - files = &#39;./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv; ./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_BB.csv&#39;</span>
+
+
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    Steps            Expected Result    Actual Result</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    empty</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">activity_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="s1">&#39;./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv; ./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_BB.csv&#39;</span>
+
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">upload_files</span><span class="p">(</span><span class="n">files</span><span class="p">,</span><span class="n">activity_dict</span><span class="p">)</span>
     <span class="k">assert</span> <span class="s1">&#39;upload success&#39;</span> <span class="ow">in</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="test_single_file_one_activity"><a class="viewcode-back" href="../test_upload.html#test_upload.test_single_file_one_activity">[docs]</a><span class="k">def</span> <span class="nf">test_single_file_one_activity</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
+
+<span class="sd">    - 3.1.2: System shall process medical data</span>
+<span class="sd">    - 3.1.2.1: System shall process one or more medical data file at a time</span>
+<span class="sd">    - 3.1.2.2: System shall provide ability to assign activity</span>
+<span class="sd">    - 3.1.2.3: There will be an interface to select data and activities</span>
+<span class="sd">    - 3.1.2.5: System shall process CSV files</span>
+
+
+<span class="sd">    **Pre Conditions:**</span>
+
+
+<span class="sd">    **Input:**</span>
+
+
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    Steps            Expected Result    Actual Result</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    empty</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="bp">False</span></div>
 
 <div class="viewcode-block" id="test_multi_file_one_activity"><a class="viewcode-back" href="../test_upload.html#test_upload.test_multi_file_one_activity">[docs]</a><span class="k">def</span> <span class="nf">test_multi_file_one_activity</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
+
+<span class="sd">    - 3.1.2: System shall process medical data</span>
+<span class="sd">    - 3.1.2.1: System shall process one or more medical data file at a time</span>
+<span class="sd">    - 3.1.2.2: System shall provide ability to assign activity</span>
+<span class="sd">    - 3.1.2.3: There will be an interface to select data and activities</span>
+<span class="sd">    - 3.1.2.5: System shall process CSV files</span>
+
+
+<span class="sd">    **Pre Conditions:**</span>
+
+
+<span class="sd">    **Input:**</span>
+
+
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    Steps            Expected Result    Actual Result</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    empty</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="bp">False</span></div>
 
 <div class="viewcode-block" id="test_single_file_multi_activity"><a class="viewcode-back" href="../test_upload.html#test_upload.test_single_file_multi_activity">[docs]</a><span class="k">def</span> <span class="nf">test_single_file_multi_activity</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
+
+<span class="sd">    - 3.1.2: System shall process medical data</span>
+<span class="sd">    - 3.1.2.1: System shall process one or more medical data file at a time</span>
+<span class="sd">    - 3.1.2.2: System shall provide ability to assign activity</span>
+<span class="sd">    - 3.1.2.3: There will be an interface to select data and activities</span>
+<span class="sd">    - 3.1.2.5: System shall process CSV files</span>
+
+
+<span class="sd">    **Pre Conditions:**</span>
+
+
+<span class="sd">    **Input:**</span>
+
+
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    Steps            Expected Result    Actual Result</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    empty</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="bp">False</span></div>
 
 <div class="viewcode-block" id="test_multi_file_multi_activity"><a class="viewcode-back" href="../test_upload.html#test_upload.test_multi_file_multi_activity">[docs]</a><span class="k">def</span> <span class="nf">test_multi_file_multi_activity</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
+
+<span class="sd">    - 3.1.2: System shall process medical data</span>
+<span class="sd">    - 3.1.2.1: System shall process one or more medical data file at a time</span>
+<span class="sd">    - 3.1.2.2: System shall provide ability to assign activity</span>
+<span class="sd">    - 3.1.2.3: There will be an interface to select data and activities</span>
+<span class="sd">    - 3.1.2.5: System shall process CSV files</span>
+
+
+<span class="sd">    **Pre Conditions:**</span>
+
+
+<span class="sd">    **Input:**</span>
+
+
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    Steps            Expected Result    Actual Result</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    empty</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="bp">False</span></div>
 
 <div class="viewcode-block" id="test_zephyr_data_upload"><a class="viewcode-back" href="../test_upload.html#test_upload.test_zephyr_data_upload">[docs]</a><span class="k">def</span> <span class="nf">test_zephyr_data_upload</span><span class="p">():</span>
-    <span class="k">assert</span> <span class="bp">False</span></div>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
 
-<div class="viewcode-block" id="test_basis_peak_data_upload"><a class="viewcode-back" href="../test_upload.html#test_upload.test_basis_peak_data_upload">[docs]</a><span class="k">def</span> <span class="nf">test_basis_peak_data_upload</span><span class="p">():</span>
+<span class="sd">    - 3.2.4.1: System shall support Zephyr data</span>
+<span class="sd">    - 3.1.2.6: System will process raw data files</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+
+<span class="sd">    **Input:**</span>
+
+
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    Steps            Expected Result    Actual Result</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    empty</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="bp">False</span></div>
 
 <div class="viewcode-block" id="test_mband_data_upload"><a class="viewcode-back" href="../test_upload.html#test_upload.test_mband_data_upload">[docs]</a><span class="k">def</span> <span class="nf">test_mband_data_upload</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
+
+<span class="sd">    - 3.2.4.3: System shall support Microsoft Band data</span>
+
+
+<span class="sd">    **Pre Conditions:**</span>
+
+
+<span class="sd">    **Input:**</span>
+
+
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    Steps            Expected Result    Actual Result</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    empty</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="bp">False</span></div>
 </pre></div>
 

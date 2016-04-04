@@ -26,7 +26,7 @@ def test_single_file_no_activity(login_tpatient):
     ===============  =================  =============
     Steps            Expected Result    Actual Result
     ===============  =================  =============
-
+    empty
     ===============  =================  =============
     """
     activity_dict = {}
@@ -59,7 +59,7 @@ def test_multi_file_no_activity(login_tpatient):
     ===============  =================  =============
     Steps            Expected Result    Actual Result
     ===============  =================  =============
-
+    empty
     ===============  =================  =============
     """
     activity_dict = {}
@@ -89,7 +89,7 @@ def test_single_file_one_activity():
     ===============  =================  =============
     Steps            Expected Result    Actual Result
     ===============  =================  =============
-
+    empty
     ===============  =================  =============
     """
     assert False
@@ -114,7 +114,7 @@ def test_multi_file_one_activity():
     ===============  =================  =============
     Steps            Expected Result    Actual Result
     ===============  =================  =============
-
+    empty
     ===============  =================  =============
     """
     assert False
@@ -139,7 +139,7 @@ def test_single_file_multi_activity():
     ===============  =================  =============
     Steps            Expected Result    Actual Result
     ===============  =================  =============
-
+    empty
     ===============  =================  =============
     """
     assert False
@@ -164,7 +164,7 @@ def test_multi_file_multi_activity():
     ===============  =================  =============
     Steps            Expected Result    Actual Result
     ===============  =================  =============
-
+    empty
     ===============  =================  =============
     """
     assert False
@@ -185,7 +185,7 @@ def test_zephyr_data_upload():
     ===============  =================  =============
     Steps            Expected Result    Actual Result
     ===============  =================  =============
-
+    empty
     ===============  =================  =============
     """
     assert False
@@ -206,7 +206,7 @@ def test_mband_data_upload():
     ===============  =================  =============
     Steps            Expected Result    Actual Result
     ===============  =================  =============
-
+    empty
     ===============  =================  =============
     """
     assert False

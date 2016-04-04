@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="WebUITest 1.0 documentation" href="index.html" />
-    <link rel="up" title="Tests" href="modules.html" />
+    <link rel="up" title="Pytest Tests" href="modules.html" />
     <link rel="next" title="test_edit_account module" href="test_edit_account.html" />
     <link rel="prev" title="setup_db module" href="setup_db.html" />
    
@@ -45,15 +45,58 @@
 <dl class="function">
 <dt id="test_create_account.test_create_experiment_admin">
 <code class="descclassname">test_create_account.</code><code class="descname">test_create_experiment_admin</code><span class="sig-paren">(</span><em>logoff</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_create_account.html#test_create_experiment_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_create_experiment_admin" title="Permalink to this definition">¶</a></dt>
-<dd><p>This test will request an Exp Admin account of awong, approve the account and login as this user
-Validation is done at the request account and login steps.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logoff</strong> &#8211; Makes sure the web session is in a logged off state at the start of the test</td>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.1.1.3.1: minimum information stored for experiment admin account</li>
+<li>3.1.1.1.4.2: System Administrators shall be able to enable users</li>
+<li>3.1.1.7: Experiment administrators create their own accounts</li>
+<li>3.1.1.7.1: System Administrators shall verify the creation of a experiment admin account</li>
+<li>3.1.6.1: The system shall allow account creation</li>
+<li>3.1.6.1.1: The system shall force account approval for experiment admins</li>
+<li>3.1.1.4: System requires a minimum security criteria</li>
+<li>3.1.1.4.1: Password must be at least 10 characters</li>
+<li>3.1.1.4.2: Password shall contain at least 1 upper and 1 lower case character</li>
+<li>3.1.1.4.3: Password shall contain at least 1 number</li>
+<li>3.1.1.4.4: Password shall contain at least 1 special character</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>logoff fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<ul class="simple">
+<li>user = &#8216;awong&#8217;</li>
+<li>pwd = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
+<li>email = <a class="reference external" href="mailto:'awong&#37;&#52;&#48;futurama&#46;com">'awong<span>&#64;</span>futurama<span>&#46;</span>com</a>&#8216;</li>
+<li>first_name = &#8216;Amy&#8217;</li>
+<li>last_name = &#8216;Wong&#8217;</li>
+<li>address = &#8216;304 Wherever Street, New New York City, New New York&#8217;</li>
+<li>phone_number = &#8216;123-456-7890&#8217;</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="38%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>request account</td>
+<td>Request confirmed</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>approve account</td>
+<td>Admin can approve</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>login</td>
+<td>User can login</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -62,15 +105,57 @@ Validation is done at the request account and login steps.</p>
 <dl class="function">
 <dt id="test_create_account.test_create_patient">
 <code class="descclassname">test_create_account.</code><code class="descname">test_create_patient</code><span class="sig-paren">(</span><em>login_tphysician</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_create_account.html#test_create_patient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_create_patient" title="Permalink to this definition">¶</a></dt>
-<dd><p>This test will create a patient account of pfry from the tphysician login and login as pfry
-Validation is done on the create patient step and login step</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>login_tphysician</strong> &#8211; Makes sure the web session is logged in as tphysician at the start of the test</td>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.1.1.1.1: minimum information stored for patient account</li>
+<li>3.1.1.1.2.5: Physician user can add a patient to the system</li>
+<li>3.1.1.3.1: Display patient ID to physician at the time of creation</li>
+<li>3.1.1.7.2: Physicians shall create their patients accounts</li>
+<li>3.1.6.1: The system shall allow account creation</li>
+<li>3.1.6.1.2: Patients shall not need approval for account creation</li>
+<li>3.1.1.4: System requires a minimum security criteria</li>
+<li>3.1.1.4.1: Password must be at least 10 characters</li>
+<li>3.1.1.4.2: Password shall contain at least 1 upper and 1 lower case character</li>
+<li>3.1.1.4.3: Password shall contain at least 1 number</li>
+<li>3.1.1.4.4: Password shall contain at least 1 special character</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>login_tphysician fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<ul class="simple">
+<li>user = &#8216;pfry&#8217;</li>
+<li>pwd = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
+<li>bday = &#8216;3 March, 1954&#8217;</li>
+<li>loc = &#8216;Alabama&#8217;</li>
+<li>wght = &#8216;200&#8217;</li>
+<li>hght = &#8216;72&#8217;</li>
+<li>gen = &#8216;male&#8217;</li>
+<li>race = &#8216;white&#8217;</li>
+<li>eth = &#8216;non_hispanic&#8217;</li>
+<li>physician = &#8216;testPhysician&#8217;</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="33%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>create patient account</td>
+<td>No error msgs</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>login as patient</td>
+<td>Patient can login</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -79,15 +164,58 @@ Validation is done on the create patient step and login step</p>
 <dl class="function">
 <dt id="test_create_account.test_create_physician">
 <code class="descclassname">test_create_account.</code><code class="descname">test_create_physician</code><span class="sig-paren">(</span><em>logoff</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_create_account.html#test_create_physician"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_create_physician" title="Permalink to this definition">¶</a></dt>
-<dd><p>This test will request an Physician account of hfarnsworth, approve the account and login as this user
-Validation is done at the request account and login steps.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logoff</strong> &#8211; Makes sure the web session is in a logged off state at the start of the test</td>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.1.1.2.1: minimum information stored for physician account</li>
+<li>3.1.1.1.4.2: System Administrators shall be able to enable users</li>
+<li>3.1.1.7: Physicians create their own accounts</li>
+<li>3.1.1.7.1: System Administrators shall verify the creation of a physician account</li>
+<li>3.1.6.1: The system shall allow account creation</li>
+<li>3.1.6.1.1: The system shall force account approval for physicians</li>
+<li>3.1.1.4: System requires a minimum security criteria</li>
+<li>3.1.1.4.1: Password must be at least 10 characters</li>
+<li>3.1.1.4.2: Password shall contain at least 1 upper and 1 lower case character</li>
+<li>3.1.1.4.3: Password shall contain at least 1 number</li>
+<li>3.1.1.4.4: Password shall contain at least 1 special character</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>logoff fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<ul class="simple">
+<li>user = &#8216;hfarnswroth&#8217;</li>
+<li>pwd = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
+<li>email = <a class="reference external" href="mailto:'hfarnsworth&#37;&#52;&#48;futurama&#46;com">'hfarnsworth<span>&#64;</span>futurama<span>&#46;</span>com</a>&#8216;</li>
+<li>first_name = &#8216;Hubert&#8217;</li>
+<li>last_name = &#8216;Farnsworth&#8217;</li>
+<li>address = &#8216;304 Wherever Street, New New York City, New New York&#8217;</li>
+<li>phone_number = &#8216;123-456-7890&#8217;</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="38%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>request account</td>
+<td>Request confirmed</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>approve account</td>
+<td>Admin can approve</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>login</td>
+<td>User can login</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -96,15 +224,40 @@ Validation is done at the request account and login steps.</p>
 <dl class="function">
 <dt id="test_create_account.test_delete_experiment_admin">
 <code class="descclassname">test_create_account.</code><code class="descname">test_delete_experiment_admin</code><span class="sig-paren">(</span><em>logoff</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_create_account.html#test_delete_experiment_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_delete_experiment_admin" title="Permalink to this definition">¶</a></dt>
-<dd><p>This test will delete an experiment admin account using the System Admin account and verify the user cannot login
-Validation is done on the login step</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logoff</strong> &#8211; Makes sure the web session is in a logged off state at the start of the test</td>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.6.3: System administrator can delete accounts</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>logoff fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<ul class="simple">
+<li>user = &#8216;awong&#8217;</li>
+<li>username = &#8216;Amy Wong&#8217;</li>
+<li>pwd = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="48%" />
+<col width="31%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>delete experiment admin account</td>
+<td>No error msgs</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>login as patient</td>
+<td>User cannot login</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -113,16 +266,41 @@ Validation is done on the login step</p>
 <dl class="function">
 <dt id="test_create_account.test_delete_patient">
 <code class="descclassname">test_create_account.</code><code class="descname">test_delete_patient</code><span class="sig-paren">(</span><em>logoff</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_create_account.html#test_delete_patient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_delete_patient" title="Permalink to this definition">¶</a></dt>
-<dd><p>This test will delete a patient account using the System Admin account and verify the user cannot login
-Validation is done on the login step
-Note: this is incorrect. It needs to verify that Physicians can delete patient accounts rq# 3.1.1.1.2.6</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logoff</strong> &#8211; Makes sure the web session is in a logged off state at the start of the test</td>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.1.1.2.6: Physicians can delete patients</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>logoff fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<ul class="simple">
+<li>user = &#8216;pfry&#8217;</li>
+<li>pwd = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
+<li>phy = &#8216;testPhysician&#8217;</li>
+<li>phy_pass = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="36%" />
+<col width="24%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>delete patient account</td>
+<td>No error msgs</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>login as patient</td>
+<td>Patient cannot login</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -131,15 +309,40 @@ Note: this is incorrect. It needs to verify that Physicians can delete patient a
 <dl class="function">
 <dt id="test_create_account.test_delete_physician">
 <code class="descclassname">test_create_account.</code><code class="descname">test_delete_physician</code><span class="sig-paren">(</span><em>logoff</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_create_account.html#test_delete_physician"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_delete_physician" title="Permalink to this definition">¶</a></dt>
-<dd><p>This test will delete a physician account using the System Admin account and verify the user cannot login
-Validation is done on the login step</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logoff</strong> &#8211; Makes sure the web session is in a logged off state at the start of the test</td>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.6.3: System administrator can delete accounts</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>logoff fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<ul class="simple">
+<li>user = &#8216;hfarnswroth&#8217;</li>
+<li>username = &#8216;Hubert Farnsworth&#8217;</li>
+<li>pwd = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="35%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>delete physician account</td>
+<td>No error msgs</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>login as patient</td>
+<td>User cannot login</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -156,9 +359,11 @@ Validation is done on the login step</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-  <li><a href="modules.html">Tests</a><ul>
+  <li><a href="software_test_description.html">UAHealth Bit Vault Software Test Description</a><ul>
+  <li><a href="modules.html">Pytest Tests</a><ul>
       <li>Previous: <a href="setup_db.html" title="previous chapter">setup_db module</a></li>
       <li>Next: <a href="test_edit_account.html" title="next chapter">test_edit_account module</a></li>
+  </ul></li>
   </ul></li>
   </ul></li>
 </ul>

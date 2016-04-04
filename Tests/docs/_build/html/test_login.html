@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="WebUITest 1.0 documentation" href="index.html" />
-    <link rel="up" title="Tests" href="modules.html" />
+    <link rel="up" title="Pytest Tests" href="modules.html" />
     <link rel="next" title="test_password module" href="test_password.html" />
     <link rel="prev" title="test_edit_account module" href="test_edit_account.html" />
    
@@ -45,15 +45,38 @@
 <dl class="function">
 <dt id="test_login.test_login_bad_pass">
 <code class="descclassname">test_login.</code><code class="descname">test_login_bad_pass</code><span class="sig-paren">(</span><em>logoff</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_login.html#test_login_bad_pass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_login.test_login_bad_pass" title="Permalink to this definition">¶</a></dt>
-<dd><p>This test will verify that a user cannot login with an incorrect password
-Validation is done by checking for &#8220;Invalid login attempt&#8221; in the web page</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logoff</strong> &#8211; Makes sure the session is in a logged off state at the start of the test</td>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.1: System shall provide user authentication</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>logoff fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<ul class="simple">
+<li>user = &#8216;testPhysician&#8217;</li>
+<li>password = &#8216;!nc0rrect&#8217;</li>
+<li>expected = &#8216;Invalid login attempt.&#8217;</li>
+</ul>
+<p><strong>Expected Results:</strong></p>
+<p>User &#8216;testPhysician&#8217; sees the home page after logging in</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="42%" />
+<col width="36%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>login</td>
+<td>Invalid login</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -62,15 +85,38 @@ Validation is done by checking for &#8220;Invalid login attempt&#8221; in the we
 <dl class="function">
 <dt id="test_login.test_login_bad_user">
 <code class="descclassname">test_login.</code><code class="descname">test_login_bad_user</code><span class="sig-paren">(</span><em>logoff</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_login.html#test_login_bad_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_login.test_login_bad_user" title="Permalink to this definition">¶</a></dt>
-<dd><p>This test will verify that a user cannot login with an incorrect username
-Validation is done by checking for &#8220;Invalid login attempt&#8221; in the web page</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logoff</strong> &#8211; Makes sure the session is in a logged off state at the start of the test</td>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.1: System shall provide user authentication</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>logoff fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<ul class="simple">
+<li>user = &#8216;fake&#8217;</li>
+<li>password = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
+<li>expected = &#8216;Invalid login attempt.&#8217;</li>
+</ul>
+<p><strong>Expected Results:</strong></p>
+<p>User &#8216;testPhysician&#8217; sees the home page after logging in</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="42%" />
+<col width="36%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>login</td>
+<td>Invalid login</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -79,15 +125,38 @@ Validation is done by checking for &#8220;Invalid login attempt&#8221; in the we
 <dl class="function">
 <dt id="test_login.test_login_experiment_admin">
 <code class="descclassname">test_login.</code><code class="descname">test_login_experiment_admin</code><span class="sig-paren">(</span><em>logoff</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_login.html#test_login_experiment_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_login.test_login_experiment_admin" title="Permalink to this definition">¶</a></dt>
-<dd><p>This test will login as the testExpAdmin.
-Validation is on the login step.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logoff</strong> &#8211; Makes sure the session is in a logged off state at the start of the test</td>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.1: System shall provide user authentication</li>
+<li>3.1.1.5: System shall allow user to log out of account</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>logoff fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<ul class="simple">
+<li>user = &#8216;testExpAdmin&#8217;</li>
+<li>password = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
+</ul>
+<p><strong>Expected Results:</strong></p>
+<p>User &#8216;testPhysician&#8217; sees the home page after logging in</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="42%" />
+<col width="36%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>login</td>
+<td>Login Success!</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -96,15 +165,38 @@ Validation is on the login step.</p>
 <dl class="function">
 <dt id="test_login.test_login_patient">
 <code class="descclassname">test_login.</code><code class="descname">test_login_patient</code><span class="sig-paren">(</span><em>logoff</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_login.html#test_login_patient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_login.test_login_patient" title="Permalink to this definition">¶</a></dt>
-<dd><p>This test will login as the testPatient.
-Validation is on the login step.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logoff</strong> &#8211; Makes sure the session is in a logged off state at the start of the test</td>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.1: System shall provide user authentication</li>
+<li>3.1.1.5: System shall allow user to log out of account</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>logoff fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<ul class="simple">
+<li>user = &#8216;testPatient&#8217;</li>
+<li>password = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
+</ul>
+<p><strong>Expected Results:</strong></p>
+<p>User &#8216;testPhysician&#8217; sees the home page after logging in</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="42%" />
+<col width="36%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>login</td>
+<td>Login Success!</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -125,7 +217,7 @@ Validation is on the login step.</p>
 <p><strong>Input:</strong></p>
 <ul class="simple">
 <li>user = &#8216;testPhysician&#8217;</li>
-<li>password = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword">'P<span>&#64;</span>ssword</a>&#8216;</li>
+<li>password = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
 </ul>
 <p><strong>Expected Results:</strong></p>
 <p>User &#8216;testPhysician&#8217; sees the home page after logging in</p>
@@ -153,15 +245,38 @@ Validation is on the login step.</p>
 <dl class="function">
 <dt id="test_login.test_login_system_admin">
 <code class="descclassname">test_login.</code><code class="descname">test_login_system_admin</code><span class="sig-paren">(</span><em>logoff</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_login.html#test_login_system_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_login.test_login_system_admin" title="Permalink to this definition">¶</a></dt>
-<dd><p>This test will login as the fitadmin.
-Validation is on the login step.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logoff</strong> &#8211; Makes sure the session is in a logged off state at the start of the test</td>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.1: System shall provide user authentication</li>
+<li>3.1.1.5: System shall allow user to log out of account</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>logoff fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<ul class="simple">
+<li>user = &#8216;fitadmin&#8217;</li>
+<li>password = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
+</ul>
+<p><strong>Expected Results:</strong></p>
+<p>User &#8216;testPhysician&#8217; sees the home page after logging in</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="42%" />
+<col width="36%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>login</td>
+<td>Login Success!</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -178,9 +293,11 @@ Validation is on the login step.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-  <li><a href="modules.html">Tests</a><ul>
+  <li><a href="software_test_description.html">UAHealth Bit Vault Software Test Description</a><ul>
+  <li><a href="modules.html">Pytest Tests</a><ul>
       <li>Previous: <a href="test_edit_account.html" title="previous chapter">test_edit_account module</a></li>
       <li>Next: <a href="test_password.html" title="next chapter">test_password module</a></li>
+  </ul></li>
   </ul></li>
   </ul></li>
 </ul>

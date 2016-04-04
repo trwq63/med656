@@ -48,13 +48,37 @@
 
 <div class="viewcode-block" id="test_username_cannot_be_copied"><a class="viewcode-back" href="../test_username.html#test_username.test_username_cannot_be_copied">[docs]</a><span class="k">def</span> <span class="nf">test_username_cannot_be_copied</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This test creates a new user, tries to create another user with the same name, then creates third unique user</span>
-<span class="sd">    Validatin is done on all three steps. This verifies that the username must be unique.</span>
-<span class="sd">    Note: Need a step added to check that usernames cannot be changed to a copy</span>
+<span class="sd">    **Requirements:**</span>
 
-<span class="sd">    :param logoff: Makes sure the session is in a logged off state before the test starts.</span>
-<span class="sd">    :return:</span>
+<span class="sd">    - 3.1.1.2: Usernames must be unique</span>
+<span class="sd">    - 3.1.1.2.1: Users cannot change username to an already existing username</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - logoff fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+<span class="sd">    - user = &#39;copy&#39;</span>
+<span class="sd">    - pwd = &#39;P@ssword10&#39;</span>
+<span class="sd">    - email = &#39;copy@copy.com&#39;</span>
+<span class="sd">    - first_name = &#39;Fry&#39;</span>
+<span class="sd">    - last_name = &#39;Phillip&#39;</span>
+<span class="sd">    - address = &#39;304 Wherever Street, New New York City, New New York&#39;</span>
+<span class="sd">    - phone_number = &#39;123-456-7890&#39;</span>
+<span class="sd">    - user_2 = &#39;copy1&#39;</span>
+<span class="sd">    - email_2 = &#39;copy2@copy.com&#39;</span>
+
+<span class="sd">    ==============================  ====================  =============</span>
+<span class="sd">    Steps                           Expected Result       Actual Result</span>
+<span class="sd">    ==============================  ====================  =============</span>
+<span class="sd">    Request physician account       No errors</span>
+<span class="sd">    Request same physician account  Username taken error</span>
+<span class="sd">    Request different account       No errors</span>
+<span class="sd">    ==============================  ====================  =============</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Starting&#39;</span><span class="p">)</span>
+
     <span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;copy&#39;</span>
     <span class="n">pwd</span> <span class="o">=</span> <span class="s1">&#39;P@ssword10&#39;</span>
     <span class="n">email</span> <span class="o">=</span> <span class="s1">&#39;copy@copy.com&#39;</span>
@@ -62,17 +86,40 @@
     <span class="n">last_name</span> <span class="o">=</span> <span class="s1">&#39;Phillip&#39;</span>
     <span class="n">address</span> <span class="o">=</span> <span class="s1">&#39;304 Wherever Street, New New York City, New New York&#39;</span>
     <span class="n">phone_number</span> <span class="o">=</span> <span class="s1">&#39;123-456-7890&#39;</span>
+    <span class="n">user_2</span> <span class="o">=</span> <span class="s1">&#39;copy1&#39;</span>
+    <span class="n">email_2</span> <span class="o">=</span> <span class="s1">&#39;copy2@copy.com&#39;</span>
 
     <span class="c1"># first use of user copy</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Requesting account for user &#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span>
+          <span class="s1">&#39;pwd: &#39;</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span>
+          <span class="s1">&#39;email: &#39;</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span>
+          <span class="s1">&#39;first_name: &#39;</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span>
+          <span class="s1">&#39;last_name: &#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span>
+          <span class="s1">&#39;address: &#39;</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span>
+          <span class="s1">&#39;phone_number: &#39;</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">)</span>
     <span class="n">web_sess</span><span class="o">.</span><span class="n">request_account</span><span class="p">(</span><span class="s1">&#39;Physician&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_request_account</span><span class="p">()</span>
 
     <span class="c1"># second use of user copy</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Requesting account for user &#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span>
+      <span class="s1">&#39;pwd: &#39;</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span>
+      <span class="s1">&#39;email: &#39;</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span>
+      <span class="s1">&#39;first_name: &#39;</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span>
+      <span class="s1">&#39;last_name: &#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span>
+      <span class="s1">&#39;address: &#39;</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span>
+      <span class="s1">&#39;phone_number: &#39;</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">)</span>
     <span class="n">web_sess</span><span class="o">.</span><span class="n">request_account</span><span class="p">(</span><span class="s1">&#39;Physician&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">)</span>
     <span class="k">assert</span> <span class="s1">&#39;Name {} is already taken.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="ow">in</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">()</span>
 
     <span class="c1"># first use of user copy1</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">request_account</span><span class="p">(</span><span class="s1">&#39;Physician&#39;</span><span class="p">,</span> <span class="s1">&#39;copy1&#39;</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="s1">&#39;copy1@copy.com&#39;</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Requesting account for user &#39;</span><span class="p">,</span> <span class="n">user_2</span><span class="p">,</span>
+          <span class="s1">&#39;pwd: &#39;</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span>
+          <span class="s1">&#39;email: &#39;</span><span class="p">,</span> <span class="n">email_2</span><span class="p">,</span>
+          <span class="s1">&#39;first_name: &#39;</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span>
+          <span class="s1">&#39;last_name: &#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span>
+          <span class="s1">&#39;address: &#39;</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span>
+          <span class="s1">&#39;phone_number: &#39;</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">request_account</span><span class="p">(</span><span class="s1">&#39;Physician&#39;</span><span class="p">,</span> <span class="n">user_2</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">email_2</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_request_account</span><span class="p">()</span></div>
 </pre></div>
 

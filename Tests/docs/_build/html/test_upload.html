@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="WebUITest 1.0 documentation" href="index.html" />
-    <link rel="up" title="Tests" href="modules.html" />
+    <link rel="up" title="Pytest Tests" href="modules.html" />
     <link rel="next" title="test_username module" href="test_username.html" />
     <link rel="prev" title="test_security module" href="test_security.html" />
    
@@ -42,49 +42,282 @@
   <div class="section" id="module-test_upload">
 <span id="test-upload-module"></span><h1>test_upload module<a class="headerlink" href="#module-test_upload" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
-<dt id="test_upload.test_basis_peak_data_upload">
-<code class="descclassname">test_upload.</code><code class="descname">test_basis_peak_data_upload</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_upload.html#test_basis_peak_data_upload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_basis_peak_data_upload" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
 <dt id="test_upload.test_mband_data_upload">
 <code class="descclassname">test_upload.</code><code class="descname">test_mband_data_upload</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_upload.html#test_mband_data_upload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_mband_data_upload" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.2.4.3: System shall support Microsoft Band data</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<p><strong>Input:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="38%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>empty</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="test_upload.test_multi_file_multi_activity">
 <code class="descclassname">test_upload.</code><code class="descname">test_multi_file_multi_activity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_upload.html#test_multi_file_multi_activity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_multi_file_multi_activity" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.2: System shall process medical data</li>
+<li>3.1.2.1: System shall process one or more medical data file at a time</li>
+<li>3.1.2.2: System shall provide ability to assign activity</li>
+<li>3.1.2.3: There will be an interface to select data and activities</li>
+<li>3.1.2.5: System shall process CSV files</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<p><strong>Input:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="38%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>empty</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="test_upload.test_multi_file_no_activity">
 <code class="descclassname">test_upload.</code><code class="descname">test_multi_file_no_activity</code><span class="sig-paren">(</span><em>login_tpatient</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_upload.html#test_multi_file_no_activity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_multi_file_no_activity" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.2: System shall process medical data</li>
+<li>3.1.2.1: System shall process one or more medical data file at a time</li>
+<li>3.1.2.3: There will be an interface to select data and activities</li>
+<li>3.1.2.5: System shall process CSV files</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>login_tpatient fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<ul class="simple">
+<li>activity_dict = {}</li>
+<li>files = &#8216;./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv; ./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_BB.csv&#8217;</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="38%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>empty</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="test_upload.test_multi_file_one_activity">
 <code class="descclassname">test_upload.</code><code class="descname">test_multi_file_one_activity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_upload.html#test_multi_file_one_activity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_multi_file_one_activity" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.2: System shall process medical data</li>
+<li>3.1.2.1: System shall process one or more medical data file at a time</li>
+<li>3.1.2.2: System shall provide ability to assign activity</li>
+<li>3.1.2.3: There will be an interface to select data and activities</li>
+<li>3.1.2.5: System shall process CSV files</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<p><strong>Input:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="38%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>empty</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="test_upload.test_single_file_multi_activity">
 <code class="descclassname">test_upload.</code><code class="descname">test_single_file_multi_activity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_upload.html#test_single_file_multi_activity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_single_file_multi_activity" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.2: System shall process medical data</li>
+<li>3.1.2.1: System shall process one or more medical data file at a time</li>
+<li>3.1.2.2: System shall provide ability to assign activity</li>
+<li>3.1.2.3: There will be an interface to select data and activities</li>
+<li>3.1.2.5: System shall process CSV files</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<p><strong>Input:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="38%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>empty</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="test_upload.test_single_file_no_activity">
 <code class="descclassname">test_upload.</code><code class="descname">test_single_file_no_activity</code><span class="sig-paren">(</span><em>login_tpatient</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_upload.html#test_single_file_no_activity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_single_file_no_activity" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.2: System shall process medical data</li>
+<li>3.1.2.1: System shall process one or more medical data file at a time</li>
+<li>3.1.2.3: There will be an interface to select data and activities</li>
+<li>3.1.2.5: System shall process CSV files</li>
+<li>3.2.4.2: System shall support Basis Peak data</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>login_tpatient fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<ul class="simple">
+<li>activity_dict = {}</li>
+<li>file = &#8216;./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv&#8217;</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="38%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>empty</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="test_upload.test_single_file_one_activity">
 <code class="descclassname">test_upload.</code><code class="descname">test_single_file_one_activity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_upload.html#test_single_file_one_activity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_single_file_one_activity" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.2: System shall process medical data</li>
+<li>3.1.2.1: System shall process one or more medical data file at a time</li>
+<li>3.1.2.2: System shall provide ability to assign activity</li>
+<li>3.1.2.3: There will be an interface to select data and activities</li>
+<li>3.1.2.5: System shall process CSV files</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<p><strong>Input:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="38%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>empty</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="test_upload.test_zephyr_data_upload">
 <code class="descclassname">test_upload.</code><code class="descname">test_zephyr_data_upload</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_upload.html#test_zephyr_data_upload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_zephyr_data_upload" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.2.4.1: System shall support Zephyr data</li>
+<li>3.1.2.6: System will process raw data files</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<p><strong>Input:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="38%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>empty</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 
@@ -97,9 +330,11 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-  <li><a href="modules.html">Tests</a><ul>
+  <li><a href="software_test_description.html">UAHealth Bit Vault Software Test Description</a><ul>
+  <li><a href="modules.html">Pytest Tests</a><ul>
       <li>Previous: <a href="test_security.html" title="previous chapter">test_security module</a></li>
       <li>Next: <a href="test_username.html" title="next chapter">test_username module</a></li>
+  </ul></li>
   </ul></li>
   </ul></li>
 </ul>

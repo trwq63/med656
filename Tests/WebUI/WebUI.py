@@ -6,7 +6,9 @@ from selenium.webdriver.support import select
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.common.exceptions import NoSuchElementException as NoSuchElementException
 import sys
+import time
 
 
 class WebUI:
@@ -202,7 +204,7 @@ class WebUI:
         if not self.check_login(phy, t=1):
             self.login(phy, phy_pass)
         try:
-            self.driver.find_element_by_css_selector('button[onclick=createPatient\(\)]').click()
+            self.driver.find_element_by_css_selector('button[onclick="createPatient()"]').click()
             self.driver.find_element_by_id('Username').send_keys(user)
             self.driver.find_element_by_id('Password').send_keys(pwd)
             self.driver.find_element_by_id('Birthdate').click()
@@ -232,8 +234,7 @@ class WebUI:
             else:
                 return False
             if ethnicity == 'non_hispanic':
-                # workaround: ethnicity misspelling
-                self.driver.find_element_by_css_selector('label[for=enthicityNonHispanic]').click()
+                self.driver.find_element_by_css_selector('label[for="ethnicityHispanic"]').click()
             elif ethnicity == 'hispanic':
                 self.driver.find_element_by_css_selector('label[for=ethnicityHispanic]').click()
             else:
@@ -312,13 +313,14 @@ class WebUI:
                 self.driver.find_element_by_id('ConfirmPassword').send_keys(pwd)
                 self.driver.find_element_by_css_selector('input[type=submit]').click()
             if email != '':
+                self.driver.find_element_by_id('Email').clear()
                 self.driver.find_element_by_id('Email').send_keys(email)
             if address != '':
                 self.driver.find_element_by_id('Address').send_keys(address)
             if phonenum != '':
                 self.driver.find_element_by_id('PhoneNumber').send_keys(phonenum)
-            self.driver.find_element_by_css_selector('input[type=submit]').click()
-            self.driver.find_element_by_css_selector('input[type=submit]').click()
+            self.driver.find_element_by_css_selector('input[type="submit"]').click()
+            self.driver.find_element_by_css_selector('input[type="submit"]').click()
         except:
             e = sys.exc_info()
             print (e)
@@ -337,8 +339,8 @@ class WebUI:
         try:
             self.driver.find_element_by_css_selector('a[title=Manage]').click()
             if email != '':
-                tmp = self.driver.find_element_by_id('Email').value_of_css_property('value')
-                print(tmp)
+                tmp = self.driver.find_element_by_id('Email').get_attribute('value')
+                print('this is the email: (', tmp, ')')
                 if tmp != email:
                     return False
             if address != '':
@@ -380,3 +382,16 @@ class WebUI:
             print (e)
             return False
         return True
+
+    def delete_all_accounts(self):
+        if self.check_login():
+            self.logoff()
+        self.login('fitadmin', 'Password1!')
+        self.driver.find_element(by='css selector', value='a[href$=\"/Admin/ManageUsers\"]').click()
+        users_exist = True
+        while users_exist:
+            try:
+                self.driver.find_element_by_css_selector('[id*="btnDelete"]').click()
+                time.sleep(2)
+            except NoSuchElementException:
+                users_exist = False

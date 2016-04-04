@@ -3,15 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to WebUITest's documentation!
-=====================================
+UAHealth Bit Vault
+==================
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
 
-   modules.rst
+   user_guide
+   software_test_description
 
 
 Indices and tables

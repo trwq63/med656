@@ -5,6 +5,16 @@ from WebUI.WebUI import WebUI
 @pytest.fixture(scope='session', autouse=True)
 def pre_existing_users():
     web_sess = WebUI()
+
+    # delete all accounts
+    web_sess.delete_patient('testPhysician', 'P@ssword10', 'testPatient')
+    web_sess.delete_patient('testPhysician', 'P@ssword10', 'testPatient2')
+    web_sess.logoff()
+
+    web_sess.delete_all_accounts()
+    web_sess.logoff()
+
+    # add all the needed accounts
     web_sess.request_account('Physician', 'testPhysician', 'P@ssword10', 'tphysician@aol.com',
                              'test', 'physician', 'home', '123-456-7890')
     web_sess.approve_account('test physician')

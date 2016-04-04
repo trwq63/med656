@@ -53,7 +53,6 @@
 <span class="sd">    - 3.1.1: System shall provide user authentication</span>
 <span class="sd">    - 3.1.1.5: System shall allow user to log out of account</span>
 
-
 <span class="sd">    **Pre Conditions:**</span>
 
 <span class="sd">    - logoff fixture</span>
@@ -61,7 +60,7 @@
 <span class="sd">    **Input:**</span>
 
 <span class="sd">    - user = &#39;testPhysician&#39;</span>
-<span class="sd">    - password = &#39;P@ssword&#39;</span>
+<span class="sd">    - password = &#39;P@ssword10&#39;</span>
 
 <span class="sd">    **Expected Results:**</span>
 
@@ -86,74 +85,190 @@
 
 <div class="viewcode-block" id="test_login_experiment_admin"><a class="viewcode-back" href="../test_login.html#test_login.test_login_experiment_admin">[docs]</a><span class="k">def</span> <span class="nf">test_login_experiment_admin</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This test will login as the testExpAdmin.</span>
-<span class="sd">    Validation is on the login step.</span>
+<span class="sd">    **Requirements:**</span>
 
-<span class="sd">    :param logoff: Makes sure the session is in a logged off state at the start of the test</span>
-<span class="sd">    :return:</span>
+<span class="sd">    - 3.1.1: System shall provide user authentication</span>
+<span class="sd">    - 3.1.1.5: System shall allow user to log out of account</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - logoff fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+<span class="sd">    - user = &#39;testExpAdmin&#39;</span>
+<span class="sd">    - password = &#39;P@ssword10&#39;</span>
+
+<span class="sd">    **Expected Results:**</span>
+
+<span class="sd">    User &#39;testPhysician&#39; sees the home page after logging in</span>
+
+<span class="sd">    ========  ===============  =============</span>
+<span class="sd">    Steps     Expected Result  Actual Result</span>
+<span class="sd">    ========  ===============  =============</span>
+<span class="sd">    login     Login Success!</span>
+<span class="sd">    ========  ===============  =============</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Starting&#39;</span><span class="p">)</span>
 
-    <span class="c1">#: The user to login as</span>
     <span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;testExpAdmin&#39;</span>
-
-    <span class="c1">#: The password for this user to login with</span>
     <span class="n">password</span> <span class="o">=</span> <span class="s1">&#39;P@ssword10&#39;</span>
 
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Logging in as {}/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">))</span>
     <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Checking for Manage button&#39;</span><span class="p">)</span>
     <span class="n">status</span> <span class="o">=</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">()</span>
-
-    <span class="c1">#: If check_login() does not return True, fail the test</span>
     <span class="k">assert</span> <span class="n">status</span><span class="p">,</span> <span class="s1">&#39;Could not login: </span><span class="se">\n</span><span class="s1">{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="test_login_patient"><a class="viewcode-back" href="../test_login.html#test_login.test_login_patient">[docs]</a><span class="k">def</span> <span class="nf">test_login_patient</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This test will login as the testPatient.</span>
-<span class="sd">    Validation is on the login step.</span>
+<span class="sd">    **Requirements:**</span>
 
-<span class="sd">    :param logoff: Makes sure the session is in a logged off state at the start of the test</span>
-<span class="sd">    :return:</span>
+<span class="sd">    - 3.1.1: System shall provide user authentication</span>
+<span class="sd">    - 3.1.1.5: System shall allow user to log out of account</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - logoff fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+<span class="sd">    - user = &#39;testPatient&#39;</span>
+<span class="sd">    - password = &#39;P@ssword10&#39;</span>
+
+<span class="sd">    **Expected Results:**</span>
+
+<span class="sd">    User &#39;testPhysician&#39; sees the home page after logging in</span>
+
+<span class="sd">    ========  ===============  =============</span>
+<span class="sd">    Steps     Expected Result  Actual Result</span>
+<span class="sd">    ========  ===============  =============</span>
+<span class="sd">    login     Login Success!</span>
+<span class="sd">    ========  ===============  =============</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;testPatient&#39;</span><span class="p">,</span> <span class="s1">&#39;P@ssword10&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Starting&#39;</span><span class="p">)</span>
+
+    <span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;testPatient&#39;</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="s1">&#39;P@ssword10&#39;</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Logging in as {}/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">))</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Checking for Manage button&#39;</span><span class="p">)</span>
     <span class="n">status</span> <span class="o">=</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">()</span>
     <span class="k">assert</span> <span class="n">status</span><span class="p">,</span> <span class="s1">&#39;Could not login: </span><span class="se">\n</span><span class="s1">{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="test_login_system_admin"><a class="viewcode-back" href="../test_login.html#test_login.test_login_system_admin">[docs]</a><span class="k">def</span> <span class="nf">test_login_system_admin</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This test will login as the fitadmin.</span>
-<span class="sd">    Validation is on the login step.</span>
+<span class="sd">    **Requirements:**</span>
 
-<span class="sd">    :param logoff: Makes sure the session is in a logged off state at the start of the test</span>
-<span class="sd">    :return:</span>
+<span class="sd">    - 3.1.1: System shall provide user authentication</span>
+<span class="sd">    - 3.1.1.5: System shall allow user to log out of account</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - logoff fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+<span class="sd">    - user = &#39;fitadmin&#39;</span>
+<span class="sd">    - password = &#39;P@ssword10&#39;</span>
+
+<span class="sd">    **Expected Results:**</span>
+
+<span class="sd">    User &#39;testPhysician&#39; sees the home page after logging in</span>
+
+<span class="sd">    ========  ===============  =============</span>
+<span class="sd">    Steps     Expected Result  Actual Result</span>
+<span class="sd">    ========  ===============  =============</span>
+<span class="sd">    login     Login Success!</span>
+<span class="sd">    ========  ===============  =============</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;fitadmin&#39;</span><span class="p">,</span> <span class="s1">&#39;Password1!&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Starting&#39;</span><span class="p">)</span>
+
+    <span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;fitadmin&#39;</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="s1">&#39;P@ssword10&#39;</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Logging in as {}/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">))</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
     <span class="n">status</span> <span class="o">=</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">()</span>
     <span class="k">assert</span> <span class="n">status</span><span class="p">,</span> <span class="s1">&#39;Could not login: </span><span class="se">\n</span><span class="s1">{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="test_login_bad_pass"><a class="viewcode-back" href="../test_login.html#test_login.test_login_bad_pass">[docs]</a><span class="k">def</span> <span class="nf">test_login_bad_pass</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This test will verify that a user cannot login with an incorrect password</span>
-<span class="sd">    Validation is done by checking for &quot;Invalid login attempt&quot; in the web page</span>
+<span class="sd">    **Requirements:**</span>
 
-<span class="sd">    :param logoff: Makes sure the session is in a logged off state at the start of the test</span>
-<span class="sd">    :return:</span>
+<span class="sd">    - 3.1.1: System shall provide user authentication</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - logoff fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+<span class="sd">    - user = &#39;testPhysician&#39;</span>
+<span class="sd">    - password = &#39;!nc0rrect&#39;</span>
+<span class="sd">    - expected = &#39;Invalid login attempt.&#39;</span>
+
+<span class="sd">    **Expected Results:**</span>
+
+<span class="sd">    User &#39;testPhysician&#39; sees the home page after logging in</span>
+
+<span class="sd">    ========  ===============  =============</span>
+<span class="sd">    Steps     Expected Result  Actual Result</span>
+<span class="sd">    ========  ===============  =============</span>
+<span class="sd">    login     Invalid login</span>
+<span class="sd">    ========  ===============  =============</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;testPhysician&#39;</span><span class="p">,</span> <span class="s1">&#39;!nc0rrect&#39;</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="s2">&quot;Invalid login attempt.&quot;</span> <span class="ow">in</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">()</span></div>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Starting&#39;</span><span class="p">)</span>
+
+    <span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;testPhysician&#39;</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="s1">&#39;!nc0rrect&#39;</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="s1">&#39;Invalid login attempt.&#39;</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Logging in as {}/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">))</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Checking for {} in web page&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">expected</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="n">expected</span> <span class="ow">in</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="test_login_bad_user"><a class="viewcode-back" href="../test_login.html#test_login.test_login_bad_user">[docs]</a><span class="k">def</span> <span class="nf">test_login_bad_user</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This test will verify that a user cannot login with an incorrect username</span>
-<span class="sd">    Validation is done by checking for &quot;Invalid login attempt&quot; in the web page</span>
+<span class="sd">    **Requirements:**</span>
 
-<span class="sd">    :param logoff: Makes sure the session is in a logged off state at the start of the test</span>
-<span class="sd">    :return:</span>
+<span class="sd">    - 3.1.1: System shall provide user authentication</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - logoff fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+<span class="sd">    - user = &#39;fake&#39;</span>
+<span class="sd">    - password = &#39;P@ssword10&#39;</span>
+<span class="sd">    - expected = &#39;Invalid login attempt.&#39;</span>
+
+<span class="sd">    **Expected Results:**</span>
+
+<span class="sd">    User &#39;testPhysician&#39; sees the home page after logging in</span>
+
+<span class="sd">    ========  ===============  =============</span>
+<span class="sd">    Steps     Expected Result  Actual Result</span>
+<span class="sd">    ========  ===============  =============</span>
+<span class="sd">    login     Invalid login</span>
+<span class="sd">    ========  ===============  =============</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;fake&#39;</span><span class="p">,</span> <span class="s1">&#39;P@ssword10&#39;</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="s2">&quot;Invalid login attempt.&quot;</span> <span class="ow">in</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">()</span></div>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Starting&#39;</span><span class="p">)</span>
+
+    <span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;fake&#39;</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="s1">&#39;!nc0rrect&#39;</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="s1">&#39;Invalid login attempt.&#39;</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Logging in as {}/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">))</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">expected</span> <span class="ow">in</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">()</span></div>
 </pre></div>
 
           </div>

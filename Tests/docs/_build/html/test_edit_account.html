@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="WebUITest 1.0 documentation" href="index.html" />
-    <link rel="up" title="Tests" href="modules.html" />
+    <link rel="up" title="Pytest Tests" href="modules.html" />
     <link rel="next" title="test_login module" href="test_login.html" />
     <link rel="prev" title="test_create_account module" href="test_create_account.html" />
    
@@ -45,15 +45,32 @@
 <dl class="function">
 <dt id="test_edit_account.test_physician_can_edit_his_account">
 <code class="descclassname">test_edit_account.</code><code class="descname">test_physician_can_edit_his_account</code><span class="sig-paren">(</span><em>login_tphysician</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_edit_account.html#test_physician_can_edit_his_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_edit_account.test_physician_can_edit_his_account" title="Permalink to this definition">¶</a></dt>
-<dd><p>This test will edit the testPhysician&#8217;s email address and verify the email address got changed
-Validation is on both the edit step and the confirmation step</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>login_tphysician</strong> &#8211; Makes sure the session is logged in as the testPhysician at the start of the test</td>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.1.1.2.2: Physician can update his account</li>
+<li>3.1.6.2: System shall allow users to edit their account</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>login_tphysician fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="38%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>empty</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -62,17 +79,101 @@ Validation is on both the edit step and the confirmation step</p>
 <dl class="function">
 <dt id="test_edit_account.test_sys_admin_can_edit_exp_admin_account">
 <code class="descclassname">test_edit_account.</code><code class="descname">test_sys_admin_can_edit_exp_admin_account</code><span class="sig-paren">(</span><em>login_sysadmin</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_edit_account.html#test_sys_admin_can_edit_exp_admin_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_edit_account.test_sys_admin_can_edit_exp_admin_account" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.1.1.4.4: System administrator can update patient account information</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>login_sysadmin fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="38%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>empty</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="test_edit_account.test_sys_admin_can_edit_patient_account">
 <code class="descclassname">test_edit_account.</code><code class="descname">test_sys_admin_can_edit_patient_account</code><span class="sig-paren">(</span><em>login_sysadmin</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_edit_account.html#test_sys_admin_can_edit_patient_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_edit_account.test_sys_admin_can_edit_patient_account" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.1.1.4.4: System administrator can update patient account information</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>login_sysadmin fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="38%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>empty</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="test_edit_account.test_sys_admin_can_edit_physician_account">
 <code class="descclassname">test_edit_account.</code><code class="descname">test_sys_admin_can_edit_physician_account</code><span class="sig-paren">(</span><em>login_sysadmin</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_edit_account.html#test_sys_admin_can_edit_physician_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_edit_account.test_sys_admin_can_edit_physician_account" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.1.1.4.4: System administrator can update patient account information</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>login_sysadmin fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="38%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>empty</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 
@@ -85,9 +186,11 @@ Validation is on both the edit step and the confirmation step</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-  <li><a href="modules.html">Tests</a><ul>
+  <li><a href="software_test_description.html">UAHealth Bit Vault Software Test Description</a><ul>
+  <li><a href="modules.html">Pytest Tests</a><ul>
       <li>Previous: <a href="test_create_account.html" title="previous chapter">test_create_account module</a></li>
       <li>Next: <a href="test_login.html" title="next chapter">test_login module</a></li>
+  </ul></li>
   </ul></li>
   </ul></li>
 </ul>

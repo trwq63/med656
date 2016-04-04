@@ -228,10 +228,14 @@ def test_reset_password(login_sysadmin):
     Login with the new password         User can login
     ==================================  =====================  =============
     """
+    print('Starting')
+
     user = 'testPhysician2'
     username = 'test physician2'
     pwd = 'Password1!'
 
+    print('Reseting password for ',username)
     assert web_sess.reset_user_password(username, pwd)
+    print('Logging in with new password ', pwd)
     web_sess.login(user, pwd)
     assert web_sess.check_login()

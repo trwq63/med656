@@ -40,7 +40,7 @@ def test_login_physician(logoff):
     web_sess.login(user, password)
     print('Checking for Manage button')
     status = web_sess.check_login()
-    assert status, 'Could not login: \n{}'.format(web_sess.get_page())
+    assert status
 
 
 def test_login_experiment_admin(logoff):
@@ -78,7 +78,7 @@ def test_login_experiment_admin(logoff):
     web_sess.login(user, password)
     print('Checking for Manage button')
     status = web_sess.check_login()
-    assert status, 'Could not login: \n{}'.format(web_sess.get_page())
+    assert status
 
 
 def test_login_patient(logoff):
@@ -116,7 +116,7 @@ def test_login_patient(logoff):
     web_sess.login(user, password)
     print('Checking for Manage button')
     status = web_sess.check_login()
-    assert status, 'Could not login: \n{}'.format(web_sess.get_page())
+    assert status
 
 
 def test_login_system_admin(logoff):
@@ -133,7 +133,7 @@ def test_login_system_admin(logoff):
     **Input:**
 
     - user = 'fitadmin'
-    - password = 'P@ssword10'
+    - password = 'Password1!'
 
     **Expected Results:**
 
@@ -148,12 +148,12 @@ def test_login_system_admin(logoff):
     print('Starting')
 
     user = 'fitadmin'
-    password = 'P@ssword10'
+    password = 'Password1!'
 
     print('Logging in as {}/{}'.format(user, password))
     web_sess.login(user, password)
     status = web_sess.check_login()
-    assert status, 'Could not login: \n{}'.format(web_sess.get_page())
+    assert status
 
 
 def test_login_bad_pass(logoff):
