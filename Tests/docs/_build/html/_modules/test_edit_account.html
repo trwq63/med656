@@ -30,15 +30,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <h1>Source code for test_edit_account</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">These tests are here to verify that the accounts can have their information edited.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">WebUI.WebUI</span> <span class="kn">import</span> <span class="n">WebUI</span>
@@ -60,86 +60,22 @@
 <span class="sd">    **Input:**</span>
 
 
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    Steps            Expected Result    Actual Result</span>
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    empty</span>
-<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    ========================  =================  =============</span>
+<span class="sd">    Steps                     Expected Result    Actual Result</span>
+<span class="sd">    ========================  =================  =============</span>
+<span class="sd">    Go to management page     No Errors</span>
+<span class="sd">    Change the email address  No Errors</span>
+<span class="sd">    Check the email address   Email has changed</span>
+<span class="sd">    ========================  =================  =============</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">set_account_info</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;tphysician@yahoo.com&#39;</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">confirm_account_info</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;tphysician@yahoo.com&#39;</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="test_sys_admin_can_edit_patient_account"><a class="viewcode-back" href="../test_edit_account.html#test_edit_account.test_sys_admin_can_edit_patient_account">[docs]</a><span class="k">def</span> <span class="nf">test_sys_admin_can_edit_patient_account</span><span class="p">(</span><span class="n">login_sysadmin</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    **Requirements:**</span>
-
-<span class="sd">    - 3.1.1.1.4.4: System administrator can update patient account information</span>
-
-<span class="sd">    **Pre Conditions:**</span>
-
-<span class="sd">    - login_sysadmin fixture</span>
-
-<span class="sd">    **Input:**</span>
-
-
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    Steps            Expected Result    Actual Result</span>
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    empty</span>
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="bp">False</span></div>
-
-
-<div class="viewcode-block" id="test_sys_admin_can_edit_exp_admin_account"><a class="viewcode-back" href="../test_edit_account.html#test_edit_account.test_sys_admin_can_edit_exp_admin_account">[docs]</a><span class="k">def</span> <span class="nf">test_sys_admin_can_edit_exp_admin_account</span><span class="p">(</span><span class="n">login_sysadmin</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    **Requirements:**</span>
-
-<span class="sd">    - 3.1.1.1.4.4: System administrator can update patient account information</span>
-
-<span class="sd">    **Pre Conditions:**</span>
-
-<span class="sd">    - login_sysadmin fixture</span>
-
-<span class="sd">    **Input:**</span>
-
-
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    Steps            Expected Result    Actual Result</span>
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    empty</span>
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="bp">False</span></div>
-
-
-<div class="viewcode-block" id="test_sys_admin_can_edit_physician_account"><a class="viewcode-back" href="../test_edit_account.html#test_edit_account.test_sys_admin_can_edit_physician_account">[docs]</a><span class="k">def</span> <span class="nf">test_sys_admin_can_edit_physician_account</span><span class="p">(</span><span class="n">login_sysadmin</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    **Requirements:**</span>
-
-<span class="sd">    - 3.1.1.1.4.4: System administrator can update patient account information</span>
-
-<span class="sd">    **Pre Conditions:**</span>
-
-<span class="sd">    - login_sysadmin fixture</span>
-
-<span class="sd">    **Input:**</span>
-
-
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    Steps            Expected Result    Actual Result</span>
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    empty</span>
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="bp">False</span></div>
-</pre></div>
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">set_account_info</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s">&#39;tphysician@yahoo.com&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">confirm_account_info</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s">&#39;tphysician@yahoo.com&#39;</span><span class="p">)</span>
+</pre></div></div>
 
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper"><div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -149,7 +85,7 @@
   </ul></li>
 </ul>
 </div>
-<div id="searchbox" style="display: none" role="search">
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -170,8 +106,8 @@
       &copy;2016, Timothy Wilkins.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
       
     </div>
 

@@ -217,6 +217,3 @@ pseudoxml:
 	@echo
 	@echo "Build finished. The pseudo-XML files are in $(BUILDDIR)/pseudoxml."
 
-.PHONY: rst
-rst:
-   $(SPHINXDOC) -f -o . ..

@@ -32,19 +32,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="module-test_edit_account">
 <span id="test-edit-account-module"></span><h1>test_edit_account module<a class="headerlink" href="#module-test_edit_account" title="Permalink to this headline">¶</a></h1>
 <p>These tests are here to verify that the accounts can have their information edited.</p>
 <dl class="function">
 <dt id="test_edit_account.test_physician_can_edit_his_account">
-<code class="descclassname">test_edit_account.</code><code class="descname">test_physician_can_edit_his_account</code><span class="sig-paren">(</span><em>login_tphysician</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_edit_account.html#test_physician_can_edit_his_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_edit_account.test_physician_can_edit_his_account" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">test_edit_account.</tt><tt class="descname">test_physician_can_edit_his_account</tt><big>(</big><em>login_tphysician</em><big>)</big><a class="reference internal" href="_modules/test_edit_account.html#test_physician_can_edit_his_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_edit_account.test_physician_can_edit_his_account" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>Requirements:</strong></p>
 <ul class="simple">
 <li>3.1.1.1.2.2: Physician can update his account</li>
@@ -57,9 +57,9 @@
 <p><strong>Input:</strong></p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="33%" />
-<col width="38%" />
-<col width="29%" />
+<col width="44%" />
+<col width="31%" />
+<col width="24%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Steps</th>
@@ -68,107 +68,16 @@
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>empty</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="test_edit_account.test_sys_admin_can_edit_exp_admin_account">
-<code class="descclassname">test_edit_account.</code><code class="descname">test_sys_admin_can_edit_exp_admin_account</code><span class="sig-paren">(</span><em>login_sysadmin</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_edit_account.html#test_sys_admin_can_edit_exp_admin_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_edit_account.test_sys_admin_can_edit_exp_admin_account" title="Permalink to this definition">¶</a></dt>
-<dd><p><strong>Requirements:</strong></p>
-<ul class="simple">
-<li>3.1.1.1.4.4: System administrator can update patient account information</li>
-</ul>
-<p><strong>Pre Conditions:</strong></p>
-<ul class="simple">
-<li>login_sysadmin fixture</li>
-</ul>
-<p><strong>Input:</strong></p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="33%" />
-<col width="38%" />
-<col width="29%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Steps</th>
-<th class="head">Expected Result</th>
-<th class="head">Actual Result</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>empty</td>
-<td>&nbsp;</td>
+<tr class="row-even"><td>Go to management page</td>
+<td>No Errors</td>
 <td>&nbsp;</td>
 </tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="test_edit_account.test_sys_admin_can_edit_patient_account">
-<code class="descclassname">test_edit_account.</code><code class="descname">test_sys_admin_can_edit_patient_account</code><span class="sig-paren">(</span><em>login_sysadmin</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_edit_account.html#test_sys_admin_can_edit_patient_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_edit_account.test_sys_admin_can_edit_patient_account" title="Permalink to this definition">¶</a></dt>
-<dd><p><strong>Requirements:</strong></p>
-<ul class="simple">
-<li>3.1.1.1.4.4: System administrator can update patient account information</li>
-</ul>
-<p><strong>Pre Conditions:</strong></p>
-<ul class="simple">
-<li>login_sysadmin fixture</li>
-</ul>
-<p><strong>Input:</strong></p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="33%" />
-<col width="38%" />
-<col width="29%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Steps</th>
-<th class="head">Expected Result</th>
-<th class="head">Actual Result</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>empty</td>
-<td>&nbsp;</td>
+<tr class="row-odd"><td>Change the email address</td>
+<td>No Errors</td>
 <td>&nbsp;</td>
 </tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="test_edit_account.test_sys_admin_can_edit_physician_account">
-<code class="descclassname">test_edit_account.</code><code class="descname">test_sys_admin_can_edit_physician_account</code><span class="sig-paren">(</span><em>login_sysadmin</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/test_edit_account.html#test_sys_admin_can_edit_physician_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_edit_account.test_sys_admin_can_edit_physician_account" title="Permalink to this definition">¶</a></dt>
-<dd><p><strong>Requirements:</strong></p>
-<ul class="simple">
-<li>3.1.1.1.4.4: System administrator can update patient account information</li>
-</ul>
-<p><strong>Pre Conditions:</strong></p>
-<ul class="simple">
-<li>login_sysadmin fixture</li>
-</ul>
-<p><strong>Input:</strong></p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="33%" />
-<col width="38%" />
-<col width="29%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Steps</th>
-<th class="head">Expected Result</th>
-<th class="head">Actual Result</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>empty</td>
-<td>&nbsp;</td>
+<tr class="row-even"><td>Check the email address</td>
+<td>Email has changed</td>
 <td>&nbsp;</td>
 </tr>
 </tbody>
@@ -181,7 +90,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper"><div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -195,14 +104,12 @@
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/test_edit_account.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/test_edit_account.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -223,8 +130,8 @@
       &copy;2016, Timothy Wilkins.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
       
       |
       <a href="_sources/test_edit_account.txt"

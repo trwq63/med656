@@ -1,4 +1,4 @@
-.. _modules:
+.. _pytest_test_descriptions:
 
 ============
 Pytest Tests
@@ -30,15 +30,23 @@ Other Preparations
 
 None.
 
+Test Execution
+--------------
+
+To run these tests, open a command prompt and navigate to the Tests folder (<project_path>/med656/Tests). Then execute
+the following command:
+
+py.test -s -v
+
+The test report will be printed out to the screen. It will display all the tests that were run along with their pass/fail
+status.
+
 Test Details
 ------------
 
 .. toctree::
    :maxdepth: 4
 
-   WebUI
-   conftest
-   setup_db
    test_create_account
    test_edit_account
    test_login
@@ -46,3 +54,6 @@ Test Details
    test_security
    test_upload
    test_username
+   conftest
+   WebUI
+   
