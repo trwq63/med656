@@ -39,12 +39,14 @@ namespace UAHFitVault.DataAccess.MicrosoftBandServices
         /// Get the Microsoft Band UV data for the given a patient data record or all records for all patients.
         /// </summary>
         /// <param name="patientData">PatientData object used to retrieve the Microsoft Band UV Data records</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        public IEnumerable<MSBandUV> GetMSBandUVData(PatientData patientData) {
+        public IEnumerable<MSBandUV> GetMSBandUVData(PatientData patientData, int skip = 0, int take = 0) {
             if (patientData == null)
                 return _repository.GetAll();
             else
-                return _repository.GetMany(r => r.PatientDataId == patientData.Id);
+                return _repository.GetMany(r => r.PatientDataId == patientData.Id, r => r.Date, skip, take);
         }
 
         /// <summary>
@@ -54,12 +56,14 @@ namespace UAHFitVault.DataAccess.MicrosoftBandServices
         /// <param name="patientData">PatientData object used to retrieve the Microsoft Band UV Data records</param>
         /// <param name="startTime">Start time of date/time filter</param>
         /// <param name="endTime">End time of date/time filter</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        public IEnumerable<MSBandUV> GetMSBandUVData(PatientData patientData, DateTime startTime, DateTime endTime) {
+        public IEnumerable<MSBandUV> GetMSBandUVData(PatientData patientData, DateTime startTime, DateTime endTime, int skip = 0, int take = 0) {
             if (patientData == null)
                 return _repository.GetAll();
             else
-                return _repository.GetMany(r => r.PatientDataId == patientData.Id && r.Date >= startTime && r.Date <= endTime);
+                return _repository.GetMany(r => r.PatientDataId == patientData.Id && r.Date >= startTime && r.Date <= endTime, r => r.Date, skip, take);
         }
 
         /// <summary>

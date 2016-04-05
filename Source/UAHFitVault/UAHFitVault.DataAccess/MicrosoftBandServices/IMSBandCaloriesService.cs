@@ -26,8 +26,10 @@ namespace UAHFitVault.DataAccess.MicrosoftBandServices
         /// Get the Microsoft Band Calories data for the given a patient data record or all records for all patients.
         /// </summary>
         /// <param name="patientData">PatientData object used to retrieve the Microsoft Band Calories Data records</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        IEnumerable<MSBandCalories> GetMSBandCaloriesData(PatientData patientData);
+        IEnumerable<MSBandCalories> GetMSBandCaloriesData(PatientData patientData, int skip = 0, int take = 0);
 
         /// <summary>
         /// Get the Microsoft Band Calories data for the given a patient data record or all records for all patients.
@@ -36,8 +38,10 @@ namespace UAHFitVault.DataAccess.MicrosoftBandServices
         /// <param name="patientData">PatientData object used to retrieve the Microsoft Band Calories Data records</param>
         /// <param name="startTime">Start time of date/time filter</param>
         /// <param name="endTime">End time of date/time filter</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        IEnumerable<MSBandCalories> GetMSBandCaloriesData(PatientData patientData, DateTime startTime, DateTime endTime);
+        IEnumerable<MSBandCalories> GetMSBandCaloriesData(PatientData patientData, DateTime startTime, DateTime endTime, int skip = 0, int take = 0);
 
         /// <summary>
         /// Bulk Insert Microsoft Band Calories Data into the database

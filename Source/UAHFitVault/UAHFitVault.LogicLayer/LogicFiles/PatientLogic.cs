@@ -15,6 +15,23 @@ namespace UAHFitVault.LogicLayer.LogicFiles
     public static class PatientLogic
     {
         #region Public Methods
+        /// <summary>
+        /// Determine which type of medical device was entered by the user.
+        /// </summary>
+        /// <param name="medicalDeviceTypes">List of medical devices in the system.</param>
+        /// <param name="deviceType">User selected medical device.</param>
+        /// <returns></returns>
+        public static MedicalDevice DetermineDeviceType(List<MedicalDevice> medicalDeviceTypes, string deviceType) {
+            MedicalDevice medicalDevice = null;
+
+
+            if (medicalDeviceTypes != null && medicalDeviceTypes.Count > 0 && !string.IsNullOrEmpty(deviceType)) {
+                medicalDeviceTypes.RemoveAll(item => item == null);
+                medicalDevice = medicalDeviceTypes.FirstOrDefault(m => m.Name == deviceType);
+            }
+
+            return medicalDevice;
+        }
 
         /// <summary>
         /// Determine which type of medical device was entered by the user.
@@ -25,7 +42,7 @@ namespace UAHFitVault.LogicLayer.LogicFiles
             Device_Type deviceType = Device_Type.Unknown;
 
             if (!string.IsNullOrEmpty(filename)) {
-                if (filename.Contains("Accelerometer")) {
+                if (filename.Contains("Acceleration")) {
                     deviceType = Device_Type.Microsoft_Band;
                 }
                 else if (filename.Contains("Accel")) {

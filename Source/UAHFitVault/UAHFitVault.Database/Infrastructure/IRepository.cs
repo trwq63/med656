@@ -58,7 +58,20 @@ namespace UAHFitVault.Database.Infrastructure
         /// Gets entities using delegate
         /// </summary>
         /// <param name="where">Delegate used to get the entities</param>
+        /// <param name="order">Delegate used to order results</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        IEnumerable<T> GetMany(Expression<Func<T, bool>> where);
+        IEnumerable<T> GetMany(Expression<Func<T, bool>> where, Expression<Func<T, object>> order = null, int skip = 0, int take = 0);
+
+        /// <summary>
+        /// Gets entities using delegate
+        /// </summary>
+        /// <param name="where">Delegate used to get the entities</param>
+        /// <param name="order">DateTime object used to order results</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
+        /// <returns></returns>
+        IEnumerable<T> GetMany(Expression<Func<T, bool>> where, Expression<Func<T, DateTime>> order = null, int skip = 0, int take = 0);
     }
 }

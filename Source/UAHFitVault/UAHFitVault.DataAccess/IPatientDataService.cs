@@ -25,8 +25,10 @@ namespace UAHFitVault.DataAccess
         /// Get the patient data records for the given patient.
         /// </summary>
         /// <param name="patient">Patient object used to retrieve the patient's data records</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        IEnumerable<PatientData> GetPatientData(Patient patient);
+        IEnumerable<PatientData> GetPatientData(Patient patient, int skip = 0, int take = 0);
 
         /// <summary>
         /// Save changes to database
