@@ -14,6 +14,7 @@ def test_create_physician(logoff):
     - 3.1.1.1.4.2: System Administrators shall be able to enable users
     - 3.1.1.7: Physicians create their own accounts
     - 3.1.1.7.1: System Administrators shall verify the creation of a physician account
+    - 3.1.6: The system shall provide account management.
     - 3.1.6.1: The system shall allow account creation
     - 3.1.6.1.1: The system shall force account approval for physicians
     - 3.1.1.4: System requires a minimum security criteria
@@ -79,6 +80,7 @@ def test_create_experiment_admin(logoff):
     - 3.1.1.1.4.2: System Administrators shall be able to enable users
     - 3.1.1.7: Experiment administrators create their own accounts
     - 3.1.1.7.1: System Administrators shall verify the creation of a experiment admin account
+    - 3.1.6: The system shall provide account management.
     - 3.1.6.1: The system shall allow account creation
     - 3.1.6.1.1: The system shall force account approval for experiment admins
     - 3.1.1.4: System requires a minimum security criteria
@@ -135,6 +137,67 @@ def test_create_experiment_admin(logoff):
     web_sess.login(user, pwd)
     assert web_sess.check_login()
 
+def test_create_system_admin(logoff):
+    """
+    **Requirements:**
+
+    - 3.1.1.1.4.1: minimum information stored for experiment admin account
+    - 3.1.1.1.4.2: System Administrators shall be able to enable users
+    - 3.1.6: The system shall provide account management.
+    - 3.1.6.1: The system shall allow account creation
+    - 3.1.1.4: System requires a minimum security criteria
+    - 3.1.1.4.1: Password must be at least 10 characters
+    - 3.1.1.4.2: Password shall contain at least 1 upper and 1 lower case character
+    - 3.1.1.4.3: Password shall contain at least 1 number
+    - 3.1.1.4.4: Password shall contain at least 1 special character
+
+    **Pre Conditions:**
+
+    - logoff fixture
+
+    **Input:**
+
+    - user = 'lnibbler'
+    - pwd = 'P@ssword10'
+    - email = 'lnibbler@futurama.com'
+    - first_name = 'Lord'
+    - last_name = 'Nibbler'
+    - address = '304 Wherever Street, New New York City, New New York'
+    - phone_number = '123-456-7890'
+
+
+    ===========================  =================  =============
+    Steps                        Expected Result    Actual Result
+    ===========================  =================  =============
+    Login as fitadmin            Login Successful
+    Create another system admin  No errors
+    login as new system admin    User can login
+    ===========================  =================  =============
+    """
+    print('Starting')
+
+    user = 'lnibbler'
+    pwd = 'P@ssword10'
+    email = 'lnibbler@futurama.com'
+    first_name = 'Lord'
+    last_name = 'Nibbler'
+    address = '304 Wherever Street, New New York City, New New York'
+    phone_number = '123-456-7890'
+
+    print('Requesting Exp Admin {}/{} name: {}, {} email: {} address: {} phone num: {}'.format(user,
+                                                                                               pwd,
+                                                                                               last_name,
+                                                                                               first_name,
+                                                                                               email,
+                                                                                               address,
+                                                                                               phone_number))
+    print('Logging in as fitadmin/Password1!')
+    web_sess.login('fitadmin', 'Password1!')
+    print('Creating system admin {}'.format(user))
+
+    print('Logging in as {}/{}'.format(user, pwd))
+    web_sess.login(user, pwd)
+    assert web_sess.check_login()
 
 def test_create_patient(login_tphysician):
     """
@@ -144,6 +207,7 @@ def test_create_patient(login_tphysician):
     - 3.1.1.1.2.5: Physician user can add a patient to the system
     - 3.1.1.3.1: Display patient ID to physician at the time of creation
     - 3.1.1.7.2: Physicians shall create their patients accounts
+    - 3.1.6: The system shall provide account management.
     - 3.1.6.1: The system shall allow account creation
     - 3.1.6.1.2: Patients shall not need approval for account creation
     - 3.1.1.4: System requires a minimum security criteria
@@ -259,6 +323,7 @@ def test_delete_physician(logoff):
     **Requirements:**
 
     - 3.1.6.3: System administrator can delete accounts
+    - 3.1.6: The system shall provide account management.
 
     **Pre Conditions:**
 
@@ -295,6 +360,7 @@ def test_delete_experiment_admin(logoff):
     **Requirements:**
 
     - 3.1.6.3: System administrator can delete accounts
+    - 3.1.6: The system shall provide account management.
 
     **Pre Conditions:**
 

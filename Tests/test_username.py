@@ -11,6 +11,7 @@ def test_username_cannot_be_copied(logoff):
     **Requirements:**
 
     - 3.1.1.2: Usernames must be unique
+    - 3.1.1.3: The system shall assign unique ids to each created patient.
     - 3.1.1.2.1: Users cannot change username to an already existing username
 
     **Pre Conditions:**
