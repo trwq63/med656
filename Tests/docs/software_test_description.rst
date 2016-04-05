@@ -40,3 +40,4 @@ Test Descriptions
    :maxdepth: 4
 
    pytest_test_descriptions
+   manual_test_descriptions
