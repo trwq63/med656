@@ -286,7 +286,7 @@ namespace UAHFitVault.Controllers
                             IEnumerable<ZephyrAccelerometer> zephyrAccelData = null;
                             index = 1;
                             do {
-                                zephyrAccelData = _zephyrAccelService.GetZephyrAccelerometerData(patientData, count, SystemConstants.MAX_ITEMS_RETURNED);
+                                zephyrAccelData = _zephyrAccelService.GetZephyrAccelerometerData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
                                 count = 0;
                                 foreach (ZephyrAccelerometer data in zephyrAccelData) {
                                     export.AddRow();
@@ -308,7 +308,7 @@ namespace UAHFitVault.Controllers
                             IEnumerable<MSBandAccelerometer> msAccelData = null;
                             index = 1;
                             do {                                
-                                msAccelData = _msBandAccelService.GetMSBandAccelerometerData(patientData, count, SystemConstants.MAX_ITEMS_RETURNED);
+                                msAccelData = _msBandAccelService.GetMSBandAccelerometerData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
                                 count = 0;
                                 foreach (MSBandAccelerometer data in msAccelData) {
                                     export.AddRow();
@@ -334,7 +334,7 @@ namespace UAHFitVault.Controllers
                     IEnumerable<ZephyrBreathingWaveform> zephyrBreathingData = null;
                     index = 1;
                     do {
-                        zephyrBreathingData = _breathingService.GetZephyrBreathingWaveformData(patientData, count, SystemConstants.MAX_ITEMS_RETURNED);
+                        zephyrBreathingData = _breathingService.GetZephyrBreathingWaveformData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
                         count = 0;
                         foreach (ZephyrBreathingWaveform data in zephyrBreathingData) {
                             export.AddRow();
@@ -354,7 +354,7 @@ namespace UAHFitVault.Controllers
                     IEnumerable<MSBandCalories> calorieData = null;
                     index = 1;
                     do {
-                        calorieData = _msBandCaloriesService.GetMSBandCaloriesData(patientData, count, SystemConstants.MAX_ITEMS_RETURNED);
+                        calorieData = _msBandCaloriesService.GetMSBandCaloriesData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
                         count = 0;
                         foreach (MSBandCalories data in calorieData) {
                             export.AddRow();
@@ -374,7 +374,7 @@ namespace UAHFitVault.Controllers
                     IEnumerable<MSBandDistance> distanceData = null;
                     index = 1;
                     do {
-                        _msBandDistanceService.GetMSBandDistanceData(patientData, count, SystemConstants.MAX_ITEMS_RETURNED);
+                        _msBandDistanceService.GetMSBandDistanceData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
                         count = 0;
                         foreach (MSBandDistance data in distanceData) {
                             export.AddRow();
@@ -397,7 +397,7 @@ namespace UAHFitVault.Controllers
                     IEnumerable<ZephyrECGWaveform> ecgData = null;
                     index = 1;
                     do {
-                        ecgData = _ecgService.GetZephyrECGWaveFormData(patientData, ((index -1)* count), SystemConstants.MAX_ITEMS_RETURNED);
+                        ecgData = _ecgService.GetZephyrECGWaveFormData(patientData, ((index -1) * count), SystemConstants.MAX_ITEMS_RETURNED);
                         count = 0;
                         foreach (ZephyrECGWaveform data in ecgData) {
                             export.AddRow();
@@ -417,7 +417,7 @@ namespace UAHFitVault.Controllers
                     IEnumerable<ZephyrEventData> eventData = null;
                     index = 1;
                     do {
-                        eventData = _eventDataService.GetZephyrEventData(patientData, count, SystemConstants.MAX_ITEMS_RETURNED);
+                        eventData = _eventDataService.GetZephyrEventData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
                         count = 0;
                         foreach (ZephyrEventData data in eventData) {
                             export.AddRow();
@@ -442,7 +442,7 @@ namespace UAHFitVault.Controllers
                     IEnumerable<MSBandGyroscope> gyroscopeData = null;
                     index = 1;
                     do {
-                        gyroscopeData = _msBandGyroscopeService.GetMSBandGyroscopeData(patientData, count, SystemConstants.MAX_ITEMS_RETURNED);
+                        gyroscopeData = _msBandGyroscopeService.GetMSBandGyroscopeData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
                         count = 0;
                         foreach (MSBandGyroscope data in gyroscopeData) {
                             export.AddRow();
@@ -464,7 +464,7 @@ namespace UAHFitVault.Controllers
                     IEnumerable<MSBandHeartRate> heartRateData = null;
                     index = 1;
                     do {
-                        heartRateData = _msBandHeartRateService.GetMSBandHeartRateData(patientData, count, SystemConstants.MAX_ITEMS_RETURNED);
+                        heartRateData = _msBandHeartRateService.GetMSBandHeartRateData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
                         count = 0;
                         foreach (MSBandHeartRate data in heartRateData) {
                             export.AddRow();
@@ -485,7 +485,7 @@ namespace UAHFitVault.Controllers
                     IEnumerable<MSBandPedometer> pedometerData = null;
                     index = 1;
                     do {
-                        pedometerData = _msBandPedometerService.GetMSBandPedometerData(patientData, count, SystemConstants.MAX_ITEMS_RETURNED);
+                        pedometerData = _msBandPedometerService.GetMSBandPedometerData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
                         count = 0;
                         foreach (MSBandPedometer data in pedometerData) {
                             export.AddRow();
@@ -503,11 +503,84 @@ namespace UAHFitVault.Controllers
                     break;
                 case (int)File_Type.Summary:
                     Device_Type summaryDevice = PatientLogic.DetermineDeviceType(patientData.Name);
-
                     switch (summaryDevice) {
                         case Device_Type.Zephyr:
+                            IEnumerable<ZephyrSummaryData> zephyrSummaryData = null;
+                            index = 1;
+                            do {
+                                zephyrSummaryData = _summaryService.GetZephyrSummaryData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                                count = 0;
+                                foreach (ZephyrSummaryData data in zephyrSummaryData) {
+                                    export.AddRow();
+                                    export["Time"] = data.Date;
+                                    export["HR"] = data.HeartRate;
+                                    export["BR"] = data.BreathingRate;
+                                    export["SkinTemp"] = data.SkinTemp;
+                                    export["Posture"] = data.Posture;
+                                    export["Activity"] = data.Activity;
+                                    export["PeakAccel"] = data.PeakAccel;
+                                    export["BatteryVolts"] = data.BatteryVolts;
+                                    export["BatteryLevel"] = data.BatteryLevel;
+                                    export["BRAmplitude"] = data.BRAmplitude;
+                                    export["BRNoise"] = data.BRNoise;
+                                    export["BRConfidence"] = data.BRConfidence;
+                                    export["ECGAmplitude"] = data.ECGAmplitude;
+                                    export["ECGNoise"] = data.ECGNoise;
+                                    export["HRConfidence"] = data.HRConfidence;
+                                    export["HRV"] = data.HRV;
+                                    export["SystemConfidence"] = data.SystemConfidence;
+                                    export["GSR"] = data.GSR;
+                                    export["ROGState"] = data.ROGState;
+                                    export["ROGTime"] = data.ROGTime;
+                                    export["VerticalMin"] = data.VerticalMin;
+                                    export["VerticalPeak"] = data.VerticalPeak;
+                                    export["LateralMin"] = data.LateralMin;
+                                    export["LateralPeak"] = data.LateralPeak;
+                                    export["SagittalMin"] = data.SagittalMin;
+                                    export["SagittalPeak"] = data.SagittalPeak;
+                                    export["DeviceTemp"] = data.DeviceTemp;
+                                    export["StatusInfo"] = data.StatusInfo;
+                                    export["LinkQuality"] = data.LinkQuality;
+                                    export["RSSI"] = data.RSSI;
+                                    export["TxPower"] = data.TxPower;
+                                    export["CoreTemp"] = data.CoreTemp;
+                                    export["AuxADC1"] = data.AuxADC1;
+                                    export["AuxADC2"] = data.AuxADC2;
+                                    export["AuxADC3"] = data.AuxADC3;
+                                    count++;
+                                    if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                        export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                        index++;
+                                        fileIndex = index.ToString() + "_";
+                                        export = new CsvExport();
+                                    }
+                                }
+                            } while (zephyrSummaryData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                            break;
                             break;
                         case Device_Type.BasisPeak:
+                            IEnumerable<BasisPeakSummaryData> basisData = null;
+                            index = 1;
+                            do {
+                                basisData = _basisPeakService.GetBasisPeakSummaryData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                                count = 0;
+                                foreach (BasisPeakSummaryData data in basisData) {
+                                    export.AddRow();
+                                    export["date"] = data.Date;
+                                    export["calories"] = data.Calories;
+                                    export["gsr"] = data.GSR;
+                                    export["heart-rate"] = data.HeartRate;
+                                    export["skin-temp"] = data.SkinTemp;
+                                    export["steps"] = data.Steps;
+                                    count++;
+                                    if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                        export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                        index++;
+                                        fileIndex = index.ToString() + "_";
+                                        export = new CsvExport();
+                                    }
+                                }
+                            } while (basisData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
                             break;
                         default:
                             break;
@@ -518,7 +591,7 @@ namespace UAHFitVault.Controllers
                     IEnumerable<MSBandTemperature> temperatureData = null;
                     index = 1;
                     do {
-                        temperatureData = _msBandTemperatureService.GetMSBandTemperatureData(patientData, count, SystemConstants.MAX_ITEMS_RETURNED);
+                        temperatureData = _msBandTemperatureService.GetMSBandTemperatureData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
                         count = 0;
                         foreach (MSBandTemperature data in temperatureData) {
                             export.AddRow();
@@ -538,7 +611,7 @@ namespace UAHFitVault.Controllers
                     IEnumerable<MSBandUV> uvData = null;
                     index = 1;
                     do {
-                        uvData = _msBandUVService.GetMSBandUVData(patientData, count, SystemConstants.MAX_ITEMS_RETURNED);
+                        uvData = _msBandUVService.GetMSBandUVData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
                         count = 0;
                         foreach (MSBandUV data in uvData) {
                             export.AddRow();
