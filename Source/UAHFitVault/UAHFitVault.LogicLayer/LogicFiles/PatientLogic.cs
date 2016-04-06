@@ -371,6 +371,15 @@ namespace UAHFitVault.LogicLayer.LogicFiles
                         BasisPeakSummaryData summary = new BasisPeakSummaryData();
                         summary.Date = DateTime.Parse(csvReader[0]);
 
+                        //Convert date from basis peak summary from GMT to CST.
+                        TimeZoneInfo nyTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
+                        if (nyTimeZone.IsDaylightSavingTime(DateTime.Now)) {
+                            summary.Date = summary.Date.AddHours(6);
+                        }
+                        else {
+                            summary.Date = summary.Date.AddHours(5);
+                        }                            
+
                         if (!string.IsNullOrEmpty(csvReader[1])) {
                             summary.Calories = (float)Convert.ToDouble(csvReader[1]);
                         }
