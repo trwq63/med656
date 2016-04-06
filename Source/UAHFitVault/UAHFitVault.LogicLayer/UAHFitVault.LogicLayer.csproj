@@ -51,6 +51,7 @@
     <Compile Include="Models\LineGraphModel.cs" />
     <Compile Include="Models\PatientDataByDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\SystemConstants.cs" />
     <Compile Include="Resources\ZephyrConstants.cs" />
   </ItemGroup>
   <ItemGroup>

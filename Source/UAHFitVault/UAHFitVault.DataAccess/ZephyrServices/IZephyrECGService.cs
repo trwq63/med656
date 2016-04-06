@@ -18,8 +18,10 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// Get the Zephyr ECG WaveForm data for the given a patient data record or all records for all patients.
         /// </summary>
         /// <param name="patientData">PatientData object used to retrieve the Zephyr ECG WaveForm Data records</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        IEnumerable<ZephyrECGWaveform> GetZephyrECGWaveFormData(PatientData patientData);
+        IEnumerable<ZephyrECGWaveform> GetZephyrECGWaveFormData(PatientData patientData, int skip = 0, int take = 0);
 
         /// <summary>
         /// Get the Zephyr ECG WaveForm data for the given a patient data record or all records for all patients during
@@ -28,8 +30,10 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// <param name="patientData">PatientData object used to retrieve the Zephyr ECG WaveForm Data records</param>
         /// <param name="startTime">Start time of date/time filter</param>
         /// <param name="endTime">End time of date/time filter</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        IEnumerable<ZephyrECGWaveform> GetZephyrECGWaveFormData(PatientData patientData, DateTime startTime, DateTime endTime);
+        IEnumerable<ZephyrECGWaveform> GetZephyrECGWaveFormData(PatientData patientData, DateTime startTime, DateTime endTime, int skip = 0, int take = 0);
 
         /// <summary>
         /// Get Zephyr ECG WaveForm data from database using the Zephyr ECG WaveForm id

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using UAHFitVault.Database.Entities;
 
 namespace UAHFitVault.Database.Infrastructure
 {
@@ -63,8 +64,22 @@ namespace UAHFitVault.Database.Infrastructure
             return dbSet.ToList();
         }
 
-        public virtual IEnumerable<T> GetMany(Expression<Func<T, bool>> where) {
-            return dbSet.Where(where).ToList();
+        public virtual IEnumerable<T> GetMany(Expression<Func<T, bool>> where, Expression<Func<T, object>> order = null, int skip = 0, int take = 0) {
+            if (take > 0 && order != null) {
+                return dbSet.Where(where).OrderBy(order).Skip(skip).Take(take).ToList();
+            }
+            else {
+                return dbSet.Where(where).ToList();
+            }
+        }
+
+        public virtual IEnumerable<T> GetMany(Expression<Func<T, bool>> where, Expression<Func<T, DateTime>> order = null, int skip = 0, int take = 0) {
+            if (take > 0 && order != null) {
+                return dbSet.Where(where).OrderBy(order).Skip(skip).Take(take).ToList();
+            }
+            else {
+                return dbSet.Where(where).ToList();
+            }
         }
 
         public T Get(Expression<Func<T, bool>> where) {

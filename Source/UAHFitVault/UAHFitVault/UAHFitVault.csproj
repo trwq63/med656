@@ -231,6 +231,7 @@
     </Compile>
     <Compile Include="Helpers\ApplicationUserService.cs" />
     <Compile Include="Helpers\AuthorizationAttribute.cs" />
+    <Compile Include="Helpers\CsvExport.cs" />
     <Compile Include="Migrations\201602030334585_NewInitial.cs" />
     <Compile Include="Migrations\201602030334585_NewInitial.Designer.cs">
       <DependentUpon>201602030334585_NewInitial.cs</DependentUpon>
@@ -239,6 +240,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ActivityModel.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
+    <Compile Include="Models\ExportViewModel.cs" />
     <Compile Include="Models\PatientDataViewModel.cs" />
     <Compile Include="Models\ExperimentAdminViewModels.cs" />
     <Compile Include="Models\PatientManagementViewModel.cs" />
@@ -452,6 +454,8 @@
     <Content Include="Views\Physician\ViewExperiments.cshtml" />
     <Content Include="Views\Physician\ViewExperiment.cshtml" />
     <Content Include="Views\Physician\ViewExperimentPatient.cshtml" />
+    <Content Include="Views\Patient\Export.cshtml" />
+    <Content Include="Views\Patient\_PartialPatientData.cshtml" />
     <None Include="Views\Shared\_PhysicianLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>

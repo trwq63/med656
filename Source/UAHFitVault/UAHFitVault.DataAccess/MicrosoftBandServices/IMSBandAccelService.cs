@@ -26,8 +26,10 @@ namespace UAHFitVault.DataAccess.MicrosoftBandServices
         /// Get the Microsoft Band Accelerometer data for the given a patient data record or all records for all patients.
         /// </summary>
         /// <param name="patientData">PatientData object used to retrieve the Microsoft Band Accelerometer Data records</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        IEnumerable<MSBandAccelerometer> GetMSBandAccelerometerData(PatientData patientData);
+        IEnumerable<MSBandAccelerometer> GetMSBandAccelerometerData(PatientData patientData, int skip = 0, int take = 0);
 
         /// <summary>
         /// Get the Microsoft Band Accelerometer data for the given a patient data record or all records for all patients.
@@ -36,8 +38,10 @@ namespace UAHFitVault.DataAccess.MicrosoftBandServices
         /// <param name="patientData">PatientData object used to retrieve the Microsoft Band Accelerometer Data records</param>
         /// <param name="startTime">Start time of date/time filter</param>
         /// <param name="endTime">End time of date/time filter</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        IEnumerable<MSBandAccelerometer> GetMSBandAccelerometerData(PatientData patientData, DateTime startTime, DateTime endTime);
+        IEnumerable<MSBandAccelerometer> GetMSBandAccelerometerData(PatientData patientData, DateTime startTime, DateTime endTime, int skip, int take);
 
         /// <summary>
         /// Bulk Insert Microsoft Band Acceleromater Data into the database
