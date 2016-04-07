@@ -432,8 +432,8 @@
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Admin\ManageUsers.cshtml" />
     <Content Include="Views\Shared\_PatientLayout.cshtml" />
-    <Content Include="Views\Physician\DeletePatient.cshtml" />
-    <Content Include="Views\Physician\DeletePatientConfirm.cshtml" />
+    <Content Include="Views\Physician\DisablePatient.cshtml" />
+    <Content Include="Views\Physician\DisablePatientConfirm.cshtml" />
     <Content Include="Views\Physician\EditPatient.cshtml" />
     <Content Include="Views\Physician\ViewPatientData.cshtml" />
     <Content Include="Views\Physician\ResetPassword.cshtml" />
