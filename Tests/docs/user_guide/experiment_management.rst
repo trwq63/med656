@@ -11,4 +11,4 @@ Contents:
 
    experiment_creation
    experiment_deletion
-   experiment_exporation
+   experiment_exportation
