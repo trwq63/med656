@@ -40,12 +40,14 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// Get the Zephyr ECG WaveForm data for the given a patient data record or all records for all patients.
         /// </summary>
         /// <param name="patientData">PatientData object used to retrieve the Zephyr ECG WaveForm Data records</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        public IEnumerable<ZephyrECGWaveform> GetZephyrECGWaveFormData(PatientData patientData) {
+        public IEnumerable<ZephyrECGWaveform> GetZephyrECGWaveFormData(PatientData patientData, int skip = 0, int take = 0) {
             if (patientData == null)
                 return _repository.GetAll();
             else
-                return _repository.GetMany(r => r.PatientDataId == patientData.Id);
+                return _repository.GetMany(r => r.PatientDataId == patientData.Id, r => r.Time, skip, take);
         }
 
         /// <summary>
@@ -55,12 +57,14 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// <param name="patientData">PatientData object used to retrieve the Zephyr ECG WaveForm Data records</param>
         /// <param name="startTime">Start time of date/time filter</param>
         /// <param name="endTime">End time of date/time filter</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        public IEnumerable<ZephyrECGWaveform> GetZephyrECGWaveFormData(PatientData patientData, DateTime startTime, DateTime endTime) {
+        public IEnumerable<ZephyrECGWaveform> GetZephyrECGWaveFormData(PatientData patientData, DateTime startTime, DateTime endTime, int skip = 0, int take = 0) {
             if (patientData == null)
                 return _repository.GetAll();
             else
-                return _repository.GetMany(r => r.PatientDataId == patientData.Id && r.Time >= startTime && r.Time <= endTime);
+                return _repository.GetMany(r => r.PatientDataId == patientData.Id && r.Time >= startTime && r.Time <= endTime, r => r.Time, skip, take);
         }
 
         /// <summary>

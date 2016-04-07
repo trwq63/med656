@@ -26,8 +26,10 @@ namespace UAHFitVault.DataAccess.MicrosoftBandServices
         /// Get the Microsoft Band HeartRate data for the given a patient data record or all records for all patients.
         /// </summary>
         /// <param name="patientData">PatientData object used to retrieve the Microsoft Band HeartRate Data records</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        IEnumerable<MSBandHeartRate> GetMSBandHeartRateData(PatientData patientData);
+        IEnumerable<MSBandHeartRate> GetMSBandHeartRateData(PatientData patientData, int skip = 0, int take = 0);
 
         /// <summary>
         /// Get the Microsoft Band HeartRate data for the given a patient data record or all records for all patients.
@@ -36,8 +38,10 @@ namespace UAHFitVault.DataAccess.MicrosoftBandServices
         /// <param name="patientData">PatientData object used to retrieve the Microsoft Band HeartRate Data records</param>
         /// <param name="startTime">Start time of date/time filter</param>
         /// <param name="endTime">End time of date/time filter</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        IEnumerable<MSBandHeartRate> GetMSBandHeartRateData(PatientData patientData, DateTime startTime, DateTime endTime);
+        IEnumerable<MSBandHeartRate> GetMSBandHeartRateData(PatientData patientData, DateTime startTime, DateTime endTime, int skip = 0, int take = 0);
 
         /// <summary>
         /// Bulk Insert Microsoft Band HeartRate Data into the database

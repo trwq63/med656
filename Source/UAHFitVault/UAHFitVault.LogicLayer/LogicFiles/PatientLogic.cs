@@ -15,7 +15,6 @@ namespace UAHFitVault.LogicLayer.LogicFiles
     public static class PatientLogic
     {
         #region Public Methods
-
         /// <summary>
         /// Determine which type of medical device was entered by the user.
         /// </summary>
@@ -26,12 +25,37 @@ namespace UAHFitVault.LogicLayer.LogicFiles
             MedicalDevice medicalDevice = null;
 
 
-            if(medicalDeviceTypes != null && medicalDeviceTypes.Count > 0 && !string.IsNullOrEmpty(deviceType)) {
+            if (medicalDeviceTypes != null && medicalDeviceTypes.Count > 0 && !string.IsNullOrEmpty(deviceType)) {
                 medicalDeviceTypes.RemoveAll(item => item == null);
                 medicalDevice = medicalDeviceTypes.FirstOrDefault(m => m.Name == deviceType);
             }
 
             return medicalDevice;
+        }
+
+        /// <summary>
+        /// Determine which type of medical device was entered by the user.
+        /// </summary>
+        /// <param name="filename">patient data record file name</param>
+        /// <returns></returns>
+        public static Device_Type DetermineDeviceType(string filename) {
+            Device_Type deviceType = Device_Type.Unknown;
+
+            if (!string.IsNullOrEmpty(filename)) {
+                if (filename.Contains("Acceleration")) {
+                    deviceType = Device_Type.Microsoft_Band;
+                }
+                else if (filename.Contains("Accel")) {
+                    deviceType = Device_Type.Zephyr;
+                }
+                else if (filename.Contains("bodymetrics")) {
+                    deviceType = Device_Type.BasisPeak;
+                }
+                else if (filename.Contains("Summary")) {
+                    deviceType = Device_Type.Zephyr;
+                }
+            }
+            return deviceType;
         }
 
         /// <summary>

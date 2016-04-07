@@ -18,8 +18,10 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// Get the Zephyr Summary data for the given a patient data record or all records for all patients.
         /// </summary>
         /// <param name="patientData">PatientData object used to retrieve the Zephyr Summary Data records</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        IEnumerable<ZephyrSummaryData> GetZephyrSummaryData(PatientData patientData);
+        IEnumerable<ZephyrSummaryData> GetZephyrSummaryData(PatientData patientData, int skip = 0, int take = 0);
 
         /// <summary>
         /// Get Zephyr Summary data from database using the Zephyr Summary id

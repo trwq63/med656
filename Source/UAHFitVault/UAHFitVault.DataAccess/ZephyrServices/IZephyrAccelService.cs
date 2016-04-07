@@ -26,8 +26,10 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// Get the Zephyr Accelerometer data for the given a patient data record or all records for all patients.
         /// </summary>
         /// <param name="patientData">PatientData object used to retrieve the Zephyr Accelerometer Data records</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        IEnumerable<ZephyrAccelerometer> GetZephyrAccelerometerData(PatientData patientData);
+        IEnumerable<ZephyrAccelerometer> GetZephyrAccelerometerData(PatientData patientData, int skip = 0, int take = 0);
 
         /// <summary>
         /// Get the Zephyr Accelerometer data for the given a patient data record or all records for all patients.
@@ -36,8 +38,10 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// <param name="patientData">PatientData object used to retrieve the Zephyr Accelerometer Data records</param>
         /// <param name="startTime">Start time of date/time filter</param>
         /// <param name="endTime">End time of date/time filter</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        IEnumerable<ZephyrAccelerometer> GetZephyrAccelerometerData(PatientData patientData, DateTime startTime, DateTime endTime);
+        IEnumerable<ZephyrAccelerometer> GetZephyrAccelerometerData(PatientData patientData, DateTime startTime, DateTime endTime, int skip = 0, int take = 0);
 
         /// <summary>
         /// Bulk Insert Zephyr Acceleromater Data into the database
