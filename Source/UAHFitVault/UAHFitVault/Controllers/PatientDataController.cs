@@ -257,6 +257,16 @@ namespace UAHFitVault.Controllers
                         }
                         break;
                     case "BasisPeak":
+                        List<BasisPeakSummaryData> basisSummaryData = _basisPeakService.GetBasisPeakSummaryData(dataRecord, start, end).ToList();
+                        if(basisSummaryData != null && basisSummaryData.Count > 0) {
+                            LineGraphModel lineModel = new LineGraphModel() {
+                                XAxisName = AxisNames.GENERIC_X_AXIS,
+                                YAxisName = AxisNames.BEATS_PER_MINUTE,
+                                XAxisData = basisSummaryData.Select(b => b.Date).ToList(),
+                                YAxisData = basisSummaryData.Where(b => b.HeartRate != null).Select(b => b.HeartRate).Select(d => (double)d).ToList()
+                            };
+                            graphViewModel.LineGraphModels.Add(lineModel);
+                        }
                         break;
                     case "Microsoft Band":
                         break;
