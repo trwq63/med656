@@ -51,7 +51,7 @@
 <span class="kn">import</span> <span class="nn">time</span>
 
 
-<div class="viewcode-block" id="WebUI"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI">[docs]</a><span class="k">class</span> <span class="nc">WebUI</span><span class="p">:</span>
+<div class="viewcode-block" id="WebUI"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI">[docs]</a><span class="k">class</span> <span class="nc">WebUI</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class keeps track of the web session. It uses Firefox as the web driver. Its baseurl is the start page of</span>
 <span class="sd">    the software. By default it is the localhost on port 25396.</span>
@@ -69,7 +69,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">go_home</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">maximize_window</span><span class="p">()</span>
 
-<div class="viewcode-block" id="WebUI.go_home"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.go_home">[docs]</a>    <span class="k">def</span> <span class="nf">go_home</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.go_home"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.go_home">[docs]</a>    <span class="k">def</span> <span class="nf">go_home</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Navigates the web session back to the base url</span>
 
@@ -78,7 +78,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">baseurl</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">page_source</span>
 </div>
-<div class="viewcode-block" id="WebUI.get_page"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.get_page">[docs]</a>    <span class="k">def</span> <span class="nf">get_page</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.get_page"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.get_page">[docs]</a>    <span class="k">def</span> <span class="nf">get_page</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper procedure to return the current web pages source useful to validate responses on the page</span>
 
@@ -86,7 +86,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">page_source</span>
 </div>
-<div class="viewcode-block" id="WebUI.login"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.login">[docs]</a>    <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.login"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.login">[docs]</a>    <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This will make sure you are logged in as the user specified. It will log you out if you are already logged in.</span>
 
@@ -105,7 +105,7 @@
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
-<div class="viewcode-block" id="WebUI.check_login"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.check_login">[docs]</a>    <span class="k">def</span> <span class="nf">check_login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.check_login"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.check_login">[docs]</a>    <span class="k">def</span> <span class="nf">check_login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This will verify you are logged in. It checks for the manage account link that only appears if you are</span>
 <span class="sd">        logged in.</span>
@@ -124,7 +124,7 @@
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
-<div class="viewcode-block" id="WebUI.logoff"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.logoff">[docs]</a>    <span class="k">def</span> <span class="nf">logoff</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.logoff"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.logoff">[docs]</a>    <span class="k">def</span> <span class="nf">logoff</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This will log the logged in user off.</span>
 
@@ -136,7 +136,7 @@
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
-<div class="viewcode-block" id="WebUI.check_logoff"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.check_logoff">[docs]</a>    <span class="k">def</span> <span class="nf">check_logoff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.check_logoff"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.check_logoff">[docs]</a>    <span class="k">def</span> <span class="nf">check_logoff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This will check that there is no logged in user for the session</span>
 
@@ -151,7 +151,7 @@
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
-<div class="viewcode-block" id="WebUI.request_account"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.request_account">[docs]</a>    <span class="k">def</span> <span class="nf">request_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_type</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.request_account"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.request_account">[docs]</a>    <span class="k">def</span> <span class="nf">request_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_type</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This will fill out a request for an account. To request an account you must be logged out therefore</span>
 <span class="sd">        this procedure will make sure you are logged out</span>
@@ -188,7 +188,7 @@
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
-<div class="viewcode-block" id="WebUI.approve_account"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.approve_account">[docs]</a>    <span class="k">def</span> <span class="nf">approve_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.approve_account"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.approve_account">[docs]</a>    <span class="k">def</span> <span class="nf">approve_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Logs in as the system admin and approves an account with the given username</span>
 
@@ -205,7 +205,7 @@
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
-<div class="viewcode-block" id="WebUI.check_request_account"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.check_request_account">[docs]</a>    <span class="k">def</span> <span class="nf">check_request_account</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.check_request_account"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.check_request_account">[docs]</a>    <span class="k">def</span> <span class="nf">check_request_account</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validates that the account request was successful</span>
 
@@ -215,7 +215,7 @@
             <span class="k">return</span> <span class="bp">True</span>
         <span class="k">return</span> <span class="bp">False</span>
 </div>
-<div class="viewcode-block" id="WebUI.upload_files"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.upload_files">[docs]</a>    <span class="k">def</span> <span class="nf">upload_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">activity_dict</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.upload_files"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.upload_files">[docs]</a>    <span class="k">def</span> <span class="nf">upload_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">activity_dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This will uplaod files for a patient with the given activities</span>
 
@@ -233,7 +233,7 @@
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
-<div class="viewcode-block" id="WebUI.create_patient"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.create_patient">[docs]</a>    <span class="k">def</span> <span class="nf">create_patient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phy</span><span class="p">,</span> <span class="n">phy_pass</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">bday</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">gender</span><span class="p">,</span> <span class="n">race</span><span class="p">,</span> <span class="n">ethnicity</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.create_patient"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.create_patient">[docs]</a>    <span class="k">def</span> <span class="nf">create_patient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phy</span><span class="p">,</span> <span class="n">phy_pass</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">bday</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">gender</span><span class="p">,</span> <span class="n">race</span><span class="p">,</span> <span class="n">ethnicity</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This will create a patient account. It expects the physician to be logged in when called.</span>
 
@@ -286,7 +286,7 @@
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
-<div class="viewcode-block" id="WebUI.check_create_patient"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.check_create_patient">[docs]</a>    <span class="k">def</span> <span class="nf">check_create_patient</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.check_create_patient"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.check_create_patient">[docs]</a>    <span class="k">def</span> <span class="nf">check_create_patient</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validates that the patient creation was successful</span>
 
@@ -296,7 +296,7 @@
             <span class="k">return</span> <span class="bp">True</span>
         <span class="k">return</span> <span class="bp">False</span>
 </div>
-<div class="viewcode-block" id="WebUI.delete_account"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.delete_account">[docs]</a>    <span class="k">def</span> <span class="nf">delete_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.delete_account"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.delete_account">[docs]</a>    <span class="k">def</span> <span class="nf">delete_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This logs in as the system admin and deletes the specified user</span>
 
@@ -314,7 +314,7 @@
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
-<div class="viewcode-block" id="WebUI.delete_patient"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.delete_patient">[docs]</a>    <span class="k">def</span> <span class="nf">delete_patient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phy</span><span class="p">,</span> <span class="n">phy_pass</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.delete_patient"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.delete_patient">[docs]</a>    <span class="k">def</span> <span class="nf">delete_patient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phy</span><span class="p">,</span> <span class="n">phy_pass</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This logs in as the physician and deletes the specified user</span>
 
@@ -332,7 +332,7 @@
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
-<div class="viewcode-block" id="WebUI.set_account_info"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.set_account_info">[docs]</a>    <span class="k">def</span> <span class="nf">set_account_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pwd</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">current_pwd</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">phonenum</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.set_account_info"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.set_account_info">[docs]</a>    <span class="k">def</span> <span class="nf">set_account_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pwd</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">current_pwd</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">phonenum</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This procedure will set the account info to any info provided if provided</span>
 <span class="sd">        It assumes the user is already logged in</span>
@@ -367,7 +367,7 @@
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
-<div class="viewcode-block" id="WebUI.confirm_account_info"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.confirm_account_info">[docs]</a>    <span class="k">def</span> <span class="nf">confirm_account_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">phonenum</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.confirm_account_info"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.confirm_account_info">[docs]</a>    <span class="k">def</span> <span class="nf">confirm_account_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">phonenum</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This procedure will confirm account information of whatever information is provided.</span>
 
@@ -399,7 +399,7 @@
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
-<div class="viewcode-block" id="WebUI.reset_user_password"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.reset_user_password">[docs]</a>    <span class="k">def</span> <span class="nf">reset_user_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">new_pwd</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.reset_user_password"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.reset_user_password">[docs]</a>    <span class="k">def</span> <span class="nf">reset_user_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">new_pwd</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This procedure will make the system admin reset an accounts password</span>
 
@@ -423,7 +423,7 @@
             <span class="k">return</span> <span class="bp">False</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
-<div class="viewcode-block" id="WebUI.delete_all_accounts"><a class="viewcode-back" href="../../WebUI.html#WebUI.WebUI.WebUI.delete_all_accounts">[docs]</a>    <span class="k">def</span> <span class="nf">delete_all_accounts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WebUI.delete_all_accounts"><a class="viewcode-back" href="../../STD/WebUI.html#WebUI.WebUI.WebUI.delete_all_accounts">[docs]</a>    <span class="k">def</span> <span class="nf">delete_all_accounts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_login</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s">&#39;fitadmin&#39;</span><span class="p">,</span> <span class="s">&#39;Password1!&#39;</span><span class="p">)</span>

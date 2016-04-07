@@ -1,0 +1,4 @@
+alabaster == 0.7.7
+pytest == 2.6.4
+selenium==2.53.1
+Sphinx==1.2.2

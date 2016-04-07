@@ -11,8 +11,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   user_guide
-   software_test_description
+   user_guide/user_guide
+   STD/software_test_description
 
 
 Indices and tables

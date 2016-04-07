@@ -38,11 +38,15 @@ User Privacy Test
 
 - The user must be logged off
 - A physician named 'testPhysician' must be created
+
  - To check if this user is created login as user 'fitadmin' password 'Password1!'
  - Click the 'Manage Accounts' button at the top of the page
  - Select 'Physicians' from the Roles dropdown and look for 'testPhysician'
+
 - If physician 'testPhysician' does not exist
+
  - Follow the steps here __'userguide link'__ to create a physician account with the following information
+
   - first name = test
   - last name = test
   - username = testPhysician
@@ -82,11 +86,15 @@ Physician Graph View
 
 - The user must be logged off
 - A physician named 'testPhysician' must be created
+
  - To check if this user is created login as user 'fitadmin' password 'Password1!'
  - Click the 'Manage Accounts' button at the top of the page
  - Select 'Physicians' from the Roles dropdown and look for 'testPhysician'
+
 - If physician 'testPhysician' does not exist
+
  - Follow the steps here __'userguide link'__ to create a physician account with the following information
+
   - first name = test
   - last name = test
   - username = testPhysician
@@ -95,9 +103,13 @@ Physician Graph View
   - address = here
   - phone number = 123-456-7890
   - reason = test
+
 - 'testPhysician' must have a patient 'testPatientGraphView'
+
  - If patient 'testPatientGraphView' does not exist
+
   - Follow the steps here ___'userguide link'___ to create patient 'testPatientGraphView' with to following information
+
    - user = 'testPatientGraphView'
    - pwd = 'P@ssword10'
    - birthday = '3 March, 1954'
@@ -143,5 +155,5 @@ OS Test
 ========================================================================  ===========================================  =============
 Steps                                                                     Expected Result                              Actual Result
 ========================================================================  ===========================================  =============
-
+empty
 ========================================================================  ===========================================  =============

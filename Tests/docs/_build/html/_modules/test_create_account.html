@@ -46,7 +46,7 @@
 <span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="test_create_physician"><a class="viewcode-back" href="../test_create_account.html#test_create_account.test_create_physician">[docs]</a><span class="k">def</span> <span class="nf">test_create_physician</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+<div class="viewcode-block" id="test_create_physician"><a class="viewcode-back" href="../STD/test_create_account.html#test_create_account.test_create_physician">[docs]</a><span class="k">def</span> <span class="nf">test_create_physician</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    **Requirements:**</span>
 
@@ -54,6 +54,7 @@
 <span class="sd">    - 3.1.1.1.4.2: System Administrators shall be able to enable users</span>
 <span class="sd">    - 3.1.1.7: Physicians create their own accounts</span>
 <span class="sd">    - 3.1.1.7.1: System Administrators shall verify the creation of a physician account</span>
+<span class="sd">    - 3.1.6: The system shall provide account management.</span>
 <span class="sd">    - 3.1.6.1: The system shall allow account creation</span>
 <span class="sd">    - 3.1.6.1.1: The system shall force account approval for physicians</span>
 <span class="sd">    - 3.1.1.4: System requires a minimum security criteria</span>
@@ -111,7 +112,7 @@
     <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">()</span>
 
 </div>
-<div class="viewcode-block" id="test_create_experiment_admin"><a class="viewcode-back" href="../test_create_account.html#test_create_account.test_create_experiment_admin">[docs]</a><span class="k">def</span> <span class="nf">test_create_experiment_admin</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+<div class="viewcode-block" id="test_create_experiment_admin"><a class="viewcode-back" href="../STD/test_create_account.html#test_create_account.test_create_experiment_admin">[docs]</a><span class="k">def</span> <span class="nf">test_create_experiment_admin</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    **Requirements:**</span>
 
@@ -119,6 +120,7 @@
 <span class="sd">    - 3.1.1.1.4.2: System Administrators shall be able to enable users</span>
 <span class="sd">    - 3.1.1.7: Experiment administrators create their own accounts</span>
 <span class="sd">    - 3.1.1.7.1: System Administrators shall verify the creation of a experiment admin account</span>
+<span class="sd">    - 3.1.6: The system shall provide account management.</span>
 <span class="sd">    - 3.1.6.1: The system shall allow account creation</span>
 <span class="sd">    - 3.1.6.1.1: The system shall force account approval for experiment admins</span>
 <span class="sd">    - 3.1.1.4: System requires a minimum security criteria</span>
@@ -174,9 +176,70 @@
     <span class="k">print</span><span class="p">(</span><span class="s">&#39;Logging in as {}/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">))</span>
     <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">()</span>
-
 </div>
-<div class="viewcode-block" id="test_create_patient"><a class="viewcode-back" href="../test_create_account.html#test_create_account.test_create_patient">[docs]</a><span class="k">def</span> <span class="nf">test_create_patient</span><span class="p">(</span><span class="n">login_tphysician</span><span class="p">):</span>
+<div class="viewcode-block" id="test_create_system_admin"><a class="viewcode-back" href="../STD/test_create_account.html#test_create_account.test_create_system_admin">[docs]</a><span class="k">def</span> <span class="nf">test_create_system_admin</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
+
+<span class="sd">    - 3.1.1.1.4.1: minimum information stored for experiment admin account</span>
+<span class="sd">    - 3.1.1.1.4.2: System Administrators shall be able to enable users</span>
+<span class="sd">    - 3.1.6: The system shall provide account management.</span>
+<span class="sd">    - 3.1.6.1: The system shall allow account creation</span>
+<span class="sd">    - 3.1.1.4: System requires a minimum security criteria</span>
+<span class="sd">    - 3.1.1.4.1: Password must be at least 10 characters</span>
+<span class="sd">    - 3.1.1.4.2: Password shall contain at least 1 upper and 1 lower case character</span>
+<span class="sd">    - 3.1.1.4.3: Password shall contain at least 1 number</span>
+<span class="sd">    - 3.1.1.4.4: Password shall contain at least 1 special character</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - logoff fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+<span class="sd">    - user = &#39;lnibbler&#39;</span>
+<span class="sd">    - pwd = &#39;P@ssword10&#39;</span>
+<span class="sd">    - email = &#39;lnibbler@futurama.com&#39;</span>
+<span class="sd">    - first_name = &#39;Lord&#39;</span>
+<span class="sd">    - last_name = &#39;Nibbler&#39;</span>
+<span class="sd">    - address = &#39;304 Wherever Street, New New York City, New New York&#39;</span>
+<span class="sd">    - phone_number = &#39;123-456-7890&#39;</span>
+
+
+<span class="sd">    ===========================  =================  =============</span>
+<span class="sd">    Steps                        Expected Result    Actual Result</span>
+<span class="sd">    ===========================  =================  =============</span>
+<span class="sd">    Login as fitadmin            Login Successful</span>
+<span class="sd">    Create another system admin  No errors</span>
+<span class="sd">    login as new system admin    User can login</span>
+<span class="sd">    ===========================  =================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Starting&#39;</span><span class="p">)</span>
+
+    <span class="n">user</span> <span class="o">=</span> <span class="s">&#39;lnibbler&#39;</span>
+    <span class="n">pwd</span> <span class="o">=</span> <span class="s">&#39;P@ssword10&#39;</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="s">&#39;lnibbler@futurama.com&#39;</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="s">&#39;Lord&#39;</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="s">&#39;Nibbler&#39;</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="s">&#39;304 Wherever Street, New New York City, New New York&#39;</span>
+    <span class="n">phone_number</span> <span class="o">=</span> <span class="s">&#39;123-456-7890&#39;</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Requesting Exp Admin {}/{} name: {}, {} email: {} address: {} phone num: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">,</span>
+                                                                                               <span class="n">pwd</span><span class="p">,</span>
+                                                                                               <span class="n">last_name</span><span class="p">,</span>
+                                                                                               <span class="n">first_name</span><span class="p">,</span>
+                                                                                               <span class="n">email</span><span class="p">,</span>
+                                                                                               <span class="n">address</span><span class="p">,</span>
+                                                                                               <span class="n">phone_number</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Logging in as fitadmin/Password1!&#39;</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s">&#39;fitadmin&#39;</span><span class="p">,</span> <span class="s">&#39;Password1!&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Creating system admin {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">))</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Logging in as {}/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">))</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="test_create_patient"><a class="viewcode-back" href="../STD/test_create_account.html#test_create_account.test_create_patient">[docs]</a><span class="k">def</span> <span class="nf">test_create_patient</span><span class="p">(</span><span class="n">login_tphysician</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    **Requirements:**</span>
 
@@ -184,6 +247,7 @@
 <span class="sd">    - 3.1.1.1.2.5: Physician user can add a patient to the system</span>
 <span class="sd">    - 3.1.1.3.1: Display patient ID to physician at the time of creation</span>
 <span class="sd">    - 3.1.1.7.2: Physicians shall create their patients accounts</span>
+<span class="sd">    - 3.1.6: The system shall provide account management.</span>
 <span class="sd">    - 3.1.6.1: The system shall allow account creation</span>
 <span class="sd">    - 3.1.6.1.2: Patients shall not need approval for account creation</span>
 <span class="sd">    - 3.1.1.4: System requires a minimum security criteria</span>
@@ -256,7 +320,7 @@
     <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">()</span>
 
 </div>
-<div class="viewcode-block" id="test_delete_patient"><a class="viewcode-back" href="../test_create_account.html#test_create_account.test_delete_patient">[docs]</a><span class="k">def</span> <span class="nf">test_delete_patient</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+<div class="viewcode-block" id="test_delete_patient"><a class="viewcode-back" href="../STD/test_create_account.html#test_create_account.test_delete_patient">[docs]</a><span class="k">def</span> <span class="nf">test_delete_patient</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    **Requirements:**</span>
 
@@ -294,11 +358,12 @@
     <span class="k">assert</span> <span class="ow">not</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">()</span>
 
 </div>
-<div class="viewcode-block" id="test_delete_physician"><a class="viewcode-back" href="../test_create_account.html#test_create_account.test_delete_physician">[docs]</a><span class="k">def</span> <span class="nf">test_delete_physician</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+<div class="viewcode-block" id="test_delete_physician"><a class="viewcode-back" href="../STD/test_create_account.html#test_create_account.test_delete_physician">[docs]</a><span class="k">def</span> <span class="nf">test_delete_physician</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    **Requirements:**</span>
 
 <span class="sd">    - 3.1.6.3: System administrator can delete accounts</span>
+<span class="sd">    - 3.1.6: The system shall provide account management.</span>
 
 <span class="sd">    **Pre Conditions:**</span>
 
@@ -330,11 +395,12 @@
     <span class="k">assert</span> <span class="ow">not</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">()</span>
 
 </div>
-<div class="viewcode-block" id="test_delete_experiment_admin"><a class="viewcode-back" href="../test_create_account.html#test_create_account.test_delete_experiment_admin">[docs]</a><span class="k">def</span> <span class="nf">test_delete_experiment_admin</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+<div class="viewcode-block" id="test_delete_experiment_admin"><a class="viewcode-back" href="../STD/test_create_account.html#test_create_account.test_delete_experiment_admin">[docs]</a><span class="k">def</span> <span class="nf">test_delete_experiment_admin</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    **Requirements:**</span>
 
 <span class="sd">    - 3.1.6.3: System administrator can delete accounts</span>
+<span class="sd">    - 3.1.6: The system shall provide account management.</span>
 
 <span class="sd">    **Pre Conditions:**</span>
 

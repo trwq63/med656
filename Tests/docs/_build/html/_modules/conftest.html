@@ -43,7 +43,7 @@
 
 
 <span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s">&#39;session&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<div class="viewcode-block" id="pre_existing_users"><a class="viewcode-back" href="../conftest.html#conftest.pre_existing_users">[docs]</a><span class="k">def</span> <span class="nf">pre_existing_users</span><span class="p">():</span>
+<div class="viewcode-block" id="pre_existing_users"><a class="viewcode-back" href="../STD/conftest.html#conftest.pre_existing_users">[docs]</a><span class="k">def</span> <span class="nf">pre_existing_users</span><span class="p">():</span>
     <span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
 
     <span class="c"># delete all accounts</span>
@@ -89,14 +89,14 @@
 
 </div>
 <span class="nd">@pytest.fixture</span>
-<div class="viewcode-block" id="logoff"><a class="viewcode-back" href="../conftest.html#conftest.logoff">[docs]</a><span class="k">def</span> <span class="nf">logoff</span><span class="p">():</span>
+<div class="viewcode-block" id="logoff"><a class="viewcode-back" href="../STD/conftest.html#conftest.logoff">[docs]</a><span class="k">def</span> <span class="nf">logoff</span><span class="p">():</span>
     <span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">():</span>
         <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
 
 </div>
 <span class="nd">@pytest.fixture</span>
-<div class="viewcode-block" id="login_tpatient"><a class="viewcode-back" href="../conftest.html#conftest.login_tpatient">[docs]</a><span class="k">def</span> <span class="nf">login_tpatient</span><span class="p">():</span>
+<div class="viewcode-block" id="login_tpatient"><a class="viewcode-back" href="../STD/conftest.html#conftest.login_tpatient">[docs]</a><span class="k">def</span> <span class="nf">login_tpatient</span><span class="p">():</span>
     <span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">():</span>
         <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
@@ -105,7 +105,7 @@
 
 </div>
 <span class="nd">@pytest.fixture</span>
-<div class="viewcode-block" id="login_tphysician"><a class="viewcode-back" href="../conftest.html#conftest.login_tphysician">[docs]</a><span class="k">def</span> <span class="nf">login_tphysician</span><span class="p">():</span>
+<div class="viewcode-block" id="login_tphysician"><a class="viewcode-back" href="../STD/conftest.html#conftest.login_tphysician">[docs]</a><span class="k">def</span> <span class="nf">login_tphysician</span><span class="p">():</span>
     <span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">():</span>
         <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
@@ -114,7 +114,7 @@
 
 </div>
 <span class="nd">@pytest.fixture</span>
-<div class="viewcode-block" id="login_texpadmin"><a class="viewcode-back" href="../conftest.html#conftest.login_texpadmin">[docs]</a><span class="k">def</span> <span class="nf">login_texpadmin</span><span class="p">():</span>
+<div class="viewcode-block" id="login_texpadmin"><a class="viewcode-back" href="../STD/conftest.html#conftest.login_texpadmin">[docs]</a><span class="k">def</span> <span class="nf">login_texpadmin</span><span class="p">():</span>
     <span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">():</span>
         <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
@@ -123,7 +123,7 @@
 
 </div>
 <span class="nd">@pytest.fixture</span>
-<div class="viewcode-block" id="login_sysadmin"><a class="viewcode-back" href="../conftest.html#conftest.login_sysadmin">[docs]</a><span class="k">def</span> <span class="nf">login_sysadmin</span><span class="p">():</span>
+<div class="viewcode-block" id="login_sysadmin"><a class="viewcode-back" href="../STD/conftest.html#conftest.login_sysadmin">[docs]</a><span class="k">def</span> <span class="nf">login_sysadmin</span><span class="p">():</span>
     <span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">():</span>
         <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
