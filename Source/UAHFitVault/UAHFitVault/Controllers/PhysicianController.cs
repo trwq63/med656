@@ -300,7 +300,7 @@ namespace UAHFitVault.Controllers
             // Check to verify that the patient is a patient for the current physician.
             if (!PatientBelongsToPhysician(patient, physician))
             {
-                ModelState.AddModelError("", "Error: You cannot delete somebody that is not your patient.");
+                ModelState.AddModelError("", "Error: You cannot disable somebody that is not your patient.");
                 return View(model);
             }
 
@@ -325,11 +325,18 @@ namespace UAHFitVault.Controllers
             // Check to verify that the patient is a patient for the current physician.
             if (!PatientBelongsToPhysician(patient, physician))
             {
-                ModelState.AddModelError("", "Error: You cannot delete somebody that is not your patient.");
+                ModelState.AddModelError("", "Error: You cannot disable somebody that is not your patient.");
                 return View(model);
             }
-            user.Status = (int)Account_Status.Inactive; // Set account to inactive/disabled
-            var result = UserManager.Update(user); // Fails because user e-mail is null.
+
+            UserManager.UserValidator = new UserValidator<ApplicationUser>(UserManager)
+            {
+                AllowOnlyAlphanumericUserNames = false,
+                RequireUniqueEmail = false
+            };
+
+            user.Status = (int)Account_Status.Inactive;
+            var result = UserManager.Update(user);
 
 
             return Redirect("/Account/LoginRedirect");
