@@ -7,46 +7,126 @@
 @section headers{
     <link type="text/css" rel="stylesheet" href="~/Content/dateCard.css" media="screen,projection" />   
     <link type="text/css" rel="stylesheet" href="~/Content/tableCard.css" media="screen,projection" />   
+    <link type="text/css" rel="stylesheet" href="~/Content/optionsCard.css" media="screen,projection" /> 
+    <link type="text/css" rel="stylesheet" href="~/Content/dataRecords.css" media="screen,projection" /> 
     <link type="text/css" href="~/Content/verticalSelect.css" rel="stylesheet" media="screen,projection" />
     <link type="text/css" href="~/Content/lineGraph.css" rel="stylesheet" media="screen,projection" />
 }
 
 @{ 
+    List<string> options = Enum.GetNames(typeof(DataViewOptions)).Cast<string>().ToList();
 
-    //List <string> devices = Model.Select(m => m.MedicalDevice).ToList();
-    //List<string> zephyrDataTypes = Enum.GetNames(typeof(ZephyrDataTypes)).Cast<string>().Select(z => z.Replace("_", " ")).ToList();
-    //List<string> zephyrSummaryTypes = Enum.GetNames(typeof(ZephyrSummaryDataTypes)).Cast<string>().Select(z => z.Replace("_", " ")).ToList();
-    //List<string> basicPeakDataTypes = Enum.GetNames(typeof(BasisPeakTypes)).Cast<string>().Select(z => z.Replace("_", " ")).ToList();
+    //Get files specifically for heart rate comparison for each device.
+    List<PatientData> zephyrSummary = new List<PatientData>();
+    if(Model.FirstOrDefault(m => m.MedicalDevice == "Zephyr")!= null) {
+        PatientDataByDevice deviceData = Model.FirstOrDefault(m => m.MedicalDevice == "Zephyr");
+        if (deviceData.DataRecords.FirstOrDefault(d => d.DataType == (int)File_Type.Summary) != null) {
+            zephyrSummary.AddRange(deviceData.DataRecords.Where(d => d.DataType == (int)File_Type.Summary));
+        }
+    }
+
+    List<PatientData> basisSummary = new List<PatientData>();
+    if (Model.FirstOrDefault(m => m.MedicalDevice == "BasisPeak") != null) {
+        basisSummary.AddRange(Model.FirstOrDefault(m => m.MedicalDevice == "BasisPeak").DataRecords);
+    }
+
+    //Get files specifically for heart rate comparison for each device.
+    List<PatientData> msBandHeartRate = new List<PatientData>();
+    if (Model.FirstOrDefault(m => m.MedicalDevice == "Microsoft Band") != null) {
+        PatientDataByDevice deviceData = Model.FirstOrDefault(m => m.MedicalDevice == "Microsoft Band");
+        if (deviceData.DataRecords.FirstOrDefault(d => d.DataType == (int)File_Type.HeartRate) != null) {
+            msBandHeartRate.AddRange(deviceData.DataRecords.Where(d => d.DataType == (int)File_Type.HeartRate));
+        }
+    }
+
 }
 
 <h2>View Patient Data</h2>
 
 <div class="col s12">
-    <div class="col s6">
-        <div class="row dateCard">
-            <div class="dateCard__header">
-                Date and Time Filter
+    <div class="col s12">
+        <div class="row">
+            <div class="dateCard">
+                <div class="dateCard__header">
+                    Date and Time Filter
+                </div>
+                <div class="row dateCard__container">
+                    <div class="input-field dateCard__date">
+                        <i class="material-icons prefix">today</i>
+                        <input id="date" name="Date" type="text" class="datepicker" />
+                        <label for="date">Select Date</label>
+                    </div>
+                    <div class="input-field dateCard__date">
+                        <i class="material-icons prefix">timer</i>
+                        <input id="startTime" name="FromDate" type="text" class="timepicker" />
+                        <label for="startTime">Start Time</label>
+                    </div>
+                    <div class="input-field dateCard__date">
+                        <i class="material-icons prefix">timer</i>
+                        <input id="endTime" name="ToDate" type="text" class="timepicker" />
+                        <label for="endTime">End Time</label>
+                    </div>
+                </div>
             </div>
-            <div class="row dateCard__container">
-                <div class="input-field dateCard__date">
-                    <i class="material-icons prefix">today</i>
-                    <input id="date" name="Date" type="text" class="datepicker" />
-                    <label for="date">Select Date</label>
+            <div class="optionsCard">
+                <div class="optionsCard__header">
+                    Options
                 </div>
-                <div class="input-field dateCard__date">
-                    <i class="material-icons prefix">timer</i>
-                    <input id="startTime" name="FromDate" type="text" class="timepicker" />
-                    <label for="startTime">Start Time</label>
-                </div>
-                <div class="input-field dateCard__date">
-                    <i class="material-icons prefix">timer</i>
-                    <input id="endTime" name="ToDate" type="text" class="timepicker" />
-                    <label for="endTime">End Time</label>
+                <div class="optionsCard__container">
+                    @foreach (string option in options) {
+                        <div class="row">
+                            <input name="options" type="radio" id="@option" value="@option" />
+                            <label class="optionsCard__option" for="@option">@option.Replace("_", " ")</label>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
     </div>
-    <div class="row col s12">
+    <div class="row col s12 heartrate">
+        @if (zephyrSummary.Count > 0) {
+            <div class="dataRecords">
+            
+                <div class="dataRecords__header">Zephyr</div>
+                <ul class="dataRecords__selectList">
+                    @foreach (PatientData dataRecord in zephyrSummary) {
+                        <li class="dataRecords__select">
+                            <input id="@dataRecord.Id" type="radio" name="zephyrradio" value="@dataRecord.Id" />
+                            <label class="dataRecords__label" for="@dataRecord.Id">@dataRecord.Name</label>
+                        </li>
+                    }
+                </ul>
+
+            </div>
+        }
+        @if (basisSummary.Count > 0) {
+            <div class="dataRecords">
+                <div class="dataRecords__header">BasisPeak</div>
+                <ul class="dataRecords__selectList">
+                    @foreach (PatientData dataRecord in basisSummary) {
+                        <li class="dataRecords__select">
+                            <input id="@dataRecord.Id" type="radio" name="basisradio" value="@dataRecord.Id" />
+                            <label class="dataRecords__label" for="@dataRecord.Id">@dataRecord.Name</label>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+        @if (msBandHeartRate.Count > 0) {
+            <div class="dataRecords">
+                <div class="dataRecords__header">Microsoft Band</div>
+                <ul class="dataRecords__selectList">
+                    @foreach (PatientData dataRecord in msBandHeartRate) {
+                        <li class="dataRecords__select">
+                            <input id="@dataRecord.Id" type="radio" name="msbandradio" value="@dataRecord.Id" />
+                            <label class="dataRecords__label" for="@dataRecord.Id">@dataRecord.Name</label>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+    <div class="row col s12 waveforms hide">
         <div class="col s5">
             <div class="tableCard">
                 <div class="tableCard__header">
@@ -101,6 +181,18 @@
             interval: 15,
             closeOnSelect: true,
             closeOnClear: true
+        });
+
+        $("input[name=options]").click(function () {
+            var option = $("input[name=options]:checked").val();
+            if (option == "Heart_Rate") {
+                $(".heartrate").removeClass('hide');
+                $(".waveforms").addClass('hide');
+            }
+            else {
+                $(".waveforms").removeClass('hide');
+                $(".heartrate").addClass('hide');
+            }
         });
     });
 

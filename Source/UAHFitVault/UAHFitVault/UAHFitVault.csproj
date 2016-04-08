@@ -263,12 +263,14 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\dataRecords.css" />
     <Content Include="Content\lineGraph.css" />
     <Content Include="Content\materialize\css\materialize.css" />
     <Content Include="Content\materialize\css\materialize.min.css" />
     <Content Include="Content\materialize\font\material-design-icons\LICENSE.txt" />
     <Content Include="Content\materialize\font\material-design-icons\Material-Design-Icons.svg" />
     <Content Include="Content\dateCard.css" />
+    <Content Include="Content\optionsCard.css" />
     <Content Include="Content\verticalSelect.css" />
     <Content Include="Content\select-activity.css" />
     <Content Include="Content\tableCard.css" />
