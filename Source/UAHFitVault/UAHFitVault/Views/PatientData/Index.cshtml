@@ -91,7 +91,7 @@
                 <ul class="dataRecords__selectList">
                     @foreach (PatientData dataRecord in zephyrSummary) {
                         <li class="dataRecords__select">
-                            <input id="@dataRecord.Id" type="radio" name="zephyrradio" value="@dataRecord.Id" />
+                            <input class="heartrate-radio" id="@dataRecord.Id" type="radio" name="zephyrradio" value="@dataRecord.Id" />
                             <label class="dataRecords__label" for="@dataRecord.Id">@dataRecord.Name</label>
                         </li>
                     }
@@ -105,7 +105,7 @@
                 <ul class="dataRecords__selectList">
                     @foreach (PatientData dataRecord in basisSummary) {
                         <li class="dataRecords__select">
-                            <input id="@dataRecord.Id" type="radio" name="basisradio" value="@dataRecord.Id" />
+                            <input class="heartrate-radio" id="@dataRecord.Id" type="radio" name="basisradio" value="@dataRecord.Id" />
                             <label class="dataRecords__label" for="@dataRecord.Id">@dataRecord.Name</label>
                         </li>
                     }
@@ -118,7 +118,7 @@
                 <ul class="dataRecords__selectList">
                     @foreach (PatientData dataRecord in msBandHeartRate) {
                         <li class="dataRecords__select">
-                            <input id="@dataRecord.Id" type="radio" name="msbandradio" value="@dataRecord.Id" />
+                            <input class="heartrate-radio" id="@dataRecord.Id" type="radio" name="msbandradio" value="@dataRecord.Id" />
                             <label class="dataRecords__label" for="@dataRecord.Id">@dataRecord.Name</label>
                         </li>
                     }
@@ -183,6 +183,11 @@
             closeOnClear: true
         });
 
+        var $radios = $('input:radio[name=options]');
+        if ($radios.is(':checked') === false) {
+            $radios.filter('[value=Heart_Rate]').prop('checked', true);
+        }
+
         $("input[name=options]").click(function () {
             var option = $("input[name=options]:checked").val();
             if (option == "Heart_Rate") {
@@ -200,15 +205,19 @@
         var date = $('#date').val();
         var startTime = $("#startTime").val();
         var endTime = $("#endTime").val();
-        if (date != "" && startTime != "" && endTime != "") {
-            var files = getCheckedFiles();
+        var option = $("input[name=options]:checked").val();
+        if (((startTime != "" || endTime != "") && date != "")
+            || (date == "" && startTime == "" && endTime == "")
+            || (date != "")) {
+            var files = getCheckedFiles(option);
             $.ajax({
                 type: "POST",
                 data: {
                     date: date,
                     startTime: startTime,
                     endTime: endTime,
-                    patientData: files
+                    patientData: files,
+                    option: option
                 },
                 url: "/PatientData/GraphData",
                 success: function (data) {
@@ -227,7 +236,7 @@
             });
         }
         else {
-            alert("Please enter a date and start and end times for filtering data.");
+            alert("Must enter a date in order to filter by time.");
         }
     });    
 
@@ -249,48 +258,56 @@
         }, 400);
     });
 
-    function getCheckedFiles() {
-        var checkboxes = document.getElementsByName("checkbox");
-        var checkedBoxes = [];
+    function getCheckedFiles(option) {
+        var files = [];
+        var checked = [];
+        if (option == "Heart_Rate") {
+            checked = document.getElementsByClassName("heartrate-radio");
+        }
+        else if (option == "Waveforms") {
+            checked = document.getElementsByName("checkbox");
+        }
         // loop through all checkboxes to find any that are checked.
-        for (var i = 0; i < checkboxes.length; i++) {
+        for (var i = 0; i < checked.length; i++) {
             // And stick the checked ones values into the array
-            if (checkboxes[i].checked) {
-                checkedBoxes.push(checkboxes[i].value);
+            if (checked[i].checked) {
+                files.push(checked[i].value);
             }
         }
+        
         // Return the array if it is non-empty, or null
-        return checkedBoxes.length > 0 ? checkedBoxes : null;
+        return files.length > 0 ? files : null;
     };
 
     function drawGraph(data) {
 
-        var xAxisData = data.LineGraphModels[0].XAxisData;
-        var yAxisData = data.LineGraphModels[0].YAxisData;
+        var colors = ['blue', 'green' , 'red'];
+        var lines = [];
+
+        for (i = 0; i < data.LineGraphModels.length ; i++) {   
+            var xAxisData = data.LineGraphModels[i].XAxisData;
+            var yAxisData = data.LineGraphModels[i].YAxisData;
+
+            var linegraph = [];
+            for (j = 0; j < xAxisData.length; j++) {
+                var linePoint = { x: new Date(xAxisData[j]), y: yAxisData[j] };
+                linegraph.push(linePoint);
+            }
+
+            lines.push(linegraph);
+        }
+
+        //For now the we are assuming the axis are the same
         var xAxisName = data.LineGraphModels[0].XAxisName;
         var yAxisName = data.LineGraphModels[0].YAxisName;
 
-        var linegraph = [];
-        for (i = 0; i < xAxisData.length; i++) {
-            var linePoint = { x: new Date(xAxisData[i]), y: yAxisData[i] };
-           // var = linegraph[i].x = xAxisData[i];
-            //linegraph[i].y = yAxisData[i];
-            linegraph.push(linePoint);
-        }
-
-        var mindate = getMinDate(linegraph);
-        var maxdate = getMaxDate(linegraph);
-        var minData = getMinData(linegraph);
-        var maxData = getMaxData(linegraph);
+        var mindate = getMinDate(lines[0]);
+        var maxdate = getMaxDate(lines[0]);
+        var minData = getMinData(lines[0]);
+        var maxData = getMaxData(lines[0]);
 
         var initialEndDate = new Date(mindate);
         initialEndDate.setHours(initialEndDate.getHours() + 1);
-        //linegraph.x = formatDate.parse(linegraph.x);
-
-        // define dimensions of graph
-        //var m = [20, 20, 20, 20]; // margins
-        //var w = 1000 - m[1] - m[3]; // width
-        //var h = 600 - m[0] - m[2]; // height
 
         margin = {
             top: 20,
@@ -304,31 +321,31 @@
 
         var x = d3.time.scale().domain([mindate, initialEndDate]).range([0, width]);
         var y = d3.scale.linear().domain([minData, maxData]).range([height, 0]);
-
+             
         // create a line function that can convert data[] into x and y points
         line = d3.svg.line()
-			// assign the X function to plot our line as we wish
-			.x(function (d) {
-			    // verbose logging to show what's actually being done
-			    //console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
-			    // return the X coordinate where we want to plot this datapoint
-			    return x(d.x);
-			})
-			.y(function (d) {
-			    // verbose logging to show what's actually being done
-			    //console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
-			    // return the Y coordinate where we want to plot this datapoint
-			    return y(d.y);
-			})
+            // assign the X function to plot our line as we wish
+            .x(function (d) {
+                // verbose logging to show what's actually being done
+                //console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
+                // return the X coordinate where we want to plot this datapoint
+                return x(d.x);
+            })
+            .y(function (d) {
+                // verbose logging to show what's actually being done
+                //console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
+                // return the Y coordinate where we want to plot this datapoint
+                return y(d.y);
+            })
 
         var zoom = d3.behavior.zoom()
             .x(x)
             .y(y)
-           // .scaleExtent([1, 10])
+            // .scaleExtent([1, 10])
             .on("zoom", zoomed);
 
         // Add an SVG element with the desired dimensions and margin.
-        graph = d3.select("#graphContainer").append("svg:svg")              
+        graph = d3.select("#graphContainer").append("svg:svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("svg:g")
@@ -360,18 +377,18 @@
             .tickFormat(d3.time.format('%X'))
             .tickSize(10)
             .tickPadding(8);
-        
+
 
         // Add the x-axis.
         graph.append("svg:g")
-              .attr("class", "x axis")
-              .attr("transform", "translate(" + margin.left + "," + height + ")")
-              .call(xAxis)
+                .attr("class", "x axis")
+                .attr("transform", "translate(" + margin.left + "," + height + ")")
+                .call(xAxis)
             .append("text")
-              .attr("x", width)
-              .attr("dx", ".71em")
-              .style("text-anchor", "end")
-              .text(xAxisName);
+                .attr("x", width)
+                .attr("dx", ".71em")
+                .style("text-anchor", "end")
+                .text(xAxisName);
 
 
         // create left yAxis
@@ -379,7 +396,7 @@
             return d3.svg.axis()
                 .scale(y)
                 .ticks(10)
-               // .tickSubdivide(true)
+                // .tickSubdivide(true)
                 .orient("left");
         };
 
@@ -387,20 +404,20 @@
         yAxis = d3.svg.axis()
             .scale(y)
             .ticks(10)
-           // .tickSubdivide(true)
+            // .tickSubdivide(true)
             .orient("left");
-        
+
         // Add the y-axis to the left
         graph.append("svg:g")
-              .attr("class", "y axis")
-              .attr("transform", "translate(" + margin.left + ",0)")
-              .call(yAxis)
+                .attr("class", "y axis")
+                .attr("transform", "translate(" + margin.left + ",0)")
+                .call(yAxis)
             .append("text")
-              .attr("transform", "rotate(-90)")
-              .attr("y", 6)
-              .attr("dy", ".71em")
-              //.style("text-anchor", "end")
-              .text(yAxisName);
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                //.style("text-anchor", "end")
+                .text(yAxisName);
 
         graph.append("g")
             .attr("class", "x grid")
@@ -414,7 +431,7 @@
             .attr("transform", "translate(" + margin.left + ",0)")
             .call(make_y_axis()
             .tickSize(-width, 0, 0)
-            .tickFormat(""));
+            .tickFormat(""));            
 
         var clip = graph.append("svg:clipPath")
             .attr("id", "clip")
@@ -427,13 +444,17 @@
         var chartBody = graph.append("g")
             .attr("clip-path", "url(#clip)");
 
-        // Add the line by appending an svg:path element with the data line we created above
-        // do this AFTER the axes above so that the line is above the tick-lines
-        chartBody.append("svg:path")
-            .datum(linegraph)
-            .attr("transform", "translate(" + margin.left + ", 0)")
-            .attr("class", "line")
-            .attr("d", line);
+        for (i = 0; i < lines.length; i++) {
+
+            // Add the line by appending an svg:path element with the data line we created above
+            // do this AFTER the axes above so that the line is above the tick-lines
+            chartBody.append("svg:path")
+                .datum(lines[i])
+                .attr("transform", "translate(" + margin.left + ", 0)")
+                .attr("class", "line")
+                .attr("stroke", colors[i])
+                .attr("d", line);
+        }
     }
 
     function zoomed() {

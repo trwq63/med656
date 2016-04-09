@@ -1,4 +1,5 @@
 ﻿using EntityFramework.BulkInsert.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UAHFitVault.Database;
@@ -47,6 +48,22 @@ namespace UAHFitVault.DataAccess.ZephyrServices
                 return _repository.GetAll();
             else
                 return _repository.GetMany(r => r.PatientDataId == patientData.Id, r => r.Date, skip, take);
+        }
+
+        /// <summary>
+        /// Get the Zephyr Summary data for the given a patient data record or all records for all patients.
+        /// </summary>
+        /// <param name="patientData">PatientData object used to retrieve the Zephyr Summary Data records</param>
+        /// <param name="startTime">Start time of date/time filter</param>
+        /// <param name="endTime">End time of date/time filter</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
+        /// <returns></returns>
+        public IEnumerable<ZephyrSummaryData> GetZephyrSummaryData(PatientData patientData, DateTime startTime, DateTime endTime, int skip = 0, int take = 0) {
+            if (patientData == null)
+                return _repository.GetAll();
+            else
+                return _repository.GetMany(r => r.PatientDataId == patientData.Id && r.Date >= startTime && r.Date <= endTime, r => r.Date, skip, take);
         }
 
         /// <summary>
