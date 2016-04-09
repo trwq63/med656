@@ -281,6 +281,12 @@
 
     function drawGraph(data) {
 
+        //Clear any previous graph if submit button is pressed again or a new graph is generated.
+        var graphContainer = document.getElementById("graphContainer");
+        while (graphContainer.firstChild) {
+            graphContainer.removeChild(graphContainer.firstChild);
+        }
+
         var colors = ['blue', 'green' , 'red'];
         var lines = [];
 
@@ -353,8 +359,9 @@
             .call(zoom);
 
         graph.append("svg:rect")
-            .attr("width", width + margin.left)
+            .attr("width", width)
             .attr("height", height)
+            .attr("transform", "translate(" + margin.left + ",0)")
             .attr("class", "plot");
 
         // create yAxis
@@ -441,20 +448,32 @@
             .attr("width", width)
             .attr("height", height);
 
-        var chartBody = graph.append("g")
-            .attr("clip-path", "url(#clip)");
+        //var chartBody = graph.append("g")
+        //    .attr("clip-path", "url(#clip)");
 
-        for (i = 0; i < lines.length; i++) {
+        graph.selectAll('.line')
+	        .data(lines)
+	        .enter()
+	        .append("path")
+            .attr("class", "line")
+            .attr("transform", "translate(" + margin.left + ",0)")
+	        .attr("clip-path", "url(#clip)")
+	        .attr('stroke', function (d, i) {
+	            return colors[i % colors.length];
+	        })
+            .attr("d", line);
 
-            // Add the line by appending an svg:path element with the data line we created above
-            // do this AFTER the axes above so that the line is above the tick-lines
-            chartBody.append("svg:path")
-                .datum(lines[i])
-                .attr("transform", "translate(" + margin.left + ", 0)")
-                .attr("class", "line")
-                .attr("stroke", colors[i])
-                .attr("d", line);
-        }
+        //for (i = 0; i < lines.length; i++) {
+
+        //    // Add the line by appending an svg:path element with the data line we created above
+        //    // do this AFTER the axes above so that the line is above the tick-lines
+        //    chartBody.append("svg:path")
+        //        .datum(lines[i])
+        //        .attr("transform", "translate(" + margin.left + ", 0)")
+        //        .attr("class", "line")
+        //        .attr("stroke", colors[i])
+        //        .attr("d", line);
+        //}
     }
 
     function zoomed() {
@@ -468,7 +487,7 @@
             .call(make_y_axis()
             .tickSize(-width, 0, 0)
             .tickFormat(""));
-        graph.select(".line")
+        graph.selectAll(".line")
             .attr("class", "line")
             .attr("d", line);
     }
