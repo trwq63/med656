@@ -21,8 +21,8 @@ namespace UAHFitVault.Database.Entities
         public int Id { get; set; }
         [Required]
         public DateTime TimeStamp { get; set; }
-        public int? BR { get; set; }
-        public int? RR { get; set; }
+        public float? BR { get; set; }
+        public float? RR { get; set; }
 
         #endregion
 

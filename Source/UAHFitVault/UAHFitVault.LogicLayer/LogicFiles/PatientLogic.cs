@@ -243,6 +243,40 @@ namespace UAHFitVault.LogicLayer.LogicFiles
             return zephyrBreathingData;
         }
 
+        /// <summary>
+        /// Create a list of ZephyrBRRR objects from the data read from the csv file selected by the user.
+        /// </summary>
+        /// <param name="csvReader">csv reader object</param>
+        /// <param name="patientData">Patient data record that will be referenced by each zephyr BR RR data record.</param>
+        /// <returns></returns>
+        public static List<ZephyrBRRR> BuildZephyrBrRrDataList(CsvReader csvReader, PatientData patientData) {
+            List<ZephyrBRRR> zephyrBrRrData = null;
+
+            if (csvReader != null && patientData != null && patientData.Id != null) {
+                zephyrBrRrData = new List<ZephyrBRRR>();
+                while (csvReader.ReadNextRecord()) {
+                    if (csvReader != null) {
+                        //File should read in the following order.
+                        //Timestamp | BR | RtoR
+                        string dateFormat = "dd/MM/yyyy HH:mm:ss.fff";
+                        string date = csvReader[0];
+                        DateTime dateTime;
+                        if (DateTime.TryParseExact(date, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime)) {
+                            ZephyrBRRR zephyrBrRr = new ZephyrBRRR() {
+                                TimeStamp = dateTime,
+                                BR = (float)Convert.ToDouble(csvReader[1]),
+                                RR = (float)Convert.ToDouble(csvReader[2]),
+                                PatientDataId = patientData.Id
+                            };
+                            zephyrBrRrData.Add(zephyrBrRr);
+                        }
+                    }
+                }
+            }
+
+            return zephyrBrRrData;
+        }
+
 
         /// <summary>
         /// Create a list of ZephyrEventData objects from the data read from the csv file selected by the user.

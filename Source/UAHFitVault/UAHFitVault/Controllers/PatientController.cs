@@ -60,6 +60,11 @@ namespace UAHFitVault.Controllers
         private readonly IZephyrSummaryService _summaryService;
 
         /// <summary>
+        /// Service object for accessing Zephyr BR RR database functions.
+        /// </summary>
+        private readonly IZephyrBrRrService _brRrService;
+
+        /// <summary>
         /// Service object for accessing patient database functions.
         /// </summary>
         private readonly IPatientService _patientService;
@@ -174,6 +179,7 @@ namespace UAHFitVault.Controllers
         /// <param name="ecgService">Service object for accessing Zephyr ECG Waveform database functions.</param>
         /// <param name="eventDataService">Service object for accessing Zephyr Event Data database functions.</param>
         /// <param name="summaryService">Service object for accessing Zephyr Summary database functions.</param>
+        /// <param name="brRrService">Service object for accessing Zephyr BR RR database functions.</param>
         /// <param name="patientService">Service object for accessing patient database functions.</param>
         /// <param name="basisPeakService">Service object for accessing basis peak summary database functions.</param>
         /// <param name="medicalDeviceService">Service for accessing medical devices.</param>
@@ -190,7 +196,7 @@ namespace UAHFitVault.Controllers
         public PatientController(IPatientDataService patientDataService, IZephyrAccelService zephyrAccelService,
                                     IZephyrBreathingService breathingService, IZephyrECGService ecgService,
                                     IZephyrEventDataService eventDataService, IZephyrSummaryService summaryService,
-                                    IPatientService patientService, IBasisPeakSummaryService basisPeakService,
+                                    IZephyrBrRrService brRrService, IPatientService patientService, IBasisPeakSummaryService basisPeakService,
                                     IMedicalDeviceService medicalDeviceService, IMSBandAccelService msBandAccelService,
                                     IMSBandCaloriesService msBandCaloriesService, IMSBandDistanceService msBandDistanceService, 
                                     IMSBandGyroscopeService msBandGyroscopeService, IMSBandHeartRateService msBandHeartRateService, 
@@ -203,6 +209,7 @@ namespace UAHFitVault.Controllers
             _ecgService = ecgService;
             _eventDataService = eventDataService;
             _summaryService = summaryService;
+            _brRrService = brRrService;
             _patientService = patientService;
             _basisPeakService = basisPeakService;
             _medicalDeviceService = medicalDeviceService;
@@ -660,6 +667,27 @@ namespace UAHFitVault.Controllers
                         }
                     } while (uvData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
                     break;
+                case (int)File_Type.BR_RR:
+                    IEnumerable<ZephyrBRRR> brRrData = null;
+                    index = 1;
+                    do {
+                        brRrData = _brRrService.GetZephyrBRRRData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                        count = 0;
+                        foreach (ZephyrBRRR data in brRrData) {
+                            export.AddRow();
+                            export["Time Stamp"] = data.TimeStamp;
+                            export["BR"] = data.BR;
+                            export["RtoR"] = data.RR;
+                            count++;
+                            if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                index++;
+                                fileIndex = index.ToString() + "_";
+                                export = new CsvExport();
+                            }
+                        }
+                    } while (brRrData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                    break;
                 default:
                     break;
             }
@@ -758,6 +786,12 @@ namespace UAHFitVault.Controllers
                             break;
                         case File_Type.General:
                             result = ProcessZephyrGeneralData(file, patientData);
+                            if (result) {
+                                insertActivities = true;
+                            }
+                            break;
+                        case File_Type.BR_RR:
+                            result = ProcessZephyrBrRrData(file, patientData);
                             if (result) {
                                 insertActivities = true;
                             }
@@ -919,7 +953,7 @@ namespace UAHFitVault.Controllers
         /// Insert Zephyr Breathing records from file into database.
         /// </summary>
         /// <param name="file">Zephyr breathing file selected for upload from view.</param>
-        /// <param name="patientData">Patient data record created for the patient for this accel data.</param>
+        /// <param name="patientData">Patient data record created for the patient for this breathing data.</param>
         protected bool ProcessZephyrBreathingData(HttpPostedFileBase file, PatientData patientData) {
             List<ZephyrBreathingWaveform> zephyrBreathingData = null;
 
@@ -936,6 +970,34 @@ namespace UAHFitVault.Controllers
 
                 //Bulk insert zephyr excel records
                 _breathingService.BulkInsert(zephyrBreathingData);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Insert Zephyr BR RR records from file into database.
+        /// </summary>
+        /// <param name="file">Zephyr br rr file selected for upload from view.</param>
+        /// <param name="patientData">Patient data record created for the patient for this br rr data.</param>
+        protected bool ProcessZephyrBrRrData(HttpPostedFileBase file, PatientData patientData) {
+            List<ZephyrBRRR> zephyrBrrrData = null;
+
+            Stream stream = file.InputStream;
+            using (CsvReader csvReader = new CsvReader(new StreamReader(stream), true)) {
+
+                zephyrBrrrData = PatientLogic.BuildZephyrBrRrDataList(csvReader, patientData);
+            }
+
+            if (zephyrBrrrData != null && zephyrBrrrData.Count > 0) {
+                //Write data to database
+                _patientDataService.CreatePatientData(patientData);
+                _patientDataService.SaveChanges();
+
+                //Bulk insert zephyr excel records
+                _brRrService.BulkInsert(zephyrBrrrData);
 
                 return true;
             }

@@ -89,10 +89,12 @@
     <Compile Include="MicrosoftBandServices\MSBandCaloriesService.cs" />
     <Compile Include="MicrosoftBandServices\MSBandAccelService.cs" />
     <Compile Include="ZephyrServices\IZephyrAccelService.cs" />
+    <Compile Include="ZephyrServices\IZephyrBrRrService.cs" />
     <Compile Include="ZephyrServices\IZephyrBreathingService.cs" />
     <Compile Include="ZephyrServices\IZephyrECGService.cs" />
     <Compile Include="ZephyrServices\IZephyrEventDataService.cs" />
     <Compile Include="ZephyrServices\IZephyrSummaryService.cs" />
+    <Compile Include="ZephyrServices\ZephyrBrRrService.cs" />
     <Compile Include="ZephyrServices\ZephyrSummaryService.cs" />
     <Compile Include="ZephyrServices\ZephyrEventDataService.cs" />
     <Compile Include="ZephyrServices\ZephyrECGService.cs" />
