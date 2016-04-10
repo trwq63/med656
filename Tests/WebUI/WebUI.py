@@ -175,12 +175,19 @@ class WebUI:
             return True
         return False
 
-    def upload_files(self, file, fyear, fmonth, fday, tyear, tmonth, tday, device, activity_dict):
+    def upload_files(self, file, fyear, fmonth, fday, tyear, tmonth, tday, device, activities):
         """
         This will uplaod files for a patient with the given activities
 
         :param file: Relative paths to files to be uploaded
-        :param activity_dict: A dictionary with index of activity and elements of stime and ftime
+        :param fyear: The year the file started collecting
+        :param fmonth: The month the file started collecting
+        :param fday: The day the file started collecting
+        :param tyear: The year the file stopped collecting
+        :param tmonth: The month the file stopped collecting
+        :param tday: The day the file stopped collecting
+        :param device: The device the file came from. must be 'zephyr', 'basis', or 'band'
+        :param activities: A list of dictionaries. dicts look like: {'type':'Home Eating', 'year':1920, 'month':'January', 'day':3, 'startTime': '11:00 AM', 'endTime': '11:30 AM'}
         :return:
         """
         try:
@@ -201,18 +208,23 @@ class WebUI:
             elif device == 'band':
                 self.driver.find_element_by_css_selector('label[for="device2"]').click()
             n = 0
-            for activity in activity_dict:
-                self.driver.find_element_by_xpath('//input[@value="Select Activity Type"]').click()
-                self.driver.find_element_by_xpath('//li/span[text()="{}"]'.format(activity['type'])).click()
+            for activity in activities:
+                self.driver.find_element_by_xpath('//input[@value="Select Activity Type"][{n}]'.format(n)).click()
+                self.driver.find_element_by_xpath('//div/input[@value="Select Activity Type"][1]/../ul/li/span[text()="{}"]'.format(activity['type'])).click()
                 self.driver.find_element_by_css_selector('input[name="Activities[{}].ActivityDate"]'.format(n)).click()
-                self.driver.find_element_by_xpath('//div/input[@name="Activities[0].ActivityDate"]/../div/div/div/div/div/div/select[@title="Select a year"]/option[@value="1918"]').click()
-                self.driver.find_element_by_xpath('//div/input[@name="Activities[0].ActivityDate"]/../div/div/div/div/div/div/select[@title="Select a month"]/option[text()="July"]').click()
-                self.driver.find_element_by_xpath('//div/input[@name="Activities[0].ActivityDate"]/../div/div/div/div/div/table/tbody/tr/td/div[@class="picker__day picker__day--infocus"][text()="6"]').click()
-                self.driver.find_element_by_xpath('//input[@name="Activities[0].StartTime"]').click()
-                self.driver.find_element_by_xpath('//div[@id="StartTime[]_root"]/div/div/div/div/ul/li[text()="12:30 AM"]').click()
-                self.driver.find_element_by_xpath('//input[@name="Activities[0].EndTime"]').click()
-                self.driver.find_element_by_xpath('//div[@id="EndTime[]_root"]/div/div/div/div/ul/li[text()="12:30 AM"]').click()
+                self.driver.find_element_by_xpath('//div/input[@name="Activities[{}].ActivityDate"]/../div/div/div/div/div/div/select[@title="Select a year"]/option[@value="{}"]'.format(n,activity['year'])).click()
+                self.driver.find_element_by_xpath('//div/input[@name="Activities[{}].ActivityDate"]/../div/div/div/div/div/div/select[@title="Select a month"]/option[text()="{}"]'.format(n,activity['month'])).click()
+                self.driver.find_element_by_xpath('//div/input[@name="Activities[{}].ActivityDate"]/../div/div/div/div/div/table/tbody/tr/td/div[@class="picker__day picker__day--infocus"][text()="{}"]'.format(n, activity['day'])).click()
+                self.driver.find_element_by_xpath('//input[@name="Activities[{}].StartTime"]'.format(n)).click()
+                self.driver.find_element_by_xpath('//div/input[@name="Activities[{}].StartTime"]/../div[@id="StartTime[]_root"]/div/div/div/div/ul/li[text()="{}"]'.format(n, activity['startTime'])).click()
+                self.driver.find_element_by_xpath('//input[@name="Activities[{}].EndTime"]'.format(n)).click()
+                self.driver.find_element_by_xpath('//div/input[@name="Activities[{}].EndTime"]/../div[@id="EndTime[]_root"]/div/div/div/div/ul/li[text()="{}"]'.format(n, activity['endTime'])).click()
+
                 n += 1
+                # add another activity
+                if n < len(activities):
+                    self.driver.find_element_by_css_selector('button[class="btn-floating green btn-add"]').click()
+
             self.driver.find_element_by_xpath('//button[@id="btnSubmit"]').click()
 
         except:
