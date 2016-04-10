@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UAHFitVault.Database.Entities;
 
 namespace UAHFitVault.DataAccess.ZephyrServices
@@ -22,6 +23,17 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
         IEnumerable<ZephyrSummaryData> GetZephyrSummaryData(PatientData patientData, int skip = 0, int take = 0);
+
+        /// <summary>
+        /// Get the Zephyr Summary data for the given a patient data record or all records for all patients.
+        /// </summary>
+        /// <param name="patientData">PatientData object used to retrieve the Zephyr Summary Data records</param>
+        /// <param name="startTime">Start time of date/time filter</param>
+        /// <param name="endTime">End time of date/time filter</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
+        /// <returns></returns>
+        IEnumerable<ZephyrSummaryData> GetZephyrSummaryData(PatientData patientData, DateTime startTime, DateTime endTime, int skip = 0, int take = 0);
 
         /// <summary>
         /// Get Zephyr Summary data from database using the Zephyr Summary id

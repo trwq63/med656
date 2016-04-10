@@ -10,6 +10,9 @@ namespace UAHFitVault.Models
     {
         #region Public Properties
 
+        /// <summary>
+        /// Informatin needed to create each line graph.
+        /// </summary>
         public List<LineGraphModel> LineGraphModels { get; set; }
 
         #endregion

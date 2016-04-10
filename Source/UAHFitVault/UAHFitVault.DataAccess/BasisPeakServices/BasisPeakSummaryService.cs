@@ -5,6 +5,7 @@ using UAHFitVault.Database.Entities;
 using UAHFitVault.Database.Repositories.BasisPeakRepositories;
 using UAHFitVault.Database;
 using EntityFramework.BulkInsert.Extensions;
+using System;
 
 namespace UAHFitVault.DataAccess.BasisPeakServices
 {
@@ -48,6 +49,23 @@ namespace UAHFitVault.DataAccess.BasisPeakServices
             else
                 return _repository.GetMany(r => r.PatientDataId == patientData.Id, r => r.Date, skip, take);
         }
+
+        /// <summary>
+        /// Get the BasisPeak Summary data for the given a patient data record or all records for all patients.
+        /// </summary>
+        /// <param name="patientData">PatientData object used to retrieve the BasisPeak Summary Data records</param>
+        /// <param name="startTime">Start time of date/time filter</param>
+        /// <param name="endTime">End time of date/time filter</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
+        /// <returns></returns>
+        public IEnumerable<BasisPeakSummaryData> GetBasisPeakSummaryData(PatientData patientData, DateTime startTime, DateTime endTime, int skip = 0, int take = 0) {
+            if (patientData == null)
+                return _repository.GetAll();
+            else
+                return _repository.GetMany(r => r.PatientDataId == patientData.Id && r.Date >= startTime && r.Date <= endTime, r => r.Date, skip, take);
+        }
+
 
         /// <summary>
         /// Get BasisPeak Summary data from database using the BasisPeak Summary id
