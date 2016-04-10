@@ -88,7 +88,7 @@ namespace UAHFitVault.Models
     /// <summary>
     /// View model for a physician deleting a patient
     /// </summary>
-    public class DeletePatientViewModel
+    public class DisablePatientViewModel
     {
         public string Username { get; set; }
     }

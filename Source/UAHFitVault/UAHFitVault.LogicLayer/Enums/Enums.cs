@@ -248,5 +248,14 @@
         Skin_Temperature,
         Steps
     };
+
+    /// <summary>
+    /// Filters for what patient data will be viewed.
+    /// </summary>
+    public enum DataViewOptions
+    {
+        Heart_Rate,
+        Waveforms
+    }
     
 }

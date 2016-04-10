@@ -10,6 +10,11 @@ namespace UAHFitVault.LogicLayer.Models
     {
         #region Public Properties
         /// <summary>
+        /// Name of the graph to be displayed if multiple lines exist on graph.
+        /// </summary>
+        public string GraphType { get; set; }
+
+        /// <summary>
         /// Name to give the x axis of the graph.
         /// </summary>
         public string XAxisName { get; set; }
@@ -42,12 +47,13 @@ namespace UAHFitVault.LogicLayer.Models
         /// <summary>
         /// Constructor used to initialize object properties at construction.
         /// </summary>
+        /// <param name="graphType">Name of the graph to be displayed if multiple lines exist on graph.</param>
         /// <param name="xAxisName">Name to give the x axis of the graph.</param>
         /// <param name="yAxisName">Name to give the y axis of the graph</param>
         /// <param name="xAxisdata">List of all the x axis data points for the line.</param>
         /// <param name="yAxisData">List of all the y axis data points for the line.</param>
-        public LineGraphModel(string xAxisName, string yAxisName, List<DateTime> xAxisdata, List<double> yAxisData) {
-            if(IsValid(xAxisName, yAxisName, xAxisdata, yAxisData)) {
+        public LineGraphModel(string graphType, string xAxisName, string yAxisName, List<DateTime> xAxisdata, List<double> yAxisData) {
+            if(IsValid(graphType, xAxisName, yAxisName, xAxisdata, yAxisData)) {
                 XAxisName = xAxisName;
                 YAxisName = yAxisName;
                 XAxisData = xAxisdata;
@@ -64,7 +70,7 @@ namespace UAHFitVault.LogicLayer.Models
         /// </summary>
         /// <returns></returns>
         public bool IsValid() {
-            return IsValid(XAxisName, YAxisName, XAxisData, YAxisData);
+            return IsValid(GraphType, XAxisName, YAxisName, XAxisData, YAxisData);
         }
 
         #endregion
@@ -74,15 +80,16 @@ namespace UAHFitVault.LogicLayer.Models
         /// <summary>
         /// Verify the data has valid data values.
         /// </summary>
+        /// <param name="graphType">Name of the graph to be displayed if multiple lines exist on graph.</param>
         /// <param name="xAxisName">Name to give the x axis of the graph.</param>
         /// <param name="yAxisName">Name to give the y axis of the graph</param>
         /// <param name="xAxisdata">List of all the x axis data points for the line.</param>
         /// <param name="yAxisData">List of all the y axis data points for the line.</param>
         /// <returns></returns>
-        protected bool IsValid(string xAxisName, string yAxisName, List<DateTime> xAxisdata, List<double> yAxisData) {
+        protected bool IsValid(string graphType, string xAxisName, string yAxisName, List<DateTime> xAxisdata, List<double> yAxisData) {
             bool valid = false;
 
-            if(!string.IsNullOrEmpty(xAxisName) && !string.IsNullOrEmpty(yAxisName) 
+            if(!string.IsNullOrEmpty(graphType) && !string.IsNullOrEmpty(xAxisName) && !string.IsNullOrEmpty(yAxisName) 
                 && xAxisdata != null && xAxisdata.Count > 0 && yAxisData != null && yAxisData.Count > 0){
                 valid = true;
             }

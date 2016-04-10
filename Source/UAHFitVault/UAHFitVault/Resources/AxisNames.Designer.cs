@@ -61,6 +61,15 @@ namespace UAHFitVault.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to bpm.
+        /// </summary>
+        internal static string BEATS_PER_MINUTE {
+            get {
+                return ResourceManager.GetString("BEATS_PER_MINUTE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Time.
         /// </summary>
         internal static string GENERIC_X_AXIS {
