@@ -175,20 +175,46 @@ class WebUI:
             return True
         return False
 
-    def upload_files(self, files, activity_dict):
+    def upload_files(self, file, fyear, fmonth, fday, tyear, tmonth, tday, device, activity_dict):
         """
         This will uplaod files for a patient with the given activities
 
-        :param files: Relative paths to files to be uploaded
+        :param file: Relative paths to files to be uploaded
         :param activity_dict: A dictionary with index of activity and elements of stime and ftime
         :return:
         """
         try:
             self.driver.find_element(by='link text', value='Upload Data').click()
-            self.driver.find_element(by='name', value='files').send_keys(files)
+            self.driver.find_element_by_css_selector('input[placeholder="Upload one or more files"]').send_keys(file)
+            self.driver.find_element_by_css_selector('input[id="FromDate"]').click()
+            self.driver.find_element_by_xpath('//select[@title="Select a year"]/option[text()="{}"]'.format(fyear)).click()
+            self.driver.find_element_by_xpath('//select[@title="Select a month"]/option[text()="{}"]'.format(fmonth)).click()
+            self.driver.find_element_by_xpath('//tbody/tr/td/div[@class="picker__day picker__day--infocus"][text()="{}"]'.format(fday)).click()
+            self.driver.find_element_by_css_selector('input[id="ToDate"]').click()
+            self.driver.find_element_by_xpath('//select[@title="Select a year"][@aria-controls="ToDate_table"]/option[text()="{}"]'.format(tyear)).click()
+            self.driver.find_element_by_xpath('//select[@title="Select a month"][@aria-controls="ToDate_table"]/option[text()="{}"]'.format(tmonth)).click()
+            self.driver.find_element_by_xpath('//table[@id="ToDate_table"]/tbody/tr/td/div[@class="picker__day picker__day--infocus"][text()="{}"]'.format(tday)).click()
+            if device == 'zephyr':
+                self.driver.find_element_by_css_selector('label[for="device0"]').click()
+            elif device == 'basis':
+                self.driver.find_element_by_css_selector('label[for="device1"]').click()
+            elif device == 'band':
+                self.driver.find_element_by_css_selector('label[for="device2"]').click()
+            n = 0
             for activity in activity_dict:
-                pass
-            self.driver.find_element_by_css_selector('input[type=submit]').click()
+                self.driver.find_element_by_xpath('//input[@value="Select Activity Type"]').click()
+                self.driver.find_element_by_xpath('//li/span[text()="{}"]'.format(activity['type'])).click()
+                self.driver.find_element_by_css_selector('input[name="Activities[{}].ActivityDate"]'.format(n)).click()
+                self.driver.find_element_by_xpath('//div/input[@name="Activities[0].ActivityDate"]/../div/div/div/div/div/div/select[@title="Select a year"]/option[@value="1918"]').click()
+                self.driver.find_element_by_xpath('//div/input[@name="Activities[0].ActivityDate"]/../div/div/div/div/div/div/select[@title="Select a month"]/option[text()="July"]').click()
+                self.driver.find_element_by_xpath('//div/input[@name="Activities[0].ActivityDate"]/../div/div/div/div/div/table/tbody/tr/td/div[@class="picker__day picker__day--infocus"][text()="6"]').click()
+                self.driver.find_element_by_xpath('//input[@name="Activities[0].StartTime"]').click()
+                self.driver.find_element_by_xpath('//div[@id="StartTime[]_root"]/div/div/div/div/ul/li[text()="12:30 AM"]').click()
+                self.driver.find_element_by_xpath('//input[@name="Activities[0].EndTime"]').click()
+                self.driver.find_element_by_xpath('//div[@id="EndTime[]_root"]/div/div/div/div/ul/li[text()="12:30 AM"]').click()
+                n += 1
+            self.driver.find_element_by_xpath('//button[@id="btnSubmit"]').click()
+
         except:
             return False
         return True
