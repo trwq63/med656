@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException as NoSuchElementException
+from selenium.webdriver.support.ui import Select
 import sys
 import time
 
@@ -192,34 +193,42 @@ class WebUI:
         """
         try:
             self.driver.find_element(by='link text', value='Upload Data').click()
-            self.driver.find_element_by_css_selector('input[placeholder="Upload one or more files"]').send_keys(file)
+            self.driver.find_element_by_css_selector('input[name="Files"]').send_keys(file)
             self.driver.find_element_by_css_selector('input[id="FromDate"]').click()
             self.driver.find_element_by_xpath('//select[@title="Select a year"]/option[text()="{}"]'.format(fyear)).click()
             self.driver.find_element_by_xpath('//select[@title="Select a month"]/option[text()="{}"]'.format(fmonth)).click()
             self.driver.find_element_by_xpath('//tbody/tr/td/div[@class="picker__day picker__day--infocus"][text()="{}"]'.format(fday)).click()
+            time.sleep(5)
             self.driver.find_element_by_css_selector('input[id="ToDate"]').click()
             self.driver.find_element_by_xpath('//select[@title="Select a year"][@aria-controls="ToDate_table"]/option[text()="{}"]'.format(tyear)).click()
             self.driver.find_element_by_xpath('//select[@title="Select a month"][@aria-controls="ToDate_table"]/option[text()="{}"]'.format(tmonth)).click()
             self.driver.find_element_by_xpath('//table[@id="ToDate_table"]/tbody/tr/td/div[@class="picker__day picker__day--infocus"][text()="{}"]'.format(tday)).click()
+            time.sleep(5)
             if device == 'zephyr':
                 self.driver.find_element_by_css_selector('label[for="device0"]').click()
             elif device == 'basis':
                 self.driver.find_element_by_css_selector('label[for="device1"]').click()
             elif device == 'band':
                 self.driver.find_element_by_css_selector('label[for="device2"]').click()
+
+
             n = 0
             for activity in activities:
-                self.driver.find_element_by_xpath('//input[@value="Select Activity Type"][{n}]'.format(n)).click()
-                self.driver.find_element_by_xpath('//div/input[@value="Select Activity Type"][1]/../ul/li/span[text()="{}"]'.format(activity['type'])).click()
+                self.driver.find_element_by_xpath('//div/select[@name="Activities[{}].ActivityType"]/../input[@value="Select Activity Type"]'.format(n)).click()
+                self.driver.find_element_by_xpath('//div/select[@name="Activities[{}].ActivityType"]/../ul/li/span[text()="{}"]'.format(n, activity['type'])).click()
+                self.driver.switch_to.parent_frame()
+                time.sleep(2)
                 self.driver.find_element_by_css_selector('input[name="Activities[{}].ActivityDate"]'.format(n)).click()
                 self.driver.find_element_by_xpath('//div/input[@name="Activities[{}].ActivityDate"]/../div/div/div/div/div/div/select[@title="Select a year"]/option[@value="{}"]'.format(n,activity['year'])).click()
                 self.driver.find_element_by_xpath('//div/input[@name="Activities[{}].ActivityDate"]/../div/div/div/div/div/div/select[@title="Select a month"]/option[text()="{}"]'.format(n,activity['month'])).click()
                 self.driver.find_element_by_xpath('//div/input[@name="Activities[{}].ActivityDate"]/../div/div/div/div/div/table/tbody/tr/td/div[@class="picker__day picker__day--infocus"][text()="{}"]'.format(n, activity['day'])).click()
+                time.sleep(5)
                 self.driver.find_element_by_xpath('//input[@name="Activities[{}].StartTime"]'.format(n)).click()
                 self.driver.find_element_by_xpath('//div/input[@name="Activities[{}].StartTime"]/../div[@id="StartTime[]_root"]/div/div/div/div/ul/li[text()="{}"]'.format(n, activity['startTime'])).click()
+                time.sleep(2)
                 self.driver.find_element_by_xpath('//input[@name="Activities[{}].EndTime"]'.format(n)).click()
                 self.driver.find_element_by_xpath('//div/input[@name="Activities[{}].EndTime"]/../div[@id="EndTime[]_root"]/div/div/div/div/ul/li[text()="{}"]'.format(n, activity['endTime'])).click()
-
+                time.sleep(2)
                 n += 1
                 # add another activity
                 if n < len(activities):
@@ -227,7 +236,8 @@ class WebUI:
 
             self.driver.find_element_by_xpath('//button[@id="btnSubmit"]').click()
 
-        except:
+        except Exception as e:
+            print('Generated exception: ', e)
             return False
         return True
 
