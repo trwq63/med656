@@ -443,3 +443,69 @@ class WebUI:
                 time.sleep(2)
             except NoSuchElementException:
                 users_exist = False
+
+
+    def create_experiment(self, expName, startAge, endAge, startHght, endHght, startWght, endWght, genders, races, ethnicities, locations):
+        try:
+            self.driver.find_element_by_link_text('Create Experiment').click()
+            self.driver.find_element_by_id('ExperimentName').send_keys(expName)
+            select = Select(self.driver.find_element_by_id('ageRangeStart'))
+            select.select_by_visible_text(startAge)
+            select = Select(self.driver.find_element_by_id('ageRangeEnd'))
+            select.select_by_visible_text(endAge)
+            select = Select(self.driver.find_element_by_id('heightRangeBegin'))
+            select.select_by_visible_text(startHght)
+            select = Select(self.driver.find_element_by_id('heightRangeEnd'))
+            select.select_by_visible_text(endHght)
+            select = Select(self.driver.find_element_by_id('weightRangeBegin'))
+            select.select_by_visible_text(startWght)
+            select = Select(self.driver.find_element_by_id('weightRangeEnd'))
+            select.select_by_visible_text(endWght)
+            if 'male' in genders:
+                self.driver.find_element_by_css_selector('label[for="gendersMale"]').click()
+            if 'female' in genders:
+                self.driver.find_element_by_css_selector('label[for="gendersFemale"]').click()
+            if 'american_indian' in races:
+                self.driver.find_element_by_css_selector('label[for="raceAmericanIndian"]').click()
+            if 'asian' in races:
+                self.driver.find_element_by_css_selector('label[for="raceAsian"]').click()
+            if 'black' in races:
+                self.driver.find_element_by_css_selector('label[for="raceBalck"]').click()
+            if 'hawaiian' in races:
+                self.driver.find_element_by_css_selector('label[for="raceHawaiian"]').click()
+            if 'white' in races:
+                self.driver.find_element_by_css_selector('label[for="raceWhite"]').click()
+            if 'other' in races:
+                self.driver.find_element_by_css_selector('label[for="raceOther"]').click()
+            if 'non_hispanic' in ethnicities:
+                self.driver.find_element_by_css_selector('label[for="ethnicityNonHispanic"]').click()
+            if 'hispanic' in ethnicities:
+                self.driver.find_element_by_css_selector('label[for="ethnicityHispanic"]').click()
+            for location in locations:
+                self.driver.find_element_by_css_selector('label[for="location{}"]'.format(location)).click()
+            self.driver.find_element_by_css_selector('input[type="submit"]').click()
+        except Exception as e:
+            print('Generated exception: ', e)
+            return False
+        return True
+
+
+    def view_experiment(self, name):
+        try:
+            self.driver.find_element_by_link_text('View Experiments').click()
+            self.driver.find_element_by_xpath('//div[text()="{}"]/../div/input[@value="View"]'.format(name)).click()
+        except Exception as e:
+            print('Generated exception', e)
+            return False
+        return True
+
+
+    def delete_experiment(self, name):
+        try:
+            self.driver.find_element_by_link_text('View Experiments').click()
+            self.driver.find_element_by_xpath('//div[text()="{}"]/../div/input[@value="Delete"]'.format(name)).click()
+            self.driver.find_element_by_css_selector('input[Value="Confirm"]').click()
+        except Exception as e:
+            print('Generated exception', e)
+            return False
+        return True

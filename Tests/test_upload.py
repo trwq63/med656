@@ -58,15 +58,18 @@ def test_single_file_one_activity(login_tpatient):
 
     **Pre Conditions:**
 
+    - login_tpatient fixture
 
     **Input:**
 
+    - activities = [{'type':'Home Eating', 'year':2015, 'month':'June', 'day':24, 'startTime': '11:00 PM', 'endTime': '11:30 PM'}]
+    - file = path.abspath('./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv')
 
-    ===============  =================  =============
-    Steps            Expected Result    Actual Result
-    ===============  =================  =============
-    empty
-    ===============  =================  =============
+    ===============  =======================================  =============
+    Steps            Expected Result                          Actual Result
+    ===============  =======================================  =============
+    upload file      no errors, and returned to /PatientData
+    ===============  =======================================  =============
     """
     print('Starting')
     activities = [
@@ -103,17 +106,64 @@ def test_single_file_multi_activity(login_tpatient):
 
     **Pre Conditions:**
 
+    - login_tpatient fixture
 
     **Input:**
 
+    - activities
+      - activity 1
+        - 'type':'Home Eating',
+        - 'year':2015,
+        - 'month':'June',
+        - 'day':24,
+        - 'startTime': '11:00 PM',
+        - 'endTime': '11:30 PM'},
 
-    ===============  =================  =============
-    Steps            Expected Result    Actual Result
-    ===============  =================  =============
-    empty
-    ===============  =================  =============
+      - activity 2
+        - 'type':'Home Cooking',
+        - 'year':2015,
+        - 'month':'June',
+        - 'day':24,
+        - 'startTime': '12:00 PM',
+        - 'endTime': '12:30 PM'
+
+    - file = path.abspath('./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv')
+
+    ===============  =======================================  =============
+    Steps            Expected Result                          Actual Result
+    ===============  =======================================  =============
+    upload file      no errors, and returned to /PatientData
+    ===============  =======================================  =============
     """
-    assert False
+    print('Starting')
+    activities = [
+        {
+            'type':'Home Eating',
+            'year':2015,
+            'month':'June',
+            'day':24,
+            'startTime': '11:00 PM',
+            'endTime': '11:30 PM'},
+        {
+            'type':'Home Cooking',
+            'year':2015,
+            'month':'June',
+            'day':24,
+            'startTime': '12:00 PM',
+            'endTime': '12:30 PM'
+        }
+    ]
+    file = path.abspath('./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv')
+
+    # upload the file
+    print('Uploading file')
+    assert web_sess.upload_files(file, 2015, 'June', 24, 2015, 'June', 24, 'zephyr', activities)
+    # check for server error in web page
+    print('Checking for server error')
+    assert "Server Error in '/' Application" not in web_sess.get_page()
+    # check that current url is now .../PatientData
+    print('Checking we were sent back to patient data')
+    assert '/PatientData' in web_sess.driver.current_url
 
 
 def test_zephyr_data_upload(login_tpatient):
@@ -125,15 +175,18 @@ def test_zephyr_data_upload(login_tpatient):
 
     **Pre Conditions:**
 
+    - login_tpatient fixture
 
     **Input:**
 
+    - activities = []
+    - file = path.abspath('./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_BB.dat')
 
-    ===============  =================  =============
-    Steps            Expected Result    Actual Result
-    ===============  =================  =============
-    empty
-    ===============  =================  =============
+    ===============  =======================================  =============
+    Steps            Expected Result                          Actual Result
+    ===============  =======================================  =============
+    upload file      no errors, and returned to /PatientData
+    ===============  =======================================  =============
     """
     print('Starting')
     activities = []
@@ -159,15 +212,18 @@ def test_mband_data_upload(login_tpatient):
 
     **Pre Conditions:**
 
+    - login_tpatient fixture
 
     **Input:**
 
+    - activities = []
+    - file = path.abspath('./Data/MBand/')
 
-    ===============  =================  =============
-    Steps            Expected Result    Actual Result
-    ===============  =================  =============
-    empty
-    ===============  =================  =============
+    ===============  =======================================  =============
+    Steps            Expected Result                          Actual Result
+    ===============  =======================================  =============
+    upload file      no errors, and returned to /PatientData
+    ===============  =======================================  =============
     """
     print('Starting')
     activities = []
@@ -193,15 +249,18 @@ def test_basis_data_upload(login_tpatient):
 
     **Pre Conditions:**
 
+    - login_tpatient fixture
 
     **Input:**
 
+    - activities = []
+    - file = path.abspath('./Data/BasisPeak/bodymetrics_2012-01-30T00-00-00_2016-01-18T04-51-00.csv')
 
-    ===============  =================  =============
-    Steps            Expected Result    Actual Result
-    ===============  =================  =============
-    empty
-    ===============  =================  =============
+    ===============  =======================================  =============
+    Steps            Expected Result                          Actual Result
+    ===============  =======================================  =============
+    upload file      no errors, and returned to /PatientData
+    ===============  =======================================  =============
     """
     print('Starting')
     activities = []

@@ -6,7 +6,7 @@ from WebUI.WebUI import WebUI
 web_sess = WebUI()
 
 
-def test_create_experiment(logoff):
+def test_create_experiment(login_texpadmin):
     """
     **Requirements:**
 
@@ -16,23 +16,48 @@ def test_create_experiment(logoff):
 
     **Pre Conditions:**
 
-    - logoff fixture
+    - login_texpadmin fixture
 
     **Input:**
 
+    - expName = 'test experiment'
+    - startAge = '19'
+    - endAge = '24'
+    - startHght = '60'
+    - endHght = '72'
+    - startWght = '130'
+    - endWght = '200'
+    - genders = ['male']
+    - races = ['white']
+    - ethnicities = ['hispanic']
+    - locations = ['Alabama']
 
-    =================  =================  =============
-    Steps              Expected Result    Actual Result
-    =================  =================  =============
-    create experiemnt
-    =================  =================  =============
+    =================  ============================  =============
+    Steps              Expected Result               Actual Result
+    =================  ============================  =============
+    create experiemnt  no errors, see success! page
+    =================  ============================  =============
     """
     print('Starting')
+    expName = 'test experiment'
+    startAge = '19'
+    endAge = '24'
+    startHght = '60'
+    endHght = '72'
+    startWght = '130'
+    endWght = '200'
+    genders = ['male']
+    races = ['white']
+    ethnicities = ['hispanic']
+    locations = ['Alabama']
 
-    assert False
+    print('Creating experiment')
+    assert web_sess.create_experiment(expName, startAge, endAge, startHght, endHght, startWght, endWght, genders, races, ethnicities, locations)
+    assert 'Success!' in web_sess.get_page()
 
 
-def test_view_experiment(logoff):
+
+def test_view_experiment(login_texpadmin):
     """
     **Requirements:**
 
@@ -40,25 +65,28 @@ def test_view_experiment(logoff):
 
     **Pre Conditions:**
 
-    - logoff fixture
+    - login_texpadmin fixture
 
     **Input:**
 
+    - name = 'test experiment'
 
-    =================  =================  =============
-    Steps              Expected Result    Actual Result
-    =================  =================  =============
-    create experiemnt
-    =================  =================  =============
+    ===================  ==================================  =============
+    Steps                Expected Result                     Actual Result
+    ===================  ==================================  =============
+    view the experiment  no errors, on view experiment page
+    ===================  ==================================  =============
     """
     print('Starting')
+    name = 'test experiment'
 
-    assert False
+    assert web_sess.view_experiment(name)
+    assert 'View Experiment - {}'.format(name) in web_sess.get_page()
 
 
 
 
-def test_delete_experiment(logoff):
+def test_delete_experiment(login_texpadmin):
     """
     **Requirements:**
 
@@ -66,18 +94,21 @@ def test_delete_experiment(logoff):
 
     **Pre Conditions:**
 
-    - logoff fixture
+    - login_texpadmin fixture
 
     **Input:**
 
+    - name = 'test experiment'
 
-    =================  =================  =============
-    Steps              Expected Result    Actual Result
-    =================  =================  =============
-    create experiemnt
-    =================  =================  =============
+    =================  ======================================  =============
+    Steps              Expected Result                         Actual Result
+    =================  ======================================  =============
+    create experiemnt  no errors, on delete confirmation page
+    =================  ======================================  =============
     """
     print('Starting')
+    name = 'test experiment'
 
-    assert False
+    assert web_sess.delete_experiment(name)
+    assert 'Delete Experiment Confirmation' in web_sess.get_page()
 
