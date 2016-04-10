@@ -1,9 +1,14 @@
 ﻿@using UAHFitVault.Models;
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.Owin;
+@using UAHFitVault.LogicLayer.Enums;
 
 @model List<PatientManagementViewModel>
 
 @{
     CreatePatientViewModel createPatient = new CreatePatientViewModel();
+    ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
 }
 
 
@@ -36,21 +41,25 @@
         </thead>
 
         <tbody>
-            @foreach (PatientManagementViewModel patient in Model) {
-                <tr>
-                    <td>@patient.Username</td>
-                    <td>
-                        <button class="waves-effect waves-light btn grey" onclick="location.href = '/Physician/ViewPatientData?username=@patient.Username';">
-                            View Patient Data
-                        </button>
-                        <button class="waves-effect waves-light btn blue" onclick="location.href = '/Physician/EditPatient?username=@patient.Username';">
-                            Edit Patient
-                        </button>
-                        <button class="waves-effect waves-light btn red" onclick="location.href = '/Physician/DeletePatient?username=@patient.Username';">
-                            Delete Patient
-                        </button>
-                    </td>
-                </tr>
+            @foreach (PatientManagementViewModel patient in Model)
+            {
+                if (manager.FindByName(patient.Username).Status != (int)Account_Status.Inactive)
+                {
+                    <tr>
+                        <td>@patient.Username</td>
+                        <td>
+                            <button class="waves-effect waves-light btn grey" onclick="location.href = '/Physician/ViewPatientData?username=@patient.Username';">
+                                View Patient Data
+                            </button>
+                            <button class="waves-effect waves-light btn blue" onclick="location.href = '/Physician/EditPatient?username=@patient.Username';">
+                                Edit Patient
+                            </button>
+                            <button class="waves-effect waves-light btn red" onclick="location.href = '/Physician/DisablePatient?username=@patient.Username';">
+                                Disable Patient
+                            </button>
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>

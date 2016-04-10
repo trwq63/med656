@@ -276,13 +276,13 @@ namespace UAHFitVault.Controllers
         }
 
         /// <summary>
-        /// This function confirms that a physician wishes to delete a patient from the database
+        /// This function confirms that a physician wishes to disables a patient in the database
         /// </summary>
         /// <param name="username">Username of the patient</param>
         /// <returns></returns>
-        public ActionResult DeletePatient (string username)
+        public ActionResult DisablePatient (string username)
         {
-            DeletePatientViewModel model = new DeletePatientViewModel();
+            DisablePatientViewModel model = new DisablePatientViewModel();
 
             // Check if username is null, if so - return early.
             if (username == null)
@@ -300,7 +300,7 @@ namespace UAHFitVault.Controllers
             // Check to verify that the patient is a patient for the current physician.
             if (!PatientBelongsToPhysician(patient, physician))
             {
-                ModelState.AddModelError("", "Error: You cannot delete somebody that is not your patient.");
+                ModelState.AddModelError("", "Error: You cannot disable somebody that is not your patient.");
                 return View(model);
             }
 
@@ -309,15 +309,15 @@ namespace UAHFitVault.Controllers
         }
 
         /// <summary>
-        /// The function that deletes the patient from the system.
+        /// The function that disables the patient from the system.
         /// </summary>
-        /// <param name="username">Username of the patient to delete</param>
+        /// <param name="username">Username of the patient to disable</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult DeletePatientConfirm (string username)
+        public ActionResult DisablePatientConfirm (string username)
         {
-            DeletePatientViewModel model = new DeletePatientViewModel();
-            ApplicationUser user = UserManager.FindByName(username);
+            DisablePatientViewModel model = new DisablePatientViewModel();
+            ApplicationUser user = UserManager.FindByName(username); // The patient account
             Patient patient = _patientService.GetPatient(user.PatientId);
             ApplicationUser physicianUser = UserManager.FindByName(User.Identity.Name);
             Physician physician = _physicianService.GetPhysician(physicianUser.PhysicianId);
@@ -325,14 +325,19 @@ namespace UAHFitVault.Controllers
             // Check to verify that the patient is a patient for the current physician.
             if (!PatientBelongsToPhysician(patient, physician))
             {
-                ModelState.AddModelError("", "Error: You cannot delete somebody that is not your patient.");
+                ModelState.AddModelError("", "Error: You cannot disable somebody that is not your patient.");
                 return View(model);
             }
-            _patientService.DeletePatient(patient);
-            _patientService.SaveChanges();
-            _userManager.Delete(user);
 
-            /*Glen: need to go back and add deleting data here if we decide to delete the patient's data*/
+            UserManager.UserValidator = new UserValidator<ApplicationUser>(UserManager)
+            {
+                AllowOnlyAlphanumericUserNames = false,
+                RequireUniqueEmail = false
+            };
+
+            user.Status = (int)Account_Status.Inactive;
+            var result = UserManager.Update(user);
+
 
             return Redirect("/Account/LoginRedirect");
         }
