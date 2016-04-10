@@ -56,6 +56,7 @@
     <Compile Include="Entities\AccountRequest.cs" />
     <Compile Include="Entities\Activity.cs" />
     <Compile Include="Entities\BasisPeakSummaryData.cs" />
+    <Compile Include="Entities\ZephyrBRRR.cs" />
     <Compile Include="FitVaultContext.cs" />
     <Compile Include="Entities\MSBandPedometer.cs" />
     <Compile Include="Entities\MSBandTemperature.cs" />
@@ -105,6 +106,10 @@
     <Compile Include="Migrations\201603141933496_gyroscope-spelling.cs" />
     <Compile Include="Migrations\201603141933496_gyroscope-spelling.Designer.cs">
       <DependentUpon>201603141933496_gyroscope-spelling.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604101810204_zeph-sum-nullable-fields.cs" />
+    <Compile Include="Migrations\201604101810204_zeph-sum-nullable-fields.Designer.cs">
+      <DependentUpon>201604101810204_zeph-sum-nullable-fields.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -183,6 +188,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603141933496_gyroscope-spelling.resx">
       <DependentUpon>201603141933496_gyroscope-spelling.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604101810204_zeph-sum-nullable-fields.resx">
+      <DependentUpon>201604101810204_zeph-sum-nullable-fields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

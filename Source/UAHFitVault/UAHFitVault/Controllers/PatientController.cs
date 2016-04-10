@@ -556,8 +556,7 @@ namespace UAHFitVault.Controllers
                                     }
                                 }
                             } while (zephyrSummaryData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
-                            break;
-                            break;
+                            break;                            
                         case Device_Type.BasisPeak:
                             IEnumerable<BasisPeakSummaryData> basisData = null;
                             index = 1;
@@ -584,8 +583,42 @@ namespace UAHFitVault.Controllers
                             break;
                         default:
                             break;
-                    }
-                    
+                    }                    
+                    break;
+                case (int)File_Type.General:
+                    IEnumerable<ZephyrSummaryData> zephyrGeneralData = null;
+                    index = 1;
+                    do {
+                        zephyrGeneralData = _summaryService.GetZephyrSummaryData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                        count = 0;
+                        foreach (ZephyrSummaryData data in zephyrGeneralData) {
+                            export.AddRow();
+                            export["Timestamp"] = data.Date;
+                            export["HR"] = data.HeartRate;
+                            export["BR"] = data.BreathingRate;
+                            export["Temp"] = data.SkinTemp;
+                            export["Posture"] = data.Posture;
+                            export["Activity"] = data.Activity;
+                            export["Acceleration"] = data.PeakAccel;
+                            export["Battery"] = data.BatteryVolts;
+                            export["BRAmplitude"] = data.BRAmplitude;
+                            export["ECGAmplitude"] = data.ECGAmplitude;
+                            export["ECGNoise"] = data.ECGNoise;
+                            export["XMin"] = data.LateralMin;
+                            export["XPeak"] = data.LateralPeak;
+                            export["YMin"] = data.VerticalMin;
+                            export["YPeak"] = data.VerticalPeak;
+                            export["ZMin"] = data.SagittalMin;
+                            export["ZPeak"] = data.SagittalPeak;
+                            count++;
+                            if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                index++;
+                                fileIndex = index.ToString() + "_";
+                                export = new CsvExport();
+                            }
+                        }
+                    } while (zephyrGeneralData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
                     break;
                 case (int)File_Type.Temperature:
                     IEnumerable<MSBandTemperature> temperatureData = null;
@@ -719,6 +752,12 @@ namespace UAHFitVault.Controllers
                             break;
                         case File_Type.Summary:
                             result = ProcessZephyrSummaryData(file, patientData);
+                            if (result) {
+                                insertActivities = true;
+                            }
+                            break;
+                        case File_Type.General:
+                            result = ProcessZephyrGeneralData(file, patientData);
                             if (result) {
                                 insertActivities = true;
                             }
@@ -937,7 +976,7 @@ namespace UAHFitVault.Controllers
         /// <summary>
         /// Insert Zephyr Summary Data records from file into database.
         /// </summary>
-        /// <param name="file">Zephyr breathing file selected for upload from view.</param>
+        /// <param name="file">Zephyr summary file selected for upload from view.</param>
         /// <param name="patientData">Patient data record created for the patient for this accel data.</param>
         protected bool ProcessZephyrSummaryData(HttpPostedFileBase file, PatientData patientData) {
             List<ZephyrSummaryData> zephyrSummaryData = null;
@@ -955,6 +994,34 @@ namespace UAHFitVault.Controllers
 
                 //Bulk insert zephyr excel records
                 _summaryService.BulkInsert(zephyrSummaryData);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Insert Zephyr General Summary Data records from file into database.
+        /// </summary>
+        /// <param name="file">Zephyr general file selected for upload from view.</param>
+        /// <param name="patientData">Patient data record created for the patient for this accel data.</param>
+        protected bool ProcessZephyrGeneralData(HttpPostedFileBase file, PatientData patientData) {
+            List<ZephyrSummaryData> zephyrGeneralData = null;
+        
+            Stream stream = file.InputStream;
+            using (CsvReader csvReader = new CsvReader(new StreamReader(stream), true)) {
+
+                zephyrGeneralData = PatientLogic.BuildZephyrGeneralDataList(csvReader, patientData);
+            }
+
+            if (zephyrGeneralData != null && zephyrGeneralData.Count > 0) {
+                //Write data to database
+                _patientDataService.CreatePatientData(patientData);
+                _patientDataService.SaveChanges();
+
+                //Bulk insert zephyr excel records
+                _summaryService.BulkInsert(zephyrGeneralData);
 
                 return true;
             }

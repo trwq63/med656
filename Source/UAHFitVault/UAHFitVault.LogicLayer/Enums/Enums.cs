@@ -18,6 +18,8 @@
     {
         Unknown,
         Summary,
+        General,
+        BR_RR,
         EventData,
         Accelerometer,
         ECG,
@@ -166,7 +168,9 @@
         Breathing_Waveforms,
         ECG_Waveforms,
         Event_Data,
-        Summary
+        Summary,
+        General,
+        BR_RR
     }
 
     /// <summary>

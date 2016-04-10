@@ -348,6 +348,19 @@ namespace UAHFitVault.Controllers
                                                 graphViewModel.LineGraphModels.Add(lineModel);
                                             }
                                             break;
+                                        case File_Type.General:
+                                            List<ZephyrSummaryData> zephyrGeneralData = _summaryService.GetZephyrSummaryData(dataRecord, start, end).ToList();
+                                            if (zephyrGeneralData != null && zephyrGeneralData.Count > 0) {
+                                                LineGraphModel lineModel = new LineGraphModel() {
+                                                    GraphType = "Zephyr Heart Rate",
+                                                    XAxisName = AxisNames.GENERIC_X_AXIS,
+                                                    YAxisName = AxisNames.BEATS_PER_MINUTE,
+                                                    XAxisData = zephyrGeneralData.Select(b => b.Date).ToList(),
+                                                    YAxisData = zephyrGeneralData.Select(b => b.HeartRate).Select(d => (double)d).ToList()
+                                                };
+                                                graphViewModel.LineGraphModels.Add(lineModel);
+                                            }
+                                            break;
                                         default:
                                             break;
                                     }
