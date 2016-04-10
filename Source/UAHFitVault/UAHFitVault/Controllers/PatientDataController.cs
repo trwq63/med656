@@ -237,6 +237,7 @@ namespace UAHFitVault.Controllers
                                     List<ZephyrSummaryData> zephyrSummaryData = _summaryService.GetZephyrSummaryData(dataRecord, start, end).ToList();
                                     if (zephyrSummaryData != null && zephyrSummaryData.Count > 0) {
                                         LineGraphModel lineModel = new LineGraphModel() {
+                                            GraphType = "Zephyr Heart Rate",
                                             XAxisName = AxisNames.GENERIC_X_AXIS,
                                             YAxisName = AxisNames.BEATS_PER_MINUTE,
                                             XAxisData = zephyrSummaryData.Select(b => b.Date).ToList(),
@@ -249,6 +250,7 @@ namespace UAHFitVault.Controllers
                                     List<BasisPeakSummaryData> basisSummaryData = _basisPeakService.GetBasisPeakSummaryData(dataRecord, start, end).ToList();
                                     if (basisSummaryData != null && basisSummaryData.Count > 0) {
                                         LineGraphModel lineModel = new LineGraphModel() {
+                                            GraphType = "BasisPeak Heart Rate",
                                             XAxisName = AxisNames.GENERIC_X_AXIS,
                                             YAxisName = AxisNames.BEATS_PER_MINUTE,
                                             XAxisData = basisSummaryData.Select(b => b.Date).ToList(),

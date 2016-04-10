@@ -168,6 +168,7 @@
 <script src="~/Scripts/pickadate/picker.date.js"></script>
 <script src="~/Scripts/pickadate/picker.time.js"></script>
 <script src="~/Scripts/d3/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.10.0/d3-legend.min.js"></script>
 <script>
     $(document).ready(function () {
         $('.datepicker').pickadate({
@@ -289,10 +290,13 @@
 
         var colors = ['blue', 'green' , 'red'];
         var lines = [];
+        var graphTypes = [];
 
         for (i = 0; i < data.LineGraphModels.length ; i++) {   
             var xAxisData = data.LineGraphModels[i].XAxisData;
             var yAxisData = data.LineGraphModels[i].YAxisData;
+
+            graphTypes.push(data.LineGraphModels[i].GraphType);
 
             var linegraph = [];
             for (j = 0; j < xAxisData.length; j++) {
@@ -302,6 +306,8 @@
 
             lines.push(linegraph);
         }
+
+
 
         //For now the we are assuming the axis are the same
         var xAxisName = data.LineGraphModels[0].XAxisName;
@@ -352,7 +358,7 @@
 
         // Add an SVG element with the desired dimensions and margin.
         graph = d3.select("#graphContainer").append("svg:svg")
-            .attr("width", width + margin.left + margin.right)
+            .attr("width", width + margin.left + (margin.right*5))
             .attr("height", height + margin.top + margin.bottom)
             .append("svg:g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
@@ -463,17 +469,23 @@
 	        })
             .attr("d", line);
 
-        //for (i = 0; i < lines.length; i++) {
+        if (graphTypes.length > 1) {
+            var ordinal = d3.scale.ordinal()
+              .domain(graphTypes)
+              .range(colors);
 
-        //    // Add the line by appending an svg:path element with the data line we created above
-        //    // do this AFTER the axes above so that the line is above the tick-lines
-        //    chartBody.append("svg:path")
-        //        .datum(lines[i])
-        //        .attr("transform", "translate(" + margin.left + ", 0)")
-        //        .attr("class", "line")
-        //        .attr("stroke", colors[i])
-        //        .attr("d", line);
-        //}
+            graph.append("g")
+              .attr("class", "legendOrdinal")
+              .attr("transform", "translate(" + (width + margin.right) + ",20)");
+
+            var legendOrdinal = d3.legend.color()
+              .shape("path", d3.svg.symbol().type("triangle-up").size(150)())
+              .shapePadding(10)
+              .scale(ordinal);
+
+            graph.select(".legendOrdinal")
+                .call(legendOrdinal);
+        }
     }
 
     function zoomed() {
