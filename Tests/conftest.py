@@ -24,6 +24,8 @@ def pre_existing_users():
     web_sess.request_account('Exp Admin', 'testExpAdmin', 'P@ssword10', 'texpadmin@aol.com',
                              'test', 'expadmin', 'home', '123-456-7890')
     web_sess.approve_account('test expadmin')
+    web_sess.logoff()
+
     web_sess.create_patient('testPhysician',
                             'P@ssword10',
                             'testPatient',
