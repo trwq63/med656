@@ -30,15 +30,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for test_edit_account</h1><div class="highlight"><pre>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">These tests are here to verify that the accounts can have their information edited.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">WebUI.WebUI</span> <span class="kn">import</span> <span class="n">WebUI</span>
@@ -68,14 +68,15 @@
 <span class="sd">    Check the email address   Email has changed</span>
 <span class="sd">    ========================  =================  =============</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">set_account_info</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s">&#39;tphysician@yahoo.com&#39;</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">confirm_account_info</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s">&#39;tphysician@yahoo.com&#39;</span><span class="p">)</span>
-</pre></div></div>
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">set_account_info</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;tphysician@yahoo.com&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">confirm_account_info</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;tphysician@yahoo.com&#39;</span><span class="p">)</span></div>
+
+</pre></div>
 
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper"><div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -85,7 +86,7 @@
   </ul></li>
 </ul>
 </div>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -106,8 +107,8 @@
       &copy;2016, Timothy Wilkins.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
     </div>
 

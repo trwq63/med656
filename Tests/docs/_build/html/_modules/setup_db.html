@@ -30,31 +30,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for setup_db</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copy</span>
+<span></span><span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copy</span>
 
 
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../STD/setup_db.html#setup_db.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">copy</span><span class="p">(</span><span class="s">&#39;./Data/database/aspnet-UAHFitVault-20160110104509.mdf&#39;</span><span class="p">,</span>
-         <span class="s">&#39;../Source/UAHFitVault/UAHFitVault/App_Data/aspnet-UAHFitVault-20160110104509.mdf&#39;</span><span class="p">)</span>
-    <span class="n">copy</span><span class="p">(</span><span class="s">&#39;./Data/database/aspnet-UAHFitVault-20160110104509_log.ldf&#39;</span><span class="p">,</span>
-         <span class="s">&#39;../Source/UAHFitVault/UAHFitVault/App_Data/aspnet-UAHFitVault-20160110104509_log.ldf&#39;</span><span class="p">)</span>
-</div>
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">copy</span><span class="p">(</span><span class="s1">&#39;./Data/database/aspnet-UAHFitVault-20160110104509.mdf&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;../Source/UAHFitVault/UAHFitVault/App_Data/aspnet-UAHFitVault-20160110104509.mdf&#39;</span><span class="p">)</span>
+    <span class="n">copy</span><span class="p">(</span><span class="s1">&#39;./Data/database/aspnet-UAHFitVault-20160110104509_log.ldf&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;../Source/UAHFitVault/UAHFitVault/App_Data/aspnet-UAHFitVault-20160110104509_log.ldf&#39;</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper"><div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -64,7 +64,7 @@
   </ul></li>
 </ul>
 </div>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -85,8 +85,8 @@
       &copy;2016, Timothy Wilkins.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
     </div>
 

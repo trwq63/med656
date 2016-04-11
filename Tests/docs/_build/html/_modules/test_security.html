@@ -30,15 +30,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for test_security</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">WebUI.WebUI</span> <span class="kn">import</span> <span class="n">WebUI</span>
+<span></span><span class="kn">from</span> <span class="nn">WebUI.WebUI</span> <span class="kn">import</span> <span class="n">WebUI</span>
 
 <span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
 
@@ -55,94 +55,74 @@
 
 <span class="sd">    **Input:**</span>
 
-<span class="sd">    - user = &#39;&#39;</span>
-<span class="sd">    - pwd = &#39;&#39;</span>
+<span class="sd">    - physician = &#39;testPhysician3&#39;</span>
+<span class="sd">    - phys_pass = &#39;P@ssword10&#39;</span>
+<span class="sd">    - phys_email = &#39;testphysician3@uah.com&#39;</span>
+<span class="sd">    - phys_add = &#39;here&#39;</span>
+<span class="sd">    - phys_fname = &#39;test&#39;</span>
+<span class="sd">    - phys_lname = &#39;physicianthree&#39;</span>
+<span class="sd">    - phys_phone = &#39;123-456-7890&#39;</span>
+<span class="sd">    - patient = &#39;testPatient5&#39;</span>
+<span class="sd">    - pat_pass = &#39;P@ssword10&#39;</span>
+<span class="sd">    - bday = &#39;April 1, 1987&#39;</span>
+<span class="sd">    - loc = &#39;Alabama&#39;</span>
+<span class="sd">    - wght = &#39;123&#39;</span>
+<span class="sd">    - hght = &#39;123&#39;</span>
+<span class="sd">    - gen = &#39;male&#39;</span>
+<span class="sd">    - race = &#39;white&#39;</span>
+<span class="sd">    - eth = &#39;non_hispanic&#39;</span>
+<span class="sd">    - test_physician = &#39;testPhysician&#39;</span>
+<span class="sd">    - test_phys_pass = &#39;P@ssword10&#39;</span>
 
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    Steps            Expected Result    Actual Result</span>
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    login            User can login</span>
-<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    ====================================  ===================  =============</span>
+<span class="sd">    Steps                                 Expected Result      Actual Result</span>
+<span class="sd">    ====================================  ===================  =============</span>
+<span class="sd">    create physician                      no errors</span>
+<span class="sd">    create patient for physician          no errors</span>
+<span class="sd">    login as testPhysician                login success</span>
+<span class="sd">    check for patient in management page  patient not listed</span>
+<span class="sd">    ====================================  ===================  =============</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Starting&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Starting&#39;</span><span class="p">)</span>
 
-    <span class="n">user</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-    <span class="n">pwd</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+    <span class="n">physician</span> <span class="o">=</span> <span class="s1">&#39;testPhysician3&#39;</span>
+    <span class="n">phys_pass</span> <span class="o">=</span> <span class="s1">&#39;P@ssword10&#39;</span>
+    <span class="n">phys_email</span> <span class="o">=</span> <span class="s1">&#39;testphysician3@uah.com&#39;</span>
+    <span class="n">phys_add</span> <span class="o">=</span> <span class="s1">&#39;here&#39;</span>
+    <span class="n">phys_fname</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span>
+    <span class="n">phys_lname</span> <span class="o">=</span> <span class="s1">&#39;physicianthree&#39;</span>
+    <span class="n">phys_phone</span> <span class="o">=</span> <span class="s1">&#39;123-456-7890&#39;</span>
+    <span class="n">patient</span> <span class="o">=</span> <span class="s1">&#39;testPatient5&#39;</span>
+    <span class="n">pat_pass</span> <span class="o">=</span> <span class="s1">&#39;P@ssword10&#39;</span>
+    <span class="n">bday</span> <span class="o">=</span> <span class="s1">&#39;April 1, 1987&#39;</span>
+    <span class="n">loc</span> <span class="o">=</span> <span class="s1">&#39;Alabama&#39;</span>
+    <span class="n">wght</span> <span class="o">=</span> <span class="s1">&#39;123&#39;</span>
+    <span class="n">hght</span> <span class="o">=</span> <span class="s1">&#39;123&#39;</span>
+    <span class="n">gen</span> <span class="o">=</span> <span class="s1">&#39;male&#39;</span>
+    <span class="n">race</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span>
+    <span class="n">eth</span> <span class="o">=</span> <span class="s1">&#39;non_hispanic&#39;</span>
+    <span class="n">test_physician</span> <span class="o">=</span> <span class="s1">&#39;testPhysician&#39;</span>
+    <span class="n">test_phys_pass</span> <span class="o">=</span> <span class="s1">&#39;P@ssword10&#39;</span>
 
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Logging in as &#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">)</span>
-    <span class="n">ps</span> <span class="o">=</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="s">&#39;Restricted&#39;</span> <span class="ow">in</span> <span class="n">ps</span>
-
-</div>
-<div class="viewcode-block" id="test_patient_cannot_create_patient"><a class="viewcode-back" href="../STD/test_security.html#test_security.test_patient_cannot_create_patient">[docs]</a><span class="k">def</span> <span class="nf">test_patient_cannot_create_patient</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    **Requirements:**</span>
-
-<span class="sd">    - 3.1.1.1.2.5: Only a physician can create a patient</span>
-
-<span class="sd">    **Pre Conditions:**</span>
-
-<span class="sd">    - logoff fixture</span>
-
-<span class="sd">    **Input:**</span>
-
-<span class="sd">    - user = &#39;&#39;</span>
-<span class="sd">    - pwd = &#39;&#39;</span>
-
-
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    Steps            Expected Result    Actual Result</span>
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    login            User can login</span>
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Starting&#39;</span><span class="p">)</span>
-
-    <span class="n">user</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-    <span class="n">pwd</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Logging in as &#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="bp">False</span>
-
-</div>
-<div class="viewcode-block" id="test_exp_admin_cannot_create_patient"><a class="viewcode-back" href="../STD/test_security.html#test_security.test_exp_admin_cannot_create_patient">[docs]</a><span class="k">def</span> <span class="nf">test_exp_admin_cannot_create_patient</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    **Requirements:**</span>
-
-<span class="sd">    - 3.1.1.1.2.5: Only a physician can create a patient</span>
-
-<span class="sd">    **Pre Conditions:**</span>
-
-<span class="sd">    - logoff fixture</span>
-
-<span class="sd">    **Input:**</span>
-
-<span class="sd">    - user = &#39;&#39;</span>
-<span class="sd">    - pwd = &#39;&#39;</span>
-
-
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    Steps            Expected Result    Actual Result</span>
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    login            User can login</span>
-<span class="sd">    ===============  =================  =============</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Starting&#39;</span><span class="p">)</span>
-
-    <span class="n">user</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-    <span class="n">pwd</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Logging in as &#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="bp">False</span></div>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Creating physician &#39;</span><span class="p">,</span> <span class="n">physician</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">request_account</span><span class="p">(</span><span class="s1">&#39;Physician&#39;</span><span class="p">,</span> <span class="n">physician</span><span class="p">,</span> <span class="n">phys_pass</span><span class="p">,</span> <span class="n">phys_email</span><span class="p">,</span> <span class="n">phys_fname</span><span class="p">,</span> <span class="n">phys_lname</span><span class="p">,</span> <span class="n">phys_add</span><span class="p">,</span> <span class="n">phys_phone</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Apprpving physician&#39;</span><span class="p">,</span> <span class="n">physician</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">approve_account</span><span class="p">(</span><span class="s1">&#39;{} {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phys_fname</span><span class="p">,</span> <span class="n">phys_lname</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Creating patient&#39;</span><span class="p">,</span> <span class="n">patient</span><span class="p">,</span> <span class="s1">&#39; for physician &#39;</span><span class="p">,</span> <span class="n">physician</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">create_patient</span><span class="p">(</span><span class="n">physician</span><span class="p">,</span> <span class="n">phys_pass</span><span class="p">,</span> <span class="n">patient</span><span class="p">,</span> <span class="n">pat_pass</span><span class="p">,</span> <span class="n">bday</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">wght</span><span class="p">,</span> <span class="n">hght</span><span class="p">,</span> <span class="n">gen</span><span class="p">,</span> <span class="n">race</span><span class="p">,</span> <span class="n">eth</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Logging in as&#39;</span><span class="p">,</span> <span class="n">test_physician</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">test_physician</span><span class="p">,</span> <span class="n">test_phys_pass</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Checking for patient&#39;</span><span class="p">,</span> <span class="n">patient</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;div[class=&quot;card&quot;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="s1">&#39;innerHTML&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="s1">&#39;{} {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phys_fname</span><span class="p">,</span> <span class="n">phys_lname</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">text</span></div>
 </pre></div>
 
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper"><div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -152,7 +132,7 @@
   </ul></li>
 </ul>
 </div>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -173,8 +153,8 @@
       &copy;2016, Timothy Wilkins.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
     </div>
 
