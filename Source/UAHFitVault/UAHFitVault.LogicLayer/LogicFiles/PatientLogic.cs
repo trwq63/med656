@@ -54,6 +54,9 @@ namespace UAHFitVault.LogicLayer.LogicFiles
                 else if (filename.Contains("Summary")) {
                     deviceType = Device_Type.Zephyr;
                 }
+                else if (filename.Contains("General")) {
+                    deviceType = Device_Type.Zephyr;
+                }
             }
             return deviceType;
         }
@@ -76,6 +79,12 @@ namespace UAHFitVault.LogicLayer.LogicFiles
                     case "Zephyr":
                         if (fileName.Contains("Accel")) {
                             fileType = File_Type.Accelerometer;
+                        }
+                        else if (fileName.Contains("General")) {
+                            fileType = File_Type.General;
+                        }
+                        else if (fileName.Contains("BR_RR")) {
+                            fileType = File_Type.BR_RR;
                         }
                         else if (fileName.Contains("Breathing")) {
                             fileType = File_Type.Breathing;
@@ -234,6 +243,40 @@ namespace UAHFitVault.LogicLayer.LogicFiles
             return zephyrBreathingData;
         }
 
+        /// <summary>
+        /// Create a list of ZephyrBRRR objects from the data read from the csv file selected by the user.
+        /// </summary>
+        /// <param name="csvReader">csv reader object</param>
+        /// <param name="patientData">Patient data record that will be referenced by each zephyr BR RR data record.</param>
+        /// <returns></returns>
+        public static List<ZephyrBRRR> BuildZephyrBrRrDataList(CsvReader csvReader, PatientData patientData) {
+            List<ZephyrBRRR> zephyrBrRrData = null;
+
+            if (csvReader != null && patientData != null && patientData.Id != null) {
+                zephyrBrRrData = new List<ZephyrBRRR>();
+                while (csvReader.ReadNextRecord()) {
+                    if (csvReader != null) {
+                        //File should read in the following order.
+                        //Timestamp | BR | RtoR
+                        string dateFormat = "dd/MM/yyyy HH:mm:ss.fff";
+                        string date = csvReader[0];
+                        DateTime dateTime;
+                        if (DateTime.TryParseExact(date, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime)) {
+                            ZephyrBRRR zephyrBrRr = new ZephyrBRRR() {
+                                TimeStamp = dateTime,
+                                BR = (float)Convert.ToDouble(csvReader[1]),
+                                RR = (float)Convert.ToDouble(csvReader[2]),
+                                PatientDataId = patientData.Id
+                            };
+                            zephyrBrRrData.Add(zephyrBrRr);
+                        }
+                    }
+                }
+            }
+
+            return zephyrBrRrData;
+        }
+
 
         /// <summary>
         /// Create a list of ZephyrEventData objects from the data read from the csv file selected by the user.
@@ -350,6 +393,55 @@ namespace UAHFitVault.LogicLayer.LogicFiles
             return zephyrSummaryData;
         }
 
+        /// <summary>
+        /// Create a list of ZephyrSummaryData objects from the data read from the csv file selected by the user.
+        /// </summary>
+        /// <param name="csvReader">csv reader object</param>
+        /// <param name="patientData">Patient data record that will be referenced by each zephyr general data record.</param>
+        /// <returns></returns>
+        public static List<ZephyrSummaryData> BuildZephyrGeneralDataList(CsvReader csvReader, PatientData patientData) {
+            List<ZephyrSummaryData> zephyrSummaryData = null;
+
+            if (csvReader != null && patientData != null && patientData.Id != null) {
+                zephyrSummaryData = new List<ZephyrSummaryData>();
+                while (csvReader.ReadNextRecord()) {
+                    if (csvReader != null) {
+                        //File should read in the following order.
+                        //Timestamp | HR | BR | Temp | Posture | Activity | Acceleration | Battery | BRAmplitude | ECGAmplitude | ECGNoise 
+                        //cont. XMin | XPeak | YMin | YPeak | ZMin | ZPeak
+                        string dateFormat = "dd/MM/yyyy HH:mm:ss.fff";
+                        string date = csvReader[0];
+                        DateTime dateTime;
+                        if (DateTime.TryParseExact(date, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime)) {
+
+                            ZephyrSummaryData zephyrSummary = new ZephyrSummaryData() {
+                                Date = dateTime,
+                                HeartRate = Convert.ToInt32(csvReader[1]),
+                                BreathingRate = (float)Convert.ToDouble(csvReader[2]),
+                                SkinTemp = (float)Convert.ToDouble(csvReader[3]),
+                                Posture = Convert.ToInt32(csvReader[4]),
+                                Activity = (float)Convert.ToDouble(csvReader[5]),
+                                PeakAccel = (float)Convert.ToDouble(csvReader[6]),
+                                BatteryVolts = (float)Convert.ToDouble(csvReader[7]),
+                                BRAmplitude = (float)Convert.ToDouble(csvReader[8]),
+                                ECGAmplitude = (float)Convert.ToDouble(csvReader[9]),
+                                ECGNoise = (float)Convert.ToDouble(csvReader[10]),
+                                LateralMin = (float)Convert.ToDouble(csvReader[11]),
+                                LateralPeak = (float)Convert.ToDouble(csvReader[12]),
+                                VerticalMin = (float)Convert.ToDouble(csvReader[13]),
+                                VerticalPeak = (float)Convert.ToDouble(csvReader[14]),
+                                SagittalMin = (float)Convert.ToDouble(csvReader[15]),
+                                SagittalPeak = (float)Convert.ToDouble(csvReader[16]),   
+                                PatientDataId = patientData.Id
+                            };
+                            zephyrSummaryData.Add(zephyrSummary);
+                        }
+                    }
+                }
+            }
+
+            return zephyrSummaryData;
+        }
 
         /// <summary>
         /// Create a list of BasisPeakSummaryData objects from the data read from the csv file selected by the user.

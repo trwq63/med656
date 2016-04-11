@@ -171,6 +171,10 @@ namespace UAHFitVault.Controllers
 
                             //Role must match what is found in the database AspNetRoles table.
                             result = manager.AddToRole(newUser.Id, "Patient");
+
+                            physician.Patients.Add(patient);
+                            _physicianService.UpdatePhysician(physician);
+                            _physicianService.SaveChanges();
                         }
                         else {
                             // User failed to add.
@@ -414,7 +418,7 @@ namespace UAHFitVault.Controllers
             }
 
             model.Username = username;
-
+            ApplicationUser user = UserManager.FindByName(username);
             Patient patient = _patientService.GetPatient(UserManager.FindByName(username).PatientId);
             Physician physician = _physicianService.GetPhysician(UserManager.FindByName(User.Identity.Name).PhysicianId);
 
@@ -426,7 +430,7 @@ namespace UAHFitVault.Controllers
 
             // Retrieve the data from the database for the patient.
 
-            return View(model);
+            return RedirectToAction("Index", "PatientData", new { patientUserId = user.Id});
         }
 
         /// <summary>
