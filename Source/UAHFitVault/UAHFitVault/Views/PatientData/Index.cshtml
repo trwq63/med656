@@ -23,6 +23,9 @@
         if (deviceData.DataRecords.FirstOrDefault(d => d.DataType == (int)File_Type.Summary) != null) {
             zephyrSummary.AddRange(deviceData.DataRecords.Where(d => d.DataType == (int)File_Type.Summary));
         }
+        if (deviceData.DataRecords.FirstOrDefault(d => d.DataType == (int)File_Type.General) != null) {
+            zephyrSummary.AddRange(deviceData.DataRecords.Where(d => d.DataType == (int)File_Type.General));
+        }
     }
 
     List<PatientData> basisSummary = new List<PatientData>();

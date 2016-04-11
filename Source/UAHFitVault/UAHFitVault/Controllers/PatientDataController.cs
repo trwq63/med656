@@ -70,6 +70,11 @@ namespace UAHFitVault.Controllers
         private readonly IZephyrSummaryService _summaryService;
 
         /// <summary>
+        /// Service object for accessing Zephyr BR RR database functions.
+        /// </summary>
+        private readonly IZephyrBrRrService _brRrService;
+
+        /// <summary>
         /// Service object for accessing basis peak summary database functions.
         /// </summary>
         private readonly IBasisPeakSummaryService _basisPeakService;
@@ -131,6 +136,7 @@ namespace UAHFitVault.Controllers
         /// <param name="zephyrEcgService">Service object for accessing Zephyr ECG Waveform database functions.</param>
         /// <param name="eventDataService">Service object for accessing Zephyr Event Data database functions.</param>
         /// <param name="summaryService">Service object for accessing Zephyr Summary database functions.</param>
+        /// <param name="brRrService">Service object for accessing Zephyr BR RR database functions.</param>
         /// <param name="patientService">Service object for accessing patient database functions.</param>
         /// <param name="basisPeakService">Service object for accessing basis peak summary database functions.</param>
         /// <param name="msBandHeartRateService">Service object for accessing Microsoft Band Heart Rate database functions.</param>
@@ -138,7 +144,7 @@ namespace UAHFitVault.Controllers
         public PatientDataController(IPatientDataService patientDataService, IZephyrAccelService zephyrAccelService,
                                     IZephyrBreathingService zephyrBreathingService, IZephyrECGService zephyrEcgService,
                                     IZephyrEventDataService eventDataService, IZephyrSummaryService summaryService,
-                                    IPatientService patientService, IBasisPeakSummaryService basisPeakService,
+                                    IZephyrBrRrService brRrService, IPatientService patientService, IBasisPeakSummaryService basisPeakService,
                                     IMSBandHeartRateService msBandHeartRateService, IMedicalDeviceService medicalDeviceService) {
 
             _patientDataService = patientDataService;
@@ -147,6 +153,7 @@ namespace UAHFitVault.Controllers
             _zephyrEcgService = zephyrEcgService;
             _eventDataService = eventDataService;
             _summaryService = summaryService;
+            _brRrService = brRrService;
             _patientService = patientService;
             _basisPeakService = basisPeakService;
             _msBandHeartRateService = msBandHeartRateService;
@@ -344,6 +351,40 @@ namespace UAHFitVault.Controllers
                                                     YAxisName = AxisNames.BEATS_PER_MINUTE,
                                                     XAxisData = zephyrSummaryData.Select(b => b.Date).ToList(),
                                                     YAxisData = zephyrSummaryData.Select(b => b.HeartRate).Select(d => (double)d).ToList()
+                                                };
+                                                graphViewModel.LineGraphModels.Add(lineModel);
+                                            }
+                                            break;
+                                        case File_Type.General:
+                                            List<ZephyrSummaryData> zephyrGeneralData = _summaryService.GetZephyrSummaryData(dataRecord, start, end).ToList();
+                                            if (zephyrGeneralData != null && zephyrGeneralData.Count > 0) {
+                                                LineGraphModel lineModel = new LineGraphModel() {
+                                                    GraphType = "Zephyr Heart Rate",
+                                                    XAxisName = AxisNames.GENERIC_X_AXIS,
+                                                    YAxisName = AxisNames.BEATS_PER_MINUTE,
+                                                    XAxisData = zephyrGeneralData.Select(b => b.Date).ToList(),
+                                                    YAxisData = zephyrGeneralData.Select(b => b.HeartRate).Select(d => (double)d).ToList()
+                                                };
+                                                graphViewModel.LineGraphModels.Add(lineModel);
+                                            }
+                                            break;
+                                        case File_Type.BR_RR:
+                                            List<ZephyrBRRR> zephyrBrRrData = _brRrService.GetZephyrBRRRData(dataRecord, start, end).ToList();
+                                            if (zephyrBrRrData != null && zephyrBrRrData.Count > 0) {
+                                                LineGraphModel lineModel = new LineGraphModel() {
+                                                    GraphType = "Zephyr BR",
+                                                    XAxisName = AxisNames.GENERIC_X_AXIS,
+                                                    YAxisName = AxisNames.GENERIC_Y_AXIS,
+                                                    XAxisData = zephyrBrRrData.Select(b => b.TimeStamp).ToList(),
+                                                    YAxisData = zephyrBrRrData.Select(b => b.BR).Select(d => (double)d).ToList()
+                                                };
+                                                graphViewModel.LineGraphModels.Add(lineModel);
+                                                lineModel = new LineGraphModel() {
+                                                    GraphType = "Zephyr RR",
+                                                    XAxisName = AxisNames.GENERIC_X_AXIS,
+                                                    YAxisName = AxisNames.GENERIC_Y_AXIS,
+                                                    XAxisData = zephyrBrRrData.Select(b => b.TimeStamp).ToList(),
+                                                    YAxisData = zephyrBrRrData.Select(b => b.RR).Select(d => (double)d).ToList()
                                                 };
                                                 graphViewModel.LineGraphModels.Add(lineModel);
                                             }
