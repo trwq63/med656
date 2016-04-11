@@ -42,7 +42,7 @@ namespace UAHFitVault.DataAccess
             if (string.IsNullOrEmpty(lastName))
                 return _physicianRepository.GetAll();
             else
-                return _physicianRepository.GetAll().Where(c => c.LastName == lastName);
+                return _physicianRepository.GetMany(c => c.LastName == lastName, p => p.LastName);
         }
 
         /// <summary>
@@ -98,6 +98,16 @@ namespace UAHFitVault.DataAccess
                 if(physician != null) {
                     _physicianRepository.Delete(physician);
                 }                
+            }
+        }
+
+        /// <summary>
+        /// Update the physician record in the database.
+        /// </summary>
+        /// <param name="physician"></param>
+        public void UpdatePhysician(Physician physician) {
+            if(physician != null) {
+                _physicianRepository.Update(physician);
             }
         }
 

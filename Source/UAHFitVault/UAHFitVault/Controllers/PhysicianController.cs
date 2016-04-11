@@ -171,6 +171,10 @@ namespace UAHFitVault.Controllers
 
                             //Role must match what is found in the database AspNetRoles table.
                             result = manager.AddToRole(newUser.Id, "Patient");
+
+                            physician.Patients.Add(patient);
+                            _physicianService.UpdatePhysician(physician);
+                            _physicianService.SaveChanges();
                         }
                         else {
                             // User failed to add.

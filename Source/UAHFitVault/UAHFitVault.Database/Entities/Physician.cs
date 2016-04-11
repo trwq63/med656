@@ -31,7 +31,7 @@ namespace UAHFitVault.Database.Entities
 
         #region Navigation Properties
 
-        public ICollection<Patient> Patients { get; set; }
+        public virtual ICollection<Patient> Patients { get; set; }
 
         #endregion
     }

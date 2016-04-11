@@ -43,6 +43,12 @@ namespace UAHFitVault.DataAccess
         void DeletePhysician(int id);
 
         /// <summary>
+        /// Update the physician record in the database.
+        /// </summary>
+        /// <param name="physician"></param>
+        void UpdatePhysician(Physician physician);
+
+        /// <summary>
         /// Save changes to database
         /// </summary>
         void SaveChanges();
