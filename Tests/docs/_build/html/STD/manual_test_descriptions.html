@@ -1,0 +1,351 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Manual Tests &mdash; WebUITest 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="WebUITest 1.0 documentation" href="../index.html" />
+    <link rel="up" title="UAHealth Bit Vault Software Test Description" href="software_test_description.html" />
+    <link rel="prev" title="WebUI package" href="WebUI.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="manual-tests">
+<span id="manual-test-descriptions"></span><h1><a class="toc-backref" href="#id1">Manual Tests</a><a class="headerlink" href="#manual-tests" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#manual-tests" id="id1">Manual Tests</a><ul>
+<li><a class="reference internal" href="#test-preparations" id="id2">Test Preparations</a><ul>
+<li><a class="reference internal" href="#hardware-preparations" id="id3">Hardware Preparations</a></li>
+<li><a class="reference internal" href="#software-preparations" id="id4">Software Preparations</a></li>
+<li><a class="reference internal" href="#other-preparations" id="id5">Other Preparations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#test-details" id="id6">Test Details</a><ul>
+<li><a class="reference internal" href="#user-privacy-test" id="id7">User Privacy Test</a></li>
+<li><a class="reference internal" href="#physician-graph-view" id="id8">Physician Graph View</a></li>
+<li><a class="reference internal" href="#os-test" id="id9">OS Test</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="test-preparations">
+<h2><a class="toc-backref" href="#id2">Test Preparations</a><a class="headerlink" href="#test-preparations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="hardware-preparations">
+<h3><a class="toc-backref" href="#id3">Hardware Preparations</a><a class="headerlink" href="#hardware-preparations" title="Permalink to this headline">¶</a></h3>
+<p>You need a computer with access to the UAHealth server.</p>
+</div>
+<div class="section" id="software-preparations">
+<h3><a class="toc-backref" href="#id4">Software Preparations</a><a class="headerlink" href="#software-preparations" title="Permalink to this headline">¶</a></h3>
+<p>You need the latest Chrome or Firefox version installed on the computer.</p>
+</div>
+<div class="section" id="other-preparations">
+<h3><a class="toc-backref" href="#id5">Other Preparations</a><a class="headerlink" href="#other-preparations" title="Permalink to this headline">¶</a></h3>
+<p>None.</p>
+</div>
+</div>
+<div class="section" id="test-details">
+<h2><a class="toc-backref" href="#id6">Test Details</a><a class="headerlink" href="#test-details" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="user-privacy-test">
+<h3><a class="toc-backref" href="#id7">User Privacy Test</a><a class="headerlink" href="#user-privacy-test" title="Permalink to this headline">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.1.1.1.2: The system shall prevent any personal identifiable information from being available for a Patient</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>The user must be logged off</li>
+<li>A physician named &#8216;testPhysician&#8217; must be created</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>To check if this user is created login as user &#8216;fitadmin&#8217; password &#8216;Password1!&#8217;</li>
+<li>Click the &#8216;Manage Accounts&#8217; button at the top of the page</li>
+<li>Select &#8216;Physicians&#8217; from the Roles dropdown and look for &#8216;testPhysician&#8217;</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>If physician &#8216;testPhysician&#8217; does not exist</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>Follow the steps here __&#8217;userguide link&#8217;__ to create a physician account with the following information</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>first name = test</li>
+<li>last name = test</li>
+<li>username = testPhysician</li>
+<li>password = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
+<li>email = <a class="reference external" href="mailto:testphysician&#37;&#52;&#48;test&#46;com">testphysician<span>&#64;</span>test<span>&#46;</span>com</a></li>
+<li>address = here</li>
+<li>phone number = 123-456-7890</li>
+<li>reason = test</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<p><strong>Input:</strong></p>
+<ul class="simple">
+<li>user = &#8216;testPatientPrivacy&#8217;</li>
+<li>password = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
+</ul>
+<p><strong>Test Procedure:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="56%" />
+<col width="34%" />
+<col width="10%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>login as &#8216;testPhysician&#8217; with password <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</td>
+<td>Login Success!</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>click &#8216;create patient&#8217; button</td>
+<td>Taken to the create patient page</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>verify that none of the information requested is personally identifiable</td>
+<td>None of the info is personally identifiable</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="physician-graph-view">
+<h3><a class="toc-backref" href="#id8">Physician Graph View</a><a class="headerlink" href="#physician-graph-view" title="Permalink to this headline">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.1.1.2.3: The system shall allow the physician user to view their patient’s data graphically.</li>
+<li>3.1.7: The system shall provide a user interface for displaying medical data in the system.</li>
+<li>3.1.7.16: The system shall display summary heart rate data on a chart from the Zephyr and BasisPeak.</li>
+<li>3.1.7.16.1: The chart showing summary heart rate data from the Zephyr and BasisPeak will also show heart rate data from the Microsoft Band.</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>The user must be logged off</li>
+<li>A physician named &#8216;testPhysician&#8217; must be created</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>To check if this user is created login as user &#8216;fitadmin&#8217; password &#8216;Password1!&#8217;</li>
+<li>Click the &#8216;Manage Accounts&#8217; button at the top of the page</li>
+<li>Select &#8216;Physicians&#8217; from the Roles dropdown and look for &#8216;testPhysician&#8217;</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>If physician &#8216;testPhysician&#8217; does not exist</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>Follow the steps here __&#8217;userguide link&#8217;__ to create a physician account with the following information</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>first name = test</li>
+<li>last name = test</li>
+<li>username = testPhysician</li>
+<li>password = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
+<li>email = <a class="reference external" href="mailto:testphysician&#37;&#52;&#48;test&#46;com">testphysician<span>&#64;</span>test<span>&#46;</span>com</a></li>
+<li>address = here</li>
+<li>phone number = 123-456-7890</li>
+<li>reason = test</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<ul class="simple">
+<li>&#8216;testPhysician&#8217; must have a patient &#8216;testPatientGraphView&#8217;</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>If patient &#8216;testPatientGraphView&#8217; does not exist</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>Follow the steps here ___&#8217;userguide link&#8217;___ to create patient &#8216;testPatientGraphView&#8217; with to following information</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>user = &#8216;testPatientGraphView&#8217;</li>
+<li>pwd = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
+<li>birthday = &#8216;3 March, 1954&#8217;</li>
+<li>location = &#8216;Alabama&#8217;</li>
+<li>weight = &#8216;200&#8217;</li>
+<li>height = &#8216;72&#8217;</li>
+<li>gender = &#8216;male&#8217;</li>
+<li>race = &#8216;white&#8217;</li>
+<li>ethnicity = &#8216;non_hispanic&#8217;</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<p><strong>Input:</strong></p>
+<ul class="simple">
+<li>user = &#8216;testPatientPrivacy&#8217;</li>
+<li>password = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
+</ul>
+<p><strong>Test Procedure:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="56%" />
+<col width="34%" />
+<col width="10%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>login as &#8216;testPhysician&#8217; with password <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</td>
+<td>Login Success!</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="os-test">
+<h3><a class="toc-backref" href="#id9">OS Test</a><a class="headerlink" href="#os-test" title="Permalink to this headline">¶</a></h3>
+<p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.2.1: The system shall run on Windows Server Operating System</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<p><strong>Input:</strong></p>
+<p><strong>Test Procedure:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="56%" />
+<col width="34%" />
+<col width="10%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>empty</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Manual Tests</a><ul>
+<li><a class="reference internal" href="#test-preparations">Test Preparations</a><ul>
+<li><a class="reference internal" href="#hardware-preparations">Hardware Preparations</a></li>
+<li><a class="reference internal" href="#software-preparations">Software Preparations</a></li>
+<li><a class="reference internal" href="#other-preparations">Other Preparations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#test-details">Test Details</a><ul>
+<li><a class="reference internal" href="#user-privacy-test">User Privacy Test</a></li>
+<li><a class="reference internal" href="#physician-graph-view">Physician Graph View</a></li>
+<li><a class="reference internal" href="#os-test">OS Test</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="software_test_description.html">UAHealth Bit Vault Software Test Description</a><ul>
+      <li>Previous: <a href="WebUI.html" title="previous chapter">WebUI package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/STD/manual_test_descriptions.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Timothy Wilkins.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="../_sources/STD/manual_test_descriptions.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
