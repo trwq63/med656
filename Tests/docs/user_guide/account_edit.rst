@@ -8,6 +8,8 @@ Account Editing
 
 Users have the ability to edit their account information.
 
+.. _edit_physician_account:
+
 Physician Account
 -----------------
 
@@ -22,4 +24,16 @@ page like this:
 .. image:: ./images/account_management_physician_confirmation.png
 
 Click "Confirm" and you changes will be saved.
+
+Experiment Admin Account
+------------------------
+
+Editing an Experiment Admin account is exactly the same as editing a :ref:`Physician <edit_physician_account>` account.
+
+Patient Account
+---------------
+
+
+System Admin Account
+--------------------
 
