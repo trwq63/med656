@@ -2,54 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e3cd79ef-8e85-4526-b60f-344a866da87e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/doctrees/WebUI.doctree" afterPath="$PROJECT_DIR$/Tests/docs/_build/doctrees/WebUI.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/doctrees/conftest.doctree" afterPath="$PROJECT_DIR$/Tests/docs/_build/doctrees/conftest.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/doctrees/environment.pickle" afterPath="$PROJECT_DIR$/Tests/docs/_build/doctrees/environment.pickle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/doctrees/index.doctree" afterPath="$PROJECT_DIR$/Tests/docs/_build/doctrees/index.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/doctrees/modules.doctree" afterPath="$PROJECT_DIR$/Tests/docs/_build/doctrees/modules.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/doctrees/setup_db.doctree" afterPath="$PROJECT_DIR$/Tests/docs/_build/doctrees/setup_db.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/doctrees/test_create_account.doctree" afterPath="$PROJECT_DIR$/Tests/docs/_build/doctrees/test_create_account.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/doctrees/test_edit_account.doctree" afterPath="$PROJECT_DIR$/Tests/docs/_build/doctrees/test_edit_account.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/doctrees/test_login.doctree" afterPath="$PROJECT_DIR$/Tests/docs/_build/doctrees/test_login.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/doctrees/test_password.doctree" afterPath="$PROJECT_DIR$/Tests/docs/_build/doctrees/test_password.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/doctrees/test_security.doctree" afterPath="$PROJECT_DIR$/Tests/docs/_build/doctrees/test_security.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/doctrees/test_upload.doctree" afterPath="$PROJECT_DIR$/Tests/docs/_build/doctrees/test_upload.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/doctrees/test_username.doctree" afterPath="$PROJECT_DIR$/Tests/docs/_build/doctrees/test_username.doctree" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/objects.inv" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/objects.inv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/account_approval.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/account_management_physician.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/account_management_physician_confirmation.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/create_admin.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/create_admin_confirmation.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/create_experiment_1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/create_experiment_2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/create_experiment_confirmation.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/create_patient.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/create_patient_confirmation.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/export_data.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/login_screen.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/manage_users.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/patient_management.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/request_account.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/request_account_confirmation.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/reset_password_admin.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/reset_password_admin_confirmation.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/upload_patient_data.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/view_experiments.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/view_patient_data.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Tests/docs/user_guide/images/view_patient_data_2.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Source/UAHFitVault/UAHFitVault/Views/Admin/ManageUsers.cshtml" afterPath="$PROJECT_DIR$/Source/UAHFitVault/UAHFitVault/Views/Admin/ManageUsers.cshtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/WebUI/WebUI.py" afterPath="$PROJECT_DIR$/Tests/WebUI/WebUI.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/conftest.py" afterPath="$PROJECT_DIR$/Tests/conftest.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/WebUI.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/WebUI.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/_modules/test_create_account.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/_modules/test_create_account.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/_modules/test_edit_account.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/_modules/test_edit_account.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/_modules/test_login.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/_modules/test_login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/_modules/test_password.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/_modules/test_password.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/_modules/test_security.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/_modules/test_security.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/_modules/test_upload.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/_modules/test_upload.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/_modules/test_username.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/_modules/test_username.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/_sources/index.txt" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/_sources/index.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/_sources/modules.txt" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/_sources/modules.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/conftest.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/conftest.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/genindex.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/genindex.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/index.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/modules.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/modules.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/searchindex.js" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/searchindex.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/setup_db.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/setup_db.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/test_create_account.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/test_create_account.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/test_edit_account.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/test_edit_account.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/test_login.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/test_login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/test_password.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/test_password.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/test_security.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/test_security.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/test_upload.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/test_upload.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/_build/html/test_username.html" afterPath="$PROJECT_DIR$/Tests/docs/_build/html/test_username.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/conf.py" afterPath="$PROJECT_DIR$/Tests/docs/conf.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/modules.rst" afterPath="$PROJECT_DIR$/Tests/docs/modules.rst" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/software_test_description.rst" afterPath="$PROJECT_DIR$/Tests/docs/software_test_description.rst" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/docs/user_guide.rst" afterPath="$PROJECT_DIR$/Tests/docs/user_guide.rst" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/test_edit_account.py" afterPath="$PROJECT_DIR$/Tests/test_edit_account.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/test_login.py" afterPath="$PROJECT_DIR$/Tests/test_login.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tests/test_upload.py" afterPath="$PROJECT_DIR$/Tests/test_upload.py" />
     </list>
     <ignored path="med656.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -70,47 +45,40 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="conftest.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Tests/conftest.py">
+      <file leaf-file-name="account_creation.rst" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/account_creation.rst">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test_edit_account.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Tests/test_edit_account.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="92" column="9" selection-start-line="92" selection-start-column="9" selection-end-line="92" selection-end-column="9" />
+              <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WebUI.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Tests/WebUI/WebUI.py">
+      <file leaf-file-name="account_deletion.rst" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/account_deletion.rst">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8827586">
-              <caret line="391" column="25" selection-start-line="391" selection-start-column="25" selection-end-line="391" selection-end-column="25" />
-              <folding>
-                <element signature="e#80#110#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0">
+              <caret line="14" column="111" selection-start-line="14" selection-start-column="111" selection-end-line="14" selection-end-column="111" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_login.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Tests/test_login.py">
+      <file leaf-file-name="account_edit.rst" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/account_edit.rst">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="135" column="28" selection-start-line="135" selection-start-column="28" selection-end-line="135" selection-end-column="28" />
+            <state vertical-scroll-proportion="0.6661442">
+              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding />
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="account_management_physician.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/images/account_management_physician.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
           </provider>
         </entry>
       </file>
@@ -132,22 +100,28 @@
         <option value="$PROJECT_DIR$/Tests/Data/BasisPeak/bodymetrics_2012-01-30T00-00-00_2016-01-18T04-51-00.csv" />
         <option value="$PROJECT_DIR$/Tests/setup_db.py" />
         <option value="$PROJECT_DIR$/Tests/test_register.py" />
-        <option value="$PROJECT_DIR$/Tests/test_security.py" />
         <option value="$PROJECT_DIR$/Tests/test_username.py" />
         <option value="$PROJECT_DIR$/Tests/docs/index.rst" />
-        <option value="$PROJECT_DIR$/Tests/test_password.py" />
         <option value="$PROJECT_DIR$/Tests/test_create_account.py" />
         <option value="$PROJECT_DIR$/Tests/docs/Makefile" />
         <option value="$PROJECT_DIR$/Tests/docs/test_login.rst" />
         <option value="$PROJECT_DIR$/Tests/docs/conf.py" />
         <option value="$PROJECT_DIR$/Tests/docs/user_guide.rst" />
-        <option value="$PROJECT_DIR$/Tests/test_edit_account.py" />
-        <option value="$PROJECT_DIR$/Tests/test_upload.py" />
         <option value="$PROJECT_DIR$/Tests/docs/software_test_description.rst" />
         <option value="$PROJECT_DIR$/Tests/docs/modules.rst" />
-        <option value="$PROJECT_DIR$/Tests/conftest.py" />
         <option value="$PROJECT_DIR$/Tests/test_login.py" />
+        <option value="$PROJECT_DIR$/Tests/test_password.py" />
+        <option value="$PROJECT_DIR$/Tests/test_edit_account.py" />
+        <option value="$PROJECT_DIR$/Tests/test_security.py" />
+        <option value="$PROJECT_DIR$/Tests/conftest.py" />
+        <option value="$PROJECT_DIR$/Tests/test_upload.py" />
         <option value="$PROJECT_DIR$/Tests/WebUI/WebUI.py" />
+        <option value="$PROJECT_DIR$/Tests/test_experiment.py" />
+        <option value="$PROJECT_DIR$/Tests/test_export.py" />
+        <option value="$PROJECT_DIR$/Tests/docs/user_guide/user_guide.rst" />
+        <option value="$PROJECT_DIR$/Tests/docs/user_guide/account_creation.rst" />
+        <option value="$PROJECT_DIR$/Tests/docs/user_guide/account_deletion.rst" />
+        <option value="$PROJECT_DIR$/Tests/docs/user_guide/account_edit.rst" />
       </list>
     </option>
   </component>
@@ -266,7 +240,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="WebUI" />
+              <option name="myItemId" value="docs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="user_guide" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -284,29 +262,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Data" />
+              <option name="myItemId" value="docs" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="database" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="med656" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="med656" />
+              <option name="myItemId" value="user_guide" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Tests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Data" />
+              <option name="myItemId" value="images" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -344,6 +308,9 @@
     </option>
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator\Source\Repos\med656\Tests\docs\user_guide\images" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Administrator\Source\Repos\med656\Tests\Data\database" />
     </key>
@@ -523,23 +490,41 @@
       <option name="project" value="LOCAL" />
       <updated>1459397756951</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="updating the way we do documentation.">
+      <created>1459744660226</created>
+      <option name="number" value="00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1459744660226</updated>
+    </task>
+    <task id="LOCAL-00003" summary="updating the way we do documentation.">
+      <created>1460405578238</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1460405578238</updated>
+    </task>
+    <task id="LOCAL-00004" summary="updating the way we do documentation.">
+      <created>1460429310746</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1460429310746</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1604" height="1176" extended-state="1" />
+    <frame x="-8" y="-8" width="1604" height="1176" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22094509" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24904214" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36145735" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36145735" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32854405" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3279003" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -591,136 +576,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Tests/test_edit_account.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="92" column="9" selection-start-line="92" selection-start-column="9" selection-end-line="92" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/WebUI/WebUI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#80#110#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/test_login.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="155" column="17" selection-start-line="155" selection-start-column="17" selection-end-line="155" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/conftest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="23" selection-start-line="7" selection-start-column="4" selection-end-line="8" selection-end-column="73" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/WebUI/WebUI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#80#110#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/test_edit_account.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="39" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/test_security.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/test_upload.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="11" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/conftest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/WebUI/WebUI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#80#110#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/test_edit_account.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="39" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/test_security.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/test_upload.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="11" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/conftest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="18" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/WebUI/WebUI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#80#110#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Tests/test_security.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -747,7 +602,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="10" column="36" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -778,7 +633,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#80#110#0" expanded="true" />
+            <element signature="e#80#110#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -851,13 +706,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/test_password.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6974665">
-          <caret line="122" column="27" selection-start-line="122" selection-start-column="27" selection-end-line="122" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Tests/test_create_account.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.0752351">
@@ -865,31 +713,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/docs/test_create_account.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Tests/report.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/test_security.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.026645768">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/docs/test_login.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11724138">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -907,34 +734,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/docs/modules.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.103238866">
-          <caret line="6" column="31" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/docs/software_test_description.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6866995">
-          <caret line="41" column="10" selection-start-line="41" selection-start-column="10" selection-end-line="41" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/test_upload.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8325123">
-          <caret line="208" column="9" selection-start-line="208" selection-start-column="9" selection-end-line="208" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Tests/docs/Makefile">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -949,39 +748,170 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Tests/conftest.py">
+    <entry file="file://$PROJECT_DIR$/Tests/test_password.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.9330049">
+          <caret line="239" column="29" selection-start-line="239" selection-start-column="29" selection-end-line="239" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/test_security.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+          <caret line="36" column="76" selection-start-line="36" selection-start-column="76" selection-end-line="36" selection-end-column="76" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Tests/test_login.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="135" column="28" selection-start-line="135" selection-start-column="28" selection-end-line="135" selection-end-column="28" />
-          <folding />
+          <caret line="9" column="7" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Tests/test_edit_account.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8401254">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/conftest.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="92" column="9" selection-start-line="92" selection-start-column="9" selection-end-line="92" selection-end-column="9" />
-          <folding />
+          <caret line="78" column="19" selection-start-line="78" selection-start-column="4" selection-end-line="78" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#13#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Tests/WebUI/WebUI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8827586">
-          <caret line="391" column="25" selection-start-line="391" selection-start-column="25" selection-end-line="391" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="506" column="86" selection-start-line="506" selection-start-column="86" selection-end-line="506" selection-end-column="86" />
           <folding>
-            <element signature="e#80#110#0" expanded="true" />
+            <element signature="e#80#110#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/test_upload.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="128" column="0" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/test_experiment.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6661442">
+          <caret line="106" column="61" selection-start-line="106" selection-start-column="61" selection-end-line="106" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/test_export.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="21" selection-start-line="26" selection-start-column="21" selection-end-line="26" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/user_guide.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.185185">
+          <caret line="13" column="12" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/images/export_data.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/images/create_patient_confirmation.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/images/create_experiment_confirmation.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/images/create_experiment_2.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/images/create_experiment_1.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/images/login_screen.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/images/request_account.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/images/create_patient.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/images/patient_management.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/images/account_approval.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/images/create_admin.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/images/manage_users.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/account_deletion.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="111" selection-start-line="14" selection-start-column="111" selection-end-line="14" selection-end-column="111" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/images/account_management_physician.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/account_creation.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tests/docs/user_guide/account_edit.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6661442">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
