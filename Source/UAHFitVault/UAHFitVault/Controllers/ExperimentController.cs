@@ -265,6 +265,7 @@ namespace UAHFitVault.Controllers
         {
             ViewPatientViewModel model = new ViewPatientViewModel();
             model.patient = _patientService.GetPatient(patientId);
+            model.patientData = model.patient.PatientData;
             model.ActivityTagFilter = "All";
             return View(model);
         }
@@ -278,6 +279,7 @@ namespace UAHFitVault.Controllers
         public ActionResult ViewPatient (ViewPatientViewModel model)
         {
             model.patient = _patientService.GetPatient(model.patient.Id);
+            model.patientData = model.patient.PatientData;
             string activityTag = model.ActivityTagFilter.Replace(" ", "_");
             // Get all data sessions for patient matching activityTag
             return View(model);

@@ -1,5 +1,6 @@
 ﻿@model UAHFitVault.Models.ViewPatientViewModel
 @using UAHFitVault.LogicLayer.Enums
+@using UAHFitVault.Database.Entities
 
 @{
     ViewBag.Title = "View Patient";
@@ -54,7 +55,45 @@
     <br />
     if (Model.ActivityTagFilter != null)
     {
-        <h5>Displaying data filtered by @Model.ActivityTagFilter</h5>}
+        <h5>Displaying data filtered by @Model.ActivityTagFilter</h5>
+        <table>
+            <tr class="blue lighten-2" style="font-weight:500">
+                <td>Id</td>
+                <td>Name</td>
+                <td>Upload Date</td>
+                <td>Date Recorded</td>
+                <td>Actions</td>
+            </tr>
+            @* Display the patient data records *@
+            @foreach (PatientData patientData in Model.patientData)
+            {
+                bool patientDataContainsActivity = false;
+                if (Model.ActivityTagFilter != "All")
+                {
+                    foreach (Activity activity in patientData.Activities)
+                    {
+                        if (Enum.GetName(typeof(ActivityType), activity) == Model.ActivityTagFilter.Replace(" ", "_"))
+                        {
+                            patientDataContainsActivity = true;
+                        }
+                    }
+                }
+                else
+                {
+                    patientDataContainsActivity = true; // All data sets should be displayed; i.e. no activity tag filter.
+                }
+                if (patientDataContainsActivity)
+                {
+                    <tr class="blue lighten-3">
+                        <td>@patientData.Id</td>
+                        <td>@patientData.Name</td>
+                        <td>@patientData.UploadDate</td>
+                        <td>@patientData.ToDate.ToShortDateString()</td>
+                        <td><input type="button" class="btn green" value="View Chart" /></td>
+                    </tr>
+                }
+            }
+        </table>
     }
-<br /><h1 align="center">TBD</h1>
+}
 
