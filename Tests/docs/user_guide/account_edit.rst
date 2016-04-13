@@ -46,7 +46,7 @@ at the top right corner of the page. You should then be taken to a page that loo
 Then click on the "EDIT PATIENT" button for the corresponding patient you want to edit. This will bring you to the
 following page:
 
-.. image:: ./image/edit_patient_account_physician.png
+.. image:: ./images/edit_patient_account_physician.png
 
 Use the form to edit any of the information you want to change. Then click on the "UPDATE" button.
 
@@ -56,7 +56,7 @@ Using Patient
 To edit it using a patient, login using the patient's credentials then click on your patient user name at the top
 right corner of the page. You should be brought to a page like this:
 
-.. image:: ./image/edit_patient_account_patient.png
+.. image:: ./images/edit_patient_account_patient.png
 
 Then fill out the form with any information you want to edit and click the "SAVE" button.
 
@@ -66,7 +66,7 @@ System Admin Account
 To edit a System Admin account login as the system admin; then, click on the username at the top right corner of the
 page. This should bring you to a page that looks like this:
 
-.. image:: ./image/edit_system_admin.png
+.. image:: ./images/edit_system_admin.png
 
 You can then use the form to edit any information you need for the system admin account. Then click the "SAVE" button
 to save your changes.

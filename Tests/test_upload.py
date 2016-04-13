@@ -111,7 +111,9 @@ def test_single_file_multi_activity(login_tpatient):
     **Input:**
 
     - activities
+
       - activity 1
+
         - 'type':'Home Eating',
         - 'year':2015,
         - 'month':'June',
@@ -120,6 +122,7 @@ def test_single_file_multi_activity(login_tpatient):
         - 'endTime': '11:30 PM'},
 
       - activity 2
+
         - 'type':'Home Cooking',
         - 'year':2015,
         - 'month':'June',

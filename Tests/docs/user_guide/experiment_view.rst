@@ -1,4 +1,4 @@
-.. _experiment_deletion:
+.. _experiment_view:
 
 ===============
 Experiment View
