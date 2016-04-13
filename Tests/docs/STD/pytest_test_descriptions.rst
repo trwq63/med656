@@ -22,13 +22,22 @@ The computer can be the same machine as the UAHealth server, but this is not req
 Software Preparations
 #####################
 
-You must have Python 3.5.1 installed on this computer. The OS may be Windows 7/2012 or later, or Ubuntu 14.04.4 LTS or
-later LTS version. You must also install Pytest and Selenium through “pip”.
+You must have the latest Active Python 3.4 installed on this computer. It can be found Here_. The OS may be Windows
+7/2012 or later. The required python packages can be installed by running::
+
+   pip install -r ./Tests/requirements.txt
+
+.. _Here: http://www.activestate.com/activepython/downloads
 
 Other Preparations
 ##################
 
-None.
+Because patient accounts are not deleted from the database, you need to manually remove the following patient accounts
+before performing tesitng:
+
+- testPatient
+- testPatient2
+- pfry
 
 Test Execution
 --------------
@@ -43,6 +52,8 @@ status.
 
 Test Details
 ------------
+
+Follow the table below to find details of the test automation.
 
 .. toctree::
    :maxdepth: 4
