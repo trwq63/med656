@@ -57,7 +57,7 @@ def test_create_experiment(login_texpadmin):
 
 
 
-def test_view_experiment(login_texpadmin):
+def test_view_experiment_exp_admin(login_texpadmin):
     """
     **Requirements:**
 
@@ -83,6 +83,32 @@ def test_view_experiment(login_texpadmin):
     assert web_sess.view_experiment(name)
     assert 'View Experiment - {}'.format(name) in web_sess.get_page()
 
+
+def test_view_experiment_physician(login_tphysician):
+    """
+    **Requirements:**
+
+    - 3.1.4.2: Experiment results shall be viewable by experiment administrators and physicians.
+
+    **Pre Conditions:**
+
+    - login_texpadmin fixture
+
+    **Input:**
+
+    - name = 'test experiment'
+
+    ===================  ==================================  =============
+    Steps                Expected Result                     Actual Result
+    ===================  ==================================  =============
+    view the experiment  no errors, on view experiment page
+    ===================  ==================================  =============
+    """
+    print('Starting')
+    name = 'test experiment'
+
+    assert web_sess.view_experiment(name)
+    assert 'View Experiment - {}'.format(name) in web_sess.get_page()
 
 
 
