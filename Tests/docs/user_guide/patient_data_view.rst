@@ -36,3 +36,7 @@ button at the top right of the page. You should then be taken to a page that loo
 
 .. image:: ./images/view_patient_data.png
 
+You can then select a date and a start time and end time. Then select the file you want to view. Click the "SUBMIT"
+button to display the data at the bottom of the page. It should look like this:
+
+.. image:: ./images/view_patient_data_2.png

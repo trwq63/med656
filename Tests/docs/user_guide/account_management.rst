@@ -13,6 +13,7 @@ Contents:
    :maxdepth: 2
 
    account_creation
+   account_approval
    account_deletion
    account_edit
 
