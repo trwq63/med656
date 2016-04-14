@@ -8,6 +8,7 @@ Patient Data View
 
 Both Physicians and Patients can view a patient's data.
 
+.. _view_patient_data_physician:
 
 Physician
 ---------

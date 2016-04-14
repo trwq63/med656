@@ -13,6 +13,8 @@ There are 4 types of accounts
 - experiment admin
 - system admin
 
+.. _create_physician_account:
+
 Physician Account
 -----------------
 
@@ -38,6 +40,8 @@ Experiment Admin accounts are created the same way as the physician accounts. Ju
 radio button at the top of the request account page instead of the "Physician" radio button.
 
 .. image:: ./images/request_account.png
+
+.. _create_patient_account:
 
 Patient Account
 ---------------

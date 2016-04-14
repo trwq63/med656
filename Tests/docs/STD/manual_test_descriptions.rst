@@ -22,7 +22,8 @@ You need the latest Chrome or Firefox version installed on the computer.
 Other Preparations
 ##################
 
-None.
+It is expected that you will have run the automated tests before executing these tests. Some of the users and data
+depend on the automation have run correctly.
 
 Test Details
 ------------
@@ -125,7 +126,7 @@ Physician Graph View
 
 - If physician 'testPhysician' does not exist
 
- - Follow the steps here __'userguide link'__ to create a physician account with the following information
+ - Follow the steps here :ref:`create_physician_account` to create a physician account with the following information
 
   - first name = test
   - last name = test
@@ -138,11 +139,11 @@ Physician Graph View
 
 - 'testPhysician' must have a patient 'testPatientGraphView'
 
- - If patient 'testPatientGraphView' does not exist
+ - If patient 'testPatient' does not exist
 
-  - Follow the steps here ___'userguide link'___ to create patient 'testPatientGraphView' with to following information
+  - Follow the steps here :ref:`create_patient_account` to create patient 'testPatientGraphView' with to following information
 
-   - user = 'testPatientGraphView'
+   - user = 'testPatient'
    - pwd = 'P@ssword10'
    - birthday = '3 March, 1954'
    - location = 'Alabama'
@@ -159,11 +160,23 @@ Physician Graph View
 
 **Test Procedure:**
 
-========================================================================  ===========================================  =============
-Steps                                                                     Expected Result                              Actual Result
-========================================================================  ===========================================  =============
-login as 'testPhysician' with password 'P@ssword10'                       Login Success!
-========================================================================  ===========================================  =============
++-------------------------------------------------------------------------+--------------------------------------------+---------------+
+| Steps                                                                   | Expected Result                            | Actual Result |
++=========================================================================+============================================+===============+
+| Login as 'testPatient' with password 'P@ssword10'                       | Login Success!                             |               |
++-------------------------------------------------------------------------+--------------------------------------------+---------------+
+| Follow user guide instructions :ref:`here <patient_data_upload>` to     | There are no errors while uploading data   |               |
+| upload the following files from this folder                             |                                            |               |
+| <project directory>/med656/Tests/Data/:                                 |                                            |               |
+| - BasisPeak/bodymetrics_simple.csv                                      |                                            |               |
+| - Zephyr/ZephyrTestData/2015_06_24__23_05_14_Summary.cvs                |                                            |               |
+| - Band/data.csv                                                         |                                            |               |
++-------------------------------------------------------------------------+--------------------------------------------+---------------+
+| Logout and log back in as 'testPhysician' with password 'P@ssword10'    | Login Success!                             |               |
++-------------------------------------------------------------------------+--------------------------------------------+---------------+
+| Follow instructions :ref:`here <view_patient_data_physician>` to view   | The summary heart rate graph can be seen   |               |
+| the 'testPatient' data that was just uploaded.                          | for the Zephyr, BasisPeak, and Band        |               |
++-------------------------------------------------------------------------+--------------------------------------------+---------------+
 
 Database Verification Test
 ##########################
