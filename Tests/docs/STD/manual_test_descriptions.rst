@@ -27,6 +27,38 @@ None.
 Test Details
 ------------
 
+Multiple File Upload Test
+#########################
+
+**Requirements:**
+
+- 3.1.2.1: The system shall process multiple files at the same time
+
+**Pre Conditions:**
+
+- You must be logged in as the testPatient user using these credentials
+
+ - Username: 'testPatient'
+ - Password: 'P@ssword10'
+
+- You must have access to the data files in the project folder here: ./med656/Tests/Data
+
+**Input:**
+
+**Test Procedure:**
+
+========================================================================  ===========================================  =============
+Steps                                                                     Expected Result                              Actual Result
+========================================================================  ===========================================  =============
+click the 'Upload Data' link in top right corner of page
+click the 'BROWSE' button
+navigate to ./med656/Tests/Data/Zephyr/ZephyrTestData/
+highlight the *Accel.csv and *BB.csv files by holding ctrl and clicking
+fill in date 6-24-2015 for both from date and to date
+click on zephyr radio button
+click "SUBMIT" button
+========================================================================  ===========================================  =============
+
 User Privacy Test
 #################
 
@@ -133,10 +165,47 @@ Steps                                                                     Expect
 login as 'testPhysician' with password 'P@ssword10'                       Login Success!
 ========================================================================  ===========================================  =============
 
+Database Verification Test
+##########################
+
+**Requirements:**
+
+- 3.1.3: The system shall connect to a database
+- 3.2.2: The system shall use a SQL database
+
+**Pre Conditions**
+
+**Inputs**
+
+**Test Procedure**
+
+========================================================================  ===========================================  =============
+Steps                                                                     Expected Result                              Actual Result
+========================================================================  ===========================================  =============
+empty
+========================================================================  ===========================================  =============
+
+Internet Access Verification Test
+#################################
+
+**Requirements:**
+
+- 3.2.3: The system shall be connected to a network with internet access
+
+**Pre Conditions**
+
+**Inputs**
+
+**Test Procedure**
+
+========================================================================  ===========================================  =============
+Steps                                                                     Expected Result                              Actual Result
+========================================================================  ===========================================  =============
+empty
+========================================================================  ===========================================  =============
+
 OS Test
 #######
-
-
 
 **Requirements:**
 
