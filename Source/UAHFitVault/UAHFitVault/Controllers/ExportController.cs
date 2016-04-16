@@ -15,6 +15,7 @@ using UAHFitVault.LogicLayer.LogicFiles;
 using UAHFitVault.LogicLayer.Resources;
 using UAHFitVault.Models;
 using System.Linq;
+using System;
 
 namespace UAHFitVault.Controllers
 {
@@ -246,416 +247,435 @@ namespace UAHFitVault.Controllers
 
             PatientData patientData = _patientDataService.GetPatientData(patientDataId);
 
+            //Export any activity information associated with the patient data record.
+            if(patientData.Activities != null && patientData.Activities.Count > 0) {
+                CsvExport activityExport = new CsvExport();
+                foreach(Activity activity in patientData.Activities) {
+                    activityExport.AddRow();
+                    activityExport["Start Time"] = activity.StartTime;
+                    activityExport["End Time"] = activity.EndTime;
+                    activityExport["Activity Type"] = (ActivityType)activity.DataActivity;                    
+                }
+                activityExport.ExportToFile(@path + "\\Activities_" + patientData.Name);
+            }
+
             List<string> columnNames = new List<string>();
             CsvExport export = new CsvExport();
             int count = 0;
             int index = 1;
             string fileIndex = string.Empty;
-            switch (patientData.DataType) {
-                case (int)File_Type.Accelerometer:
-                    Device_Type deviceType = PatientLogic.DetermineDeviceType(patientData.Name);
-                    switch (deviceType) {
-                        case Device_Type.Zephyr:
-                            IEnumerable<ZephyrAccelerometer> zephyrAccelData = null;
-                            index = 1;
-                            do {
-                                zephyrAccelData = _zephyrAccelService.GetZephyrAccelerometerData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
-                                count = 0;
-                                foreach (ZephyrAccelerometer data in zephyrAccelData) {
-                                    export.AddRow();
-                                    export["Time"] = data.Time;
-                                    export["Vertical"] = data.Vertical;
-                                    export["Lateral"] = data.Lateral;
-                                    export["Sagittal"] = data.Sagittal;
-                                    count++;
-                                    if (count == SystemConstants.MAX_ITEMS_RETURNED) {
-                                        export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
-                                        index++;
-                                        fileIndex = index.ToString() + "_";
-                                        export = new CsvExport();
+            try {
+                switch (patientData.DataType) {
+                    case (int)File_Type.Accelerometer:
+                        Device_Type deviceType = PatientLogic.DetermineDeviceType(patientData.Name);
+                        switch (deviceType) {
+                            case Device_Type.Zephyr:
+                                IEnumerable<ZephyrAccelerometer> zephyrAccelData = null;
+                                index = 1;
+                                do {
+                                    zephyrAccelData = _zephyrAccelService.GetZephyrAccelerometerData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                                    count = 0;
+                                    foreach (ZephyrAccelerometer data in zephyrAccelData) {
+                                        export.AddRow();
+                                        export["Time"] = data.Time;
+                                        export["Vertical"] = data.Vertical;
+                                        export["Lateral"] = data.Lateral;
+                                        export["Sagittal"] = data.Sagittal;
+                                        count++;
+                                        if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                            export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                            index++;
+                                            fileIndex = index.ToString() + "_";
+                                            export = new CsvExport();
+                                        }
                                     }
-                                }
-                            } while (zephyrAccelData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
-                            break;
-                        case Device_Type.Microsoft_Band:
-                            IEnumerable<MSBandAccelerometer> msAccelData = null;
-                            index = 1;
-                            do {
-                                msAccelData = _msBandAccelService.GetMSBandAccelerometerData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
-                                count = 0;
-                                foreach (MSBandAccelerometer data in msAccelData) {
-                                    export.AddRow();
-                                    export["Time Stamp"] = data.Date;
-                                    export["X(m/s²)"] = data.Lateral;
-                                    export["Y(m/s²)"] = data.Vertical;
-                                    export["Z(m/s²)"] = data.Sagittal;
-                                    count++;
-                                    if (count == SystemConstants.MAX_ITEMS_RETURNED) {
-                                        export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
-                                        index++;
-                                        fileIndex = index.ToString() + "_";
-                                        export = new CsvExport();
+                                } while (zephyrAccelData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                                break;
+                            case Device_Type.Microsoft_Band:
+                                IEnumerable<MSBandAccelerometer> msAccelData = null;
+                                index = 1;
+                                do {
+                                    msAccelData = _msBandAccelService.GetMSBandAccelerometerData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                                    count = 0;
+                                    foreach (MSBandAccelerometer data in msAccelData) {
+                                        export.AddRow();
+                                        export["Time Stamp"] = data.Date;
+                                        export["X(m/s²)"] = data.Lateral;
+                                        export["Y(m/s²)"] = data.Vertical;
+                                        export["Z(m/s²)"] = data.Sagittal;
+                                        count++;
+                                        if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                            export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                            index++;
+                                            fileIndex = index.ToString() + "_";
+                                            export = new CsvExport();
+                                        }
                                     }
+                                } while (msAccelData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case (int)File_Type.Breathing:
+                        IEnumerable<ZephyrBreathingWaveform> zephyrBreathingData = null;
+                        index = 1;
+                        do {
+                            zephyrBreathingData = _breathingService.GetZephyrBreathingWaveformData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                            count = 0;
+                            foreach (ZephyrBreathingWaveform data in zephyrBreathingData) {
+                                export.AddRow();
+                                export["Time"] = data.Time;
+                                export["BreathingWaveform"] = data.Data;
+                                count++;
+                                if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                    export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                    index++;
+                                    fileIndex = index.ToString() + "_";
+                                    export = new CsvExport();
                                 }
-                            } while (msAccelData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case (int)File_Type.Breathing:
-                    IEnumerable<ZephyrBreathingWaveform> zephyrBreathingData = null;
-                    index = 1;
-                    do {
-                        zephyrBreathingData = _breathingService.GetZephyrBreathingWaveformData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
-                        count = 0;
-                        foreach (ZephyrBreathingWaveform data in zephyrBreathingData) {
-                            export.AddRow();
-                            export["Time"] = data.Time;
-                            export["BreathingWaveform"] = data.Data;
-                            count++;
-                            if (count == SystemConstants.MAX_ITEMS_RETURNED) {
-                                export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
-                                index++;
-                                fileIndex = index.ToString() + "_";
-                                export = new CsvExport();
                             }
-                        }
-                    } while (zephyrBreathingData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
-                    break;
-                case (int)File_Type.Calorie:
-                    IEnumerable<MSBandCalories> calorieData = null;
-                    index = 1;
-                    do {
-                        calorieData = _msBandCaloriesService.GetMSBandCaloriesData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
-                        count = 0;
-                        foreach (MSBandCalories data in calorieData) {
-                            export.AddRow();
-                            export["Time Stamp"] = data.Date;
-                            export["Total Calories(kCal)"] = data.Total;
-                            count++;
-                            if (count == SystemConstants.MAX_ITEMS_RETURNED) {
-                                export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
-                                index++;
-                                fileIndex = index.ToString() + "_";
-                                export = new CsvExport();
+                        } while (zephyrBreathingData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                        break;
+                    case (int)File_Type.Calorie:
+                        IEnumerable<MSBandCalories> calorieData = null;
+                        index = 1;
+                        do {
+                            calorieData = _msBandCaloriesService.GetMSBandCaloriesData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                            count = 0;
+                            foreach (MSBandCalories data in calorieData) {
+                                export.AddRow();
+                                export["Time Stamp"] = data.Date;
+                                export["Total Calories(kCal)"] = data.Total;
+                                count++;
+                                if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                    export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                    index++;
+                                    fileIndex = index.ToString() + "_";
+                                    export = new CsvExport();
+                                }
                             }
-                        }
-                    } while (calorieData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
-                    break;
-                case (int)File_Type.Distance:
-                    IEnumerable<MSBandDistance> distanceData = null;
-                    index = 1;
-                    do {
-                        _msBandDistanceService.GetMSBandDistanceData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
-                        count = 0;
-                        foreach (MSBandDistance data in distanceData) {
-                            export.AddRow();
-                            export["Time Stamp"] = data.Date;
-                            export["Motion Type"] = data.MotionType;
-                            export["Pace(min/km)"] = data.Pace;
-                            export["Speed(km/hr)"] = data.Speed;
-                            export["Total(km)"] = data.Total;
-                            count++;
-                            if (count == SystemConstants.MAX_ITEMS_RETURNED) {
-                                export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
-                                index++;
-                                fileIndex = index.ToString() + "_";
-                                export = new CsvExport();
+                        } while (calorieData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                        break;
+                    case (int)File_Type.Distance:
+                        IEnumerable<MSBandDistance> distanceData = null;
+                        index = 1;
+                        do {
+                            _msBandDistanceService.GetMSBandDistanceData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                            count = 0;
+                            foreach (MSBandDistance data in distanceData) {
+                                export.AddRow();
+                                export["Time Stamp"] = data.Date;
+                                export["Motion Type"] = data.MotionType;
+                                export["Pace(min/km)"] = data.Pace;
+                                export["Speed(km/hr)"] = data.Speed;
+                                export["Total(km)"] = data.Total;
+                                count++;
+                                if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                    export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                    index++;
+                                    fileIndex = index.ToString() + "_";
+                                    export = new CsvExport();
+                                }
                             }
-                        }
-                    } while (distanceData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
-                    break;
-                case (int)File_Type.ECG:
-                    IEnumerable<ZephyrECGWaveform> ecgData = null;
-                    index = 1;
-                    do {
-                        ecgData = _ecgService.GetZephyrECGWaveFormData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
-                        count = 0;
-                        foreach (ZephyrECGWaveform data in ecgData) {
-                            export.AddRow();
-                            export["Time Stamp"] = data.Time;
-                            export["Motion Type"] = data.Data;
-                            count++;
-                            if (count == SystemConstants.MAX_ITEMS_RETURNED) {
-                                export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
-                                index++;
-                                fileIndex = index.ToString() + "_";
-                                export = new CsvExport();
+                        } while (distanceData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                        break;
+                    case (int)File_Type.ECG:
+                        IEnumerable<ZephyrECGWaveform> ecgData = null;
+                        index = 1;
+                        do {
+                            ecgData = _ecgService.GetZephyrECGWaveFormData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                            count = 0;
+                            foreach (ZephyrECGWaveform data in ecgData) {
+                                export.AddRow();
+                                export["Time Stamp"] = data.Time;
+                                export["Motion Type"] = data.Data;
+                                count++;
+                                if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                    export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                    index++;
+                                    fileIndex = index.ToString() + "_";
+                                    export = new CsvExport();
+                                }
                             }
-                        }
-                    } while (ecgData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
-                    break;
-                case (int)File_Type.EventData:
-                    IEnumerable<ZephyrEventData> eventData = null;
-                    index = 1;
-                    do {
-                        eventData = _eventDataService.GetZephyrEventData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
-                        count = 0;
-                        foreach (ZephyrEventData data in eventData) {
-                            export.AddRow();
-                            export["SeqNo"] = "0";
-                            export["Time Stamp"] = data.Date;
-                            export["EventCode"] = data.EventCode;
-                            export["Type"] = data.Type;
-                            export["Source"] = data.Source;
-                            export["EventID"] = data.EventId;
-                            export["EventSpecificData"] = data.EventSpecificData;
-                            count++;
-                            if (count == SystemConstants.MAX_ITEMS_RETURNED) {
-                                export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
-                                index++;
-                                fileIndex = index.ToString() + "_";
-                                export = new CsvExport();
+                        } while (ecgData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                        break;
+                    case (int)File_Type.EventData:
+                        IEnumerable<ZephyrEventData> eventData = null;
+                        index = 1;
+                        do {
+                            eventData = _eventDataService.GetZephyrEventData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                            count = 0;
+                            foreach (ZephyrEventData data in eventData) {
+                                export.AddRow();
+                                export["SeqNo"] = "0";
+                                export["Time Stamp"] = data.Date;
+                                export["EventCode"] = data.EventCode;
+                                export["Type"] = data.Type;
+                                export["Source"] = data.Source;
+                                export["EventID"] = data.EventId;
+                                export["EventSpecificData"] = data.EventSpecificData;
+                                count++;
+                                if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                    export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                    index++;
+                                    fileIndex = index.ToString() + "_";
+                                    export = new CsvExport();
+                                }
                             }
-                        }
-                    } while (eventData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
-                    break;
-                case (int)File_Type.Gyroscope:
-                    IEnumerable<MSBandGyroscope> gyroscopeData = null;
-                    index = 1;
-                    do {
-                        gyroscopeData = _msBandGyroscopeService.GetMSBandGyroscopeData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
-                        count = 0;
-                        foreach (MSBandGyroscope data in gyroscopeData) {
-                            export.AddRow();
-                            export["Time Stamp"] = data.Date;
-                            export["X-Axis(Â°/s)"] = data.X;
-                            export["Y-Axis(Â°/s)"] = data.Y;
-                            export["Z-Axis(Â°/s)"] = data.Z;
-                            count++;
-                            if (count == SystemConstants.MAX_ITEMS_RETURNED) {
-                                export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
-                                index++;
-                                fileIndex = index.ToString() + "_";
-                                export = new CsvExport();
+                        } while (eventData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                        break;
+                    case (int)File_Type.Gyroscope:
+                        IEnumerable<MSBandGyroscope> gyroscopeData = null;
+                        index = 1;
+                        do {
+                            gyroscopeData = _msBandGyroscopeService.GetMSBandGyroscopeData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                            count = 0;
+                            foreach (MSBandGyroscope data in gyroscopeData) {
+                                export.AddRow();
+                                export["Time Stamp"] = data.Date;
+                                export["X-Axis(Â°/s)"] = data.X;
+                                export["Y-Axis(Â°/s)"] = data.Y;
+                                export["Z-Axis(Â°/s)"] = data.Z;
+                                count++;
+                                if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                    export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                    index++;
+                                    fileIndex = index.ToString() + "_";
+                                    export = new CsvExport();
+                                }
                             }
-                        }
-                    } while (gyroscopeData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
-                    break;
-                case (int)File_Type.HeartRate:
-                    IEnumerable<MSBandHeartRate> heartRateData = null;
-                    index = 1;
-                    do {
-                        heartRateData = _msBandHeartRateService.GetMSBandHeartRateData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
-                        count = 0;
-                        foreach (MSBandHeartRate data in heartRateData) {
-                            export.AddRow();
-                            export["Time Stamp"] = data.Date;
-                            export["Read Status"] = data.ReadStatus;
-                            export["Heart Rate(bpm)"] = data.HeartRate;
-                            count++;
-                            if (count == SystemConstants.MAX_ITEMS_RETURNED) {
-                                export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
-                                index++;
-                                fileIndex = index.ToString() + "_";
-                                export = new CsvExport();
+                        } while (gyroscopeData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                        break;
+                    case (int)File_Type.HeartRate:
+                        IEnumerable<MSBandHeartRate> heartRateData = null;
+                        index = 1;
+                        do {
+                            heartRateData = _msBandHeartRateService.GetMSBandHeartRateData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                            count = 0;
+                            foreach (MSBandHeartRate data in heartRateData) {
+                                export.AddRow();
+                                export["Time Stamp"] = data.Date;
+                                export["Read Status"] = data.ReadStatus;
+                                export["Heart Rate(bpm)"] = data.HeartRate;
+                                count++;
+                                if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                    export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                    index++;
+                                    fileIndex = index.ToString() + "_";
+                                    export = new CsvExport();
+                                }
                             }
-                        }
-                    } while (heartRateData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
-                    break;
-                case (int)File_Type.Pedometer:
-                    IEnumerable<MSBandPedometer> pedometerData = null;
-                    index = 1;
-                    do {
-                        pedometerData = _msBandPedometerService.GetMSBandPedometerData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
-                        count = 0;
-                        foreach (MSBandPedometer data in pedometerData) {
-                            export.AddRow();
-                            export["Time Stamp"] = data.Date;
-                            export["Steps"] = data.Steps;
-                            count++;
-                            if (count == SystemConstants.MAX_ITEMS_RETURNED) {
-                                export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
-                                index++;
-                                fileIndex = index.ToString() + "_";
-                                export = new CsvExport();
+                        } while (heartRateData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                        break;
+                    case (int)File_Type.Pedometer:
+                        IEnumerable<MSBandPedometer> pedometerData = null;
+                        index = 1;
+                        do {
+                            pedometerData = _msBandPedometerService.GetMSBandPedometerData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                            count = 0;
+                            foreach (MSBandPedometer data in pedometerData) {
+                                export.AddRow();
+                                export["Time Stamp"] = data.Date;
+                                export["Steps"] = data.Steps;
+                                count++;
+                                if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                    export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                    index++;
+                                    fileIndex = index.ToString() + "_";
+                                    export = new CsvExport();
+                                }
                             }
-                        }
-                    } while (pedometerData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
-                    break;
-                case (int)File_Type.Summary:
-                    Device_Type summaryDevice = PatientLogic.DetermineDeviceType(patientData.Name);
-                    switch (summaryDevice) {
-                        case Device_Type.Zephyr:
-                            IEnumerable<ZephyrSummaryData> zephyrSummaryData = null;
-                            index = 1;
-                            do {
-                                zephyrSummaryData = _summaryService.GetZephyrSummaryData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
-                                count = 0;
-                                foreach (ZephyrSummaryData data in zephyrSummaryData) {
-                                    export.AddRow();
-                                    export["Time"] = data.Date;
-                                    export["HR"] = data.HeartRate;
-                                    export["BR"] = data.BreathingRate;
-                                    export["SkinTemp"] = data.SkinTemp;
-                                    export["Posture"] = data.Posture;
-                                    export["Activity"] = data.Activity;
-                                    export["PeakAccel"] = data.PeakAccel;
-                                    export["BatteryVolts"] = data.BatteryVolts;
-                                    export["BatteryLevel"] = data.BatteryLevel;
-                                    export["BRAmplitude"] = data.BRAmplitude;
-                                    export["BRNoise"] = data.BRNoise;
-                                    export["BRConfidence"] = data.BRConfidence;
-                                    export["ECGAmplitude"] = data.ECGAmplitude;
-                                    export["ECGNoise"] = data.ECGNoise;
-                                    export["HRConfidence"] = data.HRConfidence;
-                                    export["HRV"] = data.HRV;
-                                    export["SystemConfidence"] = data.SystemConfidence;
-                                    export["GSR"] = data.GSR;
-                                    export["ROGState"] = data.ROGState;
-                                    export["ROGTime"] = data.ROGTime;
-                                    export["VerticalMin"] = data.VerticalMin;
-                                    export["VerticalPeak"] = data.VerticalPeak;
-                                    export["LateralMin"] = data.LateralMin;
-                                    export["LateralPeak"] = data.LateralPeak;
-                                    export["SagittalMin"] = data.SagittalMin;
-                                    export["SagittalPeak"] = data.SagittalPeak;
-                                    export["DeviceTemp"] = data.DeviceTemp;
-                                    export["StatusInfo"] = data.StatusInfo;
-                                    export["LinkQuality"] = data.LinkQuality;
-                                    export["RSSI"] = data.RSSI;
-                                    export["TxPower"] = data.TxPower;
-                                    export["CoreTemp"] = data.CoreTemp;
-                                    export["AuxADC1"] = data.AuxADC1;
-                                    export["AuxADC2"] = data.AuxADC2;
-                                    export["AuxADC3"] = data.AuxADC3;
-                                    count++;
-                                    if (count == SystemConstants.MAX_ITEMS_RETURNED) {
-                                        export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
-                                        index++;
-                                        fileIndex = index.ToString() + "_";
-                                        export = new CsvExport();
+                        } while (pedometerData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                        break;
+                    case (int)File_Type.Summary:
+                        Device_Type summaryDevice = PatientLogic.DetermineDeviceType(patientData.Name);
+                        switch (summaryDevice) {
+                            case Device_Type.Zephyr:
+                                IEnumerable<ZephyrSummaryData> zephyrSummaryData = null;
+                                index = 1;
+                                do {
+                                    zephyrSummaryData = _summaryService.GetZephyrSummaryData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                                    count = 0;
+                                    foreach (ZephyrSummaryData data in zephyrSummaryData) {
+                                        export.AddRow();
+                                        export["Time"] = data.Date;
+                                        export["HR"] = data.HeartRate;
+                                        export["BR"] = data.BreathingRate;
+                                        export["SkinTemp"] = data.SkinTemp;
+                                        export["Posture"] = data.Posture;
+                                        export["Activity"] = data.Activity;
+                                        export["PeakAccel"] = data.PeakAccel;
+                                        export["BatteryVolts"] = data.BatteryVolts;
+                                        export["BatteryLevel"] = data.BatteryLevel;
+                                        export["BRAmplitude"] = data.BRAmplitude;
+                                        export["BRNoise"] = data.BRNoise;
+                                        export["BRConfidence"] = data.BRConfidence;
+                                        export["ECGAmplitude"] = data.ECGAmplitude;
+                                        export["ECGNoise"] = data.ECGNoise;
+                                        export["HRConfidence"] = data.HRConfidence;
+                                        export["HRV"] = data.HRV;
+                                        export["SystemConfidence"] = data.SystemConfidence;
+                                        export["GSR"] = data.GSR;
+                                        export["ROGState"] = data.ROGState;
+                                        export["ROGTime"] = data.ROGTime;
+                                        export["VerticalMin"] = data.VerticalMin;
+                                        export["VerticalPeak"] = data.VerticalPeak;
+                                        export["LateralMin"] = data.LateralMin;
+                                        export["LateralPeak"] = data.LateralPeak;
+                                        export["SagittalMin"] = data.SagittalMin;
+                                        export["SagittalPeak"] = data.SagittalPeak;
+                                        export["DeviceTemp"] = data.DeviceTemp;
+                                        export["StatusInfo"] = data.StatusInfo;
+                                        export["LinkQuality"] = data.LinkQuality;
+                                        export["RSSI"] = data.RSSI;
+                                        export["TxPower"] = data.TxPower;
+                                        export["CoreTemp"] = data.CoreTemp;
+                                        export["AuxADC1"] = data.AuxADC1;
+                                        export["AuxADC2"] = data.AuxADC2;
+                                        export["AuxADC3"] = data.AuxADC3;
+                                        count++;
+                                        if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                            export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                            index++;
+                                            fileIndex = index.ToString() + "_";
+                                            export = new CsvExport();
+                                        }
                                     }
-                                }
-                            } while (zephyrSummaryData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
-                            break;
-                        case Device_Type.BasisPeak:
-                            IEnumerable<BasisPeakSummaryData> basisData = null;
-                            index = 1;
-                            do {
-                                basisData = _basisPeakService.GetBasisPeakSummaryData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
-                                count = 0;
-                                foreach (BasisPeakSummaryData data in basisData) {
-                                    export.AddRow();
-                                    export["date"] = data.Date;
-                                    export["calories"] = data.Calories;
-                                    export["gsr"] = data.GSR;
-                                    export["heart-rate"] = data.HeartRate;
-                                    export["skin-temp"] = data.SkinTemp;
-                                    export["steps"] = data.Steps;
-                                    count++;
-                                    if (count == SystemConstants.MAX_ITEMS_RETURNED) {
-                                        export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
-                                        index++;
-                                        fileIndex = index.ToString() + "_";
-                                        export = new CsvExport();
+                                } while (zephyrSummaryData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                                break;
+                            case Device_Type.BasisPeak:
+                                IEnumerable<BasisPeakSummaryData> basisData = null;
+                                index = 1;
+                                do {
+                                    basisData = _basisPeakService.GetBasisPeakSummaryData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                                    count = 0;
+                                    foreach (BasisPeakSummaryData data in basisData) {
+                                        export.AddRow();
+                                        export["date"] = data.Date;
+                                        export["calories"] = data.Calories;
+                                        export["gsr"] = data.GSR;
+                                        export["heart-rate"] = data.HeartRate;
+                                        export["skin-temp"] = data.SkinTemp;
+                                        export["steps"] = data.Steps;
+                                        count++;
+                                        if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                            export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                            index++;
+                                            fileIndex = index.ToString() + "_";
+                                            export = new CsvExport();
+                                        }
                                     }
+                                } while (basisData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case (int)File_Type.General:
+                        IEnumerable<ZephyrSummaryData> zephyrGeneralData = null;
+                        index = 1;
+                        do {
+                            zephyrGeneralData = _summaryService.GetZephyrSummaryData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                            count = 0;
+                            foreach (ZephyrSummaryData data in zephyrGeneralData) {
+                                export.AddRow();
+                                export["Timestamp"] = data.Date;
+                                export["HR"] = data.HeartRate;
+                                export["BR"] = data.BreathingRate;
+                                export["Temp"] = data.SkinTemp;
+                                export["Posture"] = data.Posture;
+                                export["Activity"] = data.Activity;
+                                export["Acceleration"] = data.PeakAccel;
+                                export["Battery"] = data.BatteryVolts;
+                                export["BRAmplitude"] = data.BRAmplitude;
+                                export["ECGAmplitude"] = data.ECGAmplitude;
+                                export["ECGNoise"] = data.ECGNoise;
+                                export["XMin"] = data.LateralMin;
+                                export["XPeak"] = data.LateralPeak;
+                                export["YMin"] = data.VerticalMin;
+                                export["YPeak"] = data.VerticalPeak;
+                                export["ZMin"] = data.SagittalMin;
+                                export["ZPeak"] = data.SagittalPeak;
+                                count++;
+                                if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                    export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                    index++;
+                                    fileIndex = index.ToString() + "_";
+                                    export = new CsvExport();
                                 }
-                            } while (basisData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case (int)File_Type.General:
-                    IEnumerable<ZephyrSummaryData> zephyrGeneralData = null;
-                    index = 1;
-                    do {
-                        zephyrGeneralData = _summaryService.GetZephyrSummaryData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
-                        count = 0;
-                        foreach (ZephyrSummaryData data in zephyrGeneralData) {
-                            export.AddRow();
-                            export["Timestamp"] = data.Date;
-                            export["HR"] = data.HeartRate;
-                            export["BR"] = data.BreathingRate;
-                            export["Temp"] = data.SkinTemp;
-                            export["Posture"] = data.Posture;
-                            export["Activity"] = data.Activity;
-                            export["Acceleration"] = data.PeakAccel;
-                            export["Battery"] = data.BatteryVolts;
-                            export["BRAmplitude"] = data.BRAmplitude;
-                            export["ECGAmplitude"] = data.ECGAmplitude;
-                            export["ECGNoise"] = data.ECGNoise;
-                            export["XMin"] = data.LateralMin;
-                            export["XPeak"] = data.LateralPeak;
-                            export["YMin"] = data.VerticalMin;
-                            export["YPeak"] = data.VerticalPeak;
-                            export["ZMin"] = data.SagittalMin;
-                            export["ZPeak"] = data.SagittalPeak;
-                            count++;
-                            if (count == SystemConstants.MAX_ITEMS_RETURNED) {
-                                export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
-                                index++;
-                                fileIndex = index.ToString() + "_";
-                                export = new CsvExport();
                             }
-                        }
-                    } while (zephyrGeneralData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
-                    break;
-                case (int)File_Type.Temperature:
-                    IEnumerable<MSBandTemperature> temperatureData = null;
-                    index = 1;
-                    do {
-                        temperatureData = _msBandTemperatureService.GetMSBandTemperatureData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
-                        count = 0;
-                        foreach (MSBandTemperature data in temperatureData) {
-                            export.AddRow();
-                            export["Time Stamp"] = data.Date;
-                            export["Temperature(Â°C)"] = data.Temperature;
-                            count++;
-                            if (count == SystemConstants.MAX_ITEMS_RETURNED) {
-                                export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
-                                index++;
-                                fileIndex = index.ToString() + "_";
-                                export = new CsvExport();
+                        } while (zephyrGeneralData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                        break;
+                    case (int)File_Type.Temperature:
+                        IEnumerable<MSBandTemperature> temperatureData = null;
+                        index = 1;
+                        do {
+                            temperatureData = _msBandTemperatureService.GetMSBandTemperatureData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                            count = 0;
+                            foreach (MSBandTemperature data in temperatureData) {
+                                export.AddRow();
+                                export["Time Stamp"] = data.Date;
+                                export["Temperature(Â°C)"] = data.Temperature;
+                                count++;
+                                if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                    export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                    index++;
+                                    fileIndex = index.ToString() + "_";
+                                    export = new CsvExport();
+                                }
                             }
-                        }
-                    } while (temperatureData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
-                    break;
-                case (int)File_Type.UV:
-                    IEnumerable<MSBandUV> uvData = null;
-                    index = 1;
-                    do {
-                        uvData = _msBandUVService.GetMSBandUVData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
-                        count = 0;
-                        foreach (MSBandUV data in uvData) {
-                            export.AddRow();
-                            export["Time Stamp"] = data.Date;
-                            export["UV Index (0-4)"] = data.UVIndex;
-                            count++;
-                            if (count == SystemConstants.MAX_ITEMS_RETURNED) {
-                                export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
-                                index++;
-                                fileIndex = index.ToString() + "_";
-                                export = new CsvExport();
+                        } while (temperatureData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                        break;
+                    case (int)File_Type.UV:
+                        IEnumerable<MSBandUV> uvData = null;
+                        index = 1;
+                        do {
+                            uvData = _msBandUVService.GetMSBandUVData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                            count = 0;
+                            foreach (MSBandUV data in uvData) {
+                                export.AddRow();
+                                export["Time Stamp"] = data.Date;
+                                export["UV Index (0-4)"] = data.UVIndex;
+                                count++;
+                                if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                    export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                    index++;
+                                    fileIndex = index.ToString() + "_";
+                                    export = new CsvExport();
+                                }
                             }
-                        }
-                    } while (uvData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
-                    break;
-                case (int)File_Type.BR_RR:
-                    IEnumerable<ZephyrBRRR> brRrData = null;
-                    index = 1;
-                    do {
-                        brRrData = _brRrService.GetZephyrBRRRData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
-                        count = 0;
-                        foreach (ZephyrBRRR data in brRrData) {
-                            export.AddRow();
-                            export["Time Stamp"] = data.TimeStamp;
-                            export["BR"] = data.BR;
-                            export["RtoR"] = data.RR;
-                            count++;
-                            if (count == SystemConstants.MAX_ITEMS_RETURNED) {
-                                export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
-                                index++;
-                                fileIndex = index.ToString() + "_";
-                                export = new CsvExport();
+                        } while (uvData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                        break;
+                    case (int)File_Type.BR_RR:
+                        IEnumerable<ZephyrBRRR> brRrData = null;
+                        index = 1;
+                        do {
+                            brRrData = _brRrService.GetZephyrBRRRData(patientData, ((index - 1) * count), SystemConstants.MAX_ITEMS_RETURNED);
+                            count = 0;
+                            foreach (ZephyrBRRR data in brRrData) {
+                                export.AddRow();
+                                export["Time Stamp"] = data.TimeStamp;
+                                export["BR"] = data.BR;
+                                export["RtoR"] = data.RR;
+                                count++;
+                                if (count == SystemConstants.MAX_ITEMS_RETURNED) {
+                                    export.ExportToFile(@path + "\\" + index + "_" + patientData.Name);
+                                    index++;
+                                    fileIndex = index.ToString() + "_";
+                                    export = new CsvExport();
+                                }
                             }
-                        }
-                    } while (brRrData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
-                    break;
-                default:
-                    break;
+                        } while (brRrData != null && count == SystemConstants.MAX_ITEMS_RETURNED);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch(OutOfMemoryException ex) {
+                //Don't need to do anything here just catch the exception and continue.  Meant to prevent
+                //error screen but still allow some data to export.  This would need to be troubleshooted
+                //by a future team.
             }
 
             export.ExportToFile(@path + "\\" + fileIndex + patientData.Name);

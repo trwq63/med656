@@ -57,21 +57,26 @@
 
         $("#btnExport").click(function () {
             var path = $('#directory').val();
-            var id = $('input[name=radio]:checked').val();
-            $.ajax({
-                type: "POST",
-                data: {
-                    path: path,
-                    patientDataId: id
-                },
-                url: "/Patient/ExportData",
-                success: function (data) {
-                    window.location.reload();
-                },
-                error: function (error) {
-                    alert("No Data Found");
-                }
-            });
+            if (path != null && path != undefined && path != "") {
+                var id = $('input[name=radio]:checked').val();
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        path: path,
+                        patientDataId: id
+                    },
+                    url: "/Export/ExportData",
+                    success: function (data) {
+                        window.location.reload();
+                    },
+                    error: function (error) {
+                        alert("No Data Found");
+                    }
+                });
+            }
+            else {
+                alert("Please enter a directory location to download the file(s) to.");
+            }
         });
 
     </script>
