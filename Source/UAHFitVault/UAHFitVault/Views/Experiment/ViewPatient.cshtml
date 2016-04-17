@@ -1,5 +1,6 @@
 ﻿@model UAHFitVault.Models.ViewPatientViewModel
 @using UAHFitVault.LogicLayer.Enums
+@using UAHFitVault.Database.Entities
 
 @{
     ViewBag.Title = "View Patient";
@@ -12,6 +13,16 @@
         activityTags[i] = activityTags[i].Replace("_", " ");
     }
 }
+
+@section headers{
+    <link type="text/css" href="~/Content/lineGraph.css" rel="stylesheet" media="screen,projection" />
+}
+
+<style>
+    td{
+        font-size:14px;
+    }
+</style>
 
 @if (Model != null)
 {
@@ -42,19 +53,392 @@
     <tr>
         <td><h5>Sessions</h5></td>
         @using (Html.BeginForm("ViewPatient", "Experiment", FormMethod.Post))
-        {@Html.HiddenFor(m => m.patient.Id)
-        <td style="width: 200px; text-align: right">Filter by Activity Tag</td>
-        <td style="width: 250px;">@Html.DropDownListFor(m => m.ActivityTagFilter, new SelectList(activityTags),
-            new { @class = "browser-default validate" })
-        </td>
-        <td style="width: 150px;"><input type="submit" class="btn green" value="Filter" /></td>
+        {
+            @Html.HiddenFor(m => m.patient.Id)
+            <td style="width: 200px; text-align: right">Filter by Activity Tag</td>
+            <td style="width: 250px;">@Html.DropDownListFor(m => m.ActivityTagFilter, new SelectList(activityTags),
+                new { @class = "browser-default validate" })
+            </td>
+            <td style="width: 150px;"><input type="submit" class="btn green" value="Filter" /></td>
         }
     </tr>
     </table>
     <br />
     if (Model.ActivityTagFilter != null)
     {
-        <h5>Displaying data filtered by @Model.ActivityTagFilter</h5>}
-    }
-<br /><h1 align="center">TBD</h1>
+        <h5>Displaying data filtered by @Model.ActivityTagFilter</h5>
+        <div class="row col s12 input-field">
+            <input id="directory" type="text">
+            <label for="directory">Enter File Download Path</label>
+        </div>
+        <table>
+            <tr class="blue lighten-2" style="font-weight:500">
+                <td>Id</td>
+                <td>Name</td>
+                <td>Upload Date</td>
+                <td>Date Recorded</td>
+                <td>Actions</td>
+            </tr>
+            @* Display the patient data records *@
+            @foreach (PatientData patientData in Model.patientData)
+            {
+                bool patientDataContainsActivity = false;
+                if (Model.ActivityTagFilter != "All")
+                {
+                    foreach (Activity activity in patientData.Activities)
+                    {
+                        if (((ActivityType)activity.DataActivity).ToString() == Model.ActivityTagFilter.Replace(" ", "_"))
+                        {
+                            patientDataContainsActivity = true;
+                        }
+                    }
+                }
+                else
+                {
+                    patientDataContainsActivity = true; // All data sets should be displayed; i.e. no activity tag filter.
+                }
+                if (patientDataContainsActivity)
+                {
+                    <tr class="blue lighten-3">
+                        <td>@patientData.Id</td>
+                        <td>@patientData.Name</td>
+                        <td>@patientData.UploadDate</td>
+                        <td>@patientData.ToDate.ToShortDateString()</td>
+                        <td>
+                            <button type="button" class="btn green viewchart" value="@patientData.Id">View Chart</button>
+                            <button type="button" class="btn green exportRecord" value="@patientData.Id" style="margin-left:20px">Export</button>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
 
+        <div id="graphContainer" class="lineGraph hide"></div>
+    }
+}
+
+@section scripts{
+    <script src="~/Scripts/d3/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.10.0/d3-legend.min.js"></script>
+    <script>
+        $('.exportRecord').click(function(){
+            var id = $(this).val();
+            var activityType = @Html.Raw(Json.Encode(Model.ActivityTagFilter.Replace(" ", "_")));
+            var path = $('#directory').val();
+            if (path != null && path != undefined && path != "") {
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        patientDataId: id,
+                        path : path,
+                        activityType: activityType
+                    },
+                    url: "/ExperimentData/ExportExperiment",
+                    success: function (data) {
+                        window.location.reload();
+                    },
+                    error: function (error) {
+                        alert("No Data Found");
+                    }
+                });
+            }
+            else {
+                alert("Please enter a directory location to download the file(s) to.");
+            }
+        });
+
+        $('.viewchart').click(function () {
+            var id = $(this).val();
+            var activityType = @Html.Raw(Json.Encode(Model.ActivityTagFilter.Replace(" ", "_")));
+            $.ajax({
+                type: "POST",
+                data: {
+                    activityType: activityType,
+                    patientdata: id
+                },
+                url: "/ExperimentData/GraphExperiment",
+                success: function (data) {
+                    $('#graphContainer').removeClass('hide');
+                    var result = JSON.parse(data);
+                    if (!result.error) {
+                        drawGraph(result);
+                    }
+                    else {
+                        alert(result.error);
+                    }
+                },
+                error: function (error) {
+                    alert("No Data Found");
+                }
+            });
+        });
+
+        function drawGraph(data) {
+
+            //Clear any previous graph if submit button is pressed again or a new graph is generated.
+            var graphContainer = document.getElementById("graphContainer");
+            while (graphContainer.firstChild) {
+                graphContainer.removeChild(graphContainer.firstChild);
+            }
+
+            var colors = ['blue', 'green' , 'red'];
+            var lines = [];
+            var graphTypes = [];
+
+            for (i = 0; i < data.LineGraphModels.length ; i++) {
+                var xAxisData = data.LineGraphModels[i].XAxisData;
+                var yAxisData = data.LineGraphModels[i].YAxisData;
+
+                graphTypes.push(data.LineGraphModels[i].GraphType);
+
+                var linegraph = [];
+                for (j = 0; j < xAxisData.length; j++) {
+                    var linePoint = { x: new Date(xAxisData[j]), y: yAxisData[j] };
+                    linegraph.push(linePoint);
+                }
+
+                lines.push(linegraph);
+            }
+
+
+
+            //For now the we are assuming the axis are the same
+            var xAxisName = data.LineGraphModels[0].XAxisName;
+            var yAxisName = data.LineGraphModels[0].YAxisName;
+
+            var mindate = getMinDate(lines[0]);
+            var maxdate = getMaxDate(lines[0]);
+            var minData = getMinData(lines[0]);
+            var maxData = getMaxData(lines[0]);
+
+            var initialEndDate = new Date(mindate);
+            initialEndDate.setHours(initialEndDate.getHours() + 1);
+
+            margin = {
+                top: 20,
+                right: 40,
+                bottom: 40,
+                left: 25
+            };
+
+            width = 1000 - margin.left - margin.right;
+            height = 600 - margin.top - margin.bottom;
+
+            var x = d3.time.scale().domain([mindate, initialEndDate]).range([0, width]);
+            var y = d3.scale.linear().domain([minData, maxData]).range([height, 0]);
+
+            // create a line function that can convert data[] into x and y points
+            line = d3.svg.line()
+                // assign the X function to plot our line as we wish
+                .x(function (d) {
+                    // verbose logging to show what's actually being done
+                    //console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
+                    // return the X coordinate where we want to plot this datapoint
+                    return x(d.x);
+                })
+                .y(function (d) {
+                    // verbose logging to show what's actually being done
+                    //console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
+                    // return the Y coordinate where we want to plot this datapoint
+                    return y(d.y);
+                })
+
+            var zoom = d3.behavior.zoom()
+                .x(x)
+                .y(y)
+                .on("zoom", zoomed);
+
+            // Add an SVG element with the desired dimensions and margin.
+            graph = d3.select("#graphContainer").append("svg:svg")
+                .attr("width", width + margin.left + (margin.right*5))
+                .attr("height", height + margin.top + margin.bottom)
+                .append("svg:g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .call(zoom);
+
+            graph.append("svg:rect")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("transform", "translate(" + margin.left + ",0)")
+                .attr("class", "plot");
+
+            // create yAxis
+            make_x_axis = function () {
+                return d3.svg.axis()
+                    .scale(x)
+                    .orient('bottom')
+                    .tickFormat(d3.time.format('%X'))
+                    .tickSize(10)
+                    .tickSubdivide(true)
+                    .tickPadding(8);
+            };
+
+            // create yAxis
+            xAxis = d3.svg.axis()
+                .scale(x)
+                .orient('bottom')
+                .tickFormat(d3.time.format('%X'))
+                .tickSize(10)
+                .tickPadding(8);
+
+
+            // Add the x-axis.
+            graph.append("svg:g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(" + margin.left + "," + height + ")")
+                    .call(xAxis)
+                .append("text")
+                    .attr("x", width)
+                    .attr("dx", ".71em")
+                    .style("text-anchor", "end")
+                    .text(xAxisName);
+
+
+            // create left yAxis
+            make_y_axis = function () {
+                return d3.svg.axis()
+                    .scale(y)
+                    .ticks(10)
+                    .orient("left");
+            };
+
+            // create left yAxis
+            yAxis = d3.svg.axis()
+                .scale(y)
+                .ticks(10)
+                .orient("left");
+
+            // Add the y-axis to the left
+            graph.append("svg:g")
+                    .attr("class", "y axis")
+                    .attr("transform", "translate(" + margin.left + ",0)")
+                    .call(yAxis)
+                .append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 6)
+                    .attr("dy", ".71em")
+                    .text(yAxisName);
+
+            graph.append("g")
+                .attr("class", "x grid")
+                .attr("transform", "translate(" + margin.left + "," + height + ")")
+                .call(make_x_axis()
+                .tickSize(-height, 0, 0)
+                .tickFormat(""));
+
+            graph.append("g")
+                .attr("class", "y grid")
+                .attr("transform", "translate(" + margin.left + ",0)")
+                .call(make_y_axis()
+                .tickSize(-width, 0, 0)
+                .tickFormat(""));
+
+            var clip = graph.append("svg:clipPath")
+                .attr("id", "clip")
+                .append("svg:rect")
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("width", width)
+                .attr("height", height);
+
+            graph.selectAll('.line')
+                .data(lines)
+                .enter()
+                .append("path")
+                .attr("class", "line")
+                .attr("transform", "translate(" + margin.left + ",0)")
+                .attr("clip-path", "url(#clip)")
+                .attr('stroke', function (d, i) {
+                    return colors[i % colors.length];
+                })
+                .attr("d", line);
+
+            if (graphTypes.length > 1) {
+                var ordinal = d3.scale.ordinal()
+                  .domain(graphTypes)
+                  .range(colors);
+
+                graph.append("g")
+                  .attr("class", "legendOrdinal")
+                  .attr("transform", "translate(" + (width + margin.right) + ",20)");
+
+                var legendOrdinal = d3.legend.color()
+                  .shape("path", d3.svg.symbol().type("triangle-up").size(150)())
+                  .shapePadding(10)
+                  .scale(ordinal);
+
+                graph.select(".legendOrdinal")
+                    .call(legendOrdinal);
+            }
+        }
+
+        function zoomed() {
+            graph.select(".x.axis").call(xAxis);
+            graph.select(".y.axis").call(yAxis);
+            graph.select(".x.grid")
+                .call(make_x_axis()
+                .tickSize(-height, 0, 0)
+                .tickFormat(""));
+            graph.select(".y.grid")
+                .call(make_y_axis()
+                .tickSize(-width, 0, 0)
+                .tickFormat(""));
+            graph.selectAll(".line")
+                .attr("class", "line")
+                .attr("d", line);
+        }
+
+        //Get the minimum date from an array of dates.
+        function getMinDate(dates) {
+            var mindate = null;
+
+            for(i = 0; i < (dates.length -1); i++){
+                if (dates[i].x < mindate || mindate == null) {
+                    mindate = dates[i].x;
+                }
+            }
+
+            return mindate;
+        }
+
+        //Get the maximum date from an array of dates.
+        function getMaxDate(dates) {
+            var maxdate = null;
+
+            for (i = 0; i < (dates.length - 1) ; i++) {
+                if (dates[i].x > maxdate || maxdate == null) {
+                    maxdate = dates[i].x;
+                }
+            }
+
+            return maxdate;
+        }
+
+        //Get the minimum value from an array of data.
+        function getMinData(data) {
+            var minValue = null;
+
+            for (i = 0; i < (data.length - 1) ; i++) {
+                if (data[i].y < minValue || minValue == null) {
+                    minValue = data[i].y;
+                }
+            }
+
+            return minValue;
+        }
+
+        //Get the maximum value from an array of data.
+        function getMaxData(data) {
+            var maxdata = null;
+
+            for (i = 0; i < (data.length - 1) ; i++) {
+                if (data[i].y > maxdata || maxdata == null) {
+                    maxdata = data[i].y;
+                }
+            }
+
+            return maxdata;
+        }
+
+    </script>    
+}

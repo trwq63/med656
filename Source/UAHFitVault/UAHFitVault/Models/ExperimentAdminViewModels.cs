@@ -48,6 +48,8 @@ namespace UAHFitVault.Models
         public string ActivityTagFilter { get; set; }
 
         public Patient patient { get; set; }
+
+        public List<PatientData> patientData { get; set; }
     }
 
     /// <summary>

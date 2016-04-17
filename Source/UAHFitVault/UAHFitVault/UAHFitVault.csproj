@@ -221,6 +221,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ExperimentController.cs" />
+    <Compile Include="Controllers\ExperimentDataController.cs" />
     <Compile Include="Controllers\ExportController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -265,6 +266,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\dataRecords.css" />
+    <Content Include="Content\icons\fitvault-12.png" />
+    <Content Include="Content\icons\homescreen.png" />
     <Content Include="Content\lineGraph.css" />
     <Content Include="Content\materialize\css\materialize.css" />
     <Content Include="Content\materialize\css\materialize.min.css" />
@@ -483,6 +486,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ExperimentData\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201602030334585_NewInitial.resx">

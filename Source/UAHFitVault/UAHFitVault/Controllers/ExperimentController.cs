@@ -11,7 +11,13 @@ using UAHFitVault.Database.Entities;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
-
+using UAHFitVault.Resources;
+using UAHFitVault.LogicLayer.Models;
+using UAHFitVault.DataAccess.ZephyrServices;
+using UAHFitVault.DataAccess.BasisPeakServices;
+using UAHFitVault.DataAccess.MicrosoftBandServices;
+using UAHFitVault.LogicLayer.LogicFiles;
+using UAHFitVault.LogicLayer.Resources;
 
 namespace UAHFitVault.Controllers
 {
@@ -19,17 +25,99 @@ namespace UAHFitVault.Controllers
     public class ExperimentController : Controller
     {
         #region Private Members
+        /// <summary>
+        /// Service interface for accessing patient data database functions.
+        /// </summary>
         private readonly IExperimentAdminService _experimentAdminService;
+
+        /// <summary>
+        /// Service interface for accessing patient data database functions.
+        /// </summary>
         private readonly IExperimentService _experimentService;
+
+        /// <summary>
+        /// Service interface for accessing patient data database functions
+        /// </summary>
         private readonly IPatientService _patientService;
+
+        /// <summary>
+        /// Service interface for accessing patient data records database functions
+        /// </summary>
+        private readonly IPatientDataService _patientDataService;
+
+        /// <summary>
+        /// Service object for accessing Zephyr Accelerometer database functions.
+        /// </summary>
+        private readonly IZephyrAccelService _zephyrAccelService;
+
+        /// <summary>
+        /// Service object for accessing Zephyr Breathing Waveform database functions.
+        /// </summary>
+        private readonly IZephyrBreathingService _zephyrBreathingService;
+
+        /// <summary>
+        /// Service object for accessing Zephyr ECG Waveform database functions.
+        /// </summary>
+        private readonly IZephyrECGService _zephyrEcgService;
+
+        /// <summary>
+        /// Service object for accessing Zephyr Event Data database functions.
+        /// </summary>
+        private readonly IZephyrEventDataService _eventDataService;
+
+        /// <summary>
+        /// Service object for accessing Zephyr Summary database functions.
+        /// </summary>
+        private readonly IZephyrSummaryService _summaryService;
+
+        /// <summary>
+        /// Service object for accessing Zephyr BR RR database functions.
+        /// </summary>
+        private readonly IZephyrBrRrService _brRrService;
+
+        /// <summary>
+        /// Service object for accessing basis peak summary database functions.
+        /// </summary>
+        private readonly IBasisPeakSummaryService _basisPeakService;
+
+        /// <summary>
+        /// Service object for accessing Microsoft Band Heart Rate database functions.
+        /// </summary>
+        private readonly IMSBandHeartRateService _msBandHeartRateService;
         #endregion
 
+        /// <summary>
+        /// Name of the experiment being viewed.
+        /// </summary>
+        public string ExperimentName {
+            get {
+                return Session["eExperimentName"].ToString();
+            }
+            set {
+                Session["eExperimentName"] = value;
+            }
+        }
+
         #region Public Constructor
-        public ExperimentController(IExperimentAdminService expAdminService, IExperimentService expService, IPatientService patientService)
+        public ExperimentController(IExperimentAdminService expAdminService, IExperimentService expService, IPatientService patientService,
+                                    IZephyrAccelService zephyrAccelService, IZephyrBreathingService zephyrBreathingService, IZephyrECGService zephyrEcgService,
+                                    IZephyrEventDataService eventDataService, IZephyrSummaryService summaryService,
+                                    IZephyrBrRrService brRrService, IBasisPeakSummaryService basisPeakService,
+                                    IMSBandHeartRateService msBandHeartRateService, IPatientDataService patientDataService)
         {
             _experimentAdminService = expAdminService;
             _experimentService = expService;
             _patientService = patientService;
+            _patientDataService = patientDataService;
+            _zephyrAccelService = zephyrAccelService;
+            _zephyrBreathingService = zephyrBreathingService;
+            _zephyrEcgService = zephyrEcgService;
+            _eventDataService = eventDataService;
+            _summaryService = summaryService;
+            _brRrService = brRrService;
+            _patientService = patientService;
+            _basisPeakService = basisPeakService;
+            _msBandHeartRateService = msBandHeartRateService;
         }
         #endregion
 
@@ -238,6 +326,8 @@ namespace UAHFitVault.Controllers
             ViewExperimentViewModel model = new ViewExperimentViewModel();
             model.criteriaModel = new ViewExperimentCriteriaViewModel();
 
+            ExperimentName = experimentName;
+
             if (experimentName != null)
             {
                 model.experimentName = experimentName;
@@ -265,6 +355,7 @@ namespace UAHFitVault.Controllers
         {
             ViewPatientViewModel model = new ViewPatientViewModel();
             model.patient = _patientService.GetPatient(patientId);
+            model.patientData = model.patient.PatientData;
             model.ActivityTagFilter = "All";
             return View(model);
         }
@@ -278,6 +369,7 @@ namespace UAHFitVault.Controllers
         public ActionResult ViewPatient (ViewPatientViewModel model)
         {
             model.patient = _patientService.GetPatient(model.patient.Id);
+            model.patientData = model.patient.PatientData;
             string activityTag = model.ActivityTagFilter.Replace(" ", "_");
             // Get all data sessions for patient matching activityTag
             return View(model);
@@ -422,6 +514,7 @@ namespace UAHFitVault.Controllers
         {
             return View();
         }
+
         #endregion
 
         #region Private Methods
@@ -486,6 +579,7 @@ namespace UAHFitVault.Controllers
             }
             return false;
         }
+        
         #endregion
     }
 }
