@@ -265,6 +265,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\dataRecords.css" />
+    <Content Include="Content\icons\fitvault-12.png" />
+    <Content Include="Content\icons\homescreen.png" />
     <Content Include="Content\lineGraph.css" />
     <Content Include="Content\materialize\css\materialize.css" />
     <Content Include="Content\materialize\css\materialize.min.css" />
