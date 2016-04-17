@@ -126,6 +126,9 @@
   <data name="ROLES_EXPERIMENTADMIN" xml:space="preserve">
     <value>Experiment Administrator</value>
   </data>
+  <data name="ROLES_EXPERIMENTDATA" xml:space="preserve">
+    <value>Physician,Experiment Administrator</value>
+  </data>
   <data name="ROLES_PATIENT" xml:space="preserve">
     <value>Patient, Physician</value>
   </data>

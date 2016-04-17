@@ -17,6 +17,7 @@ using UAHFitVault.DataAccess.ZephyrServices;
 using UAHFitVault.DataAccess.BasisPeakServices;
 using UAHFitVault.DataAccess.MicrosoftBandServices;
 using UAHFitVault.LogicLayer.LogicFiles;
+using UAHFitVault.LogicLayer.Resources;
 
 namespace UAHFitVault.Controllers
 {
@@ -84,6 +85,18 @@ namespace UAHFitVault.Controllers
         /// </summary>
         private readonly IMSBandHeartRateService _msBandHeartRateService;
         #endregion
+
+        /// <summary>
+        /// Name of the experiment being viewed.
+        /// </summary>
+        public string ExperimentName {
+            get {
+                return Session["eExperimentName"].ToString();
+            }
+            set {
+                Session["eExperimentName"] = value;
+            }
+        }
 
         #region Public Constructor
         public ExperimentController(IExperimentAdminService expAdminService, IExperimentService expService, IPatientService patientService,
@@ -313,6 +326,8 @@ namespace UAHFitVault.Controllers
             ViewExperimentViewModel model = new ViewExperimentViewModel();
             model.criteriaModel = new ViewExperimentCriteriaViewModel();
 
+            ExperimentName = experimentName;
+
             if (experimentName != null)
             {
                 model.experimentName = experimentName;
@@ -498,189 +513,6 @@ namespace UAHFitVault.Controllers
         public ActionResult EditExperimentConfirmation ()
         {
             return View();
-        }
-
-
-        /// <summary>
-        /// Create the graph to be displayed to the user.
-        /// </summary>
-        /// <param name="date">Date of the data to graph</param>
-        /// <param name="startTime">Start time of the data you wish to view.</param>
-        /// <param name="endTime">End time of the data you wish to view.</param>
-        /// <param name="patientData">List of patient data records to be displayed.</param>
-        /// <param name="option">Indicates the type of data to display to the user.</param>
-        /// <returns></returns>
-        public string GraphData(string activityType, string patientData) {
-
-            PatientDataViewModel graphViewModel = new PatientDataViewModel();
-
-            if (!string.IsNullOrEmpty(activityType) && !string.IsNullOrEmpty(patientData)) {
-
-                PatientData dataRecord = _patientDataService.GetPatientData(patientData);
-                List<Activity> activityRecords = new List<Activity>();
-                if (activityType != "All") {
-                    activityRecords = dataRecord.Activities.Where(a => a.DataActivity == (int)Enum.Parse(typeof(ActivityType), activityType)).ToList();
-                }
-                else {
-                    activityRecords = dataRecord.Activities.ToList();
-                }
-                if (activityRecords != null && activityRecords.Count > 0) {
-                                    
-                    foreach (Activity record in activityRecords) {
-                        DateTime start = record.StartTime;
-                        DateTime end = record.EndTime;
-
-                        switch (dataRecord.MedicalDevice.Name) {
-                            case "Zephyr":
-                                switch ((File_Type)dataRecord.DataType) {
-                                    case File_Type.Accelerometer:
-                                        List<ZephyrAccelerometer> zephyrAccelData = _zephyrAccelService.GetZephyrAccelerometerData(dataRecord, start, end).ToList();
-                                        if (zephyrAccelData != null && zephyrAccelData.Count > 0) {
-                                            List<double> accelData = ZephyrLogic.ConvertAccelWaveformToGs(zephyrAccelData.Select(z => z.Vertical).ToList());
-                                            LineGraphModel lineModel = new LineGraphModel() {
-                                                GraphType = "Zephyr Accel",
-                                                XAxisName = AxisNames.GENERIC_X_AXIS,
-                                                YAxisName = AxisNames.ZEPHYR_ACCEL_Y_AXIS,
-                                                XAxisData = zephyrAccelData.Select(z => z.Time).ToList(),
-                                                YAxisData = accelData
-                                            };
-                                            graphViewModel.LineGraphModels.Add(lineModel);
-                                        }
-                                        break;
-                                    case File_Type.Breathing:
-                                        List<ZephyrBreathingWaveform> zephyrBreathingData =
-                                            _zephyrBreathingService.GetZephyrBreathingWaveformData(dataRecord, start, end).ToList();
-                                        if (zephyrBreathingData != null && zephyrBreathingData.Count > 0) {
-                                            LineGraphModel lineModel = new LineGraphModel() {
-                                                GraphType = "Zephyr Breathing",
-                                                XAxisName = AxisNames.GENERIC_X_AXIS,
-                                                YAxisName = AxisNames.GENERIC_Y_AXIS,
-                                                XAxisData = zephyrBreathingData.Select(z => z.Time).ToList(),
-                                                YAxisData = zephyrBreathingData.Select(z => z.Data).Select(d => (double)d).ToList()
-                                            };
-                                            graphViewModel.LineGraphModels.Add(lineModel);
-                                        }
-                                        break;
-                                    case File_Type.ECG:
-                                        List<ZephyrECGWaveform> zephyrEcgWaveform =
-                                            _zephyrEcgService.GetZephyrECGWaveFormData(dataRecord, start, end).ToList();
-                                        if (zephyrEcgWaveform != null && zephyrEcgWaveform.Count > 0) {
-                                            LineGraphModel lineModel = new LineGraphModel() {
-                                                GraphType = "Zephyr ECG",
-                                                XAxisName = AxisNames.GENERIC_X_AXIS,
-                                                YAxisName = AxisNames.GENERIC_Y_AXIS,
-                                                XAxisData = zephyrEcgWaveform.Select(z => z.Time).ToList(),
-                                                YAxisData = zephyrEcgWaveform.Select(z => z.Data).Select(d => (double)d).ToList()
-                                            };
-                                            graphViewModel.LineGraphModels.Add(lineModel);
-                                        }
-                                        break;
-                                    case File_Type.EventData:
-                                        break;
-                                    case File_Type.Summary:
-                                        List<ZephyrSummaryData> zephyrSummaryData = _summaryService.GetZephyrSummaryData(dataRecord, start, end).ToList();
-                                        if (zephyrSummaryData != null && zephyrSummaryData.Count > 0) {
-                                            LineGraphModel lineModel = new LineGraphModel() {
-                                                GraphType = "Zephyr Heart Rate",
-                                                XAxisName = AxisNames.GENERIC_X_AXIS,
-                                                YAxisName = AxisNames.BEATS_PER_MINUTE,
-                                                XAxisData = zephyrSummaryData.Select(b => b.Date).ToList(),
-                                                YAxisData = zephyrSummaryData.Select(b => b.HeartRate).Select(d => (double)d).ToList()
-                                            };
-                                            graphViewModel.LineGraphModels.Add(lineModel);
-                                        }
-                                        break;
-                                    case File_Type.General:
-                                        List<ZephyrSummaryData> zephyrGeneralData = _summaryService.GetZephyrSummaryData(dataRecord, start, end).ToList();
-                                        if (zephyrGeneralData != null && zephyrGeneralData.Count > 0) {
-                                            LineGraphModel lineModel = new LineGraphModel() {
-                                                GraphType = "Zephyr Heart Rate",
-                                                XAxisName = AxisNames.GENERIC_X_AXIS,
-                                                YAxisName = AxisNames.BEATS_PER_MINUTE,
-                                                XAxisData = zephyrGeneralData.Select(b => b.Date).ToList(),
-                                                YAxisData = zephyrGeneralData.Select(b => b.HeartRate).Select(d => (double)d).ToList()
-                                            };
-                                            graphViewModel.LineGraphModels.Add(lineModel);
-                                        }
-                                        break;
-                                    case File_Type.BR_RR:
-                                        List<ZephyrBRRR> zephyrBrRrData = _brRrService.GetZephyrBRRRData(dataRecord, start, end).ToList();
-                                        if (zephyrBrRrData != null && zephyrBrRrData.Count > 0) {
-                                            LineGraphModel lineModel = new LineGraphModel() {
-                                                GraphType = "Zephyr BR",
-                                                XAxisName = AxisNames.GENERIC_X_AXIS,
-                                                YAxisName = AxisNames.GENERIC_Y_AXIS,
-                                                XAxisData = zephyrBrRrData.Select(b => b.TimeStamp).ToList(),
-                                                YAxisData = zephyrBrRrData.Select(b => b.BR).Select(d => (double)d).ToList()
-                                            };
-                                            graphViewModel.LineGraphModels.Add(lineModel);
-                                            lineModel = new LineGraphModel() {
-                                                GraphType = "Zephyr RR",
-                                                XAxisName = AxisNames.GENERIC_X_AXIS,
-                                                YAxisName = AxisNames.GENERIC_Y_AXIS,
-                                                XAxisData = zephyrBrRrData.Select(b => b.TimeStamp).ToList(),
-                                                YAxisData = zephyrBrRrData.Select(b => b.RR).Select(d => (double)d).ToList()
-                                            };
-                                            graphViewModel.LineGraphModels.Add(lineModel);
-                                        }
-                                        break;
-                                    default:
-                                        break;
-                                }
-                                break;
-                            case "BasisPeak":
-                                List<BasisPeakSummaryData> basisSummaryData = _basisPeakService.GetBasisPeakSummaryData(dataRecord, start, end).ToList();
-                                if (basisSummaryData != null && basisSummaryData.Count > 0) {
-                                    LineGraphModel lineModel = new LineGraphModel() {
-                                        GraphType = "BasisPeak Heart Rate",
-                                        XAxisName = AxisNames.GENERIC_X_AXIS,
-                                        YAxisName = AxisNames.BEATS_PER_MINUTE,
-                                        XAxisData = basisSummaryData.Select(b => b.Date).ToList(),
-                                        YAxisData = basisSummaryData.Where(b => b.HeartRate != null).Select(b => b.HeartRate).Select(d => (double)d).ToList()
-                                    };
-                                    graphViewModel.LineGraphModels.Add(lineModel);
-                                }
-                                break;
-                            case "Microsoft Band":
-                                switch ((File_Type)dataRecord.DataType) {
-                                    case File_Type.HeartRate:
-                                        List<MSBandHeartRate> msBandHeartRate = _msBandHeartRateService.GetMSBandHeartRateData(dataRecord, start, end).ToList();
-                                        if (msBandHeartRate != null && msBandHeartRate.Count > 0) {
-                                            LineGraphModel lineModel = new LineGraphModel() {
-                                                GraphType = "MS Band Heart Rate",
-                                                XAxisName = AxisNames.GENERIC_X_AXIS,
-                                                YAxisName = AxisNames.BEATS_PER_MINUTE,
-                                                XAxisData = msBandHeartRate.Select(b => b.Date).ToList(),
-                                                YAxisData = msBandHeartRate.Select(b => b.HeartRate).Select(d => (double)d).ToList()
-                                            };
-                                            graphViewModel.LineGraphModels.Add(lineModel);
-                                        }
-                                        break;
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    
-                }
-            }
-            string jsonResult;
-
-            if (graphViewModel.LineGraphModels.Count > 0) {
-                jsonResult = JsonConvert.SerializeObject(graphViewModel);
-            }
-            else {
-                Dictionary<string, string> errorMsg = new Dictionary<string, string>();
-                errorMsg.Add("error", "No Data Found");
-                jsonResult = JsonConvert.SerializeObject(errorMsg);
-            }
-
-            return jsonResult;
-        }
-
-        public string ExportExperiment() {
-            return null;
         }
 
         #endregion

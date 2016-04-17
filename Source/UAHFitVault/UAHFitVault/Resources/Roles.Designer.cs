@@ -88,6 +88,15 @@ namespace UAHFitVault.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Physician,Experiment Administrator.
+        /// </summary>
+        internal static string ROLES_EXPERIMENTDATA {
+            get {
+                return ResourceManager.GetString("ROLES_EXPERIMENTDATA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Patient, Physician.
         /// </summary>
         internal static string ROLES_PATIENT {

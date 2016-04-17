@@ -53,12 +53,13 @@
     <tr>
         <td><h5>Sessions</h5></td>
         @using (Html.BeginForm("ViewPatient", "Experiment", FormMethod.Post))
-        {@Html.HiddenFor(m => m.patient.Id)
-        <td style="width: 200px; text-align: right">Filter by Activity Tag</td>
-        <td style="width: 250px;">@Html.DropDownListFor(m => m.ActivityTagFilter, new SelectList(activityTags),
-            new { @class = "browser-default validate" })
-        </td>
-        <td style="width: 150px;"><input type="submit" class="btn green" value="Filter" /></td>
+        {
+            @Html.HiddenFor(m => m.patient.Id)
+            <td style="width: 200px; text-align: right">Filter by Activity Tag</td>
+            <td style="width: 250px;">@Html.DropDownListFor(m => m.ActivityTagFilter, new SelectList(activityTags),
+                new { @class = "browser-default validate" })
+            </td>
+            <td style="width: 150px;"><input type="submit" class="btn green" value="Filter" /></td>
         }
     </tr>
     </table>
@@ -66,6 +67,10 @@
     if (Model.ActivityTagFilter != null)
     {
         <h5>Displaying data filtered by @Model.ActivityTagFilter</h5>
+        <div class="row col s12 input-field">
+            <input id="directory" type="text">
+            <label for="directory">Enter File Download Path</label>
+        </div>
         <table>
             <tr class="blue lighten-2" style="font-weight:500">
                 <td>Id</td>
@@ -116,6 +121,32 @@
     <script src="~/Scripts/d3/d3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.10.0/d3-legend.min.js"></script>
     <script>
+        $('.exportRecord').click(function(){
+            var id = $(this).val();
+            var activityType = @Html.Raw(Json.Encode(Model.ActivityTagFilter.Replace(" ", "_")));
+            var path = $('#directory').val();
+            if (path != null && path != undefined && path != "") {
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        patientDataId: id,
+                        path : path,
+                        activityType: activityType
+                    },
+                    url: "/ExperimentData/ExportExperiment",
+                    success: function (data) {
+                        window.location.reload();
+                    },
+                    error: function (error) {
+                        alert("No Data Found");
+                    }
+                });
+            }
+            else {
+                alert("Please enter a directory location to download the file(s) to.");
+            }
+        });
+
         $('.viewchart').click(function () {
             var id = $(this).val();
             var activityType = @Html.Raw(Json.Encode(Model.ActivityTagFilter.Replace(" ", "_")));
@@ -125,7 +156,7 @@
                     activityType: activityType,
                     patientdata: id
                 },
-                url: "/Experiment/GraphData",
+                url: "/ExperimentData/GraphExperiment",
                 success: function (data) {
                     $('#graphContainer').removeClass('hide');
                     var result = JSON.parse(data);
@@ -154,7 +185,7 @@
             var lines = [];
             var graphTypes = [];
 
-            for (i = 0; i < data.LineGraphModels.length ; i++) {   
+            for (i = 0; i < data.LineGraphModels.length ; i++) {
                 var xAxisData = data.LineGraphModels[i].XAxisData;
                 var yAxisData = data.LineGraphModels[i].YAxisData;
 
@@ -195,7 +226,7 @@
 
             var x = d3.time.scale().domain([mindate, initialEndDate]).range([0, width]);
             var y = d3.scale.linear().domain([minData, maxData]).range([height, 0]);
-             
+
             // create a line function that can convert data[] into x and y points
             line = d3.svg.line()
                 // assign the X function to plot our line as we wish
@@ -300,7 +331,7 @@
                 .attr("transform", "translate(" + margin.left + ",0)")
                 .call(make_y_axis()
                 .tickSize(-width, 0, 0)
-                .tickFormat(""));            
+                .tickFormat(""));
 
             var clip = graph.append("svg:clipPath")
                 .attr("id", "clip")
@@ -309,7 +340,7 @@
                 .attr("y", 0)
                 .attr("width", width)
                 .attr("height", height);
-            
+
             graph.selectAll('.line')
                 .data(lines)
                 .enter()
@@ -408,6 +439,6 @@
 
             return maxdata;
         }
-    
+
     </script>    
 }
