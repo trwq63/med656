@@ -81,7 +81,7 @@ def test_login_experiment_admin(logoff):
     assert status
 
 
-def test_login_patient(logoff):
+def test_login_patient(logoff, test_patients):
     """
     **Requirements:**
 
@@ -109,8 +109,8 @@ def test_login_patient(logoff):
     """
     print('Starting')
 
-    user = 'testPatient'
-    password = 'P@ssword10'
+    user = test_patients[0]['name']
+    password = test_patients[0]['pwd']
 
     print('Logging in as {}/{}'.format(user, password))
     web_sess.login(user, password)

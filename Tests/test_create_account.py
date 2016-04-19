@@ -2,9 +2,12 @@
 These test cases are designed to test the ability to create and delete accounts
 """
 from WebUI.WebUI import WebUI
+import random
 
 web_sess = WebUI()
 
+# global user for patient create. helps with random username used in a couple tests
+patient_create_user = 'testPatientCreate_{}'.format(random.getrandbits(100))
 
 def test_create_physician(logoff):
     """
@@ -68,8 +71,9 @@ def test_create_physician(logoff):
     print('Approving account for {}, {}'.format(last_name, first_name))
     web_sess.approve_account('{} {}'.format(first_name, last_name))
     print('Logging in as {}/{}'.format(user, pwd))
+    web_sess.logoff()
     web_sess.login(user, pwd)
-    assert web_sess.check_login()
+    assert web_sess.check_login(user)
 
 
 def test_create_experiment_admin(logoff):
@@ -134,10 +138,12 @@ def test_create_experiment_admin(logoff):
     print('Approving account for {}, {}'.format(last_name, first_name))
     web_sess.approve_account('{} {}'.format(first_name, last_name))
     print('Logging in as {}/{}'.format(user, pwd))
+    web_sess.logoff()
     web_sess.login(user, pwd)
-    assert web_sess.check_login()
+    assert web_sess.check_login(user)
 
-def test_create_system_admin(logoff):
+
+def test_create_system_admin(login_sysadmin):
     """
     **Requirements:**
 
@@ -160,10 +166,6 @@ def test_create_system_admin(logoff):
     - user = 'lnibbler'
     - pwd = 'P@ssword10'
     - email = 'lnibbler@futurama.com'
-    - first_name = 'Lord'
-    - last_name = 'Nibbler'
-    - address = '304 Wherever Street, New New York City, New New York'
-    - phone_number = '123-456-7890'
 
 
     ===========================  =================  =============
@@ -179,25 +181,15 @@ def test_create_system_admin(logoff):
     user = 'lnibbler'
     pwd = 'P@ssword10'
     email = 'lnibbler@futurama.com'
-    first_name = 'Lord'
-    last_name = 'Nibbler'
-    address = '304 Wherever Street, New New York City, New New York'
-    phone_number = '123-456-7890'
 
-    print('Requesting Exp Admin {}/{} name: {}, {} email: {} address: {} phone num: {}'.format(user,
-                                                                                               pwd,
-                                                                                               last_name,
-                                                                                               first_name,
-                                                                                               email,
-                                                                                               address,
-                                                                                               phone_number))
     print('Logging in as fitadmin/Password1!')
     web_sess.login('fitadmin', 'Password1!')
-    print('Creating system admin {}'.format(user))
-
+    print('Creating system admin {}/{} with email {}'.format(user, pwd, email))
+    web_sess.create_admin(user, pwd, email)
     print('Logging in as {}/{}'.format(user, pwd))
+    web_sess.logoff()
     web_sess.login(user, pwd)
-    assert web_sess.check_login()
+    assert web_sess.check_login(user)
 
 def test_create_patient(login_tphysician):
     """
@@ -222,9 +214,11 @@ def test_create_patient(login_tphysician):
 
     **Input:**
 
-    - user = 'pfry'
+    - user = 'testPatientCreate_<random number>'
     - pwd = 'P@ssword10'
-    - bday = '3 March, 1954'
+    - byear = '1954'
+    - bmonth = 'March'
+    - bday = '3'
     - loc = 'Alabama'
     - wght = '200'
     - hght = '72'
@@ -241,10 +235,13 @@ def test_create_patient(login_tphysician):
     ======================  =================  =============
     """
     print('Starting')
+    import random
 
-    user = 'pfry'
+    user = patient_create_user
     pwd = 'P@ssword10'
-    bday = '3 March, 1954'
+    byear = '1954'
+    bmonth = 'March'
+    bday = '3'
     loc = 'Alabama'
     wght = '200'
     hght = '72'
@@ -256,28 +253,20 @@ def test_create_patient(login_tphysician):
     print('Physician {} is creating patient account.'.format(physician),
           'user: ', user,
           'pwd: ', pwd,
-          'bday: ', bday,
+          'bday: ', bday, ' ', bmonth, ' ', byear,
           'loc: ', loc,
           'wght: ', wght,
           'hght: ', hght,
           'gen: ', gen,
           'race: ', race,
           'eth: ', eth)
-    web_sess.create_patient(physician,
-                        pwd,
-                        user,
-                        pwd,
-                        bday,
-                        loc,
-                        wght,
-                        hght,
-                        gen,
-                        race,
-                        eth)
+    web_sess.create_patient(physician, pwd, user, pwd, byear, bmonth, bday,
+                        loc, wght, hght, gen, race, eth)
     assert web_sess.check_create_patient()
     print('Logging in as ', user, '/', pwd)
+    web_sess.logoff()
     web_sess.login(user, pwd)
-    assert web_sess.check_login()
+    assert web_sess.check_login(user)
 
 
 def test_delete_patient(logoff):
@@ -306,14 +295,15 @@ def test_delete_patient(logoff):
     """
     print('Starting')
 
-    user = 'pfry'
+    user = patient_create_user
     pwd = 'P@ssword10'
     phy = 'testPhysician'
     phy_pass = 'P@ssword10'
 
     print('Deleting patient', user, 'from physician ', phy)
-    web_sess.delete_patient(phy, phy_pass, user)
+    assert web_sess.delete_patient(phy, phy_pass, user)
     print('Trying to login as ', user)
+    web_sess.logoff()
     web_sess.login(user, pwd)
     assert not web_sess.check_login()
 
@@ -349,8 +339,9 @@ def test_delete_physician(logoff):
     pwd = 'P@ssword10'
 
     print('Deleting user with name ', username)
-    web_sess.delete_account(username)
+    assert web_sess.delete_account(username)
     print('Attempting to login as ', user)
+    web_sess.logoff()
     web_sess.login(user, pwd)
     assert not web_sess.check_login()
 
@@ -386,7 +377,8 @@ def test_delete_experiment_admin(logoff):
     pwd = 'P@ssword10'
 
     print('Deleting user with name ', username)
-    web_sess.delete_account(username)
+    assert web_sess.delete_account(username)
     print('Attempting to login as ', user)
+    web_sess.logoff()
     web_sess.login(user, pwd)
     assert not web_sess.check_login()

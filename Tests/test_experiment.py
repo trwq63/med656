@@ -40,21 +40,20 @@ def test_create_experiment(login_texpadmin):
     """
     print('Starting')
     expName = 'test experiment'
-    startAge = '19'
-    endAge = '24'
+    startAge = '60'
+    endAge = '70'
     startHght = '60'
-    endHght = '72'
+    endHght = '78'
     startWght = '130'
-    endWght = '200'
+    endWght = '210'
     genders = ['male']
     races = ['white']
-    ethnicities = ['hispanic']
+    ethnicities = ['non_hispanic']
     locations = ['Alabama']
 
     print('Creating experiment')
     assert web_sess.create_experiment(expName, startAge, endAge, startHght, endHght, startWght, endWght, genders, races, ethnicities, locations)
     assert 'Success!' in web_sess.get_page()
-
 
 
 def test_view_experiment_exp_admin(login_texpadmin):
@@ -80,8 +79,11 @@ def test_view_experiment_exp_admin(login_texpadmin):
     print('Starting')
     name = 'test experiment'
 
+    print('Navigating to experiment ', name)
     assert web_sess.view_experiment(name)
-    assert 'View Experiment - {}'.format(name) in web_sess.get_page()
+    print('Checking that we have at least 1 patient in our experiment')
+    web_sess.driver.find_element_by_css_selector('input[value="View Data"]')
+
 
 
 def test_view_experiment_physician(login_tphysician):
@@ -107,8 +109,10 @@ def test_view_experiment_physician(login_tphysician):
     print('Starting')
     name = 'test experiment'
 
+    print('Navigating to experiment ', name)
     assert web_sess.view_experiment(name)
-    assert 'View Experiment - {}'.format(name) in web_sess.get_page()
+    print('Checking that we have at least 1 patient in our experiment')
+    web_sess.driver.find_element_by_css_selector('input[value="View Data"]')
 
 
 

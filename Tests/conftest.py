@@ -1,16 +1,24 @@
 import pytest
 from WebUI.WebUI import WebUI
+import random
 
+test_patient = 'testPatient_{}'.format(random.getrandbits(100))
+tpatient_pwd = 'P@ssword10'
+test_patient2 = 'testPatient2_{}'.format(random.getrandbits(100))
+tpatient2_pwd = 'P@ssword10'
+
+@pytest.fixture()
+def test_patients():
+    return [ { 'name' : test_patient,
+               'pwd' : tpatient_pwd},
+             { 'name' : test_patient2,
+                'pwd' : tpatient2_pwd}]
 
 @pytest.fixture(scope='session', autouse=True)
 def pre_existing_users():
     web_sess = WebUI()
 
     # delete all accounts
-    web_sess.delete_patient('testPhysician', 'P@ssword10', 'testPatient')
-    web_sess.delete_patient('testPhysician', 'P@ssword10', 'testPatient2')
-    web_sess.logoff()
-
     web_sess.delete_all_accounts()
     web_sess.logoff()
 
@@ -28,20 +36,25 @@ def pre_existing_users():
 
     web_sess.create_patient('testPhysician',
                             'P@ssword10',
-                            'testPatient',
-                            'P@ssword10',
-                            '3 March, 1954',
+                            test_patient,
+                            tpatient_pwd,
+                            '1954',
+                            'March',
+                            '3',
                             'Alabama',
                             '200',
                             '72',
                             'male',
                             'white',
                             'non_hispanic')
+    web_sess.logoff()
     web_sess.create_patient('testPhysician',
                             'P@ssword10',
-                            'testPatient2',
-                            'P@ssword10',
-                            '10 November, 1999',
+                            test_patient2,
+                            tpatient2_pwd,
+                            '1999',
+                            'November',
+                            '10',
                             'Guam',
                             '156',
                             '65',
@@ -62,7 +75,7 @@ def login_tpatient():
     web_sess = WebUI()
     if web_sess.check_login():
         web_sess.logoff()
-    web_sess.login('testPatient', 'P@ssword10')
+    web_sess.login(test_patient, 'P@ssword10')
     web_sess.go_home()
 
 

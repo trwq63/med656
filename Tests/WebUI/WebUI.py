@@ -219,9 +219,9 @@ class WebUI:
                 self.driver.switch_to.parent_frame()
                 time.sleep(2)
                 self.driver.find_element_by_css_selector('input[name="Activities[{}].ActivityDate"]'.format(n)).click()
-                self.driver.find_element_by_xpath('//div/input[@name="Activities[{}].ActivityDate"]/../div/div/div/div/div/div/select[@title="Select a year"]/option[@value="{}"]'.format(n,activity['year'])).click()
-                self.driver.find_element_by_xpath('//div/input[@name="Activities[{}].ActivityDate"]/../div/div/div/div/div/div/select[@title="Select a month"]/option[text()="{}"]'.format(n,activity['month'])).click()
-                self.driver.find_element_by_xpath('//div/input[@name="Activities[{}].ActivityDate"]/../div/div/div/div/div/table/tbody/tr/td/div[@class="picker__day picker__day--infocus"][text()="{}"]'.format(n, activity['day'])).click()
+                self.driver.find_element_by_xpath('//div/input[@name="Activities[{}].ActivityDate"]/..//select[@title="Select a year"]/option[@value="{}"]'.format(n,activity['year'])).click()
+                self.driver.find_element_by_xpath('//div/input[@name="Activities[{}].ActivityDate"]/..//select[@title="Select a month"]/option[text()="{}"]'.format(n,activity['month'])).click()
+                self.driver.find_element_by_xpath('//div/input[@name="Activities[{}].ActivityDate"]/..//table/tbody/tr/td/div[@class="picker__day picker__day--infocus"][text()="{}"]'.format(n, activity['day'])).click()
                 time.sleep(5)
                 self.driver.find_element_by_xpath('//input[@name="Activities[{}].StartTime"]'.format(n)).click()
                 self.driver.find_element_by_xpath('//div/input[@name="Activities[{}].StartTime"]/../div[@id="StartTime[]_root"]/div/div/div/div/ul/li[text()="{}"]'.format(n, activity['startTime'])).click()
@@ -241,7 +241,7 @@ class WebUI:
             return False
         return True
 
-    def create_patient(self, phy, phy_pass, user, pwd, bday, location, weight, height, gender, race, ethnicity):
+    def create_patient(self, phy, phy_pass, user, pwd, byear, bmonth, bday, location, weight, height, gender, race, ethnicity):
         """
         This will create a patient account. It expects the physician to be logged in when called.
 
@@ -256,8 +256,9 @@ class WebUI:
             self.driver.find_element_by_id('Username').send_keys(user)
             self.driver.find_element_by_id('Password').send_keys(pwd)
             self.driver.find_element_by_id('Birthdate').click()
-            # temporary work around
-            self.driver.find_element_by_css_selector('button[class=picker__button--today').click()
+            self.driver.find_element_by_xpath('//select[@title="Select a year"]/option[text()="{}"]'.format(byear)).click()
+            self.driver.find_element_by_xpath('//select[@title="Select a month"]/option[text()="{}"]'.format(bmonth)).click()
+            self.driver.find_element_by_xpath('//table[@id="Birthdate_table"]/tbody/tr/td/div[@class="picker__day picker__day--infocus"][text()="{}"]'.format(bday)).click()
             select.Select(self.driver.find_element_by_id('Location')).select_by_visible_text(location)
             self.driver.find_element_by_id('Weight').send_keys(weight)
             self.driver.find_element_by_id('Height').send_keys(height)
@@ -282,7 +283,7 @@ class WebUI:
             else:
                 return False
             if ethnicity == 'non_hispanic':
-                self.driver.find_element_by_css_selector('label[for="ethnicityHispanic"]').click()
+                self.driver.find_element_by_css_selector('label[for="ethnicityNonHispanic"]').click()
             elif ethnicity == 'hispanic':
                 self.driver.find_element_by_css_selector('label[for=ethnicityHispanic]').click()
             else:
@@ -334,7 +335,7 @@ class WebUI:
         try:
             if not self.check_login(phy, t=1):
                 self.login(phy, phy_pass)
-            self.driver.find_element_by_xpath("//tr/td[text()='{}']/../td/button[contains(text(),'Delete Patient')]".format(user)).click()
+            self.driver.find_element_by_xpath("//tr/td[text()='{}']/../td/button[contains(text(),'Disable Patient')]".format(user)).click()
             self.driver.find_element_by_css_selector('input[type=submit]').click()
         except:
             return False
@@ -505,6 +506,20 @@ class WebUI:
             self.driver.find_element_by_link_text('View Experiments').click()
             self.driver.find_element_by_xpath('//div[text()="{}"]/../div/input[@value="Delete"]'.format(name)).click()
             self.driver.find_element_by_css_selector('input[Value="Confirm"]').click()
+        except Exception as e:
+            print('Generated exception', e)
+            return False
+        return True
+
+
+    def create_admin(self, user, pwd, email):
+        try:
+            self.driver.find_element_by_link_text('Create Admin').click()
+            self.driver.find_element_by_id('Username').send_keys(user)
+            self.driver.find_element_by_id('Password').send_keys(pwd)
+            self.driver.find_element_by_id('ConfirmPassword').send_keys(pwd)
+            self.driver.find_element_by_id('Email').send_keys(email)
+            self.driver.find_element_by_css_selector('input[type="submit"]').click()
         except Exception as e:
             print('Generated exception', e)
             return False

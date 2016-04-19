@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-UAHealth Bit Vault
+UAHealth Fit Vault
 ==================
 
 Contents:
@@ -13,6 +13,7 @@ Contents:
 
    user_guide/user_guide
    STD/software_test_description
+   Maintenance_Guide/maintenance_guide
 
 
 Indices and tables

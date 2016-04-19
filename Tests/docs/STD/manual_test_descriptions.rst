@@ -48,17 +48,17 @@ Multiple File Upload Test
 
 **Test Procedure:**
 
-========================================================================  ===========================================  =============
-Steps                                                                     Expected Result                              Actual Result
-========================================================================  ===========================================  =============
+===========================================================================  ===========================================  =============
+Steps                                                                        Expected Result                              Actual Result
+===========================================================================  ===========================================  =============
 click the 'Upload Data' link in top right corner of page
 click the 'BROWSE' button
 navigate to ./med656/Tests/Data/Zephyr/ZephyrTestData/
-highlight the *Accel.csv and *BB.csv files by holding ctrl and clicking
+highlight the ...Accel.csv and ...BB.csv files by holding ctrl and clicking
 fill in date 6-24-2015 for both from date and to date
 click on zephyr radio button
 click "SUBMIT" button
-========================================================================  ===========================================  =============
+===========================================================================  ===========================================  =============
 
 User Privacy Test
 #################

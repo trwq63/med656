@@ -69,6 +69,7 @@ def test_username_cannot_be_copied(logoff):
       'last_name: ', last_name,
       'address: ', address,
       'phone_number: ', phone_number)
+    web_sess.go_home()
     web_sess.request_account('Physician', user, pwd, email, first_name, last_name, address, phone_number)
     assert 'Name {} is already taken.'.format(user) in web_sess.get_page()
 
@@ -80,5 +81,6 @@ def test_username_cannot_be_copied(logoff):
           'last_name: ', last_name,
           'address: ', address,
           'phone_number: ', phone_number)
+    web_sess.go_home()
     web_sess.request_account('Physician', user_2, pwd, email_2, first_name, last_name, address, phone_number)
     assert web_sess.check_request_account()

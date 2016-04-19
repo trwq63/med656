@@ -6,7 +6,7 @@ import pytest
 web_sess = WebUI()
 
 
-def test_patient_only_sees_his_data(logoff):
+def test_patient_only_sees_his_data(test_patients):
     """
 
     :param login_tpatient:
@@ -14,10 +14,6 @@ def test_patient_only_sees_his_data(logoff):
     """
     print("Starting")
 
-    patient = 'testPatient'
-    patientpass = 'P@ssword10'
-    patient2 = 'testPatient2'
-    patient2pass = 'P@ssword10'
     file = path.abspath('./Data/BasisPeak/bodymetrics_simple.csv')
     fyear = '2015'
     fmonth = 'June'
@@ -28,14 +24,15 @@ def test_patient_only_sees_his_data(logoff):
     device = 'basis'
     activities = []
 
-    print("Upload data for ", patient2)
-    web_sess.login(patient2, patient2pass)
+    web_sess.logoff()
+    print("Upload data for ", test_patients[1]['name'])
+    web_sess.login(test_patients[1]['name'], test_patients[1]['pwd'])
     web_sess.upload_files(file, fyear, fmonth, fday, tyear, tmonth, tday, device, activities)
     web_sess.logoff()
-    print("Login as ", patient)
-    web_sess.login(patient, patientpass)
+    print("Login as ", test_patients[0]['name'])
+    web_sess.login(test_patients[0]['name'], test_patients[0]['pwd'])
     print("Click View Data button")
-    web_sess.driver.find_element_by_css_selector('View Data').click()
+    web_sess.driver.find_element_by_link_text('View Data').click()
     print("Look for file ", path.basename(file))
     # TO DO: update this to not use get_page()
     assert path.basename(file) not in web_sess.get_page()
@@ -92,7 +89,9 @@ def test_physician_to_patient(logoff):
     phys_phone = '123-456-7890'
     patient = 'testPatient5'
     pat_pass = 'P@ssword10'
-    bday = 'April 1, 1987'
+    byear = '1987'
+    bmonth = 'April'
+    bday = '1'
     loc = 'Alabama'
     wght = '123'
     hght = '123'
@@ -108,7 +107,7 @@ def test_physician_to_patient(logoff):
     web_sess.approve_account('{} {}'.format(phys_fname, phys_lname))
     print('Creating patient', patient, ' for physician ', physician)
     web_sess.logoff()
-    web_sess.create_patient(physician, phys_pass, patient, pat_pass, bday, loc, wght, hght, gen, race, eth)
+    web_sess.create_patient(physician, phys_pass, patient, pat_pass, byear, bmonth, bday, loc, wght, hght, gen, race, eth)
     print('Logging in as', test_physician)
     web_sess.logoff()
     web_sess.login(test_physician, test_phys_pass)
@@ -116,7 +115,7 @@ def test_physician_to_patient(logoff):
     text = web_sess.driver.find_element_by_css_selector('div[class="card"]').get_attribute('innerHTML')
     assert '{} {}'.format(phys_fname, phys_lname) not in text
 
-def test_experiment_creation_security(logoff):
+def test_experiment_creation_security(login_tpatient):
     """
     **Requirements:**
 
@@ -138,29 +137,39 @@ def test_experiment_creation_security(logoff):
     """
     print("Starting")
 
-    patient = 'testPatient'
-    patientpass = 'P@ssword10'
     physician = 'testPhysician'
     physicianpass = 'P@ssword10'
     admin = 'fitadmin'
     adminpass = 'Password1!'
 
-    print("Login as ", patient)
-    web_sess.login(patient, patientpass)
     print("Look for Create Experiment button")
-    pytest.raises(NoSuchElementException, web_sess.driver.find_element_by_link_text('Create Experiment'))
+    try:
+        web_sess.driver.find_element_by_link_text('Create Experiment')
+        assert False
+    except Exception as e:
+        print('Could not find "Create Experiment" button')
+
     print('Login as ', physician)
     web_sess.logoff()
     web_sess.login(physician, physicianpass)
     print('Look for Create Experiment button')
-    pytest.raises(NoSuchElementException, web_sess.driver.find_element_by_link_text('Create Experiment'))
+    try:
+        web_sess.driver.find_element_by_link_text('Create Experiment')
+        assert False
+    except Exception as e:
+        print('Could not find "Create Experiment" button')
+
     print('Login as ', admin)
     web_sess.logoff()
     web_sess.login(admin, adminpass)
     print('Look for Create Experiment button')
-    pytest.raises(NoSuchElementException, web_sess.driver.find_element_by_link_text('Create Experiment'))
+    try:
+        web_sess.driver.find_element_by_link_text('Create Experiment')
+        assert False
+    except Exception as e:
+        print('Could not find "Create Experiment" button')
 
-def test_system_admin_user_management(logoff):
+def test_system_admin_user_management(login_tpatient):
     """
     **Requirements:**
 
@@ -181,24 +190,36 @@ def test_system_admin_user_management(logoff):
     empty
     ====================================  ===================  =============
     """
-    patient = 'testPatient'
-    patientpass = 'P@ssword10'
+    print('Starting')
+
     physician = 'testPhysician'
     physicianpass = 'P@ssword10'
     expadmin = 'testExpAdmin'
     expadminpass = 'P@ssword10'
 
-    print("Login as ", patient)
-    web_sess.login(patient, patientpass)
     print("Look for Manage Users button")
-    pytest.raises(NoSuchElementException, web_sess.driver.find_element_by_link_text('Manage Users'))
+    try:
+        web_sess.driver.find_element_by_link_text('Manage Users')
+        assert False
+    except Exception as e:
+        print('Could not find "Manage Users" button')
+
     print('Login as ', physician)
     web_sess.logoff()
     web_sess.login(physician, physicianpass)
     print('Look for Manage Users button')
-    pytest.raises(NoSuchElementException, web_sess.driver.find_element_by_link_text('Manage Users'))
+    try:
+        web_sess.driver.find_element_by_link_text('Manage Users')
+        assert False
+    except Exception as e:
+        print('Could not find "Manage Users" button')
+
     print('Login as ', expadmin)
     web_sess.logoff()
     web_sess.login(expadmin, expadminpass)
     print('Look for Manage Users button')
-    pytest.raises(NoSuchElementException, web_sess.driver.find_element_by_link_text('Manage Users'))
+    try:
+        web_sess.driver.find_element_by_link_text('Manage Users')
+        assert False
+    except Exception as e:
+        print('Could not find "Manage Users" button')
