@@ -75,7 +75,7 @@ def login_tpatient():
     web_sess = WebUI()
     if web_sess.check_login():
         web_sess.logoff()
-    web_sess.login(test_patient, 'P@ssword10')
+    web_sess.login(test_patient, tpatient_pwd)
     web_sess.go_home()
 
 

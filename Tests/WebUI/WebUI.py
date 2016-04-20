@@ -524,3 +524,21 @@ class WebUI:
             print('Generated exception', e)
             return False
         return True
+
+    def view_data(self):
+        try:
+            self.driver.find_element_by_css_selector('input[value="View Data"]').click()
+        except Exception as e:
+            print('Generated exception', e)
+            return False
+        return True
+
+    def export_data(self):
+        try:
+            buttons = self.driver.find_elements_by_xpath('//button[text()="Export"]')
+            for b in buttons:
+                b.click()
+        except Exception as e:
+            print('Generated exception', e)
+            return False
+        return True

@@ -174,7 +174,6 @@ def test_zephyr_data_upload(login_tpatient):
     **Requirements:**
 
     - 3.2.4.1: System shall support Zephyr data
-    - 3.1.2.6: System will process raw data files
 
     **Pre Conditions:**
 
@@ -193,7 +192,7 @@ def test_zephyr_data_upload(login_tpatient):
     """
     print('Starting')
     activities = []
-    file = path.abspath('./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_BB.dat')
+    file = path.abspath('./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Summary.csv')
 
     # upload the file
     print('Uploading file')
@@ -271,7 +270,7 @@ def test_basis_data_upload(login_tpatient):
 
     # upload the file
     print('Uploading file')
-    assert web_sess.upload_files(file, 2016, 'January', 18, 2016, 'January', 18, 'band', activities)
+    assert web_sess.upload_files(file, 2012, 'January', 30, 2012, 'January', 30, 'basis', activities)
     time.sleep(10)
     # check for server error in web page
     print('Checking for server error')
