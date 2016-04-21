@@ -41,6 +41,7 @@ def test_export_experiment_results(login_texpadmin):
     races = []
     eth = []
     loc = []
+    download_path = os.path.abspath('/')
 
     print('Creating an experiment: ', exp_name)
     assert web_sess.create_experiment(exp_name, sage, eage, shght, ehght, swght, ewght, genders, races, eth, loc)
@@ -49,9 +50,9 @@ def test_export_experiment_results(login_texpadmin):
     print('View the data of a patient in the experiment')
     assert web_sess.view_data()
     print('Export all the data')
-    assert web_sess.export_data()
+    file = web_sess.export_data(download_path)
     print('Check for file')
-    assert os.path.isfile('file')
+    assert os.path.isfile(os.path.join(download_path, file))
 
 
 def test_export_data_by_patient(login_tpatient, test_patients):
@@ -77,16 +78,22 @@ def test_export_data_by_patient(login_tpatient, test_patients):
     """
     print('Starting')
 
+    download_path = os.path.abspath('/')
+
     print('Go to export page')
     web_sess.driver.find_element_by_link_text('Export Data').click()
     print('Click on your user')
     web_sess.driver.find_element_by_xpath('//td[text()="{}"]'.format(test_patients[0]['name']))
     print('Click on the first available file')
-    web_sess.driver.find_element_by_css_selector('label[class="verticalSelect__label"]').click()
+    tmp = web_sess.driver.find_element_by_css_selector('label[class="verticalSelect__label"]')
+    file = tmp.text
+    tmp.click()
+    print('Fill in download path')
+    web_sess.driver.find_element_by_id('directory').send_keys(download_path)
     print('Click on the export button')
     web_sess.driver.find_element_by_id('btnExport').click()
     print('Check download directory for file')
-    assert os.path.isfile('file')
+    assert os.path.isfile(os.path.join(download_path, file))
 
 
 def test_export_data_by_physician(login_tphysician, test_patients):
@@ -112,14 +119,20 @@ def test_export_data_by_physician(login_tphysician, test_patients):
     """
     print('Starting')
 
+    download_path = os.path.abspath('/')
+
     print('Click on the export button')
     web_sess.driver.find_element_by_link_text('Export Data').click()
     print('Click on the test patient')
     web_sess.driver.find_element_by_xpath('//td[text()="{}"]'.format(test_patients[0]['name']))
     print('Click on the first file')
-    web_sess.driver.find_element_by_class_name('verticalSelect__label').click()
+    tmp = web_sess.driver.find_element_by_class_name('verticalSelect__label')
+    file = tmp.text
+    tmp.click()
+    print('Fill in download path')
+    web_sess.driver.find_element_by_id('driver').send_keys(download_path)
     print('Click on export')
     web_sess.driver.find_element_by_id('btnExport')
     print('Check download directory for file')
-    assert os.path.isfile('file')
+    assert os.path.isfile(os.path.join(download_path, file))
 

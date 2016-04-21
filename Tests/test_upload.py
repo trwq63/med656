@@ -229,7 +229,7 @@ def test_mband_data_upload(login_tpatient):
     """
     print('Starting')
     activities = []
-    file = path.abspath('./Data/MBand/')
+    file = path.abspath('./Data/MBand/HeartRate_2015_6_24.csv')
 
     # upload the file
     print('Uploading file')
