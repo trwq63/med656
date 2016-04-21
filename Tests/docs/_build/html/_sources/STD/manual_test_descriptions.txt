@@ -22,10 +22,43 @@ You need the latest Chrome or Firefox version installed on the computer.
 Other Preparations
 ##################
 
-None.
+It is expected that you will have run the automated tests before executing these tests. Some of the users and data
+depend on the automation have run correctly.
 
 Test Details
 ------------
+
+Multiple File Upload Test
+#########################
+
+**Requirements:**
+
+- 3.1.2.1: The system shall process multiple files at the same time
+
+**Pre Conditions:**
+
+- You must be logged in as the testPatient user using these credentials
+
+ - Username: 'testPatient'
+ - Password: 'P@ssword10'
+
+- You must have access to the data files in the project folder here: ./med656/Tests/Data
+
+**Input:**
+
+**Test Procedure:**
+
+===========================================================================  ===========================================  =============
+Steps                                                                        Expected Result                              Actual Result
+===========================================================================  ===========================================  =============
+click the 'Upload Data' link in top right corner of page
+click the 'BROWSE' button
+navigate to ./med656/Tests/Data/Zephyr/ZephyrTestData/
+highlight the ...Accel.csv and ...BB.csv files by holding ctrl and clicking
+fill in date 6-24-2015 for both from date and to date
+click on zephyr radio button
+click "SUBMIT" button
+===========================================================================  ===========================================  =============
 
 User Privacy Test
 #################
@@ -93,7 +126,7 @@ Physician Graph View
 
 - If physician 'testPhysician' does not exist
 
- - Follow the steps here __'userguide link'__ to create a physician account with the following information
+ - Follow the steps here :ref:`create_physician_account` to create a physician account with the following information
 
   - first name = test
   - last name = test
@@ -106,11 +139,11 @@ Physician Graph View
 
 - 'testPhysician' must have a patient 'testPatientGraphView'
 
- - If patient 'testPatientGraphView' does not exist
+ - If patient 'testPatient' does not exist
 
-  - Follow the steps here ___'userguide link'___ to create patient 'testPatientGraphView' with to following information
+  - Follow the steps here :ref:`create_patient_account` to create patient 'testPatientGraphView' with to following information
 
-   - user = 'testPatientGraphView'
+   - user = 'testPatient'
    - pwd = 'P@ssword10'
    - birthday = '3 March, 1954'
    - location = 'Alabama'
@@ -127,16 +160,67 @@ Physician Graph View
 
 **Test Procedure:**
 
++-------------------------------------------------------------------------+--------------------------------------------+---------------+
+| Steps                                                                   | Expected Result                            | Actual Result |
++=========================================================================+============================================+===============+
+| Login as 'testPatient' with password 'P@ssword10'                       | Login Success!                             |               |
++-------------------------------------------------------------------------+--------------------------------------------+---------------+
+| Follow user guide instructions :ref:`here <patient_data_upload>` to     | There are no errors while uploading data   |               |
+| upload the following files from this folder                             |                                            |               |
+| <project directory>/med656/Tests/Data/:                                 |                                            |               |
+| - BasisPeak/bodymetrics_simple.csv                                      |                                            |               |
+| - Zephyr/ZephyrTestData/2015_06_24__23_05_14_Summary.cvs                |                                            |               |
+| - Band/data.csv                                                         |                                            |               |
++-------------------------------------------------------------------------+--------------------------------------------+---------------+
+| Logout and log back in as 'testPhysician' with password 'P@ssword10'    | Login Success!                             |               |
++-------------------------------------------------------------------------+--------------------------------------------+---------------+
+| Follow instructions :ref:`here <view_patient_data_physician>` to view   | The summary heart rate graph can be seen   |               |
+| the 'testPatient' data that was just uploaded.                          | for the Zephyr, BasisPeak, and Band        |               |
++-------------------------------------------------------------------------+--------------------------------------------+---------------+
+
+Database Verification Test
+##########################
+
+**Requirements:**
+
+- 3.1.3: The system shall connect to a database
+- 3.2.2: The system shall use a SQL database
+
+**Pre Conditions**
+
+**Inputs**
+
+**Test Procedure**
+
 ========================================================================  ===========================================  =============
 Steps                                                                     Expected Result                              Actual Result
 ========================================================================  ===========================================  =============
-login as 'testPhysician' with password 'P@ssword10'                       Login Success!
+empty
+========================================================================  ===========================================  =============
+
+Internet Access Verification Test
+#################################
+
+**Requirements:**
+
+- 3.2.3: The system shall be connected to a network with internet access
+
+**Pre Conditions**
+
+**Inputs**
+
+**Test Procedure**
+
+========================================================================  ===========================================  =============
+Steps                                                                     Expected Result                              Actual Result
+========================================================================  ===========================================  =============
+Login to the machine the system is running on                             You are at the Windows Desktop
+Open a command prompt                                                     You are presented with the Windows prompt
+Execute "ping www.google.com"                                             Pings respond with 100% pass
 ========================================================================  ===========================================  =============
 
 OS Test
 #######
-
-
 
 **Requirements:**
 
@@ -144,16 +228,14 @@ OS Test
 
 **Pre Conditions:**
 
-
-
 **Input:**
-
-
 
 **Test Procedure:**
 
-========================================================================  ===========================================  =============
-Steps                                                                     Expected Result                              Actual Result
-========================================================================  ===========================================  =============
-empty
-========================================================================  ===========================================  =============
+====================================================  ============================================  =============
+Steps                                                 Expected Result                               Actual Result
+====================================================  ============================================  =============
+Login to the machine the system is running on         You are at the Windows Desktop
+Open a command prompt                                 You are presented with the Windows prompt
+Execute "systeminfo"                                  The 'OS Name:' is 'Microsoft Windows Server'
+====================================================  ============================================  =============

@@ -39,8 +39,46 @@
             
   <h1>Source code for test_security</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">WebUI.WebUI</span> <span class="kn">import</span> <span class="n">WebUI</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span>
+<span class="kn">from</span> <span class="nn">selenium.common.exceptions</span> <span class="kn">import</span> <span class="n">NoSuchElementException</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
 
 <span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="test_patient_only_sees_his_data"><a class="viewcode-back" href="../STD/test_security.html#test_security.test_patient_only_sees_his_data">[docs]</a><span class="k">def</span> <span class="nf">test_patient_only_sees_his_data</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param login_tpatient:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Starting&quot;</span><span class="p">)</span>
+
+    <span class="n">patient</span> <span class="o">=</span> <span class="s1">&#39;testPatient&#39;</span>
+    <span class="n">patientpass</span> <span class="o">=</span> <span class="s1">&#39;P@ssword10&#39;</span>
+    <span class="n">patient2</span> <span class="o">=</span> <span class="s1">&#39;testPatient2&#39;</span>
+    <span class="n">patient2pass</span> <span class="o">=</span> <span class="s1">&#39;P@ssword10&#39;</span>
+    <span class="nb">file</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;./Data/BasisPeak/bodymetrics_simple.csv&#39;</span><span class="p">)</span>
+    <span class="n">fyear</span> <span class="o">=</span> <span class="s1">&#39;2015&#39;</span>
+    <span class="n">fmonth</span> <span class="o">=</span> <span class="s1">&#39;June&#39;</span>
+    <span class="n">fday</span> <span class="o">=</span> <span class="s1">&#39;23&#39;</span>
+    <span class="n">tyear</span> <span class="o">=</span> <span class="s1">&#39;2015&#39;</span>
+    <span class="n">tmonth</span> <span class="o">=</span> <span class="s1">&#39;June&#39;</span>
+    <span class="n">tday</span> <span class="o">=</span> <span class="s1">&#39;23&#39;</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;basis&#39;</span>
+    <span class="n">activities</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Upload data for &quot;</span><span class="p">,</span> <span class="n">patient2</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">patient2</span><span class="p">,</span> <span class="n">patient2pass</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">upload_files</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">fyear</span><span class="p">,</span> <span class="n">fmonth</span><span class="p">,</span> <span class="n">fday</span><span class="p">,</span> <span class="n">tyear</span><span class="p">,</span> <span class="n">tmonth</span><span class="p">,</span> <span class="n">tday</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">activities</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Login as &quot;</span><span class="p">,</span> <span class="n">patient</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">patient</span><span class="p">,</span> <span class="n">patientpass</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Click View Data button&quot;</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;View Data&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Look for file &quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="nb">file</span><span class="p">))</span>
+    <span class="c1"># TO DO: update this to not use get_page()</span>
+    <span class="k">assert</span> <span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="test_physician_to_patient"><a class="viewcode-back" href="../STD/test_security.html#test_security.test_physician_to_patient">[docs]</a><span class="k">def</span> <span class="nf">test_physician_to_patient</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
@@ -117,6 +155,93 @@
     <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Checking for patient&#39;</span><span class="p">,</span> <span class="n">patient</span><span class="p">)</span>
     <span class="n">text</span> <span class="o">=</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;div[class=&quot;card&quot;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="s1">&#39;innerHTML&#39;</span><span class="p">)</span>
     <span class="k">assert</span> <span class="s1">&#39;{} {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phys_fname</span><span class="p">,</span> <span class="n">phys_lname</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">text</span></div>
+
+<div class="viewcode-block" id="test_experiment_creation_security"><a class="viewcode-back" href="../STD/test_security.html#test_security.test_experiment_creation_security">[docs]</a><span class="k">def</span> <span class="nf">test_experiment_creation_security</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
+
+<span class="sd">    - 3.1.4.1: Experiments shall only be created by experiment admins</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - logoff fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+
+
+<span class="sd">    ====================================  ===================  =============</span>
+<span class="sd">    Steps                                 Expected Result      Actual Result</span>
+<span class="sd">    ====================================  ===================  =============</span>
+<span class="sd">    empty</span>
+<span class="sd">    ====================================  ===================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Starting&quot;</span><span class="p">)</span>
+
+    <span class="n">patient</span> <span class="o">=</span> <span class="s1">&#39;testPatient&#39;</span>
+    <span class="n">patientpass</span> <span class="o">=</span> <span class="s1">&#39;P@ssword10&#39;</span>
+    <span class="n">physician</span> <span class="o">=</span> <span class="s1">&#39;testPhysician&#39;</span>
+    <span class="n">physicianpass</span> <span class="o">=</span> <span class="s1">&#39;P@ssword10&#39;</span>
+    <span class="n">admin</span> <span class="o">=</span> <span class="s1">&#39;fitadmin&#39;</span>
+    <span class="n">adminpass</span> <span class="o">=</span> <span class="s1">&#39;Password1!&#39;</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Login as &quot;</span><span class="p">,</span> <span class="n">patient</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">patient</span><span class="p">,</span> <span class="n">patientpass</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Look for Create Experiment button&quot;</span><span class="p">)</span>
+    <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">NoSuchElementException</span><span class="p">,</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_link_text</span><span class="p">(</span><span class="s1">&#39;Create Experiment&#39;</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Login as &#39;</span><span class="p">,</span> <span class="n">physician</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">physician</span><span class="p">,</span> <span class="n">physicianpass</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Look for Create Experiment button&#39;</span><span class="p">)</span>
+    <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">NoSuchElementException</span><span class="p">,</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_link_text</span><span class="p">(</span><span class="s1">&#39;Create Experiment&#39;</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Login as &#39;</span><span class="p">,</span> <span class="n">admin</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">admin</span><span class="p">,</span> <span class="n">adminpass</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Look for Create Experiment button&#39;</span><span class="p">)</span>
+    <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">NoSuchElementException</span><span class="p">,</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_link_text</span><span class="p">(</span><span class="s1">&#39;Create Experiment&#39;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="test_system_admin_user_management"><a class="viewcode-back" href="../STD/test_security.html#test_security.test_system_admin_user_management">[docs]</a><span class="k">def</span> <span class="nf">test_system_admin_user_management</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
+
+<span class="sd">    - 3.1.6.4: Only system admin can enable accounts</span>
+<span class="sd">    - 3.1.6.5: Only system admin can delete accounts</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - logoff fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+
+
+<span class="sd">    ====================================  ===================  =============</span>
+<span class="sd">    Steps                                 Expected Result      Actual Result</span>
+<span class="sd">    ====================================  ===================  =============</span>
+<span class="sd">    empty</span>
+<span class="sd">    ====================================  ===================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">patient</span> <span class="o">=</span> <span class="s1">&#39;testPatient&#39;</span>
+    <span class="n">patientpass</span> <span class="o">=</span> <span class="s1">&#39;P@ssword10&#39;</span>
+    <span class="n">physician</span> <span class="o">=</span> <span class="s1">&#39;testPhysician&#39;</span>
+    <span class="n">physicianpass</span> <span class="o">=</span> <span class="s1">&#39;P@ssword10&#39;</span>
+    <span class="n">expadmin</span> <span class="o">=</span> <span class="s1">&#39;testExpAdmin&#39;</span>
+    <span class="n">expadminpass</span> <span class="o">=</span> <span class="s1">&#39;P@ssword10&#39;</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Login as &quot;</span><span class="p">,</span> <span class="n">patient</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">patient</span><span class="p">,</span> <span class="n">patientpass</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Look for Manage Users button&quot;</span><span class="p">)</span>
+    <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">NoSuchElementException</span><span class="p">,</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_link_text</span><span class="p">(</span><span class="s1">&#39;Manage Users&#39;</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Login as &#39;</span><span class="p">,</span> <span class="n">physician</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">physician</span><span class="p">,</span> <span class="n">physicianpass</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Look for Manage Users button&#39;</span><span class="p">)</span>
+    <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">NoSuchElementException</span><span class="p">,</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_link_text</span><span class="p">(</span><span class="s1">&#39;Manage Users&#39;</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Login as &#39;</span><span class="p">,</span> <span class="n">expadmin</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">expadmin</span><span class="p">,</span> <span class="n">expadminpass</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Look for Manage Users button&#39;</span><span class="p">)</span>
+    <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">NoSuchElementException</span><span class="p">,</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_link_text</span><span class="p">(</span><span class="s1">&#39;Manage Users&#39;</span><span class="p">))</span></div>
 </pre></div>
 
           </div>
