@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>test_create_account module &mdash; WebUITest 1.0 documentation</title>
+    <title>test_create_account module &mdash; UAH Bit Vault 1.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="WebUITest 1.0 documentation" href="../index.html" />
+    <link rel="top" title="UAH Bit Vault 1.0 documentation" href="../index.html" />
     <link rel="up" title="Pytest Tests" href="pytest_test_descriptions.html" />
     <link rel="next" title="test_edit_account module" href="test_edit_account.html" />
     <link rel="prev" title="Pytest Tests" href="pytest_test_descriptions.html" />
@@ -32,19 +32,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="module-test_create_account">
 <span id="test-create-account-module"></span><h1>test_create_account module<a class="headerlink" href="#module-test_create_account" title="Permalink to this headline">¶</a></h1>
 <p>These test cases are designed to test the ability to create and delete accounts</p>
 <dl class="function">
 <dt id="test_create_account.test_create_experiment_admin">
-<code class="descclassname">test_create_account.</code><code class="descname">test_create_experiment_admin</code><span class="sig-paren">(</span><em>logoff</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/test_create_account.html#test_create_experiment_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_create_experiment_admin" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">test_create_account.</tt><tt class="descname">test_create_experiment_admin</tt><big>(</big><em>logoff</em><big>)</big><a class="reference internal" href="../_modules/test_create_account.html#test_create_experiment_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_create_experiment_admin" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>Requirements:</strong></p>
 <ul class="simple">
 <li>3.1.1.1.3.1: minimum information stored for experiment admin account</li>
@@ -105,7 +105,7 @@
 
 <dl class="function">
 <dt id="test_create_account.test_create_patient">
-<code class="descclassname">test_create_account.</code><code class="descname">test_create_patient</code><span class="sig-paren">(</span><em>login_tphysician</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/test_create_account.html#test_create_patient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_create_patient" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">test_create_account.</tt><tt class="descname">test_create_patient</tt><big>(</big><em>login_tphysician</em><big>)</big><a class="reference internal" href="../_modules/test_create_account.html#test_create_patient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_create_patient" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>Requirements:</strong></p>
 <ul class="simple">
 <li>3.1.1.1.1.1: minimum information stored for patient account</li>
@@ -127,9 +127,11 @@
 </ul>
 <p><strong>Input:</strong></p>
 <ul class="simple">
-<li>user = &#8216;pfry&#8217;</li>
+<li>user = &#8216;testPatientCreate_&lt;random number&gt;&#8217;</li>
 <li>pwd = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
-<li>bday = &#8216;3 March, 1954&#8217;</li>
+<li>byear = &#8216;1954&#8217;</li>
+<li>bmonth = &#8216;March&#8217;</li>
+<li>bday = &#8216;3&#8217;</li>
 <li>loc = &#8216;Alabama&#8217;</li>
 <li>wght = &#8216;200&#8217;</li>
 <li>hght = &#8216;72&#8217;</li>
@@ -165,7 +167,7 @@
 
 <dl class="function">
 <dt id="test_create_account.test_create_physician">
-<code class="descclassname">test_create_account.</code><code class="descname">test_create_physician</code><span class="sig-paren">(</span><em>logoff</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/test_create_account.html#test_create_physician"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_create_physician" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">test_create_account.</tt><tt class="descname">test_create_physician</tt><big>(</big><em>logoff</em><big>)</big><a class="reference internal" href="../_modules/test_create_account.html#test_create_physician"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_create_physician" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>Requirements:</strong></p>
 <ul class="simple">
 <li>3.1.1.1.2.1: minimum information stored for physician account</li>
@@ -226,7 +228,7 @@
 
 <dl class="function">
 <dt id="test_create_account.test_create_system_admin">
-<code class="descclassname">test_create_account.</code><code class="descname">test_create_system_admin</code><span class="sig-paren">(</span><em>logoff</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/test_create_account.html#test_create_system_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_create_system_admin" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">test_create_account.</tt><tt class="descname">test_create_system_admin</tt><big>(</big><em>login_sysadmin</em><big>)</big><a class="reference internal" href="../_modules/test_create_account.html#test_create_system_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_create_system_admin" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>Requirements:</strong></p>
 <ul class="simple">
 <li>3.1.1.1.4.1: minimum information stored for experiment admin account</li>
@@ -248,10 +250,6 @@
 <li>user = &#8216;lnibbler&#8217;</li>
 <li>pwd = <a class="reference external" href="mailto:'P&#37;&#52;&#48;ssword10">'P<span>&#64;</span>ssword10</a>&#8216;</li>
 <li>email = <a class="reference external" href="mailto:'lnibbler&#37;&#52;&#48;futurama&#46;com">'lnibbler<span>&#64;</span>futurama<span>&#46;</span>com</a>&#8216;</li>
-<li>first_name = &#8216;Lord&#8217;</li>
-<li>last_name = &#8216;Nibbler&#8217;</li>
-<li>address = &#8216;304 Wherever Street, New New York City, New New York&#8217;</li>
-<li>phone_number = &#8216;123-456-7890&#8217;</li>
 </ul>
 <table border="1" class="docutils">
 <colgroup>
@@ -284,7 +282,7 @@
 
 <dl class="function">
 <dt id="test_create_account.test_delete_experiment_admin">
-<code class="descclassname">test_create_account.</code><code class="descname">test_delete_experiment_admin</code><span class="sig-paren">(</span><em>logoff</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/test_create_account.html#test_delete_experiment_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_delete_experiment_admin" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">test_create_account.</tt><tt class="descname">test_delete_experiment_admin</tt><big>(</big><em>logoff</em><big>)</big><a class="reference internal" href="../_modules/test_create_account.html#test_delete_experiment_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_delete_experiment_admin" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>Requirements:</strong></p>
 <ul class="simple">
 <li>3.1.6.3: System administrator can delete accounts</li>
@@ -327,7 +325,7 @@
 
 <dl class="function">
 <dt id="test_create_account.test_delete_patient">
-<code class="descclassname">test_create_account.</code><code class="descname">test_delete_patient</code><span class="sig-paren">(</span><em>logoff</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/test_create_account.html#test_delete_patient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_delete_patient" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">test_create_account.</tt><tt class="descname">test_delete_patient</tt><big>(</big><em>logoff</em><big>)</big><a class="reference internal" href="../_modules/test_create_account.html#test_delete_patient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_delete_patient" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>Requirements:</strong></p>
 <ul class="simple">
 <li>3.1.1.1.2.6: Physicians can delete patients</li>
@@ -370,7 +368,7 @@
 
 <dl class="function">
 <dt id="test_create_account.test_delete_physician">
-<code class="descclassname">test_create_account.</code><code class="descname">test_delete_physician</code><span class="sig-paren">(</span><em>logoff</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/test_create_account.html#test_delete_physician"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_delete_physician" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">test_create_account.</tt><tt class="descname">test_delete_physician</tt><big>(</big><em>logoff</em><big>)</big><a class="reference internal" href="../_modules/test_create_account.html#test_delete_physician"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_create_account.test_delete_physician" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>Requirements:</strong></p>
 <ul class="simple">
 <li>3.1.6.3: System administrator can delete accounts</li>
@@ -417,7 +415,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper"><div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -431,14 +429,12 @@
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/STD/test_create_account.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/STD/test_create_account.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -459,8 +455,8 @@
       &copy;2016, Timothy Wilkins.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
       
       |
       <a href="../_sources/STD/test_create_account.txt"

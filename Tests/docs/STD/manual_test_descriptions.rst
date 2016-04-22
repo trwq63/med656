@@ -79,7 +79,7 @@ User Privacy Test
 
 - If physician 'testPhysician' does not exist
 
- - Follow the steps here __'userguide link'__ to create a physician account with the following information
+ - Follow the steps here (:ref:`create_physician_account`) to create a physician account with the following information
 
   - first name = test
   - last name = test

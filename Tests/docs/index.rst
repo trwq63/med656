@@ -1,4 +1,4 @@
-.. WebUITest documentation master file, created by
+.. UAH Bit Vault documentation master file, created by
    sphinx-quickstart on Sun Feb 28 17:00:04 2016.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
@@ -13,8 +13,6 @@ Contents:
 
    user_guide/user_guide
    STD/software_test_description
-   Maintenance_Guide/maintenance_guide
-
 
 Indices and tables
 ==================

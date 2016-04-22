@@ -9,10 +9,8 @@ User Guide
 Overview
 --------
 
-
-Installation
-------------
-
+Here you can find all the documentation you will need to know how to do all the basic tasks that can be performed
+through the UAH Bit Vault user interface.
 
 How-To
 ------
@@ -25,5 +23,3 @@ How-To
    patient_data_management
 
 
-References
-----------
