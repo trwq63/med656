@@ -3,6 +3,9 @@ These test cases are designed to test the ability to export data from the system
 """
 from WebUI.WebUI import WebUI
 import os
+import tempfile
+import shutil
+from time import sleep
 
 web_sess = WebUI()
 
@@ -17,42 +20,80 @@ def test_export_experiment_results(login_texpadmin):
 
     **Pre Conditions:**
 
-    - logoff fixture
+    - login_texpadmin fixture
 
     **Input:**
 
+    - exp_name = 'test_experiment'
+    - sage = '18'
+    - eage = '90'
+    - shght = '60'
+    - ehght = '80'
+    - swght = '100'
+    - ewght = '250'
+    - genders = []
+    - races = []
+    - eth = []
+    - loc = []
 
-    =================  =================  =============
-    Steps              Expected Result    Actual Result
-    =================  =================  =============
-    create experiemnt
-    =================  =================  =============
+    ============================================  ====================================  =============
+    Steps                                         Expected Result                       Actual Result
+    ============================================  ====================================  =============
+    create experiemnt                             no errors
+    view the experiment                           there are patients in the experiment
+    view the data of a patient in the experiment  no errors
+    click the export button                       no errors
+    check for the file                            files have been downloaded
+    ============================================  ====================================  =============
     """
     print('Starting')
 
     exp_name = 'test_experiment'
     sage = '18'
-    eage = '70'
+    eage = '90'
     shght = '60'
     ehght = '80'
     swght = '100'
     ewght = '250'
-    genders = ['male']
+    genders = []
     races = []
     eth = []
     loc = []
-    download_path = os.path.abspath('/')
+
+    download_path = tempfile.mkdtemp()
 
     print('Creating an experiment: ', exp_name)
     assert web_sess.create_experiment(exp_name, sage, eage, shght, ehght, swght, ewght, genders, races, eth, loc)
     print('Viewing experiment: ', exp_name)
     assert web_sess.view_experiment(exp_name)
     print('View the data of a patient in the experiment')
-    assert web_sess.view_data()
-    print('Export all the data')
-    file = web_sess.export_data(download_path)
+    view_buttons = web_sess.driver.find_elements_by_css_selector('input[value="View Data"]')
+
+    p = 0
+    while p < len(view_buttons):
+        button = view_buttons[p]
+        button.click()
+        print('Try to export data from patient ', p)
+        try:
+            exp_button = web_sess.driver.find_element_by_xpath('//button[text()="Export"]')
+        except Exception:
+            print('No data found')
+            web_sess.driver.back()
+            web_sess.driver.refresh()
+            view_buttons = web_sess.driver.find_elements_by_css_selector('input[value="View Data"]')
+            p += 1
+            continue
+        web_sess.driver.find_element_by_id('directory').send_keys(download_path)
+        exp_button.click()
+        break
+
     print('Check for file')
-    assert os.path.isfile(os.path.join(download_path, file))
+    sleep(2)
+    assert any(os.path.isfile(os.path.join(download_path, i)) for i in os.listdir(download_path))
+    try:
+        shutil.rmtree(download_path)
+    except Exception:
+        pass
 
 
 def test_export_data_by_patient(login_tpatient, test_patients):
@@ -70,30 +111,40 @@ def test_export_data_by_patient(login_tpatient, test_patients):
     **Input:**
 
 
-    =================  =================  =============
-    Steps              Expected Result    Actual Result
-    =================  =================  =============
-    create experiemnt
-    =================  =================  =============
+    =================================  ============================  =============
+    Steps                              Expected Result               Actual Result
+    =================================  ============================  =============
+    go to export page                  your username is visible
+    click on your user                 you can see an uploaded file
+    click on the first available file  file gets highlighted
+    fill in the download path          no errors
+    click on the export button         download starts
+    check for the file                 files exist on the system
+    =================================  ============================  =============
     """
     print('Starting')
 
-    download_path = os.path.abspath('/')
+    download_path = tempfile.mkdtemp()
 
     print('Go to export page')
+    sleep(5)
     web_sess.driver.find_element_by_link_text('Export Data').click()
     print('Click on your user')
-    web_sess.driver.find_element_by_xpath('//td[text()="{}"]'.format(test_patients[0]['name']))
+    web_sess.driver.find_element_by_xpath('//td[text()="{}"]'.format(test_patients[0]['name'])).click()
     print('Click on the first available file')
-    tmp = web_sess.driver.find_element_by_css_selector('label[class="verticalSelect__label"]')
-    file = tmp.text
-    tmp.click()
+    sleep(2)
+    web_sess.driver.find_element_by_css_selector('label[class="verticalSelect__label"]').click()
     print('Fill in download path')
     web_sess.driver.find_element_by_id('directory').send_keys(download_path)
     print('Click on the export button')
     web_sess.driver.find_element_by_id('btnExport').click()
     print('Check download directory for file')
-    assert os.path.isfile(os.path.join(download_path, file))
+    sleep(2)
+    assert any(os.path.isfile(os.path.join(download_path, i)) for i in os.listdir(download_path))
+    try:
+        shutil.rmtree(download_path)
+    except Exception:
+        pass
 
 
 def test_export_data_by_physician(login_tphysician, test_patients):
@@ -111,28 +162,39 @@ def test_export_data_by_physician(login_tphysician, test_patients):
     **Input:**
 
 
-    =================  =================  =============
-    Steps              Expected Result    Actual Result
-    =================  =================  =============
-    create experiemnt
-    =================  =================  =============
+    ==========================  =======================  =============
+    Steps                       Expected Result          Actual Result
+    ==========================  =======================  =============
+    click on the export button  you see the patient
+    click on the patient        you see files listed
+    click on the first file     the file is highlighted
+    fill in the download path   no errors
+    click the export button     the download starts
+    check for the file          the file exises
+    ==========================  =======================  =============
     """
     print('Starting')
 
-    download_path = os.path.abspath('/')
+    download_path = tempfile.mkdtemp()
 
     print('Click on the export button')
+    sleep(5)
     web_sess.driver.find_element_by_link_text('Export Data').click()
     print('Click on the test patient')
-    web_sess.driver.find_element_by_xpath('//td[text()="{}"]'.format(test_patients[0]['name']))
+    web_sess.driver.find_element_by_xpath('//td[text()="{}"]'.format(test_patients[0]['name'])).click()
     print('Click on the first file')
-    tmp = web_sess.driver.find_element_by_class_name('verticalSelect__label')
-    file = tmp.text
-    tmp.click()
+    sleep(5)
+    web_sess.driver.find_element_by_class_name('verticalSelect__label').click()
     print('Fill in download path')
     web_sess.driver.find_element_by_id('driver').send_keys(download_path)
     print('Click on export')
     web_sess.driver.find_element_by_id('btnExport')
     print('Check download directory for file')
-    assert os.path.isfile(os.path.join(download_path, file))
+    sleep(2)
+    assert any(os.path.isfile(os.path.join(download_path, i)) for i in os.listdir(download_path))
+    try:
+        shutil.rmtree(download_path)
+    except Exception:
+        pass
+
 

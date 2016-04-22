@@ -45,7 +45,7 @@ Test Execution
 To run these tests, open a command prompt and navigate to the Tests folder (<project_path>/med656/Tests). Then execute
 the following command:
 
-py.test -s -v
+py.test -v -s test_create_account.py test_edit_account.py test_experiment.py test_login.py test_password.py test_security.py test_upload.py test_username.py test_export.py
 
 The test report will be printed out to the screen. It will display all the tests that were run along with their pass/fail
 status.

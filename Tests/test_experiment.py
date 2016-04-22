@@ -35,7 +35,7 @@ def test_create_experiment(login_texpadmin):
     =================  ============================  =============
     Steps              Expected Result               Actual Result
     =================  ============================  =============
-    create experiemnt  no errors, see success! page
+    create experiment  no errors, see success! page
     =================  ============================  =============
     """
     print('Starting')
@@ -133,7 +133,7 @@ def test_delete_experiment(login_texpadmin):
     =================  ======================================  =============
     Steps              Expected Result                         Actual Result
     =================  ======================================  =============
-    create experiemnt  no errors, on delete confirmation page
+    delete experiment  no errors, on delete confirmation page
     =================  ======================================  =============
     """
     print('Starting')

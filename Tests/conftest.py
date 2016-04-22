@@ -7,6 +7,9 @@ tpatient_pwd = 'P@ssword10'
 test_patient2 = 'testPatient2_{}'.format(random.getrandbits(100))
 tpatient2_pwd = 'P@ssword10'
 
+def pytest_addoption(parser):
+    parser.addoption('--startup-create-accounts', type=bool, default=False)
+
 @pytest.fixture()
 def test_patients():
     return [ { 'name' : test_patient,
@@ -15,24 +18,21 @@ def test_patients():
                 'pwd' : tpatient2_pwd}]
 
 @pytest.fixture(scope='session', autouse=True)
-def pre_existing_users():
+def pre_existing_users(request):
     web_sess = WebUI()
 
-    # delete all accounts
-    web_sess.delete_all_accounts()
-    web_sess.logoff()
-
     # add all the needed accounts
-    web_sess.request_account('Physician', 'testPhysician', 'P@ssword10', 'tphysician@aol.com',
-                             'test', 'physician', 'home', '123-456-7890')
-    web_sess.approve_account('test physician')
-    web_sess.request_account('Physician', 'testPhysician2', 'P@ssword10', 'tphysician2@aol.com',
-                             'test', 'physician2', 'home', '123-456-7890')
-    web_sess.approve_account('test physician2')
-    web_sess.request_account('Exp Admin', 'testExpAdmin', 'P@ssword10', 'texpadmin@aol.com',
-                             'test', 'expadmin', 'home', '123-456-7890')
-    web_sess.approve_account('test expadmin')
-    web_sess.logoff()
+    if request.config.getoption('--startup-create-accounts'):
+        web_sess.request_account('Physician', 'testPhysician', 'P@ssword10', 'tphysician@aol.com',
+                                 'test', 'physician', 'home', '123-456-7890')
+        web_sess.approve_account('test physician')
+        web_sess.request_account('Physician', 'testPhysician2', 'P@ssword10', 'tphysician2@aol.com',
+                                 'test', 'physician2', 'home', '123-456-7890')
+        web_sess.approve_account('test physician2')
+        web_sess.request_account('Exp Admin', 'testExpAdmin', 'P@ssword10', 'texpadmin@aol.com',
+                                 'test', 'expadmin', 'home', '123-456-7890')
+        web_sess.approve_account('test expadmin')
+        web_sess.logoff()
 
     web_sess.create_patient('testPhysician',
                             'P@ssword10',
