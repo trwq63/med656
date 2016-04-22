@@ -69,12 +69,21 @@ The computer can be the same machine as the UAHealth server, but this is not req
 </div>
 <div class="section" id="software-preparations">
 <h3><a class="toc-backref" href="#id4">Software Preparations</a><a class="headerlink" href="#software-preparations" title="Permalink to this headline">¶</a></h3>
-<p>You must have Python 3.5.1 installed on this computer. The OS may be Windows 7/2012 or later, or Ubuntu 14.04.4 LTS or
-later LTS version. You must also install Pytest and Selenium through “pip”.</p>
+<p>You must have the latest Active Python 3.4 installed on this computer. It can be found <a class="reference external" href="http://www.activestate.com/activepython/downloads">Here</a>. The OS may be Windows
+7/2012 or later. The required python packages can be installed by running:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>pip install -r ./Tests/requirements.txt
+</pre></div>
+</div>
 </div>
 <div class="section" id="other-preparations">
 <h3><a class="toc-backref" href="#id5">Other Preparations</a><a class="headerlink" href="#other-preparations" title="Permalink to this headline">¶</a></h3>
-<p>None.</p>
+<p>Because patient accounts are not deleted from the database, you need to manually remove the following patient accounts
+before performing tesitng:</p>
+<ul class="simple">
+<li>testPatient</li>
+<li>testPatient2</li>
+<li>pfry</li>
+</ul>
 </div>
 </div>
 <div class="section" id="test-execution">
@@ -87,6 +96,7 @@ status.</p>
 </div>
 <div class="section" id="test-details">
 <h2><a class="toc-backref" href="#id7">Test Details</a><a class="headerlink" href="#test-details" title="Permalink to this headline">¶</a></h2>
+<p>Follow the table below to find details of the test automation.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="test_create_account.html">test_create_account module</a></li>

@@ -533,12 +533,12 @@ class WebUI:
             return False
         return True
 
-    def export_data(self):
+    def export_data(self, path):
         try:
-            buttons = self.driver.find_elements_by_xpath('//button[text()="Export"]')
-            for b in buttons:
-                b.click()
+            self.driver.find_element_by_id('directory').send_keys(path)
+            self.driver.find_element_by_xpath('//button[text()="Export"]').click()
+            file = self.driver.find_element_by_xpath('//tr/td/button[text()="Export"]/../td[2]').text
         except Exception as e:
             print('Generated exception', e)
             return False
-        return True
+        return file

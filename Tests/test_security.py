@@ -8,13 +8,40 @@ web_sess = WebUI()
 
 def test_patient_only_sees_his_data(test_patients):
     """
+    **Requirements:**
 
-    :param login_tpatient:
-    :return:
+    - 3.1.1.1.2.4: Physician can only view his patients data
+
+    **Pre Conditions:**
+
+    - test_patients fixture
+
+    **Input:**
+
+    - file = path.abspath('./Data/BasisPeak/bodymetrics_2012-01-30T00-00-00_2016-01-18T04-51-00.csv')
+    - fyear = '2015'
+    - fmonth = 'June'
+    - fday = '23'
+    - tyear = '2015'
+    - tmonth = 'June'
+    - tday = '23'
+    - device = 'basis'
+    - activities = []
+
+    ========================================  ==============================================  =============
+    Steps                                     Expected Result                                 Actual Result
+    ========================================  ==============================================  =============
+    login as the test patient 2               your at the home page
+    upload a test data file                   no errors
+    logoff                                    back at the login screen
+    login as test patient 1                   your at the home page
+    click the view data button                you see all the files that have been uploaded
+    look for the file that was just uploaded  you do not see the file you uploaded in step 2
+    ========================================  ==============================================  =============
     """
     print("Starting")
 
-    file = path.abspath('./Data/BasisPeak/bodymetrics_simple.csv')
+    file = path.abspath('./Data/BasisPeak/bodymetrics_2012-01-30T00-00-00_2016-01-18T04-51-00.csv')
     fyear = '2015'
     fmonth = 'June'
     fday = '23'
@@ -123,17 +150,24 @@ def test_experiment_creation_security(login_tpatient):
 
     **Pre Conditions:**
 
-    - logoff fixture
+    - login_tpatient fixture
 
     **Input:**
 
+    - physician = 'testPhysician'
+    - physicianpass = 'P@ssword10'
+    - admin = 'fitadmin'
+    - adminpass = 'Password1!'
 
-
-    ====================================  ===================  =============
-    Steps                                 Expected Result      Actual Result
-    ====================================  ===================  =============
-    empty
-    ====================================  ===================  =============
+    =====================================  ====================================  =============
+    Steps                                  Expected Result                       Actual Result
+    =====================================  ====================================  =============
+    look for the create experiment button  there is no create experiment button
+    logoff and login as testPhysician      no errors
+    look for the create experiment button  there is no create experiment button
+    logoff and login as fitadmin           no errors
+    look for the create experiment button  there is no create experiment button
+    =====================================  ====================================  =============
     """
     print("Starting")
 
@@ -178,17 +212,24 @@ def test_system_admin_user_management(login_tpatient):
 
     **Pre Conditions:**
 
-    - logoff fixture
+    - login_tpatient fixture
 
     **Input:**
 
+    - physician = 'testPhysician'
+    - physicianpass = 'P@ssword10'
+    - expadmin = 'testExpAdmin'
+    - expadminpass = 'P@ssword10'
 
-
-    ====================================  ===================  =============
-    Steps                                 Expected Result      Actual Result
-    ====================================  ===================  =============
-    empty
-    ====================================  ===================  =============
+    =====================================  ==================================  =============
+    Steps                                  Expected Result                     Actual Result
+    =====================================  ==================================  =============
+    look for the manage users button       manage users button does not exist
+    logoff and login as the testPhysician  no errors
+    look for the manage users button       manage users button does not exist
+    logoff and login as the testExpAdmin   no errors
+    look for the manage users button       manage users button does not exist
+    =====================================  ==================================  =============
     """
     print('Starting')
 

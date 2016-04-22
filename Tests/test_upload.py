@@ -32,7 +32,7 @@ def test_single_file_no_activity(login_tpatient):
     """
     print('Starting')
     activities = []
-    file = path.abspath('./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv')
+    file = path.abspath('./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Summary.csv')
 
     # upload the file
     print('Uploading file')
@@ -80,7 +80,7 @@ def test_single_file_one_activity(login_tpatient):
          'startTime': '11:00 PM',
          'endTime': '11:30 PM'}
     ]
-    file = path.abspath('./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv')
+    file = path.abspath('./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Summary.csv')
 
     # upload the file
     print('Uploading file')
@@ -156,7 +156,7 @@ def test_single_file_multi_activity(login_tpatient):
             'endTime': '12:30 PM'
         }
     ]
-    file = path.abspath('./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv')
+    file = path.abspath('./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Summary.csv')
 
     # upload the file
     print('Uploading file')
@@ -229,7 +229,7 @@ def test_mband_data_upload(login_tpatient):
     """
     print('Starting')
     activities = []
-    file = path.abspath('./Data/MBand/')
+    file = path.abspath('./Data/MBand/HeartRate_2015_6_24.csv')
 
     # upload the file
     print('Uploading file')

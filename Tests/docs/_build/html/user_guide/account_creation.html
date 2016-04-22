@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="WebUITest 1.0 documentation" href="../index.html" />
     <link rel="up" title="Account Management" href="account_management.html" />
-    <link rel="next" title="Account Deletion" href="account_deletion.html" />
+    <link rel="next" title="Account Approval" href="account_approval.html" />
     <link rel="prev" title="Account Management" href="account_management.html" />
    
   
@@ -44,8 +44,61 @@
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#account-creation" id="id2">Account Creation</a></li>
+<li><a class="reference internal" href="#account-creation" id="id2">Account Creation</a><ul>
+<li><a class="reference internal" href="#physician-account" id="id3">Physician Account</a></li>
+<li><a class="reference internal" href="#experiment-admin-account" id="id4">Experiment Admin Account</a></li>
+<li><a class="reference internal" href="#patient-account" id="id5">Patient Account</a></li>
+<li><a class="reference internal" href="#system-admin-account" id="id6">System Admin Account</a></li>
 </ul>
+</li>
+</ul>
+</div>
+<p>There are 4 types of accounts</p>
+<ul class="simple">
+<li>patient</li>
+<li>physician</li>
+<li>experiment admin</li>
+<li>system admin</li>
+</ul>
+<div class="section" id="physician-account">
+<span id="create-physician-account"></span><h2><a class="toc-backref" href="#id3">Physician Account</a><a class="headerlink" href="#physician-account" title="Permalink to this headline">¶</a></h2>
+<p>Physician accounts can be requested at the home/login page. Click on the &#8220;Register as a new user&#8221; button.</p>
+<img alt="../_images/login_screen.png" src="../_images/login_screen.png" />
+<p>This will redirect you to a form to fill out for you new physician account.</p>
+<img alt="../_images/request_account.png" src="../_images/request_account.png" />
+<p>Once you have filled this out with the appropriate information and selected the &#8220;Physician&#8221; radio button at the top,
+you are ready to submit your request. When you click submit you should be brought to a confirmation page.</p>
+<img alt="../_images/request_account_confirmation.png" src="../_images/request_account_confirmation.png" />
+<p>You will not be able to login though until a system admin has approved your account.</p>
+</div>
+<div class="section" id="experiment-admin-account">
+<h2><a class="toc-backref" href="#id4">Experiment Admin Account</a><a class="headerlink" href="#experiment-admin-account" title="Permalink to this headline">¶</a></h2>
+<p>Experiment Admin accounts are created the same way as the physician accounts. Just make sure to select the &#8220;Experiment Administrator&#8221;
+radio button at the top of the request account page instead of the &#8220;Physician&#8221; radio button.</p>
+<img alt="../_images/request_account.png" src="../_images/request_account.png" />
+</div>
+<div class="section" id="patient-account">
+<span id="create-patient-account"></span><h2><a class="toc-backref" href="#id5">Patient Account</a><a class="headerlink" href="#patient-account" title="Permalink to this headline">¶</a></h2>
+<p>Patient accounts can only be created by their physician. From the physician account&#8217;s home page click the &#8220;CREATE PATIENT&#8221;
+button at the top right of the screen.</p>
+<img alt="../_images/patient_management.png" src="../_images/patient_management.png" />
+<p>A popup form should come up with all the information needed to create a patient account.</p>
+<img alt="../_images/create_patient.png" src="../_images/create_patient.png" />
+<p>After all the information has been filled out, you can click the submit button. If everthing worked, you should get a
+confirmation page.</p>
+<img alt="../_images/create_patient_confirmation.png" src="../_images/create_patient_confirmation.png" />
+</div>
+<div class="section" id="system-admin-account">
+<h2><a class="toc-backref" href="#id6">System Admin Account</a><a class="headerlink" href="#system-admin-account" title="Permalink to this headline">¶</a></h2>
+<p>UAHFitVault comes with a system administrator pre-configured. The username is &#8216;fitadmin&#8217; and the password is &#8216;Password1!&#8217;.
+We recommend changing this after the installation before the server is made publicly available.</p>
+<p>New System Admin accounts can be created by other System Admin accounts. From the System Admin account home page, click
+the &#8220;Create Admin&#8221; button at the top right corner of the screen.</p>
+<img alt="../_images/account_approval.png" src="../_images/account_approval.png" />
+<p>You will be presented with a form to fill out for the system admin account information.</p>
+<img alt="../_images/create_admin.png" src="../_images/create_admin.png" />
+<p>Once the form is filled out and you click the create button, you should get a confirmation page.</p>
+<img alt="../_images/create_admin_confirmation.png" src="../_images/create_admin_confirmation.png" />
 </div>
 </div>
 
@@ -54,14 +107,25 @@
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Account Creation</a><ul>
+<li><a class="reference internal" href="#physician-account">Physician Account</a></li>
+<li><a class="reference internal" href="#experiment-admin-account">Experiment Admin Account</a></li>
+<li><a class="reference internal" href="#patient-account">Patient Account</a></li>
+<li><a class="reference internal" href="#system-admin-account">System Admin Account</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="user_guide.html">User Guide</a><ul>
   <li><a href="account_management.html">Account Management</a><ul>
       <li>Previous: <a href="account_management.html" title="previous chapter">Account Management</a></li>
-      <li>Next: <a href="account_deletion.html" title="next chapter">Account Deletion</a></li>
+      <li>Next: <a href="account_approval.html" title="next chapter">Account Approval</a></li>
   </ul></li>
   </ul></li>
   </ul></li>

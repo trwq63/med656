@@ -13,6 +13,7 @@ Contents:
 
    user_guide/user_guide
    STD/software_test_description
+   Maintenance_Guide/maintenance_guide
 
 
 Indices and tables

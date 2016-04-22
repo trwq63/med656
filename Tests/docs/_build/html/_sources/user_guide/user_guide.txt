@@ -10,6 +10,10 @@ Overview
 --------
 
 
+Installation
+------------
+
+
 How-To
 ------
 
@@ -19,6 +23,7 @@ How-To
    account_management
    experiment_management
    patient_data_management
+
 
 References
 ----------

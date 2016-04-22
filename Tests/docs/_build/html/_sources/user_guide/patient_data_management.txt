@@ -4,6 +4,9 @@
 Patient Data Management
 =======================
 
+Patients have the ability to upload data to the system, view the data they have uploaded, and download that data from
+the system at any time.
+
 Contents:
 
 .. toctree::
