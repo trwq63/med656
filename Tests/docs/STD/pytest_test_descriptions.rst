@@ -23,11 +23,12 @@ Software Preparations
 #####################
 
 You must have the latest Active Python 3.4 installed on this computer. It can be found Here_. The OS may be Windows
-7/2012 or later. The required python packages can be installed by running::
+7/2012 or later. You also need to install Firefox. It can be downloaded Here2_. The required python packages can be installed by running::
 
    pip install -r ./Tests/requirements.txt
 
 .. _Here: http://www.activestate.com/activepython/downloads
+.. _Here2: https://www.mozilla.org/en-US/firefox/new/
 
 Other Preparations
 ##################
