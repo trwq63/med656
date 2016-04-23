@@ -33,12 +33,6 @@ You must have the latest Active Python 3.4 installed on this computer. It can be
 Other Preparations
 ##################
 
-Because patient accounts are not deleted from the database, you need to manually remove the following patient accounts
-before performing tesitng:
-
-- testPatient
-- testPatient2
-- pfry
 
 Test Execution
 --------------
