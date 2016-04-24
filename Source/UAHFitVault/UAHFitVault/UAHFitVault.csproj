@@ -462,7 +462,7 @@
     <Content Include="Views\Physician\ViewExperimentPatient.cshtml" />
     <Content Include="Views\Export\Index.cshtml" />
     <Content Include="Views\Patient\_PartialPatientData.cshtml" />
-    <None Include="Views\Shared\_PhysicianLayout.cshtml" />
+    <Content Include="Views\Shared\_PhysicianLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
