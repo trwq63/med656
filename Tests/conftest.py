@@ -9,6 +9,7 @@ tpatient2_pwd = 'P@ssword10'
 
 def pytest_addoption(parser):
     parser.addoption('--startup-create-accounts', type=bool, default=False)
+    parser.addoption('--startup-create-patients', type=bool, default=True)
 
 @pytest.fixture()
 def test_patients():
@@ -34,33 +35,34 @@ def pre_existing_users(request):
         web_sess.approve_account('test expadmin')
         web_sess.logoff()
 
-    web_sess.create_patient('testPhysician',
-                            'P@ssword10',
-                            test_patient,
-                            tpatient_pwd,
-                            '1954',
-                            'March',
-                            '3',
-                            'Alabama',
-                            '200',
-                            '72',
-                            'male',
-                            'white',
-                            'non_hispanic')
-    web_sess.logoff()
-    web_sess.create_patient('testPhysician',
-                            'P@ssword10',
-                            test_patient2,
-                            tpatient2_pwd,
-                            '1999',
-                            'November',
-                            '10',
-                            'Guam',
-                            '156',
-                            '65',
-                            'female',
-                            'hawaiian',
-                            'non_hispanic')
+    if request.config.getoption('--startup-create-patients'):
+        web_sess.create_patient('testPhysician',
+                                'P@ssword10',
+                                test_patient,
+                                tpatient_pwd,
+                                '1954',
+                                'March',
+                                '3',
+                                'Alabama',
+                                '200',
+                                '72',
+                                'male',
+                                'white',
+                                'non_hispanic')
+        web_sess.logoff()
+        web_sess.create_patient('testPhysician',
+                                'P@ssword10',
+                                test_patient2,
+                                tpatient2_pwd,
+                                '1999',
+                                'November',
+                                '10',
+                                'Guam',
+                                '156',
+                                '65',
+                                'female',
+                                'hawaiian',
+                                'non_hispanic')
 
 
 @pytest.fixture
