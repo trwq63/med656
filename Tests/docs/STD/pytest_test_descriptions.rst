@@ -25,13 +25,19 @@ Software Preparations
 Download the zip file of the github project here: Github_ and unzip it in your home directory. 
 
 You must have the latest Active Python 3.4 installed on this computer. It can be found here: Python_. The OS may be Windows
-7/2012 or later. If you are using Windows 2012, add "C:\\Python34" and "C:\\Python34\\Scripts" to your "Path" environment variable. You also need to install Firefox. It can be downloaded here: Firefox_. The required python packages can be installed by navigating to the project folder and running::
+7/2012 or later. If you are using Windows 2012, add "C:\\Python34" and "C:\\Python34\\Scripts" to your "Path" environment variable.
+You also need to install Firefox. It can be downloaded here: Firefox_.
+
+After you download and install Firefox, follow instructions on Mozilla_ for setting the download automatic action.
+
+The required python packages can be installed by navigating to the project folder and running::
 
    pip install -r ./Tests/requirements.txt
 
 .. _Python: http://www.activestate.com/activepython/downloads
 .. _Firefox: https://www.mozilla.org/en-US/firefox/new/
 .. _Github: https://github.com/trwq63/med656
+.. _Mozilla: http://kb.mozillazine.org/File_types_and_download_actions
 
 Other Preparations
 ##################
