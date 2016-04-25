@@ -1,21 +1,61 @@
 \begin{theindex}
 \def\bigletter#1{{\Large\sffamily#1}\nopagebreak\vspace{1mm}}
 
+  \bigletter A
+  \item approve\_account() (WebUI.WebUI.WebUI method), \hyperpage{57}
+
+  \indexspace
   \bigletter C
+  \item check\_create\_patient() (WebUI.WebUI.WebUI method), \hyperpage{57}
+  \item check\_login() (WebUI.WebUI.WebUI method), \hyperpage{57}
+  \item check\_logoff() (WebUI.WebUI.WebUI method), \hyperpage{57}
+  \item check\_request\_account() (WebUI.WebUI.WebUI method), \hyperpage{57}
+  \item confirm\_account\_info() (WebUI.WebUI.WebUI method), \hyperpage{57}
   \item conftest (module), \hyperpage{57}
+  \item create\_admin() (WebUI.WebUI.WebUI method), \hyperpage{58}
+  \item create\_experiment() (WebUI.WebUI.WebUI method), \hyperpage{58}
+  \item create\_patient() (WebUI.WebUI.WebUI method), \hyperpage{58}
+
+  \indexspace
+  \bigletter D
+  \item delete\_account() (WebUI.WebUI.WebUI method), \hyperpage{58}
+  \item delete\_all\_accounts() (WebUI.WebUI.WebUI method), \hyperpage{58}
+  \item delete\_experiment() (WebUI.WebUI.WebUI method), \hyperpage{58}
+  \item delete\_patient() (WebUI.WebUI.WebUI method), \hyperpage{58}
+  \item driver (WebUI.WebUI.WebUI attribute), \hyperpage{58}
+
+  \indexspace
+  \bigletter E
+  \item export\_data() (WebUI.WebUI.WebUI method), \hyperpage{58}
+
+  \indexspace
+  \bigletter G
+  \item get\_page() (WebUI.WebUI.WebUI method), \hyperpage{58}
+  \item go\_home() (WebUI.WebUI.WebUI method), \hyperpage{58}
 
   \indexspace
   \bigletter L
+  \item login() (WebUI.WebUI.WebUI method), \hyperpage{58}
   \item login\_sysadmin() (in module conftest), \hyperpage{57}
   \item login\_texpadmin() (in module conftest), \hyperpage{57}
   \item login\_tpatient() (in module conftest), \hyperpage{57}
   \item login\_tphysician() (in module conftest), \hyperpage{57}
   \item logoff() (in module conftest), \hyperpage{57}
+  \item logoff() (WebUI.WebUI.WebUI method), \hyperpage{59}
 
   \indexspace
   \bigletter P
   \item pre\_existing\_users() (in module conftest), \hyperpage{57}
   \item pytest\_addoption() (in module conftest), \hyperpage{57}
+
+  \indexspace
+  \bigletter R
+  \item request\_account() (WebUI.WebUI.WebUI method), \hyperpage{59}
+  \item reset\_user\_password() (WebUI.WebUI.WebUI method), \hyperpage{59}
+
+  \indexspace
+  \bigletter S
+  \item set\_account\_info() (WebUI.WebUI.WebUI method), \hyperpage{59}
 
   \indexspace
   \bigletter T
@@ -59,7 +99,18 @@
   \item test\_zephyr\_data\_upload() (in module test\_upload), \hyperpage{56}
 
   \indexspace
+  \bigletter U
+  \item upload\_files() (WebUI.WebUI.WebUI method), \hyperpage{59}
+
+  \indexspace
+  \bigletter V
+  \item view\_data() (WebUI.WebUI.WebUI method), \hyperpage{60}
+  \item view\_experiment() (WebUI.WebUI.WebUI method), \hyperpage{60}
+
+  \indexspace
   \bigletter W
-  \item WebUI (module), \hyperpage{57}
+  \item WebUI (class in WebUI.WebUI), \hyperpage{57}
+  \item WebUI (module), \hyperpage{60}
+  \item WebUI.WebUI (module), \hyperpage{57}
 
 \end{theindex}

@@ -49,6 +49,7 @@
 
 <div class="viewcode-block" id="pytest_addoption"><a class="viewcode-back" href="../STD/conftest.html#conftest.pytest_addoption">[docs]</a><span class="k">def</span> <span class="nf">pytest_addoption</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span><span class="s">&#39;--startup-create-accounts&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span><span class="s">&#39;--startup-create-patients&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </div>
 <span class="nd">@pytest.fixture</span><span class="p">()</span>
 <div class="viewcode-block" id="test_patients"><a class="viewcode-back" href="../STD/conftest.html#conftest.test_patients">[docs]</a><span class="k">def</span> <span class="nf">test_patients</span><span class="p">():</span>
@@ -74,33 +75,34 @@
         <span class="n">web_sess</span><span class="o">.</span><span class="n">approve_account</span><span class="p">(</span><span class="s">&#39;test expadmin&#39;</span><span class="p">)</span>
         <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
 
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">create_patient</span><span class="p">(</span><span class="s">&#39;testPhysician&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;P@ssword10&#39;</span><span class="p">,</span>
-                            <span class="n">test_patient</span><span class="p">,</span>
-                            <span class="n">tpatient_pwd</span><span class="p">,</span>
-                            <span class="s">&#39;1954&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;March&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;3&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;Alabama&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;200&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;72&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;male&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;white&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;non_hispanic&#39;</span><span class="p">)</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">create_patient</span><span class="p">(</span><span class="s">&#39;testPhysician&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;P@ssword10&#39;</span><span class="p">,</span>
-                            <span class="n">test_patient2</span><span class="p">,</span>
-                            <span class="n">tpatient2_pwd</span><span class="p">,</span>
-                            <span class="s">&#39;1999&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;November&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;10&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;Guam&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;156&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;65&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;female&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;hawaiian&#39;</span><span class="p">,</span>
-                            <span class="s">&#39;non_hispanic&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s">&#39;--startup-create-patients&#39;</span><span class="p">):</span>
+        <span class="n">web_sess</span><span class="o">.</span><span class="n">create_patient</span><span class="p">(</span><span class="s">&#39;testPhysician&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;P@ssword10&#39;</span><span class="p">,</span>
+                                <span class="n">test_patient</span><span class="p">,</span>
+                                <span class="n">tpatient_pwd</span><span class="p">,</span>
+                                <span class="s">&#39;1954&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;March&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;3&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;Alabama&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;200&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;72&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;male&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;white&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;non_hispanic&#39;</span><span class="p">)</span>
+        <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
+        <span class="n">web_sess</span><span class="o">.</span><span class="n">create_patient</span><span class="p">(</span><span class="s">&#39;testPhysician&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;P@ssword10&#39;</span><span class="p">,</span>
+                                <span class="n">test_patient2</span><span class="p">,</span>
+                                <span class="n">tpatient2_pwd</span><span class="p">,</span>
+                                <span class="s">&#39;1999&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;November&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;10&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;Guam&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;156&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;65&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;female&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;hawaiian&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;non_hispanic&#39;</span><span class="p">)</span>
 
 </div>
 <span class="nd">@pytest.fixture</span>

@@ -56,20 +56,20 @@
 \contentsline {paragraph}{WebUI package}{57}{paragraph*.81}
 \contentsline {subparagraph}{Submodules}{57}{subparagraph*.82}
 \contentsline {subparagraph}{WebUI.WebUI module}{57}{subparagraph*.83}
-\contentsline {subparagraph}{Module contents}{57}{subparagraph*.84}
-\contentsline {subsection}{\numberline {2.3.2}Manual Tests}{57}{subsection.2.3.2}
-\contentsline {subsubsection}{Test Preparations}{57}{subsubsection*.85}
-\contentsline {paragraph}{Hardware Preparations}{57}{paragraph*.86}
-\contentsline {paragraph}{Software Preparations}{58}{paragraph*.87}
-\contentsline {paragraph}{Other Preparations}{58}{paragraph*.88}
-\contentsline {subsubsection}{Test Details}{58}{subsubsection*.89}
-\contentsline {paragraph}{Multiple File Upload Test}{58}{paragraph*.90}
-\contentsline {paragraph}{User Privacy Test}{58}{paragraph*.91}
-\contentsline {paragraph}{Physician Graph View}{59}{paragraph*.92}
-\contentsline {paragraph}{Database Verification Test}{61}{paragraph*.93}
-\contentsline {paragraph}{Internet Access Verification Test}{61}{paragraph*.94}
-\contentsline {paragraph}{OS Test}{61}{paragraph*.95}
-\contentsline {subsection}{\numberline {2.3.3}Sign Off}{62}{subsection.2.3.3}
-\contentsline {chapter}{\numberline {3}Indices and tables}{63}{chapter.3}
-\contentsline {chapter}{Python Module Index}{65}{section*.96}
-\contentsline {chapter}{Index}{67}{section*.97}
+\contentsline {subparagraph}{Module contents}{60}{subparagraph*.110}
+\contentsline {subsection}{\numberline {2.3.2}Manual Tests}{60}{subsection.2.3.2}
+\contentsline {subsubsection}{Test Preparations}{60}{subsubsection*.111}
+\contentsline {paragraph}{Hardware Preparations}{60}{paragraph*.112}
+\contentsline {paragraph}{Software Preparations}{61}{paragraph*.113}
+\contentsline {paragraph}{Other Preparations}{61}{paragraph*.114}
+\contentsline {subsubsection}{Test Details}{61}{subsubsection*.115}
+\contentsline {paragraph}{Multiple File Upload Test}{61}{paragraph*.116}
+\contentsline {paragraph}{User Privacy Test}{61}{paragraph*.117}
+\contentsline {paragraph}{Physician Graph View}{62}{paragraph*.118}
+\contentsline {paragraph}{Database Verification Test}{64}{paragraph*.119}
+\contentsline {paragraph}{Internet Access Verification Test}{64}{paragraph*.120}
+\contentsline {paragraph}{OS Test}{64}{paragraph*.121}
+\contentsline {subsection}{\numberline {2.3.3}Sign Off}{65}{subsection.2.3.3}
+\contentsline {chapter}{\numberline {3}Indices and tables}{67}{chapter.3}
+\contentsline {chapter}{Python Module Index}{69}{section*.122}
+\contentsline {chapter}{Index}{71}{section*.123}

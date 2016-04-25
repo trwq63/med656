@@ -14,7 +14,7 @@
 
 
 \title{UAH Bit Vault Documentation}
-\date{April 24, 2016}
+\date{April 25, 2016}
 \release{1.0}
 \author{Timothy Wilkins}
 \newcommand{\sphinxlogo}{}
@@ -857,7 +857,12 @@ The computer can be the same machine as the UAHealth server, but this is not req
 Download the zip file of the github project here: \href{https://github.com/trwq63/med656}{Github} and unzip it in your home directory.
 
 You must have the latest Active Python 3.4 installed on this computer. It can be found here: \href{http://www.activestate.com/activepython/downloads}{Python}. The OS may be Windows
-7/2012 or later. If you are using Windows 2012, add ``C:\textbackslash{}Python34'' and ``C:\textbackslash{}Python34\textbackslash{}Scripts'' to your ``Path'' environment variable. You also need to install Firefox. It can be downloaded here: \href{https://www.mozilla.org/en-US/firefox/new/}{Firefox}. The required python packages can be installed by navigating to the project folder and running:
+7/2012 or later. If you are using Windows 2012, add ``C:\textbackslash{}Python34'' and ``C:\textbackslash{}Python34\textbackslash{}Scripts'' to your ``Path'' environment variable.
+You also need to install Firefox. It can be downloaded here: \href{https://www.mozilla.org/en-US/firefox/new/}{Firefox}.
+
+After you download and install Firefox, follow instructions on \href{http://kb.mozillazine.org/File\_types\_and\_download\_actions}{Mozilla} for setting the download automatic action.
+
+The required python packages can be installed by navigating to the project folder and running:
 
 \begin{Verbatim}[commandchars=\\\{\}]
 pip install \PYGZhy{}r ./Tests/requirements.txt
@@ -865,7 +870,7 @@ pip install \PYGZhy{}r ./Tests/requirements.txt
 
 
 \paragraph{Other Preparations}
-\label{STD/pytest_test_descriptions:other-preparations}\label{STD/pytest_test_descriptions:github}
+\label{STD/pytest_test_descriptions:other-preparations}\label{STD/pytest_test_descriptions:mozilla}
 
 \subsubsection{Test Execution}
 \label{STD/pytest_test_descriptions:test-execution}
@@ -3045,7 +3050,434 @@ No errors
 \label{STD/WebUI:submodules}
 
 \subparagraph{WebUI.WebUI module}
-\label{STD/WebUI:webui-webui-module}
+\label{STD/WebUI:webui-webui-module}\label{STD/WebUI:module-WebUI.WebUI}\index{WebUI.WebUI (module)}
+These are the web user interface utilities used to drive the web tests.
+\index{WebUI (class in WebUI.WebUI)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI}\pysiglinewithargsret{\strong{class }\code{WebUI.WebUI.}\bfcode{WebUI}}{\emph{baseurl='http://localhost:25396/'}}{}
+This class keeps track of the web session. It uses Firefox as the web driver. Its baseurl is the start page of
+the software. By default it is the localhost on port 25396.
+\index{approve\_account() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.approve_account}\pysiglinewithargsret{\bfcode{approve\_account}}{\emph{user}}{}
+Logs in as the system admin and approves an account with the given username
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\textbf{username} -- Username of the account to approve
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{check\_create\_patient() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.check_create_patient}\pysiglinewithargsret{\bfcode{check\_create\_patient}}{}{}
+Validates that the patient creation was successful
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{check\_login() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.check_login}\pysiglinewithargsret{\bfcode{check\_login}}{\emph{user='`}, \emph{t=5}}{}
+This will verify you are logged in. It checks for the manage account link that only appears if you are
+logged in.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{t} -- A timeout in seconds to wait for the management link to appear
+
+\item {} 
+\textbf{user} -- Check to see if this is the user that is logged in
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{check\_logoff() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.check_logoff}\pysiglinewithargsret{\bfcode{check\_logoff}}{\emph{t=10}}{}
+This will check that there is no logged in user for the session
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\textbf{t} -- time in seconds to wait for the login button to appear. The default is 10.
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{check\_request\_account() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.check_request_account}\pysiglinewithargsret{\bfcode{check\_request\_account}}{}{}
+Validates that the account request was successful
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{confirm\_account\_info() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.confirm_account_info}\pysiglinewithargsret{\bfcode{confirm\_account\_info}}{\emph{email='`}, \emph{address='`}, \emph{phonenum='`}}{}
+This procedure will confirm account information of whatever information is provided.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{email} -- the expected email address
+
+\item {} 
+\textbf{address} -- the expected home address
+
+\item {} 
+\textbf{phonenum} -- the expected phone number
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{create\_admin() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.create_admin}\pysiglinewithargsret{\bfcode{create\_admin}}{\emph{user}, \emph{pwd}, \emph{email}}{}
+\end{fulllineitems}
+
+\index{create\_experiment() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.create_experiment}\pysiglinewithargsret{\bfcode{create\_experiment}}{\emph{expName}, \emph{startAge}, \emph{endAge}, \emph{startHght}, \emph{endHght}, \emph{startWght}, \emph{endWght}, \emph{genders}, \emph{races}, \emph{ethnicities}, \emph{locations}}{}
+\end{fulllineitems}
+
+\index{create\_patient() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.create_patient}\pysiglinewithargsret{\bfcode{create\_patient}}{\emph{phy}, \emph{phy\_pass}, \emph{user}, \emph{pwd}, \emph{byear}, \emph{bmonth}, \emph{bday}, \emph{location}, \emph{weight}, \emph{height}, \emph{gender}, \emph{race}, \emph{ethnicity}}{}
+This will create a patient account. It expects the physician to be logged in when called.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{user} -- 
+
+\item {} 
+\textbf{pwd} -- 
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{delete\_account() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.delete_account}\pysiglinewithargsret{\bfcode{delete\_account}}{\emph{user}}{}
+This logs in as the system admin and deletes the specified user
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\textbf{user} -- username of the account to delete
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{delete\_all\_accounts() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.delete_all_accounts}\pysiglinewithargsret{\bfcode{delete\_all\_accounts}}{}{}
+\end{fulllineitems}
+
+\index{delete\_experiment() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.delete_experiment}\pysiglinewithargsret{\bfcode{delete\_experiment}}{\emph{name}}{}
+\end{fulllineitems}
+
+\index{delete\_patient() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.delete_patient}\pysiglinewithargsret{\bfcode{delete\_patient}}{\emph{phy}, \emph{phy\_pass}, \emph{user}}{}
+This logs in as the physician and deletes the specified user
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{phy} -- name of the physician that the patient belongs to
+
+\item {} 
+\textbf{phy\_pass} -- password of the physician
+
+\item {} 
+\textbf{user} -- username of the account to delete
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{driver (WebUI.WebUI.WebUI attribute)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.driver}\pysigline{\bfcode{driver}\strong{ = \textless{}selenium.webdriver.firefox.webdriver.WebDriver (session=''718fb92c-30cd-48ce-8778-8572ffaf76f6'')\textgreater{}}}
+\end{fulllineitems}
+
+\index{export\_data() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.export_data}\pysiglinewithargsret{\bfcode{export\_data}}{\emph{path}}{}
+\end{fulllineitems}
+
+\index{get\_page() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.get_page}\pysiglinewithargsret{\bfcode{get\_page}}{}{}
+Helper procedure to return the current web pages source useful to validate responses on the page
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{go\_home() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.go_home}\pysiglinewithargsret{\bfcode{go\_home}}{}{}
+Navigates the web session back to the base url
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{login() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.login}\pysiglinewithargsret{\bfcode{login}}{\emph{user}, \emph{pwd}}{}
+This will make sure you are logged in as the user specified. It will log you out if you are already logged in.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{user} -- Username to log in as
+
+\item {} 
+\textbf{pwd} -- Password for the given username
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{logoff() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.logoff}\pysiglinewithargsret{\bfcode{logoff}}{}{}
+This will log the logged in user off.
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{request\_account() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.request_account}\pysiglinewithargsret{\bfcode{request\_account}}{\emph{account\_type}, \emph{user}, \emph{pwd}, \emph{email}, \emph{first\_name}, \emph{last\_name}, \emph{address}, \emph{phone\_number}}{}
+This will fill out a request for an account. To request an account you must be logged out therefore
+this procedure will make sure you are logged out
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{account\_type} -- The type of account to request. can either be Physician or Exp Admin
+
+\item {} 
+\textbf{user} -- The username of the new account
+
+\item {} 
+\textbf{pwd} -- The password of the new account
+
+\item {} 
+\textbf{email} -- The email address of the new account
+
+\item {} 
+\textbf{first\_name} -- The first name of the user
+
+\item {} 
+\textbf{last\_name} -- The last name of the user
+
+\item {} 
+\textbf{address} -- The home address of the user
+
+\item {} 
+\textbf{phone\_number} -- The phone number of the user
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{reset\_user\_password() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.reset_user_password}\pysiglinewithargsret{\bfcode{reset\_user\_password}}{\emph{user}, \emph{new\_pwd}}{}
+This procedure will make the system admin reset an accounts password
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{user} -- username of the account to touch
+
+\item {} 
+\textbf{new\_pwd} -- the new password to give the account
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{set\_account\_info() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.set_account_info}\pysiglinewithargsret{\bfcode{set\_account\_info}}{\emph{pwd='`}, \emph{current\_pwd='`}, \emph{email='`}, \emph{address='`}, \emph{phonenum='`}}{}
+This procedure will set the account info to any info provided if provided
+It assumes the user is already logged in
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{pwd} -- the new password desired
+
+\item {} 
+\textbf{current\_pwd} -- the current password. needed to change passwords
+
+\item {} 
+\textbf{email} -- the new email address
+
+\item {} 
+\textbf{address} -- the new home address
+
+\item {} 
+\textbf{phonenum} -- the new phone number
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{upload\_files() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.upload_files}\pysiglinewithargsret{\bfcode{upload\_files}}{\emph{file}, \emph{fyear}, \emph{fmonth}, \emph{fday}, \emph{tyear}, \emph{tmonth}, \emph{tday}, \emph{device}, \emph{activities}}{}
+This will uplaod files for a patient with the given activities
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{file} -- Relative paths to files to be uploaded
+
+\item {} 
+\textbf{fyear} -- The year the file started collecting
+
+\item {} 
+\textbf{fmonth} -- The month the file started collecting
+
+\item {} 
+\textbf{fday} -- The day the file started collecting
+
+\item {} 
+\textbf{tyear} -- The year the file stopped collecting
+
+\item {} 
+\textbf{tmonth} -- The month the file stopped collecting
+
+\item {} 
+\textbf{tday} -- The day the file stopped collecting
+
+\item {} 
+\textbf{device} -- The device the file came from. must be `zephyr', `basis', or `band'
+
+\item {} 
+\textbf{activities} -- A list of dictionaries. dicts look like: \{`type':'Home Eating', `year':1920, `month':'January', `day':3, `startTime': `11:00 AM', `endTime': `11:30 AM'\}
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{view\_data() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.view_data}\pysiglinewithargsret{\bfcode{view\_data}}{}{}
+\end{fulllineitems}
+
+\index{view\_experiment() (WebUI.WebUI.WebUI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{STD/WebUI:WebUI.WebUI.WebUI.view_experiment}\pysiglinewithargsret{\bfcode{view\_experiment}}{\emph{name}}{}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+
 
 \subparagraph{Module contents}
 \label{STD/WebUI:module-WebUI}\label{STD/WebUI:module-contents}\index{WebUI (module)}
@@ -3670,6 +4102,7 @@ Ryan Wilkins:     \PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{
 \indexspace
 \bigletter{w}
 \item {\texttt{WebUI}}, \pageref{STD/WebUI:module-WebUI}
+\item {\texttt{WebUI.WebUI}}, \pageref{STD/WebUI:module-WebUI.WebUI}
 \end{theindex}
 
 \renewcommand{\indexname}{Index}
