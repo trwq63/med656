@@ -19,7 +19,7 @@
 \indexentry{test\_password\_case() (in module test\_password)|hyperpage}{49}
 \indexentry{test\_password\_digit() (in module test\_password)|hyperpage}{50}
 \indexentry{test\_password\_length() (in module test\_password)|hyperpage}{50}
-\indexentry{test\_password\_special\_char() (in module test\_password)|hyperpage}{51}
+\indexentry{test\_password\_special\_char() (in module test\_password)|hyperpage}{50}
 \indexentry{test\_reset\_password() (in module test\_password)|hyperpage}{51}
 \indexentry{test\_security (module)|hyperpage}{51}
 \indexentry{test\_experiment\_creation\_security() (in module test\_security)|hyperpage}{51}
@@ -44,31 +44,4 @@
 \indexentry{pre\_existing\_users() (in module conftest)|hyperpage}{57}
 \indexentry{pytest\_addoption() (in module conftest)|hyperpage}{57}
 \indexentry{test\_patients() (in module conftest)|hyperpage}{57}
-\indexentry{WebUI.WebUI (module)|hyperpage}{57}
-\indexentry{WebUI (class in WebUI.WebUI)|hyperpage}{57}
-\indexentry{approve\_account() (WebUI.WebUI.WebUI method)|hyperpage}{57}
-\indexentry{check\_create\_patient() (WebUI.WebUI.WebUI method)|hyperpage}{57}
-\indexentry{check\_login() (WebUI.WebUI.WebUI method)|hyperpage}{57}
-\indexentry{check\_logoff() (WebUI.WebUI.WebUI method)|hyperpage}{57}
-\indexentry{check\_request\_account() (WebUI.WebUI.WebUI method)|hyperpage}{57}
-\indexentry{confirm\_account\_info() (WebUI.WebUI.WebUI method)|hyperpage}{57}
-\indexentry{create\_admin() (WebUI.WebUI.WebUI method)|hyperpage}{58}
-\indexentry{create\_experiment() (WebUI.WebUI.WebUI method)|hyperpage}{58}
-\indexentry{create\_patient() (WebUI.WebUI.WebUI method)|hyperpage}{58}
-\indexentry{delete\_account() (WebUI.WebUI.WebUI method)|hyperpage}{58}
-\indexentry{delete\_all\_accounts() (WebUI.WebUI.WebUI method)|hyperpage}{58}
-\indexentry{delete\_experiment() (WebUI.WebUI.WebUI method)|hyperpage}{58}
-\indexentry{delete\_patient() (WebUI.WebUI.WebUI method)|hyperpage}{58}
-\indexentry{driver (WebUI.WebUI.WebUI attribute)|hyperpage}{58}
-\indexentry{export\_data() (WebUI.WebUI.WebUI method)|hyperpage}{58}
-\indexentry{get\_page() (WebUI.WebUI.WebUI method)|hyperpage}{58}
-\indexentry{go\_home() (WebUI.WebUI.WebUI method)|hyperpage}{58}
-\indexentry{login() (WebUI.WebUI.WebUI method)|hyperpage}{58}
-\indexentry{logoff() (WebUI.WebUI.WebUI method)|hyperpage}{59}
-\indexentry{request\_account() (WebUI.WebUI.WebUI method)|hyperpage}{59}
-\indexentry{reset\_user\_password() (WebUI.WebUI.WebUI method)|hyperpage}{59}
-\indexentry{set\_account\_info() (WebUI.WebUI.WebUI method)|hyperpage}{59}
-\indexentry{upload\_files() (WebUI.WebUI.WebUI method)|hyperpage}{59}
-\indexentry{view\_data() (WebUI.WebUI.WebUI method)|hyperpage}{60}
-\indexentry{view\_experiment() (WebUI.WebUI.WebUI method)|hyperpage}{60}
-\indexentry{WebUI (module)|hyperpage}{60}
+\indexentry{WebUI (module)|hyperpage}{57}
