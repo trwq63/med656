@@ -51,7 +51,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'WebUITest'
+project = 'UAH Bit Vault'
 copyright = '2016, Timothy Wilkins'
 author = 'Timothy Wilkins'
 
@@ -205,7 +205,7 @@ html_static_path = ['_static']
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'WebUITestdoc'
+htmlhelp_basename = 'UAHBitVaultdoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -227,7 +227,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'WebUITest.tex', 'WebUITest Documentation',
+    (master_doc, 'UAHBitVault.tex', 'UAH Bit Vault Documentation',
      'Timothy Wilkins', 'manual'),
 ]
 
@@ -257,7 +257,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'webuitest', 'WebUITest Documentation',
+    (master_doc, 'uahbitvault', 'UAH Bit Vault Documentation',
      [author], 1)
 ]
 
@@ -271,8 +271,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'WebUITest', 'WebUITest Documentation',
-     author, 'WebUITest', 'One line description of project.',
+    (master_doc, 'UAH Bit Vault', 'UAH Bit Vault Documentation',
+     author, 'UAH Bit Vault', 'One line description of project.',
      'Miscellaneous'),
 ]
 

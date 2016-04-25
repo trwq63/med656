@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Pytest Tests &mdash; WebUITest 1.0 documentation</title>
+    <title>Pytest Tests &mdash; UAH Bit Vault 1.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="WebUITest 1.0 documentation" href="../index.html" />
+    <link rel="top" title="UAH Bit Vault 1.0 documentation" href="../index.html" />
     <link rel="up" title="UAHealth Bit Vault Software Test Description" href="software_test_description.html" />
     <link rel="next" title="test_create_account module" href="test_create_account.html" />
     <link rel="prev" title="UAHealth Bit Vault Software Test Description" href="software_test_description.html" />
@@ -32,12 +32,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="pytest-tests">
 <span id="pytest-test-descriptions"></span><h1><a class="toc-backref" href="#id1">Pytest Tests</a><a class="headerlink" href="#pytest-tests" title="Permalink to this headline">¶</a></h1>
@@ -71,7 +71,7 @@ The computer can be the same machine as the UAHealth server, but this is not req
 <h3><a class="toc-backref" href="#id4">Software Preparations</a><a class="headerlink" href="#software-preparations" title="Permalink to this headline">¶</a></h3>
 <p>You must have the latest Active Python 3.4 installed on this computer. It can be found <a class="reference external" href="http://www.activestate.com/activepython/downloads">Here</a>. The OS may be Windows
 7/2012 or later. The required python packages can be installed by running:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>pip install -r ./Tests/requirements.txt
+<div class="highlight-python"><div class="highlight"><pre>pip install -r ./Tests/requirements.txt
 </pre></div>
 </div>
 </div>
@@ -90,7 +90,7 @@ before performing tesitng:</p>
 <h2><a class="toc-backref" href="#id6">Test Execution</a><a class="headerlink" href="#test-execution" title="Permalink to this headline">¶</a></h2>
 <p>To run these tests, open a command prompt and navigate to the Tests folder (&lt;project_path&gt;/med656/Tests). Then execute
 the following command:</p>
-<p>py.test -s -v</p>
+<p>py.test -v -s test_create_account.py test_edit_account.py test_experiment.py test_login.py test_password.py test_security.py test_upload.py test_username.py test_export.py</p>
 <p>The test report will be printed out to the screen. It will display all the tests that were run along with their pass/fail
 status.</p>
 </div>
@@ -122,7 +122,7 @@ status.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -149,14 +149,12 @@ status.</p>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/STD/pytest_test_descriptions.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/STD/pytest_test_descriptions.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -177,8 +175,8 @@ status.</p>
       &copy;2016, Timothy Wilkins.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
       
       |
       <a href="../_sources/STD/pytest_test_descriptions.txt"

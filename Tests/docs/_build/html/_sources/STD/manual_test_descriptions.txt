@@ -51,13 +51,14 @@ Multiple File Upload Test
 ===========================================================================  ===========================================  =============
 Steps                                                                        Expected Result                              Actual Result
 ===========================================================================  ===========================================  =============
-click the 'Upload Data' link in top right corner of page
-click the 'BROWSE' button
-navigate to ./med656/Tests/Data/Zephyr/ZephyrTestData/
-highlight the ...Accel.csv and ...BB.csv files by holding ctrl and clicking
-fill in date 6-24-2015 for both from date and to date
-click on zephyr radio button
-click "SUBMIT" button
+click the 'Upload Data' link in top right corner of page                     Taken to the upload page
+click the 'BROWSE' button                                                    Windows file select wizard opens
+navigate to ./med656/Tests/Data/Zephyr/ZephyrTestData/                       Files are visible
+highlight the ...Accel.csv and ...BB.csv files by holding ctrl and clicking  Files are highlighted
+click the 'chose' button on the wizard                                       File names are in the upload page now
+fill in date 6-24-2015 for both from date and to date                        Dates are visible on the page
+click on zephyr radio button                                                 Radio button is highlighted
+click "SUBMIT" button                                                        No errors are displayed
 ===========================================================================  ===========================================  =============
 
 User Privacy Test
@@ -78,7 +79,7 @@ User Privacy Test
 
 - If physician 'testPhysician' does not exist
 
- - Follow the steps here __'userguide link'__ to create a physician account with the following information
+ - Follow the steps here (:ref:`create_physician_account`) to create a physician account with the following information
 
   - first name = test
   - last name = test
@@ -195,7 +196,8 @@ Database Verification Test
 ========================================================================  ===========================================  =============
 Steps                                                                     Expected Result                              Actual Result
 ========================================================================  ===========================================  =============
-empty
+Login locally or remote in to the UAHealt Bit Vault server desktop        you are at the windows desktop
+Open Microsoft SQL Database Manager                                       you can see the uahbitvault database
 ========================================================================  ===========================================  =============
 
 Internet Access Verification Test

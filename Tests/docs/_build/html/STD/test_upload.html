@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>test_upload module &mdash; WebUITest 1.0 documentation</title>
+    <title>test_upload module &mdash; UAH Bit Vault 1.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="WebUITest 1.0 documentation" href="../index.html" />
+    <link rel="top" title="UAH Bit Vault 1.0 documentation" href="../index.html" />
     <link rel="up" title="Pytest Tests" href="pytest_test_descriptions.html" />
     <link rel="next" title="test_username module" href="test_username.html" />
     <link rel="prev" title="test_security module" href="test_security.html" />
@@ -32,18 +32,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="module-test_upload">
 <span id="test-upload-module"></span><h1>test_upload module<a class="headerlink" href="#module-test_upload" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="test_upload.test_basis_data_upload">
-<code class="descclassname">test_upload.</code><code class="descname">test_basis_data_upload</code><span class="sig-paren">(</span><em>login_tpatient</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/test_upload.html#test_basis_data_upload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_basis_data_upload" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">test_upload.</tt><tt class="descname">test_basis_data_upload</tt><big>(</big><em>login_tpatient</em><big>)</big><a class="reference internal" href="../_modules/test_upload.html#test_basis_data_upload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_basis_data_upload" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>Requirements:</strong></p>
 <ul class="simple">
 <li>3.2.4.2: System shall support Basis Peak data</li>
@@ -80,7 +80,7 @@
 
 <dl class="function">
 <dt id="test_upload.test_mband_data_upload">
-<code class="descclassname">test_upload.</code><code class="descname">test_mband_data_upload</code><span class="sig-paren">(</span><em>login_tpatient</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/test_upload.html#test_mband_data_upload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_mband_data_upload" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">test_upload.</tt><tt class="descname">test_mband_data_upload</tt><big>(</big><em>login_tpatient</em><big>)</big><a class="reference internal" href="../_modules/test_upload.html#test_mband_data_upload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_mband_data_upload" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>Requirements:</strong></p>
 <ul class="simple">
 <li>3.2.4.3: System shall support Microsoft Band data</li>
@@ -117,7 +117,7 @@
 
 <dl class="function">
 <dt id="test_upload.test_single_file_multi_activity">
-<code class="descclassname">test_upload.</code><code class="descname">test_single_file_multi_activity</code><span class="sig-paren">(</span><em>login_tpatient</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/test_upload.html#test_single_file_multi_activity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_single_file_multi_activity" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">test_upload.</tt><tt class="descname">test_single_file_multi_activity</tt><big>(</big><em>login_tpatient</em><big>)</big><a class="reference internal" href="../_modules/test_upload.html#test_single_file_multi_activity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_single_file_multi_activity" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>Requirements:</strong></p>
 <ul class="simple">
 <li>3.1.2: System shall process medical data</li>
@@ -131,11 +131,9 @@
 <li>login_tpatient fixture</li>
 </ul>
 <p><strong>Input:</strong></p>
-<ul>
-<li><p class="first">activities
-- activity 1</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
+<li>activities<ul>
+<li>activity 1<ul>
 <li>&#8216;type&#8217;:&#8217;Home Eating&#8217;,</li>
 <li>&#8216;year&#8217;:2015,</li>
 <li>&#8216;month&#8217;:&#8217;June&#8217;,</li>
@@ -143,19 +141,19 @@
 <li>&#8216;startTime&#8217;: &#8216;11:00 PM&#8217;,</li>
 <li>&#8216;endTime&#8217;: &#8216;11:30 PM&#8217;},</li>
 </ul>
-</div></blockquote>
-<ul class="simple">
-<li>activity 2
-- &#8216;type&#8217;:&#8217;Home Cooking&#8217;,
-- &#8216;year&#8217;:2015,
-- &#8216;month&#8217;:&#8217;June&#8217;,
-- &#8216;day&#8217;:24,
-- &#8216;startTime&#8217;: &#8216;12:00 PM&#8217;,
-- &#8216;endTime&#8217;: &#8216;12:30 PM&#8217;</li>
+</li>
+<li>activity 2<ul>
+<li>&#8216;type&#8217;:&#8217;Home Cooking&#8217;,</li>
+<li>&#8216;year&#8217;:2015,</li>
+<li>&#8216;month&#8217;:&#8217;June&#8217;,</li>
+<li>&#8216;day&#8217;:24,</li>
+<li>&#8216;startTime&#8217;: &#8216;12:00 PM&#8217;,</li>
+<li>&#8216;endTime&#8217;: &#8216;12:30 PM&#8217;</li>
 </ul>
 </li>
-<li><p class="first">file = path.abspath(&#8216;./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv&#8217;)</p>
+</ul>
 </li>
+<li>file = path.abspath(&#8216;./Data/Zephyr/ZephyrTestData/2015_06_24__23_05_14_Accel.csv&#8217;)</li>
 </ul>
 <table border="1" class="docutils">
 <colgroup>
@@ -180,7 +178,7 @@
 
 <dl class="function">
 <dt id="test_upload.test_single_file_no_activity">
-<code class="descclassname">test_upload.</code><code class="descname">test_single_file_no_activity</code><span class="sig-paren">(</span><em>login_tpatient</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/test_upload.html#test_single_file_no_activity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_single_file_no_activity" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">test_upload.</tt><tt class="descname">test_single_file_no_activity</tt><big>(</big><em>login_tpatient</em><big>)</big><a class="reference internal" href="../_modules/test_upload.html#test_single_file_no_activity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_single_file_no_activity" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>Requirements:</strong></p>
 <ul class="simple">
 <li>3.1.2: System shall process medical data</li>
@@ -220,7 +218,7 @@
 
 <dl class="function">
 <dt id="test_upload.test_single_file_one_activity">
-<code class="descclassname">test_upload.</code><code class="descname">test_single_file_one_activity</code><span class="sig-paren">(</span><em>login_tpatient</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/test_upload.html#test_single_file_one_activity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_single_file_one_activity" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">test_upload.</tt><tt class="descname">test_single_file_one_activity</tt><big>(</big><em>login_tpatient</em><big>)</big><a class="reference internal" href="../_modules/test_upload.html#test_single_file_one_activity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_single_file_one_activity" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>Requirements:</strong></p>
 <ul class="simple">
 <li>3.1.2: System shall process medical data</li>
@@ -261,11 +259,10 @@
 
 <dl class="function">
 <dt id="test_upload.test_zephyr_data_upload">
-<code class="descclassname">test_upload.</code><code class="descname">test_zephyr_data_upload</code><span class="sig-paren">(</span><em>login_tpatient</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/test_upload.html#test_zephyr_data_upload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_zephyr_data_upload" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">test_upload.</tt><tt class="descname">test_zephyr_data_upload</tt><big>(</big><em>login_tpatient</em><big>)</big><a class="reference internal" href="../_modules/test_upload.html#test_zephyr_data_upload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_upload.test_zephyr_data_upload" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>Requirements:</strong></p>
 <ul class="simple">
 <li>3.2.4.1: System shall support Zephyr data</li>
-<li>3.1.2.6: System will process raw data files</li>
 </ul>
 <p><strong>Pre Conditions:</strong></p>
 <ul class="simple">
@@ -303,7 +300,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper"><div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -317,14 +314,12 @@
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/STD/test_upload.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/STD/test_upload.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -345,8 +340,8 @@
       &copy;2016, Timothy Wilkins.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
       
       |
       <a href="../_sources/STD/test_upload.txt"

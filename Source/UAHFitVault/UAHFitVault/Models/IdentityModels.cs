@@ -42,7 +42,7 @@ namespace UAHFitVault.Models
     {
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
-           // : base("FitVaultDatabase", throwIfV1Schema: false)
+          //  : base("FitVaultDatabase", throwIfV1Schema: false)
         {
         }
 

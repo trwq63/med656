@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>conftest &mdash; WebUITest 1.0 documentation</title>
+    <title>conftest &mdash; UAH Bit Vault 1.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -23,120 +23,133 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="WebUITest 1.0 documentation" href="../index.html" />
+    <link rel="top" title="UAH Bit Vault 1.0 documentation" href="../index.html" />
     <link rel="up" title="Module code" href="index.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <h1>Source code for conftest</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
 <span class="kn">from</span> <span class="nn">WebUI.WebUI</span> <span class="kn">import</span> <span class="n">WebUI</span>
+<span class="kn">import</span> <span class="nn">random</span>
 
+<span class="n">test_patient</span> <span class="o">=</span> <span class="s">&#39;testPatient_{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">getrandbits</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+<span class="n">tpatient_pwd</span> <span class="o">=</span> <span class="s">&#39;P@ssword10&#39;</span>
+<span class="n">test_patient2</span> <span class="o">=</span> <span class="s">&#39;testPatient2_{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">getrandbits</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+<span class="n">tpatient2_pwd</span> <span class="o">=</span> <span class="s">&#39;P@ssword10&#39;</span>
 
-<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<div class="viewcode-block" id="pre_existing_users"><a class="viewcode-back" href="../STD/conftest.html#conftest.pre_existing_users">[docs]</a><span class="k">def</span> <span class="nf">pre_existing_users</span><span class="p">():</span>
+<div class="viewcode-block" id="pytest_addoption"><a class="viewcode-back" href="../STD/conftest.html#conftest.pytest_addoption">[docs]</a><span class="k">def</span> <span class="nf">pytest_addoption</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span><span class="s">&#39;--startup-create-accounts&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</div>
+<span class="nd">@pytest.fixture</span><span class="p">()</span>
+<div class="viewcode-block" id="test_patients"><a class="viewcode-back" href="../STD/conftest.html#conftest.test_patients">[docs]</a><span class="k">def</span> <span class="nf">test_patients</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">[</span> <span class="p">{</span> <span class="s">&#39;name&#39;</span> <span class="p">:</span> <span class="n">test_patient</span><span class="p">,</span>
+               <span class="s">&#39;pwd&#39;</span> <span class="p">:</span> <span class="n">tpatient_pwd</span><span class="p">},</span>
+             <span class="p">{</span> <span class="s">&#39;name&#39;</span> <span class="p">:</span> <span class="n">test_patient2</span><span class="p">,</span>
+                <span class="s">&#39;pwd&#39;</span> <span class="p">:</span> <span class="n">tpatient2_pwd</span><span class="p">}]</span>
+</div>
+<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s">&#39;session&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="viewcode-block" id="pre_existing_users"><a class="viewcode-back" href="../STD/conftest.html#conftest.pre_existing_users">[docs]</a><span class="k">def</span> <span class="nf">pre_existing_users</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
 
-    <span class="c1"># delete all accounts</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">delete_patient</span><span class="p">(</span><span class="s1">&#39;testPhysician&#39;</span><span class="p">,</span> <span class="s1">&#39;P@ssword10&#39;</span><span class="p">,</span> <span class="s1">&#39;testPatient&#39;</span><span class="p">)</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">delete_patient</span><span class="p">(</span><span class="s1">&#39;testPhysician&#39;</span><span class="p">,</span> <span class="s1">&#39;P@ssword10&#39;</span><span class="p">,</span> <span class="s1">&#39;testPatient2&#39;</span><span class="p">)</span>
+    <span class="c"># add all the needed accounts</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s">&#39;--startup-create-accounts&#39;</span><span class="p">):</span>
+        <span class="n">web_sess</span><span class="o">.</span><span class="n">request_account</span><span class="p">(</span><span class="s">&#39;Physician&#39;</span><span class="p">,</span> <span class="s">&#39;testPhysician&#39;</span><span class="p">,</span> <span class="s">&#39;P@ssword10&#39;</span><span class="p">,</span> <span class="s">&#39;tphysician@aol.com&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;physician&#39;</span><span class="p">,</span> <span class="s">&#39;home&#39;</span><span class="p">,</span> <span class="s">&#39;123-456-7890&#39;</span><span class="p">)</span>
+        <span class="n">web_sess</span><span class="o">.</span><span class="n">approve_account</span><span class="p">(</span><span class="s">&#39;test physician&#39;</span><span class="p">)</span>
+        <span class="n">web_sess</span><span class="o">.</span><span class="n">request_account</span><span class="p">(</span><span class="s">&#39;Physician&#39;</span><span class="p">,</span> <span class="s">&#39;testPhysician2&#39;</span><span class="p">,</span> <span class="s">&#39;P@ssword10&#39;</span><span class="p">,</span> <span class="s">&#39;tphysician2@aol.com&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;physician2&#39;</span><span class="p">,</span> <span class="s">&#39;home&#39;</span><span class="p">,</span> <span class="s">&#39;123-456-7890&#39;</span><span class="p">)</span>
+        <span class="n">web_sess</span><span class="o">.</span><span class="n">approve_account</span><span class="p">(</span><span class="s">&#39;test physician2&#39;</span><span class="p">)</span>
+        <span class="n">web_sess</span><span class="o">.</span><span class="n">request_account</span><span class="p">(</span><span class="s">&#39;Exp Admin&#39;</span><span class="p">,</span> <span class="s">&#39;testExpAdmin&#39;</span><span class="p">,</span> <span class="s">&#39;P@ssword10&#39;</span><span class="p">,</span> <span class="s">&#39;texpadmin@aol.com&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;expadmin&#39;</span><span class="p">,</span> <span class="s">&#39;home&#39;</span><span class="p">,</span> <span class="s">&#39;123-456-7890&#39;</span><span class="p">)</span>
+        <span class="n">web_sess</span><span class="o">.</span><span class="n">approve_account</span><span class="p">(</span><span class="s">&#39;test expadmin&#39;</span><span class="p">)</span>
+        <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
+
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">create_patient</span><span class="p">(</span><span class="s">&#39;testPhysician&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;P@ssword10&#39;</span><span class="p">,</span>
+                            <span class="n">test_patient</span><span class="p">,</span>
+                            <span class="n">tpatient_pwd</span><span class="p">,</span>
+                            <span class="s">&#39;1954&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;March&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;3&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;Alabama&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;200&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;72&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;male&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;white&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;non_hispanic&#39;</span><span class="p">)</span>
     <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">create_patient</span><span class="p">(</span><span class="s">&#39;testPhysician&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;P@ssword10&#39;</span><span class="p">,</span>
+                            <span class="n">test_patient2</span><span class="p">,</span>
+                            <span class="n">tpatient2_pwd</span><span class="p">,</span>
+                            <span class="s">&#39;1999&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;November&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;10&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;Guam&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;156&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;65&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;female&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;hawaiian&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;non_hispanic&#39;</span><span class="p">)</span>
 
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">delete_all_accounts</span><span class="p">()</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
-
-    <span class="c1"># add all the needed accounts</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">request_account</span><span class="p">(</span><span class="s1">&#39;Physician&#39;</span><span class="p">,</span> <span class="s1">&#39;testPhysician&#39;</span><span class="p">,</span> <span class="s1">&#39;P@ssword10&#39;</span><span class="p">,</span> <span class="s1">&#39;tphysician@aol.com&#39;</span><span class="p">,</span>
-                             <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;physician&#39;</span><span class="p">,</span> <span class="s1">&#39;home&#39;</span><span class="p">,</span> <span class="s1">&#39;123-456-7890&#39;</span><span class="p">)</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">approve_account</span><span class="p">(</span><span class="s1">&#39;test physician&#39;</span><span class="p">)</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">request_account</span><span class="p">(</span><span class="s1">&#39;Physician&#39;</span><span class="p">,</span> <span class="s1">&#39;testPhysician2&#39;</span><span class="p">,</span> <span class="s1">&#39;P@ssword10&#39;</span><span class="p">,</span> <span class="s1">&#39;tphysician2@aol.com&#39;</span><span class="p">,</span>
-                             <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;physician2&#39;</span><span class="p">,</span> <span class="s1">&#39;home&#39;</span><span class="p">,</span> <span class="s1">&#39;123-456-7890&#39;</span><span class="p">)</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">approve_account</span><span class="p">(</span><span class="s1">&#39;test physician2&#39;</span><span class="p">)</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">request_account</span><span class="p">(</span><span class="s1">&#39;Exp Admin&#39;</span><span class="p">,</span> <span class="s1">&#39;testExpAdmin&#39;</span><span class="p">,</span> <span class="s1">&#39;P@ssword10&#39;</span><span class="p">,</span> <span class="s1">&#39;texpadmin@aol.com&#39;</span><span class="p">,</span>
-                             <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;expadmin&#39;</span><span class="p">,</span> <span class="s1">&#39;home&#39;</span><span class="p">,</span> <span class="s1">&#39;123-456-7890&#39;</span><span class="p">)</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">approve_account</span><span class="p">(</span><span class="s1">&#39;test expadmin&#39;</span><span class="p">)</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
-
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">create_patient</span><span class="p">(</span><span class="s1">&#39;testPhysician&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;P@ssword10&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;testPatient&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;P@ssword10&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;3 March, 1954&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;Alabama&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;200&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;72&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;male&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;white&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;non_hispanic&#39;</span><span class="p">)</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">create_patient</span><span class="p">(</span><span class="s1">&#39;testPhysician&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;P@ssword10&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;testPatient2&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;P@ssword10&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;10 November, 1999&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;Guam&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;156&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;65&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;female&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;hawaiian&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;non_hispanic&#39;</span><span class="p">)</span></div>
-
-
+</div>
 <span class="nd">@pytest.fixture</span>
 <div class="viewcode-block" id="logoff"><a class="viewcode-back" href="../STD/conftest.html#conftest.logoff">[docs]</a><span class="k">def</span> <span class="nf">logoff</span><span class="p">():</span>
     <span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">():</span>
-        <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span></div>
+        <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
 
-
+</div>
 <span class="nd">@pytest.fixture</span>
 <div class="viewcode-block" id="login_tpatient"><a class="viewcode-back" href="../STD/conftest.html#conftest.login_tpatient">[docs]</a><span class="k">def</span> <span class="nf">login_tpatient</span><span class="p">():</span>
     <span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">():</span>
         <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;testPatient&#39;</span><span class="p">,</span> <span class="s1">&#39;P@ssword10&#39;</span><span class="p">)</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">go_home</span><span class="p">()</span></div>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">test_patient</span><span class="p">,</span> <span class="n">tpatient_pwd</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">go_home</span><span class="p">()</span>
 
-
+</div>
 <span class="nd">@pytest.fixture</span>
 <div class="viewcode-block" id="login_tphysician"><a class="viewcode-back" href="../STD/conftest.html#conftest.login_tphysician">[docs]</a><span class="k">def</span> <span class="nf">login_tphysician</span><span class="p">():</span>
     <span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">():</span>
         <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;testPhysician&#39;</span><span class="p">,</span> <span class="s1">&#39;P@ssword10&#39;</span><span class="p">)</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">go_home</span><span class="p">()</span></div>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s">&#39;testPhysician&#39;</span><span class="p">,</span> <span class="s">&#39;P@ssword10&#39;</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">go_home</span><span class="p">()</span>
 
-
+</div>
 <span class="nd">@pytest.fixture</span>
 <div class="viewcode-block" id="login_texpadmin"><a class="viewcode-back" href="../STD/conftest.html#conftest.login_texpadmin">[docs]</a><span class="k">def</span> <span class="nf">login_texpadmin</span><span class="p">():</span>
     <span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">():</span>
         <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;testExpAdmin&#39;</span><span class="p">,</span> <span class="s1">&#39;P@ssword10&#39;</span><span class="p">)</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">go_home</span><span class="p">()</span></div>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s">&#39;testExpAdmin&#39;</span><span class="p">,</span> <span class="s">&#39;P@ssword10&#39;</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">go_home</span><span class="p">()</span>
 
-
+</div>
 <span class="nd">@pytest.fixture</span>
 <div class="viewcode-block" id="login_sysadmin"><a class="viewcode-back" href="../STD/conftest.html#conftest.login_sysadmin">[docs]</a><span class="k">def</span> <span class="nf">login_sysadmin</span><span class="p">():</span>
     <span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">():</span>
         <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
-    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;fitadmin&#39;</span><span class="p">,</span> <span class="s1">&#39;Password1!&#39;</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s">&#39;fitadmin&#39;</span><span class="p">,</span> <span class="s">&#39;Password1!&#39;</span><span class="p">)</span>
     <span class="n">web_sess</span><span class="o">.</span><span class="n">go_home</span><span class="p">()</span></div>
 </pre></div>
 
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper"><div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -146,7 +159,7 @@
   </ul></li>
 </ul>
 </div>
-<div id="searchbox" style="display: none" role="search">
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -167,8 +180,8 @@
       &copy;2016, Timothy Wilkins.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
       
     </div>
 
