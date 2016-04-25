@@ -1,21 +1,22 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using UAHFitVault.DataAccess;
 using UAHFitVault.DataAccess.BasisPeakServices;
 using UAHFitVault.DataAccess.MicrosoftBandServices;
 using UAHFitVault.DataAccess.ZephyrServices;
-using UAHFitVault.Database;
 using UAHFitVault.Database.Entities;
 using UAHFitVault.Helpers;
 using UAHFitVault.LogicLayer.Enums;
 using UAHFitVault.LogicLayer.LogicFiles;
 using UAHFitVault.LogicLayer.Resources;
 using UAHFitVault.Models;
-using System.Linq;
-using System;
 
 namespace UAHFitVault.Controllers
 {
@@ -142,6 +143,22 @@ namespace UAHFitVault.Controllers
 
         #endregion
 
+        #region Public Properties
+
+        /// <summary>
+        /// The path to the export directory.
+        /// </summary>
+        public string ExportPath {
+            get {
+                return Session["exExportPath"].ToString();
+            }
+            set {
+                Session["exExportPath"] = value;
+            }
+        }
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -243,7 +260,12 @@ namespace UAHFitVault.Controllers
         /// </summary>
         /// <param name="patientDataId"></param>
         /// <returns></returns>
-        public string ExportData(string path, string patientDataId) {
+        public string ExportData(string patientDataId) {
+
+            string path = @"c:\exports\" + Guid.NewGuid().ToString();
+            ExportPath = path;
+            //Create download directory
+            Directory.CreateDirectory(path);
 
             PatientData patientData = _patientDataService.GetPatientData(patientDataId);
 
@@ -680,7 +702,29 @@ namespace UAHFitVault.Controllers
 
             export.ExportToFile(@path + "\\" + fileIndex + patientData.Name);
 
-            return null;
+            string zipFileName = "PatientDataRecord-" + patientData.Name + ".zip";
+
+            ZipArchive zip = ZipFile.Open(path + "\\" + zipFileName, ZipArchiveMode.Create);
+
+            foreach (var file in Directory.EnumerateFiles(path)) {
+                if (!file.Contains(".zip")) {
+                    zip.CreateEntryFromFile(file, Path.GetFileName(file), CompressionLevel.Optimal);
+                }
+            }
+            zip.Dispose();
+
+            return zipFileName;
+            
+        }
+
+        /// <summary>
+        /// Prompt the user to download the file.
+        /// </summary>
+        /// <param name="filename">Name of the file to download.</param>
+        /// <returns></returns>
+        public ActionResult DownloadFile(string filename) {
+            string fullpath = ExportPath + "\\" + filename;
+            return File(fullpath, "application/zip", filename);
         }
 
         #endregion

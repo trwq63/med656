@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Web.Mvc;
 using UAHFitVault.DataAccess;
@@ -105,6 +107,22 @@ namespace UAHFitVault.Controllers
         /// Service object for accessing Microsoft Band UV database functions.
         /// </summary>
         private readonly IMSBandUVService _msBandUVService;
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// The path to the export directory.
+        /// </summary>
+        public string ExportPath {
+            get {
+                return Session["eExportPath"].ToString();
+            }
+            set {
+                Session["eExportPath"] = value;
+            }
+        }
 
         #endregion
 
@@ -341,10 +359,15 @@ namespace UAHFitVault.Controllers
         /// Export experiment data.
         /// </summary>
         /// <param name="patientDataId">Id of the data record that contains the experiment data.</param>
-        /// <param name="path">path to save the files to on the computer.</param>
         /// <param name="activityType">type of activity associated with experiment.</param>
         /// <returns></returns>
-        public string ExportExperiment(string patientDataId, string path, string activityType) {
+        public string ExportExperiment(string patientDataId, string activityType) {
+
+            string path = @"c:\exports\" + Guid.NewGuid().ToString();
+            ExportPath = path;
+            //Create download directory
+            Directory.CreateDirectory(path);
+
             PatientData patientData = _patientDataService.GetPatientData(patientDataId);
 
             List<Activity> activityRecords = new List<Activity>();
@@ -363,6 +386,16 @@ namespace UAHFitVault.Controllers
                     activityExport.ExportToFile(@path + "\\Activities_" + patientData.Name);
                 }
                 activityRecords = patientData.Activities.ToList();
+
+                //Create a fake activity if no activities exist for the All selection. This will allow the user to download the
+                //entire data record file.
+                if (activityRecords.Count == 0) {
+                    Activity activity = new Activity() {
+                        StartTime = new DateTime(),
+                        EndTime = DateTime.MaxValue.AddDays(-1)
+                    };
+                    activityRecords.Add(activity);
+                }
             }
 
             List<string> columnNames = new List<string>();
@@ -374,6 +407,7 @@ namespace UAHFitVault.Controllers
                 DateTime start = activity.StartTime;
                 DateTime end = activity.EndTime;
                 string filename = "Experiment_" + Session["eExperimentName"].ToString() + "_" + DateTime.Now.ToString("mm-dd-yyyy") +".csv";
+                //string filename = "Experiment_Results_Run_" + DateTime.Now.ToString("mm-dd-yyyy") + Guid.NewGuid().ToString() + ".csv";
                 try {
                     switch (patientData.DataType) {
                         case (int)File_Type.Accelerometer:
@@ -788,10 +822,36 @@ namespace UAHFitVault.Controllers
                     //by a future team.
                 }
 
-                export.ExportToFile(@path + "\\" + fileIndex + filename);                
+                export.ExportToFile(@path + "\\" + fileIndex + filename);
             }
 
-            return null;
+            //Zip files if there are any
+            if(Directory.GetFiles(path).Length > 0) {
+                string zipFileName = "ExperimentResults-" + Guid.NewGuid().ToString() + ".zip";
+
+                ZipArchive zip = ZipFile.Open(path + "\\" + zipFileName, ZipArchiveMode.Create);
+                
+                foreach (var file in Directory.EnumerateFiles(path)) {
+                    if (!file.Contains(".zip")) {
+                        zip.CreateEntryFromFile(file, Path.GetFileName(file), CompressionLevel.Optimal);
+                    }
+                }
+                zip.Dispose();
+
+                return zipFileName;
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Prompt the user to download the file.
+        /// </summary>
+        /// <param name="filename">Name of the file to download.</param>
+        /// <returns></returns>
+        public ActionResult DownloadFile(string filename) {
+            string fullpath = ExportPath + "\\" + filename;
+            return File(fullpath, "application/zip", filename);
         }
         #endregion
     }

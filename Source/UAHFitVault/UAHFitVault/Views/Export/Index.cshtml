@@ -14,10 +14,6 @@
 <h2>Export</h2>
 
 <div class="col s12">    
-    <div class="row col s12 input-field">
-        <input id="directory" type="text">
-        <label for="directory">Enter File Download Path</label>
-    </div>
     <div class="row col s12">
         <div class="col s5">
             <div class="tableCard">
@@ -56,27 +52,20 @@
         });
 
         $("#btnExport").click(function () {
-            var path = $('#directory').val();
-            if (path != null && path != undefined && path != "") {
-                var id = $('input[name=radio]:checked').val();
-                $.ajax({
-                    type: "POST",
-                    data: {
-                        path: path,
-                        patientDataId: id
-                    },
-                    url: "/Export/ExportData",
-                    success: function (data) {
-                        window.location.reload();
-                    },
-                    error: function (error) {
-                        alert("No Data Found");
-                    }
-                });
-            }
-            else {
-                alert("Please enter a directory location to download the file(s) to.");
-            }
+            var id = $('input[name=radio]:checked').val();
+            $.ajax({
+                type: "POST",
+                data: {
+                    patientDataId: id
+                },
+                url: "/Export/ExportData",
+                success: function (data) {
+                    window.location = '/Export/DownloadFile?filename=' + data;
+                },
+                error: function (error) {
+                    alert("No Data Found");
+                }
+            });            
         });
 
     </script>
