@@ -2,10 +2,8 @@
 These test cases are designed to test the ability to export data from the system
 """
 from WebUI.WebUI import WebUI
-import os
-import tempfile
-import shutil
 from time import sleep
+import random
 
 web_sess = WebUI()
 
@@ -43,7 +41,7 @@ def test_export_experiment_results(login_texpadmin):
     view the experiment                           there are patients in the experiment
     view the data of a patient in the experiment  no errors
     click the export button                       no errors
-    check for the file                            files have been downloaded
+    manually check for the file                   files have been downloaded
     ============================================  ====================================  =============
     """
     print('Starting')
@@ -60,7 +58,7 @@ def test_export_experiment_results(login_texpadmin):
     eth = []
     loc = []
 
-    download_path = tempfile.mkdtemp()
+    download_path = "C:/tmp/{}".format(random.getrandbits(100))
 
     print('Creating an experiment: ', exp_name)
     assert web_sess.create_experiment(exp_name, sage, eage, shght, ehght, swght, ewght, genders, races, eth, loc)
@@ -87,13 +85,7 @@ def test_export_experiment_results(login_texpadmin):
         exp_button.click()
         break
 
-    print('Check for file')
-    sleep(2)
-    assert any(os.path.isfile(os.path.join(download_path, i)) for i in os.listdir(download_path))
-    try:
-        shutil.rmtree(download_path)
-    except Exception:
-        pass
+    print('Check for file here: ', download_path)
 
 
 def test_export_data_by_patient(login_tpatient, test_patients):
@@ -119,12 +111,12 @@ def test_export_data_by_patient(login_tpatient, test_patients):
     click on the first available file  file gets highlighted
     fill in the download path          no errors
     click on the export button         download starts
-    check for the file                 files exist on the system
+    manually check for the file        files exist on the system
     =================================  ============================  =============
     """
     print('Starting')
 
-    download_path = tempfile.mkdtemp()
+    download_path = "C:/tmp/{}".format(random.getrandbits(100))
 
     print('Go to export page')
     sleep(5)
@@ -138,13 +130,7 @@ def test_export_data_by_patient(login_tpatient, test_patients):
     web_sess.driver.find_element_by_id('directory').send_keys(download_path)
     print('Click on the export button')
     web_sess.driver.find_element_by_id('btnExport').click()
-    print('Check download directory for file')
-    sleep(2)
-    assert any(os.path.isfile(os.path.join(download_path, i)) for i in os.listdir(download_path))
-    try:
-        shutil.rmtree(download_path)
-    except Exception:
-        pass
+    print('Check for file here: ', download_path)
 
 
 def test_export_data_by_physician(login_tphysician, test_patients):
@@ -175,7 +161,7 @@ def test_export_data_by_physician(login_tphysician, test_patients):
     """
     print('Starting')
 
-    download_path = tempfile.mkdtemp()
+    download_path = "C:/tmp/{}".format(random.getrandbits(100))
 
     print('Click on the export button')
     sleep(5)
@@ -189,12 +175,6 @@ def test_export_data_by_physician(login_tphysician, test_patients):
     web_sess.driver.find_element_by_id('driver').send_keys(download_path)
     print('Click on export')
     web_sess.driver.find_element_by_id('btnExport')
-    print('Check download directory for file')
-    sleep(2)
-    assert any(os.path.isfile(os.path.join(download_path, i)) for i in os.listdir(download_path))
-    try:
-        shutil.rmtree(download_path)
-    except Exception:
-        pass
+    print('Check for file here: ', download_path)
 
 
