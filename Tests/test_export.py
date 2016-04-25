@@ -58,7 +58,7 @@ def test_export_experiment_results(login_texpadmin):
     eth = []
     loc = []
 
-    download_path = "C:/tmp/{}".format(random.getrandbits(100))
+    #download_path = "C:/tmp/{}".format(random.getrandbits(100))
 
     print('Creating an experiment: ', exp_name)
     assert web_sess.create_experiment(exp_name, sage, eage, shght, ehght, swght, ewght, genders, races, eth, loc)
@@ -81,11 +81,12 @@ def test_export_experiment_results(login_texpadmin):
             view_buttons = web_sess.driver.find_elements_by_css_selector('input[value="View Data"]')
             p += 1
             continue
-        web_sess.driver.find_element_by_id('directory').send_keys(download_path)
+        #web_sess.driver.find_element_by_id('directory').send_keys(download_path)
         exp_button.click()
         break
 
-    print('Check for file here: ', download_path)
+    #print('Check for file here: ', download_path)
+    print('check the download folder for the file')
 
 
 def test_export_data_by_patient(login_tpatient, test_patients):
@@ -116,7 +117,7 @@ def test_export_data_by_patient(login_tpatient, test_patients):
     """
     print('Starting')
 
-    download_path = "C:/tmp/{}".format(random.getrandbits(100))
+    #download_path = "C:/tmp/{}".format(random.getrandbits(100))
 
     print('Go to export page')
     sleep(5)
@@ -126,11 +127,12 @@ def test_export_data_by_patient(login_tpatient, test_patients):
     print('Click on the first available file')
     sleep(2)
     web_sess.driver.find_element_by_css_selector('label[class="verticalSelect__label"]').click()
-    print('Fill in download path')
-    web_sess.driver.find_element_by_id('directory').send_keys(download_path)
+    #print('Fill in download path')
+    #web_sess.driver.find_element_by_id('directory').send_keys(download_path)
     print('Click on the export button')
     web_sess.driver.find_element_by_id('btnExport').click()
-    print('Check for file here: ', download_path)
+    #print('Check for file here: ', download_path)
+    print('Check the download folder for the file')
 
 
 def test_export_data_by_physician(login_tphysician, test_patients):
@@ -161,7 +163,7 @@ def test_export_data_by_physician(login_tphysician, test_patients):
     """
     print('Starting')
 
-    download_path = "C:/tmp/{}".format(random.getrandbits(100))
+    #download_path = "C:/tmp/{}".format(random.getrandbits(100))
 
     print('Click on the export button')
     sleep(5)
@@ -171,10 +173,11 @@ def test_export_data_by_physician(login_tphysician, test_patients):
     print('Click on the first file')
     sleep(5)
     web_sess.driver.find_element_by_class_name('verticalSelect__label').click()
-    print('Fill in download path')
-    web_sess.driver.find_element_by_id('driver').send_keys(download_path)
+    #print('Fill in download path')
+    #web_sess.driver.find_element_by_id('driver').send_keys(download_path)
     print('Click on export')
     web_sess.driver.find_element_by_id('btnExport')
-    print('Check for file here: ', download_path)
+    #print('Check for file here: ', download_path)
+    print('Check the download folder for the file')
 
 
