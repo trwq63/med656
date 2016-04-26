@@ -64,6 +64,8 @@ Follow the table below to find details of the test automation.
 
    test_create_account
    test_edit_account
+   test_experiment
+   test_export
    test_login
    test_password
    test_security

@@ -6,11 +6,9 @@ UAHealth Bit Vault Software Test Description
 
 .. contents:: Table of Contents
 
-Scope
------
 
 Sign Off
-********
+--------
 
 The sign off below indicates that the project has been accepted as is at the moment of signing. No further obligations
 are required by the development team. Please sign by your name and date::
@@ -20,6 +18,10 @@ are required by the development team. Please sign by your name and date::
    James Duggan:     _________________________________________ Date: ____________
    Glen Riden:       _________________________________________ Date: ____________
    Ryan Wilkins:     _________________________________________ Date: ____________
+
+
+Scope
+-----
 
 
 Identification
