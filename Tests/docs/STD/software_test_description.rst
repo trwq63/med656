@@ -9,6 +9,19 @@ UAHealth Bit Vault Software Test Description
 Scope
 -----
 
+Sign Off
+********
+
+The sign off below indicates that the project has been accepted as is at the moment of signing. No further obligations
+are required by the development team. Please sign by your name and date::
+
+   Dr. Kulick:       _________________________________________ Date: ____________
+   Dr. Milenkovic:   _________________________________________ Date: ____________
+   James Duggan:     _________________________________________ Date: ____________
+   Glen Riden:       _________________________________________ Date: ____________
+   Ryan Wilkins:     _________________________________________ Date: ____________
+
+
 Identification
 **************
 
@@ -42,14 +55,3 @@ Test Descriptions
    pytest_test_descriptions
    manual_test_descriptions
 
-Sign Off
-********
-
-The sign off below indicates that the project has been accepted as is at the moment of signing. No further obligations
-are required by the development team. Please sign by your name and date::
-
-   Dr. Kulick:       _________________________________________ Date: ____________
-   Dr. Milenkovic:   _________________________________________ Date: ____________
-   James Duggan:     _________________________________________ Date: ____________
-   Glen Riden:       _________________________________________ Date: ____________
-   Ryan Wilkins:     _________________________________________ Date: ____________
