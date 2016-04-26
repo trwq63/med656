@@ -196,8 +196,8 @@ Database Verification Test
 ========================================================================  ===========================================  =============
 Steps                                                                     Expected Result                              Actual Result
 ========================================================================  ===========================================  =============
-Login locally or remote in to the UAHealt Bit Vault server desktop        you are at the windows desktop
-Open Microsoft SQL Database Manager                                       you can see the uahbitvault database
+Login locally or remote in to the UAHealt Fit Vault server desktop        you are at the windows desktop
+Open Microsoft SQL Database Manager                                       you can see the uahfitvault database
 ========================================================================  ===========================================  =============
 
 Internet Access Verification Test
