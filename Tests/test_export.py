@@ -99,7 +99,7 @@ def test_export_data_by_patient(login_tpatient, test_patients):
 
     **Pre Conditions:**
 
-    - logoff fixture
+    - login_tpatient fixture
 
     **Input:**
 
@@ -114,6 +114,10 @@ def test_export_data_by_patient(login_tpatient, test_patients):
     click on the export button         download starts
     manually check for the file        files exist on the system
     =================================  ============================  =============
+
+    **NOTE:**
+
+    This test does not work with the latest export changes that were made. It can be run manually for verification.
     """
     print('Starting')
 
@@ -145,7 +149,7 @@ def test_export_data_by_physician(login_tphysician, test_patients):
 
     **Pre Conditions:**
 
-    - logoff fixture
+    - login_tphysician fixture
 
     **Input:**
 
@@ -160,6 +164,10 @@ def test_export_data_by_physician(login_tphysician, test_patients):
     click the export button     the download starts
     check for the file          the file exises
     ==========================  =======================  =============
+
+    **NOTE:**
+
+    This test does not work with the latest export changes that were made. It can be run manually for verification.
     """
     print('Starting')
 

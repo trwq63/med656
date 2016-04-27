@@ -21,6 +21,5 @@ like this:
 
 .. image:: ./images/view_experiments_expadmin_export_2.png
 
-You can then fill out the path and click on the "Export" button for the file you want to export.
-
-.. image:: ./images/view_experiments_expadmin_export_3.png
+You can then click on the "Export" button for the file you want to export. This will bring up your browser's download
+wizard. Follow the prompts to download the file.

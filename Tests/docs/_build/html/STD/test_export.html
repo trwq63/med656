@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>test_export module &mdash; UAH Fit Vault 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="UAH Fit Vault 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Pytest Tests" href="pytest_test_descriptions.html" />
+    <link rel="next" title="test_login module" href="test_login.html" />
+    <link rel="prev" title="test_experiment module" href="test_experiment.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-test_export">
+<span id="test-export-module"></span><h1>test_export module<a class="headerlink" href="#module-test_export" title="Permalink to this headline">¶</a></h1>
+<p>These test cases are designed to test the ability to export data from the system</p>
+<dl class="function">
+<dt id="test_export.test_export_data_by_patient">
+<tt class="descclassname">test_export.</tt><tt class="descname">test_export_data_by_patient</tt><big>(</big><em>login_tpatient</em>, <em>test_patients</em><big>)</big><a class="reference internal" href="../_modules/test_export.html#test_export_data_by_patient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_export.test_export_data_by_patient" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.5: The system shall allow data exporting.</li>
+<li>3.1.5.2: The system shall allow patients to export their data.</li>
+<li>3.1.5.4: The system shall provide comma-separated values (.csv) file exports.</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>login_tpatient fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="45%" />
+<col width="38%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>go to export page</td>
+<td>your username is visible</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>click on your user</td>
+<td>you can see an uploaded file</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>click on the first available file</td>
+<td>file gets highlighted</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>fill in the download path</td>
+<td>no errors</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>click on the export button</td>
+<td>download starts</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>manually check for the file</td>
+<td>files exist on the system</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p><strong>NOTE:</strong></p>
+<p>This test does not work with the latest export changes that were made. It can be run manually for verification.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="test_export.test_export_data_by_physician">
+<tt class="descclassname">test_export.</tt><tt class="descname">test_export_data_by_physician</tt><big>(</big><em>login_tphysician</em>, <em>test_patients</em><big>)</big><a class="reference internal" href="../_modules/test_export.html#test_export_data_by_physician"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_export.test_export_data_by_physician" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.5: The system shall allow data exporting.</li>
+<li>3.1.5.3: The system shall allow physicians to export the data of their patients.</li>
+<li>3.1.5.4: The system shall provide comma-separated values (.csv) file exports.</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>login_tphysician fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="37%" />
+<col width="21%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>click on the export button</td>
+<td>you see the patient</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>click on the patient</td>
+<td>you see files listed</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>click on the first file</td>
+<td>the file is highlighted</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>fill in the download path</td>
+<td>no errors</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>click the export button</td>
+<td>the download starts</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>check for the file</td>
+<td>the file exises</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p><strong>NOTE:</strong></p>
+<p>This test does not work with the latest export changes that were made. It can be run manually for verification.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="test_export.test_export_experiment_results">
+<tt class="descclassname">test_export.</tt><tt class="descname">test_export_experiment_results</tt><big>(</big><em>login_texpadmin</em><big>)</big><a class="reference internal" href="../_modules/test_export.html#test_export_experiment_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#test_export.test_export_experiment_results" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Requirements:</strong></p>
+<ul class="simple">
+<li>3.1.5: The system shall allow data exporting.</li>
+<li>3.1.5.1: The system shall allow experiment results to be exported.</li>
+<li>3.1.5.4: The system shall provide comma-separated values (.csv) file exports.</li>
+</ul>
+<p><strong>Pre Conditions:</strong></p>
+<ul class="simple">
+<li>login_texpadmin fixture</li>
+</ul>
+<p><strong>Input:</strong></p>
+<ul class="simple">
+<li>exp_name = &#8216;test_experiment&#8217;</li>
+<li>sage = &#8216;18&#8217;</li>
+<li>eage = &#8216;90&#8217;</li>
+<li>shght = &#8216;60&#8217;</li>
+<li>ehght = &#8216;80&#8217;</li>
+<li>swght = &#8216;100&#8217;</li>
+<li>ewght = &#8216;250&#8217;</li>
+<li>genders = []</li>
+<li>races = []</li>
+<li>eth = []</li>
+<li>loc = []</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="47%" />
+<col width="39%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Steps</th>
+<th class="head">Expected Result</th>
+<th class="head">Actual Result</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>create experiemnt</td>
+<td>no errors</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>view the experiment</td>
+<td>there are patients in the experiment</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>view the data of a patient in the experiment</td>
+<td>no errors</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>click the export button</td>
+<td>no errors</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>manually check for the file</td>
+<td>files have been downloaded</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="software_test_description.html">UAHealth Bit Vault Software Test Description</a><ul>
+  <li><a href="pytest_test_descriptions.html">Pytest Tests</a><ul>
+      <li>Previous: <a href="test_experiment.html" title="previous chapter">test_experiment module</a></li>
+      <li>Next: <a href="test_login.html" title="next chapter">test_login module</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/STD/test_export.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, James Duggan, Glen Riden, Ryan Wilkins.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
+      
+      |
+      <a href="../_sources/STD/test_export.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
