@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Disable Patient";
+}
+
+@model UAHFitVault.Models.DisablePatientViewModel
+
+@Html.ValidationSummary("", new { @class = "text-danger" })
+
+@using (Html.BeginForm("DisablePatientConfirm", "Physician", FormMethod.Post))
+{
+    <h2>Disable Patient - @Html.DisplayTextFor(m => m.Username)@Html.HiddenFor(m => m.Username)</h2>
+    <br />
+    <p align="center">Are you sure you wish to disable this user (<i>@Html.DisplayTextFor(m => m.Username)</i>) permanently?</p>
+    <p align="center">
+        <input type="submit" value="Continue" class="btn" />
+        <input type="button" value="Cancel" class="btn" onclick="location.href = '/Account/LoginRedirect'; " />
+    </p>
+}
+<br /><br />

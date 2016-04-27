@@ -1,0 +1,144 @@
+﻿@using UAHFitVault.Models
+@using UAHFitVault.LogicLayer.Enums;
+
+@model AdminViewModel
+
+<h2>User Management</h2>
+<div class="center">
+    <span style="font-size: 18px">Select the type of users you wish to view: &nbsp;&nbsp;</span>
+    @Html.DropDownListFor(m => m.SelectedRole, Model.RoleList, new { id = "roleList", style = "max-width: 35%", @class = "btn dropdown-button grey" })
+</div>
+<div id="userTable" style="margin-top: 30px">
+    <table class="striped centered responsive-table">
+        <thead>
+            <tr>
+                <th data-field="username">Name</th>
+                <th data-field="userrole">Role</th>
+                <th data-field="userstatus">Status</th>
+                <th data-field="adminactions">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Users==null)
+            {
+            }
+            else
+            {
+                foreach (UserInfoModel user in Model.Users)
+                {
+                    <tr class="@(!string.IsNullOrEmpty(user.Role) ? user.Role.ToString().Replace(" ", "_") : "None") roleRow">
+                        <td>@Html.DisplayFor(i => user.FullName)</td>
+                        @if (!string.IsNullOrEmpty(user.Role))
+                        {
+                            <td>@Html.DisplayFor(i => user.Role)</td>
+                        }
+                        else {
+                            <td>None</td>
+                        }
+                        <td>@user.Status.ToString()</td>
+                        <td>
+                            @{
+                                int index = Model.Users.IndexOf(user);
+                                string enableButtonId = "btnEnable" + index;
+                                string disableButtonId = "btnDisable" + index;
+                                string deleteButtonId = "btnDelete" + index;
+                                string resetPasswordButtonId = "btnResetPassword" + index;
+                            }
+                            @if (user.Status == Account_Status.Inactive)
+                            {
+                                <button id="@enableButtonId" class="waves-effect waves-light btn blue" onclick="enableUser(this)" value="@user.UserId">
+                                    Enable
+                                </button>
+                            }
+                            else if (user.Status == Account_Status.Active)
+                            {
+                                <button id="@disableButtonId" class="waves-effect waves-light btn red" onclick="rejectUser(this)" value="@user.UserId">
+                                    Disable
+                                </button>
+                            }
+                            <button id="@deleteButtonId" class="waves-effect waves-light btn grey" onclick="deleteUser(this)" value="@user.UserId">
+                                <i class="material-icons left">delete</i>
+                                Delete
+                            </button>
+                            @{/* Glen: I couldn't figure out how to get the ajax post to accept the userId and reload the view, so I passed the parameter with the location.href.*/}
+                            <button id="@resetPasswordButtonId" class="waves-effect waves-light btn green" onclick="location.href = '/Admin/ResetPassword?userId=@user.UserId';">
+                                Reset Password
+                            </button>
+                        </td>
+                    </tr>
+                 }
+              }
+        </tbody>
+    </table>
+</div>
+
+
+
+@section scripts{
+    <script type="text/javascript">
+        /*
+        Send a request to the admin controller to reject a pending user or disable an active user.
+        */
+        function rejectUser(element) {
+            var userId = element.value;
+            $.ajax({
+                type: "POST",
+                url: "/Admin/RejectUser",
+                data: { userId: userId },
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        };
+
+        /*
+        Send a request to the admin controller to enable an inactive user.
+        */
+        function enableUser(element) {
+            var userId = element.value;
+            $.ajax({
+                type: "POST",
+                url: "/Admin/EnableUser",
+                data: { userId: userId },
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        };
+
+        /*
+        Send a request to the admin controller to delete a user from the system.
+        */
+        function deleteUser(element) {
+            var userId = element.value;
+            $.ajax({
+                type: "POST",
+                url: "/Admin/DeleteUser",
+                data: { userId: userId },
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        };
+
+        /*
+        Create a binding for detecting a dropdown menu change.
+        */
+        $("#roleList").change(filterRoles);
+
+        /*
+        Assigns the materialize hide class to a table row to remove rows from view based on the dropdown menu
+        */
+        function filterRoles() {
+            var selected = $(this).val().replace(" ", "_");
+            if (selected == "All_Roles") {
+                $(".roleRow").removeClass("hide");
+            }
+            else{
+                $(".roleRow").addClass("hide");
+                $("." + selected).removeClass("hide");
+            }
+        }
+
+    </script>
+}    

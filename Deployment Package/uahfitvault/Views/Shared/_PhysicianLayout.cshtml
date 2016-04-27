@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="~/Content/materialize/css/materialize.min.css" media="screen,projection" />
+
+
+    <title>UAH Fit Vault</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("headers", required: false)
+</head>
+<body>
+    <nav class="blue darken-3">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">
+                <img src="~/Content/icons/fitvault-12.png" style="margin-top:5px; height:50px;width:100px;" />
+                UAH Fit Vault
+            </a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li>@Html.ActionLink("Patient Management", "Index", "Physician")</li>
+                <li>@Html.ActionLink("View Experiments", "ViewExperiments", "Physician")</li>
+                <li>@Html.ActionLink("Export Data", "Index", "Export")</li>
+                <li>@Html.Partial("_LogoffPartial")</li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Property of UAH Computer Engineering Department</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/materialize")
+    <script>
+        $(document).ready(function () {
+            $('select').material_select();
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

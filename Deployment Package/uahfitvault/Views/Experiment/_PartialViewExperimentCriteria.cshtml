@@ -1,0 +1,61 @@
+﻿@model UAHFitVault.Models.ViewExperimentCriteriaViewModel
+
+@if (Model.experiment != null)
+{
+    <table class="centered">
+        <tr class="black-text" style="font-size: 13px;">
+            <td class="blue lighten-3" style="vertical-align: top;"><b>Age</b><br /><font size="1">(years)</font></td>
+            <td class="blue lighten-4" style="vertical-align: top;"><b>Weight Range</b><br /><font size="1">(pounds)</font></td>
+            <td class="blue lighten-3" style="vertical-align: top;"><b>Height Range</b><br /><font size="1">(inches)</font></td>
+            <td class="blue lighten-4" style="vertical-align: top;"><b>Genders</b></td>
+            <td class="blue lighten-3" style="vertical-align: top;"><b>Races</b></td>
+            <td class="blue lighten-4" style="vertical-align: top;"><b>Ethnicities</b></td>
+            <td class="blue lighten-3" style="vertical-align: top;"><b>Locations</b></td>
+        </tr>
+        <tr class="black-text text-lighten-2" style="font-size: 11px;">
+            <td class="blue lighten-3" style="vertical-align: top;">@Model.experiment.ageRangeStart to @Model.experiment.ageRangeEnd</td>
+            <td class="blue lighten-4" style="vertical-align: top;">@Model.experiment.weightRangeBegin to @Model.experiment.weightRangeEnd</td>
+            <td class="blue lighten-3" style="vertical-align: top;">@Model.experiment.heightRangeBegin to @Model.experiment.heightRangeEnd</td>
+            <td class="blue lighten-4" style="vertical-align: top;">
+                @for (int i = 0; i < Model.experiment.selectedGenders.Length; i++)
+                {
+                    @Model.experiment.selectedGenders[i].Replace("_", " ");
+                    if (i < Model.experiment.selectedGenders.Length - 1)
+                    {
+                        @Html.Raw("<br />");
+                    }
+                }
+            </td>
+            <td class="blue lighten-3" style="vertical-align: top;">
+                @for (int i = 0; i < Model.experiment.selectedRaces.Length; i++)
+                {
+                    @Model.experiment.selectedRaces[i].Replace("_", " ");
+                    if (i < Model.experiment.selectedRaces.Length - 1)
+                    {
+                        @Html.Raw("<br />");
+                    }
+                }
+            </td>
+            <td class="blue lighten-4" style="vertical-align: top;">
+                @for (int i = 0; i < Model.experiment.selectedEthnicities.Length; i++)
+                {
+                    @Model.experiment.selectedEthnicities[i].Replace("_", " ");
+                    if (i < Model.experiment.selectedEthnicities.Length - 1)
+                    {
+                        @Html.Raw("<br />");
+                    }
+                }
+            </td>
+            <td class="blue lighten-3" style="vertical-align: top;">
+                @for (int i = 0; i < Model.experiment.selectedLocations.Length; i++)
+                {
+                    @Model.experiment.selectedLocations[i].Replace("_", " ");
+                    if (i < Model.experiment.selectedLocations.Length - 1)
+                    {
+                        @Html.Raw("<br />");
+                    }
+                }
+            </td>
+        </tr>
+    </table>
+}

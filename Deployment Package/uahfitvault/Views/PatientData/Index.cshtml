@@ -1,0 +1,579 @@
+﻿@using UAHFitVault.Database.Entities;
+@using UAHFitVault.LogicLayer.Enums;
+@using UAHFitVault.LogicLayer.Models;
+
+@model List<PatientDataByDevice>
+
+@section headers{
+    <link type="text/css" rel="stylesheet" href="~/Content/dateCard.css" media="screen,projection" />   
+    <link type="text/css" rel="stylesheet" href="~/Content/tableCard.css" media="screen,projection" />   
+    <link type="text/css" rel="stylesheet" href="~/Content/optionsCard.css" media="screen,projection" /> 
+    <link type="text/css" rel="stylesheet" href="~/Content/dataRecords.css" media="screen,projection" /> 
+    <link type="text/css" href="~/Content/verticalSelect.css" rel="stylesheet" media="screen,projection" />
+    <link type="text/css" href="~/Content/lineGraph.css" rel="stylesheet" media="screen,projection" />
+}
+
+@{ 
+    List<string> options = Enum.GetNames(typeof(DataViewOptions)).Cast<string>().ToList();
+
+    //Get files specifically for heart rate comparison for each device.
+    List<PatientData> zephyrSummary = new List<PatientData>();
+    if(Model.FirstOrDefault(m => m.MedicalDevice == "Zephyr")!= null) {
+        PatientDataByDevice deviceData = Model.FirstOrDefault(m => m.MedicalDevice == "Zephyr");
+        if (deviceData.DataRecords.FirstOrDefault(d => d.DataType == (int)File_Type.Summary) != null) {
+            zephyrSummary.AddRange(deviceData.DataRecords.Where(d => d.DataType == (int)File_Type.Summary));
+        }
+        if (deviceData.DataRecords.FirstOrDefault(d => d.DataType == (int)File_Type.General) != null) {
+            zephyrSummary.AddRange(deviceData.DataRecords.Where(d => d.DataType == (int)File_Type.General));
+        }
+    }
+
+    List<PatientData> basisSummary = new List<PatientData>();
+    if (Model.FirstOrDefault(m => m.MedicalDevice == "BasisPeak") != null) {
+        basisSummary.AddRange(Model.FirstOrDefault(m => m.MedicalDevice == "BasisPeak").DataRecords);
+    }
+
+    //Get files specifically for heart rate comparison for each device.
+    List<PatientData> msBandHeartRate = new List<PatientData>();
+    if (Model.FirstOrDefault(m => m.MedicalDevice == "Microsoft Band") != null) {
+        PatientDataByDevice deviceData = Model.FirstOrDefault(m => m.MedicalDevice == "Microsoft Band");
+        if (deviceData.DataRecords.FirstOrDefault(d => d.DataType == (int)File_Type.HeartRate) != null) {
+            msBandHeartRate.AddRange(deviceData.DataRecords.Where(d => d.DataType == (int)File_Type.HeartRate));
+        }
+    }
+
+}
+
+<h2>View Patient Data</h2>
+
+<div class="col s12">
+    <div class="col s12">
+        <div class="row">
+            <div class="dateCard">
+                <div class="dateCard__header">
+                    Date and Time Filter
+                </div>
+                <div class="row dateCard__container">
+                    <div class="input-field dateCard__date">
+                        <i class="material-icons prefix">today</i>
+                        <input id="date" name="Date" type="text" class="datepicker" />
+                        <label for="date">Select Date</label>
+                    </div>
+                    <div class="input-field dateCard__date">
+                        <i class="material-icons prefix">timer</i>
+                        <input id="startTime" name="FromDate" type="text" class="timepicker" />
+                        <label for="startTime">Start Time</label>
+                    </div>
+                    <div class="input-field dateCard__date">
+                        <i class="material-icons prefix">timer</i>
+                        <input id="endTime" name="ToDate" type="text" class="timepicker" />
+                        <label for="endTime">End Time</label>
+                    </div>
+                </div>
+            </div>
+            <div class="optionsCard">
+                <div class="optionsCard__header">
+                    Options
+                </div>
+                <div class="optionsCard__container">
+                    @foreach (string option in options) {
+                        <div class="row">
+                            <input name="options" type="radio" id="@option" value="@option" />
+                            <label class="optionsCard__option" for="@option">@option.Replace("_", " ")</label>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row col s12 heartrate">
+        @if (zephyrSummary.Count > 0) {
+            <div class="dataRecords">
+            
+                <div class="dataRecords__header">Zephyr</div>
+                <ul class="dataRecords__selectList">
+                    @foreach (PatientData dataRecord in zephyrSummary) {
+                        <li class="dataRecords__select">
+                            <input class="heartrate-radio" id="@dataRecord.Id" type="radio" name="zephyrradio" value="@dataRecord.Id" />
+                            <label class="dataRecords__label" for="@dataRecord.Id">@dataRecord.Name</label>
+                        </li>
+                    }
+                </ul>
+
+            </div>
+        }
+        @if (basisSummary.Count > 0) {
+            <div class="dataRecords">
+                <div class="dataRecords__header">BasisPeak</div>
+                <ul class="dataRecords__selectList">
+                    @foreach (PatientData dataRecord in basisSummary) {
+                        <li class="dataRecords__select">
+                            <input class="heartrate-radio" id="@dataRecord.Id" type="radio" name="basisradio" value="@dataRecord.Id" />
+                            <label class="dataRecords__label" for="@dataRecord.Id">@dataRecord.Name</label>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+        @if (msBandHeartRate.Count > 0) {
+            <div class="dataRecords">
+                <div class="dataRecords__header">Microsoft Band</div>
+                <ul class="dataRecords__selectList">
+                    @foreach (PatientData dataRecord in msBandHeartRate) {
+                        <li class="dataRecords__select">
+                            <input class="heartrate-radio" id="@dataRecord.Id" type="radio" name="msbandradio" value="@dataRecord.Id" />
+                            <label class="dataRecords__label" for="@dataRecord.Id">@dataRecord.Name</label>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+    <div class="row col s12 waveforms hide">
+        <div class="col s5">
+            <div class="tableCard">
+                <div class="tableCard__header">
+                    Medical Devices
+                </div>
+                <table class="tableCard__table">
+                    @foreach (PatientDataByDevice device in Model) {
+                        <tr class="tableCard__tableRow" data-devicename="@device.MedicalDevice">
+                            <td>@device.MedicalDevice</td>
+                            <td><i class="material-icons">arrow_drop_down</i></td>
+                        </tr>
+
+                        List<string> dataTypes = device.DataRecords.Select(d => d.DataType)
+                                            .Distinct().Cast<File_Type>().Select(d => d.ToString().Replace("_", " ")).ToList();
+
+                        foreach (string type in dataTypes) {
+                            <tr class="tableCard__collapsableRow" data-devicename="@device.MedicalDevice" data-datatype="@type">
+                                <td>@type</td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="col m2 s5">
+            @foreach (PatientDataByDevice device in Model) {
+                @Html.Partial("~/Views/PatientData/_PartialDataRecords.cshtml", device);
+            }
+        </div>
+    </div>  
+    <div class="row col s12">
+        <button id="btnSubmit" class="btn waves-green">Submit</button>
+    </div> 
+    <div id="graphContainer" class="lineGraph hide"></div>
+</div>
+
+@section scripts {
+<script src="~/Scripts/pickadate/picker.js"></script>
+<script src="~/Scripts/pickadate/picker.date.js"></script>
+<script src="~/Scripts/pickadate/picker.time.js"></script>
+<script src="~/Scripts/d3/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.10.0/d3-legend.min.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.datepicker').pickadate({
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 100,
+            max: Date.now()
+        });
+        $('.timepicker').pickatime({
+            clear: 'Clear',
+            format: 'h:i A',
+            interval: 15,
+            closeOnSelect: true,
+            closeOnClear: true
+        });
+
+        var $radios = $('input:radio[name=options]');
+        if ($radios.is(':checked') === false) {
+            $radios.filter('[value=Heart_Rate]').prop('checked', true);
+        }
+
+        $("input[name=options]").click(function () {
+            var option = $("input[name=options]:checked").val();
+            if (option == "Heart_Rate") {
+                $(".heartrate").removeClass('hide');
+                $(".waveforms").addClass('hide');
+            }
+            else {
+                $(".waveforms").removeClass('hide');
+                $(".heartrate").addClass('hide');
+            }
+        });
+    });
+
+    $("#btnSubmit").click(function () {
+        var date = $('#date').val();
+        var startTime = $("#startTime").val();
+        var endTime = $("#endTime").val();
+        var option = $("input[name=options]:checked").val();
+        if (((startTime != "" || endTime != "") && date != "")
+            || (date == "" && startTime == "" && endTime == "")
+            || (date != "")) {
+            var files = getCheckedFiles(option);
+            $.ajax({
+                type: "POST",
+                data: {
+                    date: date,
+                    startTime: startTime,
+                    endTime: endTime,
+                    patientData: files,
+                    option: option
+                },
+                url: "/PatientData/GraphData",
+                success: function (data) {
+                    $('#graphContainer').removeClass('hide');
+                    var result = JSON.parse(data);
+                    if (!result.error) {
+                        drawGraph(result);
+                    }
+                    else {
+                        alert(result.error);
+                    }
+                },
+                error: function (error) {
+                    alert("No Data Found");
+                }
+            });
+        }
+        else {
+            alert("Must enter a date in order to filter by time.");
+        }
+    });    
+
+    $(".tableCard__tableRow").click(function (element) {
+        var name = $(element.currentTarget).data("devicename");
+        $(".tableCard__collapsableRow").removeClass("tableCard__collapsableRow--isOpen");
+        $(".tableCard__tableRow").removeClass("tableCard__tableRow--isActive");
+        $(element.currentTarget).addClass("tableCard__tableRow--isActive");
+        $(".tableCard__collapsableRow[data-devicename='" + name + "']").addClass("tableCard__collapsableRow--isOpen");
+    });
+
+    $(".tableCard__collapsableRow").click(function (element) {
+        var name = $(element.currentTarget).data("datatype");
+        $(".verticalSelect__select").removeClass("verticalSelect__select--isActive");
+        $(element.currentTarget).addClass("verticalSelect__select--isActive");
+        $(".verticalSelect").addClass("verticalSelect--isOffScreen");
+        setTimeout(function () {
+            $(".verticalSelect[data-datatype='" + name + "']").removeClass("verticalSelect--isOffScreen");
+        }, 400);
+    });
+
+    function getCheckedFiles(option) {
+        var files = [];
+        var checked = [];
+        if (option == "Heart_Rate") {
+            checked = document.getElementsByClassName("heartrate-radio");
+        }
+        else if (option == "Waveforms") {
+            checked = document.getElementsByName("checkbox");
+        }
+        // loop through all checkboxes to find any that are checked.
+        for (var i = 0; i < checked.length; i++) {
+            // And stick the checked ones values into the array
+            if (checked[i].checked) {
+                files.push(checked[i].value);
+            }
+        }
+        
+        // Return the array if it is non-empty, or null
+        return files.length > 0 ? files : null;
+    };
+
+    function drawGraph(data) {
+
+        //Clear any previous graph if submit button is pressed again or a new graph is generated.
+        var graphContainer = document.getElementById("graphContainer");
+        while (graphContainer.firstChild) {
+            graphContainer.removeChild(graphContainer.firstChild);
+        }
+
+        var colors = ['blue', 'green' , 'red'];
+        var lines = [];
+        var graphTypes = [];
+
+        for (i = 0; i < data.LineGraphModels.length ; i++) {   
+            var xAxisData = data.LineGraphModels[i].XAxisData;
+            var yAxisData = data.LineGraphModels[i].YAxisData;
+
+            graphTypes.push(data.LineGraphModels[i].GraphType);
+
+            var linegraph = [];
+            for (j = 0; j < xAxisData.length; j++) {
+                var linepoint;
+                if (/chrome/.test(navigator.userAgent.toLowerCase())) {
+                    linePoint = {
+                        x: new Date(moment(xAxisData[j]).year(),
+                            moment(xAxisData[j]).month(),
+                            moment(xAxisData[j]).day(),
+                            moment(xAxisData[j]).hour(),
+                            moment(xAxisData[j]).minute(),
+                            moment(xAxisData[j]).second()),
+                        y: yAxisData[j]
+                    };
+                }
+                else {
+                    linePoint = { x: new Date(xAxisData[j]), y: yAxisData[j] };
+                }
+                linegraph.push(linePoint);
+            }
+
+            lines.push(linegraph);
+        }
+
+
+
+        //For now the we are assuming the axis are the same
+        var xAxisName = data.LineGraphModels[0].XAxisName;
+        var yAxisName = data.LineGraphModels[0].YAxisName;
+
+        var mindate = getMinDate(lines[0]);
+        var maxdate = getMaxDate(lines[0]);
+        var minData = getMinData(lines[0]);
+        var maxData = getMaxData(lines[0]);
+
+        var initialEndDate = new Date(mindate);
+        initialEndDate.setHours(initialEndDate.getHours() + 1);
+
+        margin = {
+            top: 20,
+            right: 40,
+            bottom: 40,
+            left: 25
+        };
+
+        width = 1000 - margin.left - margin.right;
+        height = 600 - margin.top - margin.bottom;
+
+        var x = d3.time.scale.utc().domain([mindate, initialEndDate]).range([0, width]);
+        var y = d3.scale.linear().domain([minData, maxData]).range([height, 0]);
+             
+        // create a line function that can convert data[] into x and y points
+        line = d3.svg.line()
+            // assign the X function to plot our line as we wish
+            .x(function (d) {
+                // verbose logging to show what's actually being done
+                //console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
+                // return the X coordinate where we want to plot this datapoint
+                return x(d.x);
+            })
+            .y(function (d) {
+                // verbose logging to show what's actually being done
+                //console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
+                // return the Y coordinate where we want to plot this datapoint
+                return y(d.y);
+            })
+
+        var zoom = d3.behavior.zoom()
+            .x(x)
+            .y(y)
+            // .scaleExtent([1, 10])
+            .on("zoom", zoomed);
+
+        // Add an SVG element with the desired dimensions and margin.
+        graph = d3.select("#graphContainer").append("svg:svg")
+            .attr("width", width + margin.left + (margin.right*5))
+            .attr("height", height + margin.top + margin.bottom)
+            .append("svg:g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .call(zoom);
+
+        graph.append("svg:rect")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("transform", "translate(" + margin.left + ",0)")
+            .attr("class", "plot");
+
+        // create yAxis
+        make_x_axis = function () {
+            return d3.svg.axis()
+                .scale(x)
+                .orient('bottom')
+                //.ticks(d3.time.minutes, 1)
+                .tickFormat(d3.time.format('%X'))
+                .tickSize(10)
+                .tickSubdivide(true)
+                .tickPadding(8);
+        };
+
+        // create yAxis
+        xAxis = d3.svg.axis()
+            .scale(x)
+            .orient('bottom')
+            //.ticks(d3.time.minutes, 1)
+            .tickFormat(d3.time.format('%X'))
+            .tickSize(10)
+            .tickPadding(8);
+
+
+        // Add the x-axis.
+        graph.append("svg:g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(" + margin.left + "," + height + ")")
+                .call(xAxis)
+            .append("text")
+                .attr("x", width)
+                .attr("dx", ".71em")
+                .style("text-anchor", "end")
+                .text(xAxisName);
+
+
+        // create left yAxis
+        make_y_axis = function () {
+            return d3.svg.axis()
+                .scale(y)
+                .ticks(10)
+                // .tickSubdivide(true)
+                .orient("left");
+        };
+
+        // create left yAxis
+        yAxis = d3.svg.axis()
+            .scale(y)
+            .ticks(10)
+            // .tickSubdivide(true)
+            .orient("left");
+
+        // Add the y-axis to the left
+        graph.append("svg:g")
+                .attr("class", "y axis")
+                .attr("transform", "translate(" + margin.left + ",0)")
+                .call(yAxis)
+            .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                //.style("text-anchor", "end")
+                .text(yAxisName);
+
+        graph.append("g")
+            .attr("class", "x grid")
+            .attr("transform", "translate(" + margin.left + "," + height + ")")
+            .call(make_x_axis()
+            .tickSize(-height, 0, 0)
+            .tickFormat(""));
+
+        graph.append("g")
+            .attr("class", "y grid")
+            .attr("transform", "translate(" + margin.left + ",0)")
+            .call(make_y_axis()
+            .tickSize(-width, 0, 0)
+            .tickFormat(""));            
+
+        var clip = graph.append("svg:clipPath")
+            .attr("id", "clip")
+            .append("svg:rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", width)
+            .attr("height", height);
+
+        //var chartBody = graph.append("g")
+        //    .attr("clip-path", "url(#clip)");
+
+        graph.selectAll('.line')
+	        .data(lines)
+	        .enter()
+	        .append("path")
+            .attr("class", "line")
+            .attr("transform", "translate(" + margin.left + ",0)")
+	        .attr("clip-path", "url(#clip)")
+	        .attr('stroke', function (d, i) {
+	            return colors[i % colors.length];
+	        })
+            .attr("d", line);
+
+        if (graphTypes.length > 1) {
+            var ordinal = d3.scale.ordinal()
+              .domain(graphTypes)
+              .range(colors);
+
+            graph.append("g")
+              .attr("class", "legendOrdinal")
+              .attr("transform", "translate(" + (width + margin.right) + ",20)");
+
+            var legendOrdinal = d3.legend.color()
+              .shape("path", d3.svg.symbol().type("triangle-up").size(150)())
+              .shapePadding(10)
+              .scale(ordinal);
+
+            graph.select(".legendOrdinal")
+                .call(legendOrdinal);
+        }
+    }
+
+    function zoomed() {
+        graph.select(".x.axis").call(xAxis);
+        graph.select(".y.axis").call(yAxis);
+        graph.select(".x.grid")
+            .call(make_x_axis()
+            .tickSize(-height, 0, 0)
+            .tickFormat(""));
+        graph.select(".y.grid")
+            .call(make_y_axis()
+            .tickSize(-width, 0, 0)
+            .tickFormat(""));
+        graph.selectAll(".line")
+            .attr("class", "line")
+            .attr("d", line);
+    }
+
+    //Get the minimum date from an array of dates.
+    function getMinDate(dates) {
+        var mindate = null;
+
+        for(i = 0; i < (dates.length -1); i++){
+            if (dates[i].x < mindate || mindate == null) {
+                mindate = dates[i].x;
+            }
+        }
+
+        return mindate;
+    }
+
+    //Get the maximum date from an array of dates.
+    function getMaxDate(dates) {
+        var maxdate = null;
+
+        for (i = 0; i < (dates.length - 1) ; i++) {
+            if (dates[i].x > maxdate || maxdate == null) {
+                maxdate = dates[i].x;
+            }
+        }
+
+        return maxdate;
+    }
+
+    //Get the minimum value from an array of data.
+    function getMinData(data) {
+        var minValue = null;
+
+        for (i = 0; i < (data.length - 1) ; i++) {
+            if (data[i].y < minValue || minValue == null) {
+                minValue = data[i].y;
+            }
+        }
+
+        return minValue;
+    }
+
+    //Get the maximum value from an array of data.
+    function getMaxData(data) {
+        var maxdata = null;
+
+        for (i = 0; i < (data.length - 1) ; i++) {
+            if (data[i].y > maxdata || maxdata == null) {
+                maxdata = data[i].y;
+            }
+        }
+
+        return maxdata;
+    }
+    
+
+</script>
+}

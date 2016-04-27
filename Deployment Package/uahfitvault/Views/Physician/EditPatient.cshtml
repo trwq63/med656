@@ -1,0 +1,124 @@
+﻿@using UAHFitVault.LogicLayer.Enums;
+
+@{
+    ViewBag.Title = "Edit Patient";
+}
+@model UAHFitVault.Models.EditPatientViewModel
+
+@{
+    List<string> genders = Enum.GetNames(typeof(PatientGender)).ToList();
+    List<string> races = Enum.GetNames(typeof(PatientRace)).ToList();
+    List<string> ethnicities = Enum.GetNames(typeof(PatientEthnicity)).ToList();
+    List<string> locations = Enum.GetNames(typeof(Location)).ToList();
+}
+
+<h5>Editing patient details for user: <i>@Html.DisplayTextFor(m => m.Username)</i></h5>
+
+@using (Html.BeginForm("EditPatient", "Physician", FormMethod.Post))
+{
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    @Html.HiddenFor(m => m.Username)
+    <table align="center">
+        <tr>
+            <td><label>Password</label></td>
+            <td><input type="button" class="btn green" value="Reset Password" onclick="location.href = '/Physician/ResetPassword?username=@Model.Username'; " /></td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Birthdate)</td>
+            <td>@Html.TextBoxFor(m => m.Birthdate, Convert.ToDateTime(Model.Birthdate).ToString("d MMMM, yyyy"), new { @type = "date", @class = "datepicker" })</td>
+            <td>@Html.LabelFor(m => m.Weight)</td>
+            <td>@Html.TextBoxFor(m => m.Weight)</td>
+            <td>@Html.LabelFor(m => m.Height)</td>
+            <td>@Html.TextBoxFor(m => m.Height)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Gender)</td>
+            <td>
+                @foreach (string gender in genders)
+                {
+                    string genderId = "gender" + gender;
+                    if (Model.Gender == ((int)Enum.Parse(typeof(PatientGender), gender)).ToString())
+                    {
+                        @Html.RadioButtonFor(m => m.Gender, gender, new { id = genderId, name = gender, @checked = true })
+                    }
+                    else
+                    {
+                        @Html.RadioButtonFor(m => m.Gender, gender, new { id = genderId, name = gender })
+                    }
+                    <label for="@genderId">@gender</label>
+                }
+            </td>
+            <td>@Html.LabelFor(m => m.Race)</td>
+            <td>
+                @foreach (string race in races)
+                {
+                    string raceId = "race" + race;
+                    if (Model.Race == ((int)Enum.Parse(typeof(PatientRace), race)).ToString())
+                    {
+                        @Html.RadioButtonFor(m => m.Race, race, new { id = raceId, name = race, @checked = true })
+                    }
+                    else
+                    {
+                        @Html.RadioButtonFor(m => m.Race, race, new { id = raceId, name = race })
+                    }
+                    <label for="@raceId">@race</label>
+                }
+            </td>
+            <td>@Html.LabelFor(m => m.Ethnicity)</td>
+            <td>
+                @foreach (string ethnicity in ethnicities)
+                {
+                    string ethnicityId = "ethnicity" + ethnicity;
+                    if (Model.Ethnicity == ((int)Enum.Parse(typeof(PatientEthnicity), ethnicity)).ToString())
+                    {
+                        @Html.RadioButtonFor(m => m.Ethnicity, ethnicity, new { id = ethnicityId, name = ethnicity, @checked = true })
+                    }
+                    else
+                    {
+                        @Html.RadioButtonFor(m => m.Ethnicity, ethnicity, new { id = ethnicityId, name = ethnicity })
+                    }
+
+                    <label for="@ethnicityId">@ethnicity</label>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Location)</td>
+            <td>
+                <select class="browser-default validate" id="Location" name="Location">
+                @foreach (string location in locations)
+                {
+                    string locationId = "location" + location;
+                    if (Model.Location == ((int)Enum.Parse(typeof(Location), location)).ToString())
+                    {
+                            <option selected>@location</option>
+                        }
+                        else
+                        {
+                            <option>@location</option>
+
+                        }
+                    }
+                </select>
+            </td>
+        </tr>
+    </table>
+    <input type="submit" class="btn" value="Update" />
+    <input type="button" class="btn" value="Cancel" onclick="location.href = '/Account/LoginRedirect';" />
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/pickadate/picker.js"></script>
+    <script src="~/Scripts/pickadate/picker.date.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.datepicker').pickadate({
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 100,
+                max: Date.now()
+            });
+        });
+    </script>
+}

@@ -1,0 +1,21 @@
+﻿@model UAHFitVault.Models.CreateAdminModel
+
+@if (User.IsInRole("System Administrator"))
+{
+    <br /><br /><br />
+    <h4>A system administrator has been creating with the following properties:</h4>
+    <table>
+        <tr>
+            <td>@Html.LabelFor(m => m.Username)</td>
+            <td>@Html.DisplayTextFor(m => m.Username)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Email)</td>
+            <td>@Html.DisplayTextFor(m => m.Email)</td>
+        </tr>
+    </table>
+}
+else
+{
+    <h2><red>ERROR: Access Denied</red></h2>
+}

@@ -1,0 +1,72 @@
+﻿@using UAHFitVault.Database.Entities;
+@using UAHFitVault.Models;
+
+@model List<ExportViewModel>
+@{
+    ViewBag.Title = "Export";
+}
+
+@section headers{
+    <link type="text/css" rel="stylesheet" href="~/Content/tableCard.css" media="screen,projection" />
+    <link type="text/css" href="~/Content/verticalSelect.css" rel="stylesheet" media="screen,projection" />
+}
+
+<h2>Export</h2>
+
+<div class="col s12">    
+    <div class="row col s12">
+        <div class="col s5">
+            <div class="tableCard">
+                <div class="tableCard__header">
+                    Patients
+                </div>
+                <table class="tableCard__table">
+                    @foreach (ExportViewModel patient in Model) {
+                        <tr class="tableCard__tableRow" data-patientid="@patient.PatientId">
+                            <td>@patient.Username</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="col m2 s5">
+            @Html.Partial("~/Views/Patient/_PartialPatientData.cshtml", Model)
+            
+        </div>
+    </div>
+    <div class="row col s12">
+        <button id="btnExport" class="btn waves-green">Export</button>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(".tableCard__tableRow").click(function (element) {
+            var name = $(element.currentTarget).data("patientid");
+            $(".verticalSelect__select").removeClass("verticalSelect__select--isActive");
+            $(element.currentTarget).addClass("verticalSelect__select--isActive");
+            $(".verticalSelect").addClass("verticalSelect--isOffScreen");
+            setTimeout(function () {
+                $(".verticalSelect[data-patient='" + name + "']").removeClass("verticalSelect--isOffScreen");
+            }, 400);
+        });
+
+        $("#btnExport").click(function () {
+            var id = $('input[name=radio]:checked').val();
+            $.ajax({
+                type: "POST",
+                data: {
+                    patientDataId: id
+                },
+                url: "/Export/ExportData",
+                success: function (data) {
+                    window.location = '/Export/DownloadFile?filename=' + data;
+                },
+                error: function (error) {
+                    alert("No Data Found");
+                }
+            });            
+        });
+
+    </script>
+}
