@@ -2,7 +2,10 @@
 using System.Linq;
 using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Entities;
-using UAHFitVault.Database.Repositories;
+using UAHFitVault.Database.Repositories.ZephyrRepositories;
+using UAHFitVault.Database;
+using EntityFramework.BulkInsert.Extensions;
+using System;
 
 namespace UAHFitVault.DataAccess.ZephyrServices
 {
@@ -37,12 +40,31 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// Get the Zephyr Accelerometer data for the given a patient data record or all records for all patients.
         /// </summary>
         /// <param name="patientData">PatientData object used to retrieve the Zephyr Accelerometer Data records</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        public IEnumerable<ZephyrAccelerometer> GetZephyrAccelerometerData(PatientData patientData) {
+        public IEnumerable<ZephyrAccelerometer> GetZephyrAccelerometerData(PatientData patientData, int skip = 0, int take = 0) {
             if (patientData == null)
                 return _repository.GetAll();
             else
-                return _repository.GetAll().Where(r => r.PatentDataId == patientData.Id);
+                return _repository.GetMany(r => r.PatientDataId == patientData.Id, r => r.Time, skip, take);
+        }
+
+        /// <summary>
+        /// Get the Zephyr Accelerometer data for the given a patient data record or all records for all patients.
+        /// Filter what is returned by time.
+        /// </summary>
+        /// <param name="patientData">PatientData object used to retrieve the Zephyr Accelerometer Data records</param>
+        /// <param name="startTime">Start time of date/time filter</param>
+        /// <param name="endTime">End time of date/time filter</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
+        /// <returns></returns>
+        public IEnumerable<ZephyrAccelerometer> GetZephyrAccelerometerData(PatientData patientData, DateTime startTime, DateTime endTime, int skip = 0, int take = 0) {
+            if (patientData == null)
+                return _repository.GetAll();
+            else
+                return _repository.GetMany(r => r.PatientDataId == patientData.Id && r.Time >= startTime && r.Time <= endTime, r => r.Time, skip, take);
         }
 
         /// <summary>
@@ -68,6 +90,17 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         public void CreateZephyrAccel(ZephyrAccelerometer zephyrAccel) {
             if(zephyrAccel != null) {
                 _repository.Add(zephyrAccel);
+            }
+        }
+
+        /// <summary>
+        /// Bulk Insert Zephyr Acceleromater Data into the database
+        /// </summary>
+        /// <param name="zephyrAccel">Collection of Zephyr summary data to insert into database.</param>
+        public void BulkInsert(List<ZephyrAccelerometer> zephyrAccel) {
+            using (FitVaultContext context = new FitVaultContext()) {
+                context.BulkInsert(zephyrAccel);
+
             }
         }
 

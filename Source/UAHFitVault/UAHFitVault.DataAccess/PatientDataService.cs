@@ -37,12 +37,14 @@ namespace UAHFitVault.DataAccess
         /// Get the patient data records for the given patient or all records for all patients.
         /// </summary>
         /// <param name="patient">Patient object used to retrieve the patient's data records</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        public IEnumerable<PatientData> GetPatientData(Patient patient) { 
+        public IEnumerable<PatientData> GetPatientData(Patient patient, int skip = 0, int take = 0) { 
             if (patient == null)
                 return _repository.GetAll();
             else
-                return _repository.GetAll().Where(r => r.Patient.Id == patient.Id);
+                return _repository.GetMany(r => r.Patient.Id == patient.Id, r => r.Id, skip, take);
         }
 
         /// <summary>
@@ -50,10 +52,10 @@ namespace UAHFitVault.DataAccess
         /// </summary>
         /// <param name="id">Id of the patient data record</param>
         /// <returns></returns>
-        public PatientData GetPatientData(int id) {
+        public PatientData GetPatientData(string id) {
             PatientData patientData = null;
 
-            if(id > 0) {
+            if(!string.IsNullOrEmpty(id)) {
                 patientData = _repository.GetById(id);
             }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace UAHFitVault.Database.Entities
@@ -19,7 +20,7 @@ namespace UAHFitVault.Database.Entities
 
         public int Id { get; set; }
         [Required]
-        public int Age { get; set; }
+        public DateTime Birthdate { get; set; }
         [Required]
         public float Weight { get; set; }
         [Required]
@@ -36,6 +37,8 @@ namespace UAHFitVault.Database.Entities
 
         #region Navigation Properties
         public virtual Physician Physician { get; set; }
+
+        public virtual List<PatientData> PatientData { get; set; }
 
         #endregion
     }

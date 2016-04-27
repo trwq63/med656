@@ -1,0 +1,107 @@
+﻿@using UAHFitVault.Models;
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.Owin;
+@using UAHFitVault.LogicLayer.Enums;
+
+@model List<PatientManagementViewModel>
+
+@{
+    CreatePatientViewModel createPatient = new CreatePatientViewModel();
+    ApplicationUserManager manager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+}
+
+
+<div class="row card-title">
+    <div class="col s12 m6">
+        <h2>Patients</h2>
+    </div>
+    <div class="col s12 m6 right-align">
+        <button class="waves-effect waves-light btn green" onclick="createPatient()">
+            <i class="mdi-social-group-add"></i>
+            Create Patient
+        </button>
+    </div>
+</div>
+
+<!-- Create Patient Modal Structure -->
+<div id="createModal" class="modal">
+    @{
+        Html.RenderPartial("~/Views/Physician/_PartialPhysicianAddPatient.cshtml", createPatient);
+    }
+</div>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th data-field="name">User Name</th>
+                <th data-field="actions">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (PatientManagementViewModel patient in Model)
+            {
+                if (manager.FindByName(patient.Username).Status != (int)Account_Status.Inactive)
+                {
+                    <tr>
+                        <td>@patient.Username</td>
+                        <td>
+                            <button class="waves-effect waves-light btn grey" onclick="location.href = '/Physician/ViewPatientData?username=@patient.Username';">
+                                View Patient Data
+                            </button>
+                            <button class="waves-effect waves-light btn blue" onclick="location.href = '/Physician/EditPatient?username=@patient.Username';">
+                                Edit Patient
+                            </button>
+                            <button class="waves-effect waves-light btn red" onclick="location.href = '/Physician/DisablePatient?username=@patient.Username';">
+                                Disable Patient
+                            </button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/pickadate/picker.js"></script>
+    <script src="~/Scripts/pickadate/picker.date.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.datepicker').pickadate({
+                selectMonths: true, // Creates a dropdown to control month 
+                selectYears: 100,
+                max: Date.now()                
+            });
+        });
+
+        function createPatient() {
+            $('#createModal').openModal({
+                dismissible: true, // Modal can be dismissed by clicking outside of the modal
+                opacity: .5, // Opacity of modal background
+                in_duration: 300, // Transition in duration
+                out_duration: 200, // Transition out duration
+            });
+        }
+
+        function cancelCreate() {
+            $('#createModal').closeModal();
+        }
+
+        function viewPatient(patient) {
+
+        }
+
+        function editPatient(patient) {
+
+        }
+
+        function deletePatient(patient) {
+
+        }
+    </script>
+}

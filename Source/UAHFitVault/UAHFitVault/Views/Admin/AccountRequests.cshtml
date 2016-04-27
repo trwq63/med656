@@ -1,0 +1,78 @@
+﻿@using UAHFitVault.Models
+
+@model List<UserInfoModel>
+
+<div>
+    <h2>Pending Accounts</h2>
+    @if (Model != null) {
+        <table class="centered responsive-table striped">
+            <thead>
+                <tr>
+                    <th data-field="name">Name</th>
+                    <th data-field="role">Role</th>
+                    <th data-field="actions">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>@item.FullName</td>
+                        <td>@item.Role</td>
+                        <td>
+                            @{
+                                string approveButtonId = "btnApprove" + Model.IndexOf(item);
+                                string rejectButtonId = "btnReject" + Model.IndexOf(item);
+                            }
+                            <button id="@approveButtonId" class="waves-effect waves-light btn blue" onclick="enableUser(this)" value="@item.UserId">Approve</button>
+                            <button id="@rejectButtonId" class="waves-effect waves-light btn red" onclick="rejectUser(this)" value="@item.UserId">Reject</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Reason for Account Request:<br />
+                            @item.ReasonForRequest
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+        /*
+        Send a request to the admin controller to enable an inactive user.
+        */
+        function enableUser(element) {
+            var userId = element.value;
+            $.ajax({
+                type: "POST",
+                url: "/Admin/EnableUser",
+                data: { userId: userId },
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        };
+
+        /*
+        Send a request to the admin controller to reject a pending user or disable an active user.
+        */
+        function rejectUser(element) {
+            var userId = element.value;
+            $.ajax({
+                type: "POST",
+                url: "/Admin/RejectUser",
+                data: { userId: userId },
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        };
+
+    </script>
+}    

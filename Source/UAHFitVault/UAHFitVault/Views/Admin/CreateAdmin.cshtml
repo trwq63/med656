@@ -1,0 +1,29 @@
+﻿@model UAHFitVault.Models.CreateAdminModel
+
+
+<h2>Create System Administrator</h2>
+<div>
+
+    @using (Html.BeginForm("CreateAdmin", "Admin", FormMethod.Post)) {
+        @Html.ValidationSummary("", new { @class = "text-danger" });
+        <table>
+            <tr>
+                <td>@Html.LabelFor(m => m.Username)</td>
+                <td>@Html.TextBoxFor(m => m.Username)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Password)</td>
+                <td>@Html.PasswordFor(m => m.Password)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.ConfirmPassword)</td>
+                <td>@Html.PasswordFor(m => m.ConfirmPassword)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Email)</td>
+                <td>@Html.TextBoxFor(m => m.Email)</td>
+            </tr>
+        </table>
+        <input type="submit" value="Create" class="btn" />
+    }
+</div>

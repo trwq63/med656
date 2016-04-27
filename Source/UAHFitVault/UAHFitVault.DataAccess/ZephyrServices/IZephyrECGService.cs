@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UAHFitVault.Database.Entities;
 
 namespace UAHFitVault.DataAccess.ZephyrServices
@@ -17,8 +18,22 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// Get the Zephyr ECG WaveForm data for the given a patient data record or all records for all patients.
         /// </summary>
         /// <param name="patientData">PatientData object used to retrieve the Zephyr ECG WaveForm Data records</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        IEnumerable<ZephyrECGWaveform> GetZephyrECGWaveFormData(PatientData patientData);
+        IEnumerable<ZephyrECGWaveform> GetZephyrECGWaveFormData(PatientData patientData, int skip = 0, int take = 0);
+
+        /// <summary>
+        /// Get the Zephyr ECG WaveForm data for the given a patient data record or all records for all patients during
+        /// the given time period.
+        /// </summary>
+        /// <param name="patientData">PatientData object used to retrieve the Zephyr ECG WaveForm Data records</param>
+        /// <param name="startTime">Start time of date/time filter</param>
+        /// <param name="endTime">End time of date/time filter</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
+        /// <returns></returns>
+        IEnumerable<ZephyrECGWaveform> GetZephyrECGWaveFormData(PatientData patientData, DateTime startTime, DateTime endTime, int skip = 0, int take = 0);
 
         /// <summary>
         /// Get Zephyr ECG WaveForm data from database using the Zephyr ECG WaveForm id
@@ -26,6 +41,12 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// <param name="id">Id of the Zephyr ECG WaveForm data</param>
         /// <returns></returns>
         ZephyrECGWaveform GetZephyrECGWaveFormData(int id);
+
+        /// <summary>
+        /// Bulk Insert Zephyr ECG Waveform Data into the database
+        /// </summary>
+        /// <param name="zephyrEcgData">Collection of Zephyr summary data to insert into database.</param>
+        void BulkInsert(List<ZephyrECGWaveform> zephyrEcgData);
 
         /// <summary>
         /// Save changes to database

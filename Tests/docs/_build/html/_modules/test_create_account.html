@@ -1,0 +1,470 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>test_create_account &mdash; UAH Fit Vault 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="UAH Fit Vault 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for test_create_account</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">These test cases are designed to test the ability to create and delete accounts</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">WebUI.WebUI</span> <span class="kn">import</span> <span class="n">WebUI</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
+
+<span class="c"># global user for patient create. helps with random username used in a couple tests</span>
+<span class="n">patient_create_user</span> <span class="o">=</span> <span class="s">&#39;testPatientCreate_{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">getrandbits</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+
+<div class="viewcode-block" id="test_create_physician"><a class="viewcode-back" href="../STD/test_create_account.html#test_create_account.test_create_physician">[docs]</a><span class="k">def</span> <span class="nf">test_create_physician</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
+
+<span class="sd">    - 3.1.1.1.2.1: minimum information stored for physician account</span>
+<span class="sd">    - 3.1.1.1.4.2: System Administrators shall be able to enable users</span>
+<span class="sd">    - 3.1.1.7: Physicians create their own accounts</span>
+<span class="sd">    - 3.1.1.7.1: System Administrators shall verify the creation of a physician account</span>
+<span class="sd">    - 3.1.6: The system shall provide account management.</span>
+<span class="sd">    - 3.1.6.1: The system shall allow account creation</span>
+<span class="sd">    - 3.1.6.1.1: The system shall force account approval for physicians</span>
+<span class="sd">    - 3.1.1.4: System requires a minimum security criteria</span>
+<span class="sd">    - 3.1.1.4.1: Password must be at least 10 characters</span>
+<span class="sd">    - 3.1.1.4.2: Password shall contain at least 1 upper and 1 lower case character</span>
+<span class="sd">    - 3.1.1.4.3: Password shall contain at least 1 number</span>
+<span class="sd">    - 3.1.1.4.4: Password shall contain at least 1 special character</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - logoff fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+<span class="sd">    - user = &#39;hfarnswroth&#39;</span>
+<span class="sd">    - pwd = &#39;P@ssword10&#39;</span>
+<span class="sd">    - email = &#39;hfarnsworth@futurama.com&#39;</span>
+<span class="sd">    - first_name = &#39;Hubert&#39;</span>
+<span class="sd">    - last_name = &#39;Farnsworth&#39;</span>
+<span class="sd">    - address = &#39;304 Wherever Street, New New York City, New New York&#39;</span>
+<span class="sd">    - phone_number = &#39;123-456-7890&#39;</span>
+
+
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    Steps            Expected Result    Actual Result</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    request account  Request confirmed</span>
+<span class="sd">    approve account  Admin can approve</span>
+<span class="sd">    login            User can login</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Starting&#39;</span><span class="p">)</span>
+
+    <span class="n">user</span> <span class="o">=</span> <span class="s">&#39;hfarnswroth&#39;</span>
+    <span class="n">pwd</span> <span class="o">=</span> <span class="s">&#39;P@ssword10&#39;</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="s">&#39;hfarnsworth@futurama.com&#39;</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="s">&#39;Hubert&#39;</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="s">&#39;Farnsworth&#39;</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="s">&#39;304 Wherever Street, New New York City, New New York&#39;</span>
+    <span class="n">phone_number</span> <span class="o">=</span> <span class="s">&#39;123-456-7890&#39;</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Requesting Exp Admin {}/{} name: {}, {} email: {} address: {} phone num: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">,</span>
+                                                                                               <span class="n">pwd</span><span class="p">,</span>
+                                                                                               <span class="n">last_name</span><span class="p">,</span>
+                                                                                               <span class="n">first_name</span><span class="p">,</span>
+                                                                                               <span class="n">email</span><span class="p">,</span>
+                                                                                               <span class="n">address</span><span class="p">,</span>
+                                                                                               <span class="n">phone_number</span><span class="p">))</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">request_account</span><span class="p">(</span><span class="s">&#39;Physician&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_request_account</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Approving account for {}, {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">last_name</span><span class="p">,</span> <span class="n">first_name</span><span class="p">))</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">approve_account</span><span class="p">(</span><span class="s">&#39;{} {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Logging in as {}/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">))</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="test_create_experiment_admin"><a class="viewcode-back" href="../STD/test_create_account.html#test_create_account.test_create_experiment_admin">[docs]</a><span class="k">def</span> <span class="nf">test_create_experiment_admin</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
+
+<span class="sd">    - 3.1.1.1.3.1: minimum information stored for experiment admin account</span>
+<span class="sd">    - 3.1.1.1.4.2: System Administrators shall be able to enable users</span>
+<span class="sd">    - 3.1.1.7: Experiment administrators create their own accounts</span>
+<span class="sd">    - 3.1.1.7.1: System Administrators shall verify the creation of a experiment admin account</span>
+<span class="sd">    - 3.1.6: The system shall provide account management.</span>
+<span class="sd">    - 3.1.6.1: The system shall allow account creation</span>
+<span class="sd">    - 3.1.6.1.1: The system shall force account approval for experiment admins</span>
+<span class="sd">    - 3.1.1.4: System requires a minimum security criteria</span>
+<span class="sd">    - 3.1.1.4.1: Password must be at least 10 characters</span>
+<span class="sd">    - 3.1.1.4.2: Password shall contain at least 1 upper and 1 lower case character</span>
+<span class="sd">    - 3.1.1.4.3: Password shall contain at least 1 number</span>
+<span class="sd">    - 3.1.1.4.4: Password shall contain at least 1 special character</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - logoff fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+<span class="sd">    - user = &#39;awong&#39;</span>
+<span class="sd">    - pwd = &#39;P@ssword10&#39;</span>
+<span class="sd">    - email = &#39;awong@futurama.com&#39;</span>
+<span class="sd">    - first_name = &#39;Amy&#39;</span>
+<span class="sd">    - last_name = &#39;Wong&#39;</span>
+<span class="sd">    - address = &#39;304 Wherever Street, New New York City, New New York&#39;</span>
+<span class="sd">    - phone_number = &#39;123-456-7890&#39;</span>
+
+
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    Steps            Expected Result    Actual Result</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    request account  Request confirmed</span>
+<span class="sd">    approve account  Admin can approve</span>
+<span class="sd">    login            User can login</span>
+<span class="sd">    ===============  =================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Starting&#39;</span><span class="p">)</span>
+
+    <span class="n">user</span> <span class="o">=</span> <span class="s">&#39;awong&#39;</span>
+    <span class="n">pwd</span> <span class="o">=</span> <span class="s">&#39;P@ssword10&#39;</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="s">&#39;awong@futurama.com&#39;</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="s">&#39;Amy&#39;</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="s">&#39;Wong&#39;</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="s">&#39;304 Wherever Street, New New York City, New New York&#39;</span>
+    <span class="n">phone_number</span> <span class="o">=</span> <span class="s">&#39;123-456-7890&#39;</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Requesting Exp Admin {}/{} name: {}, {} email: {} address: {} phone num: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">,</span>
+                                                                                               <span class="n">pwd</span><span class="p">,</span>
+                                                                                               <span class="n">last_name</span><span class="p">,</span>
+                                                                                               <span class="n">first_name</span><span class="p">,</span>
+                                                                                               <span class="n">email</span><span class="p">,</span>
+                                                                                               <span class="n">address</span><span class="p">,</span>
+                                                                                               <span class="n">phone_number</span><span class="p">))</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">request_account</span><span class="p">(</span><span class="s">&#39;Exp Admin&#39;</span><span class="p">,</span><span class="n">user</span><span class="p">,</span><span class="n">pwd</span><span class="p">,</span><span class="n">email</span><span class="p">,</span><span class="n">first_name</span><span class="p">,</span><span class="n">last_name</span><span class="p">,</span><span class="n">address</span><span class="p">,</span><span class="n">phone_number</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_request_account</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Approving account for {}, {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">last_name</span><span class="p">,</span> <span class="n">first_name</span><span class="p">))</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">approve_account</span><span class="p">(</span><span class="s">&#39;{} {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Logging in as {}/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">))</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="test_create_system_admin"><a class="viewcode-back" href="../STD/test_create_account.html#test_create_account.test_create_system_admin">[docs]</a><span class="k">def</span> <span class="nf">test_create_system_admin</span><span class="p">(</span><span class="n">login_sysadmin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
+
+<span class="sd">    - 3.1.1.1.4.1: minimum information stored for experiment admin account</span>
+<span class="sd">    - 3.1.1.1.4.2: System Administrators shall be able to enable users</span>
+<span class="sd">    - 3.1.6: The system shall provide account management.</span>
+<span class="sd">    - 3.1.6.1: The system shall allow account creation</span>
+<span class="sd">    - 3.1.1.4: System requires a minimum security criteria</span>
+<span class="sd">    - 3.1.1.4.1: Password must be at least 10 characters</span>
+<span class="sd">    - 3.1.1.4.2: Password shall contain at least 1 upper and 1 lower case character</span>
+<span class="sd">    - 3.1.1.4.3: Password shall contain at least 1 number</span>
+<span class="sd">    - 3.1.1.4.4: Password shall contain at least 1 special character</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - logoff fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+<span class="sd">    - user = &#39;lnibbler&#39;</span>
+<span class="sd">    - pwd = &#39;P@ssword10&#39;</span>
+<span class="sd">    - email = &#39;lnibbler@futurama.com&#39;</span>
+
+
+<span class="sd">    ===========================  =================  =============</span>
+<span class="sd">    Steps                        Expected Result    Actual Result</span>
+<span class="sd">    ===========================  =================  =============</span>
+<span class="sd">    Login as fitadmin            Login Successful</span>
+<span class="sd">    Create another system admin  No errors</span>
+<span class="sd">    login as new system admin    User can login</span>
+<span class="sd">    ===========================  =================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Starting&#39;</span><span class="p">)</span>
+
+    <span class="n">user</span> <span class="o">=</span> <span class="s">&#39;lnibbler&#39;</span>
+    <span class="n">pwd</span> <span class="o">=</span> <span class="s">&#39;P@ssword10&#39;</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="s">&#39;lnibbler@futurama.com&#39;</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Logging in as fitadmin/Password1!&#39;</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s">&#39;fitadmin&#39;</span><span class="p">,</span> <span class="s">&#39;Password1!&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Creating system admin {}/{} with email {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">email</span><span class="p">))</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">create_admin</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">email</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Logging in as {}/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">))</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="test_create_patient"><a class="viewcode-back" href="../STD/test_create_account.html#test_create_account.test_create_patient">[docs]</a><span class="k">def</span> <span class="nf">test_create_patient</span><span class="p">(</span><span class="n">login_tphysician</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
+
+<span class="sd">    - 3.1.1.1.1.1: minimum information stored for patient account</span>
+<span class="sd">    - 3.1.1.1.2.5: Physician user can add a patient to the system</span>
+<span class="sd">    - 3.1.1.3.1: Display patient ID to physician at the time of creation</span>
+<span class="sd">    - 3.1.1.7.2: Physicians shall create their patients accounts</span>
+<span class="sd">    - 3.1.6: The system shall provide account management.</span>
+<span class="sd">    - 3.1.6.1: The system shall allow account creation</span>
+<span class="sd">    - 3.1.6.1.2: Patients shall not need approval for account creation</span>
+<span class="sd">    - 3.1.1.4: System requires a minimum security criteria</span>
+<span class="sd">    - 3.1.1.4.1: Password must be at least 10 characters</span>
+<span class="sd">    - 3.1.1.4.2: Password shall contain at least 1 upper and 1 lower case character</span>
+<span class="sd">    - 3.1.1.4.3: Password shall contain at least 1 number</span>
+<span class="sd">    - 3.1.1.4.4: Password shall contain at least 1 special character</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - login_tphysician fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+<span class="sd">    - user = &#39;testPatientCreate_&lt;random number&gt;&#39;</span>
+<span class="sd">    - pwd = &#39;P@ssword10&#39;</span>
+<span class="sd">    - byear = &#39;1954&#39;</span>
+<span class="sd">    - bmonth = &#39;March&#39;</span>
+<span class="sd">    - bday = &#39;3&#39;</span>
+<span class="sd">    - loc = &#39;Alabama&#39;</span>
+<span class="sd">    - wght = &#39;200&#39;</span>
+<span class="sd">    - hght = &#39;72&#39;</span>
+<span class="sd">    - gen = &#39;male&#39;</span>
+<span class="sd">    - race = &#39;white&#39;</span>
+<span class="sd">    - eth = &#39;non_hispanic&#39;</span>
+<span class="sd">    - physician = &#39;testPhysician&#39;</span>
+
+<span class="sd">    ======================  =================  =============</span>
+<span class="sd">    Steps                   Expected Result    Actual Result</span>
+<span class="sd">    ======================  =================  =============</span>
+<span class="sd">    create patient account  No error msgs</span>
+<span class="sd">    login as patient        Patient can login</span>
+<span class="sd">    ======================  =================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Starting&#39;</span><span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">random</span>
+
+    <span class="n">user</span> <span class="o">=</span> <span class="n">patient_create_user</span>
+    <span class="n">pwd</span> <span class="o">=</span> <span class="s">&#39;P@ssword10&#39;</span>
+    <span class="n">byear</span> <span class="o">=</span> <span class="s">&#39;1954&#39;</span>
+    <span class="n">bmonth</span> <span class="o">=</span> <span class="s">&#39;March&#39;</span>
+    <span class="n">bday</span> <span class="o">=</span> <span class="s">&#39;3&#39;</span>
+    <span class="n">loc</span> <span class="o">=</span> <span class="s">&#39;Alabama&#39;</span>
+    <span class="n">wght</span> <span class="o">=</span> <span class="s">&#39;200&#39;</span>
+    <span class="n">hght</span> <span class="o">=</span> <span class="s">&#39;72&#39;</span>
+    <span class="n">gen</span> <span class="o">=</span> <span class="s">&#39;male&#39;</span>
+    <span class="n">race</span> <span class="o">=</span> <span class="s">&#39;white&#39;</span>
+    <span class="n">eth</span> <span class="o">=</span> <span class="s">&#39;non_hispanic&#39;</span>
+    <span class="n">physician</span> <span class="o">=</span> <span class="s">&#39;testPhysician&#39;</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Physician {} is creating patient account.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">physician</span><span class="p">),</span>
+          <span class="s">&#39;user: &#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span>
+          <span class="s">&#39;pwd: &#39;</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span>
+          <span class="s">&#39;bday: &#39;</span><span class="p">,</span> <span class="n">bday</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">,</span> <span class="n">bmonth</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">,</span> <span class="n">byear</span><span class="p">,</span>
+          <span class="s">&#39;loc: &#39;</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span>
+          <span class="s">&#39;wght: &#39;</span><span class="p">,</span> <span class="n">wght</span><span class="p">,</span>
+          <span class="s">&#39;hght: &#39;</span><span class="p">,</span> <span class="n">hght</span><span class="p">,</span>
+          <span class="s">&#39;gen: &#39;</span><span class="p">,</span> <span class="n">gen</span><span class="p">,</span>
+          <span class="s">&#39;race: &#39;</span><span class="p">,</span> <span class="n">race</span><span class="p">,</span>
+          <span class="s">&#39;eth: &#39;</span><span class="p">,</span> <span class="n">eth</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">create_patient</span><span class="p">(</span><span class="n">physician</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">byear</span><span class="p">,</span> <span class="n">bmonth</span><span class="p">,</span> <span class="n">bday</span><span class="p">,</span>
+                        <span class="n">loc</span><span class="p">,</span> <span class="n">wght</span><span class="p">,</span> <span class="n">hght</span><span class="p">,</span> <span class="n">gen</span><span class="p">,</span> <span class="n">race</span><span class="p">,</span> <span class="n">eth</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_create_patient</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Logging in as &#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">pwd</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="test_delete_patient"><a class="viewcode-back" href="../STD/test_create_account.html#test_create_account.test_delete_patient">[docs]</a><span class="k">def</span> <span class="nf">test_delete_patient</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
+
+<span class="sd">    - 3.1.1.1.2.6: Physicians can delete patients</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - logoff fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+<span class="sd">    - user = &#39;pfry&#39;</span>
+<span class="sd">    - pwd = &#39;P@ssword10&#39;</span>
+<span class="sd">    - phy = &#39;testPhysician&#39;</span>
+<span class="sd">    - phy_pass = &#39;P@ssword10&#39;</span>
+
+<span class="sd">    ======================  ====================  =============</span>
+<span class="sd">    Steps                   Expected Result       Actual Result</span>
+<span class="sd">    ======================  ====================  =============</span>
+<span class="sd">    delete patient account  No error msgs</span>
+<span class="sd">    login as patient        Patient cannot login</span>
+<span class="sd">    ======================  ====================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Starting&#39;</span><span class="p">)</span>
+
+    <span class="n">user</span> <span class="o">=</span> <span class="n">patient_create_user</span>
+    <span class="n">pwd</span> <span class="o">=</span> <span class="s">&#39;P@ssword10&#39;</span>
+    <span class="n">phy</span> <span class="o">=</span> <span class="s">&#39;testPhysician&#39;</span>
+    <span class="n">phy_pass</span> <span class="o">=</span> <span class="s">&#39;P@ssword10&#39;</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Deleting patient&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="s">&#39;from physician &#39;</span><span class="p">,</span> <span class="n">phy</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">delete_patient</span><span class="p">(</span><span class="n">phy</span><span class="p">,</span> <span class="n">phy_pass</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Trying to login as &#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="ow">not</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="test_delete_physician"><a class="viewcode-back" href="../STD/test_create_account.html#test_create_account.test_delete_physician">[docs]</a><span class="k">def</span> <span class="nf">test_delete_physician</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
+
+<span class="sd">    - 3.1.6.3: System administrator can delete accounts</span>
+<span class="sd">    - 3.1.6: The system shall provide account management.</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - logoff fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+<span class="sd">    - user = &#39;hfarnswroth&#39;</span>
+<span class="sd">    - username = &#39;Hubert Farnsworth&#39;</span>
+<span class="sd">    - pwd = &#39;P@ssword10&#39;</span>
+
+<span class="sd">    ========================  ====================  =============</span>
+<span class="sd">    Steps                     Expected Result       Actual Result</span>
+<span class="sd">    ========================  ====================  =============</span>
+<span class="sd">    delete physician account  No error msgs</span>
+<span class="sd">    login as patient          User cannot login</span>
+<span class="sd">    ========================  ====================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Starting&#39;</span><span class="p">)</span>
+
+    <span class="n">user</span> <span class="o">=</span> <span class="s">&#39;hfarnswroth&#39;</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="s">&#39;Hubert Farnsworth&#39;</span>
+    <span class="n">pwd</span> <span class="o">=</span> <span class="s">&#39;P@ssword10&#39;</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Deleting user with name &#39;</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">delete_account</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Attempting to login as &#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="ow">not</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="test_delete_experiment_admin"><a class="viewcode-back" href="../STD/test_create_account.html#test_create_account.test_delete_experiment_admin">[docs]</a><span class="k">def</span> <span class="nf">test_delete_experiment_admin</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
+
+<span class="sd">    - 3.1.6.3: System administrator can delete accounts</span>
+<span class="sd">    - 3.1.6: The system shall provide account management.</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - logoff fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+<span class="sd">    - user = &#39;awong&#39;</span>
+<span class="sd">    - username = &#39;Amy Wong&#39;</span>
+<span class="sd">    - pwd = &#39;P@ssword10&#39;</span>
+
+<span class="sd">    ===============================  ====================  =============</span>
+<span class="sd">    Steps                            Expected Result       Actual Result</span>
+<span class="sd">    ===============================  ====================  =============</span>
+<span class="sd">    delete experiment admin account  No error msgs</span>
+<span class="sd">    login as patient                 User cannot login</span>
+<span class="sd">    ===============================  ====================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Starting&#39;</span><span class="p">)</span>
+
+    <span class="n">user</span> <span class="o">=</span> <span class="s">&#39;awong&#39;</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="s">&#39;Amy Wong&#39;</span>
+    <span class="n">pwd</span> <span class="o">=</span> <span class="s">&#39;P@ssword10&#39;</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Deleting user with name &#39;</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">delete_account</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Attempting to login as &#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">logoff</span><span class="p">()</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="ow">not</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_login</span><span class="p">()</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, James Duggan, Glen Riden, Ryan Wilkins.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

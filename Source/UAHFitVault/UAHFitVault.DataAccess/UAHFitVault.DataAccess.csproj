@@ -30,7 +30,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.BulkInsert, Version=6.0.2.8, Culture=neutral, PublicKeyToken=630a17433349cb76, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.BulkInsert-ef6.6.0.2.8\lib\Net45\EntityFramework.BulkInsert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.MappingAPI, Version=6.1.0.9, Culture=neutral, PublicKeyToken=7ee2e825d201459e, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.MappingAPI.6.1.0.9\lib\net45\EntityFramework.MappingAPI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,22 +57,44 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityService.cs" />
+    <Compile Include="ExperimentService.cs" />
+    <Compile Include="IActivityService.cs" />
     <Compile Include="IAccountRequestService.cs" />
     <Compile Include="BasisPeakServices\BasisPeakSummaryService.cs" />
     <Compile Include="BasisPeakServices\IBasisPeakSummaryService.cs" />
     <Compile Include="ExperimentAdminService.cs" />
     <Compile Include="IExperimentAdminService.cs" />
+    <Compile Include="IExperimentService.cs" />
     <Compile Include="IMedicalDeviceService.cs" />
     <Compile Include="IPatientDataService.cs" />
     <Compile Include="IPatientService.cs" />
     <Compile Include="IPhysicianService.cs" />
     <Compile Include="MedicalDeviceService.cs" />
     <Compile Include="AccountRequestService.cs" />
+    <Compile Include="MicrosoftBandServices\IMSBandHeartRateService.cs" />
+    <Compile Include="MicrosoftBandServices\IMSBandUVService.cs" />
+    <Compile Include="MicrosoftBandServices\IMSBandTemperatureService.cs" />
+    <Compile Include="MicrosoftBandServices\IMSBandPedometerService.cs" />
+    <Compile Include="MicrosoftBandServices\IMSBandGyroscopeService.cs" />
+    <Compile Include="MicrosoftBandServices\IMSBandDistanceService.cs" />
+    <Compile Include="MicrosoftBandServices\IMSBandCaloriesService.cs" />
+    <Compile Include="MicrosoftBandServices\IMSBandAccelService.cs" />
+    <Compile Include="MicrosoftBandServices\MSBandHeartRateService.cs" />
+    <Compile Include="MicrosoftBandServices\MSBandUVService.cs" />
+    <Compile Include="MicrosoftBandServices\MSBandTemperatureService.cs" />
+    <Compile Include="MicrosoftBandServices\MSBandPedometerService.cs" />
+    <Compile Include="MicrosoftBandServices\MSBandGyroscopeService.cs" />
+    <Compile Include="MicrosoftBandServices\MSBandDistanceService.cs" />
+    <Compile Include="MicrosoftBandServices\MSBandCaloriesService.cs" />
+    <Compile Include="MicrosoftBandServices\MSBandAccelService.cs" />
     <Compile Include="ZephyrServices\IZephyrAccelService.cs" />
+    <Compile Include="ZephyrServices\IZephyrBrRrService.cs" />
     <Compile Include="ZephyrServices\IZephyrBreathingService.cs" />
     <Compile Include="ZephyrServices\IZephyrECGService.cs" />
     <Compile Include="ZephyrServices\IZephyrEventDataService.cs" />
     <Compile Include="ZephyrServices\IZephyrSummaryService.cs" />
+    <Compile Include="ZephyrServices\ZephyrBrRrService.cs" />
     <Compile Include="ZephyrServices\ZephyrSummaryService.cs" />
     <Compile Include="ZephyrServices\ZephyrEventDataService.cs" />
     <Compile Include="ZephyrServices\ZephyrECGService.cs" />
@@ -71,9 +110,17 @@
       <Project>{cc650f84-b0a0-4c8a-a521-bb36e9f0dd87}</Project>
       <Name>UAHFitVault.Database</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UAHFitVault.LogicLayer\UAHFitVault.LogicLayer.csproj">
+      <Project>{e4fb774a-188d-4dcd-9b8b-5fc8060a9e11}</Project>
+      <Name>UAHFitVault.LogicLayer</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="MicrosoftBandServices\" />
+    <None Include="App.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

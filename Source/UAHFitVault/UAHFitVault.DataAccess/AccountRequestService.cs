@@ -67,6 +67,26 @@ namespace UAHFitVault.DataAccess
         }
 
         /// <summary>
+        /// Delete an account request from the database.
+        /// </summary>
+        /// <param name="id">Id of the account request to delete</param>
+        /// <returns></returns>
+        public bool DeleteAccountRequest(int id) {
+            bool result = false;
+            if(id > 0) {
+                //Find the account request object.
+                AccountRequest request = GetAccountRequest(id);
+                if(request != null) {
+                    //Delete it.
+                    _accountRequestRepository.Delete(request);
+                    result = true;
+                }                
+            }
+
+            return result;            
+        }
+
+        /// <summary>
         /// Save changes to database
         /// </summary>
         public void SaveChanges() {

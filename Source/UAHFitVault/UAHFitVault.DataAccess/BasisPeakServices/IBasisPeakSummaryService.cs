@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UAHFitVault.Database.Entities;
 
 namespace UAHFitVault.DataAccess.BasisPeakServices
@@ -18,8 +19,22 @@ namespace UAHFitVault.DataAccess.BasisPeakServices
         /// Get the BasisPeak Summary data for the given a patient data record or all records for all patients.
         /// </summary>
         /// <param name="patientData">PatientData object used to retrieve the BasisPeak Summary Data records</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        IEnumerable<BasisPeakSummaryData> GetBasisPeakSummaryData(PatientData patientData);
+        IEnumerable<BasisPeakSummaryData> GetBasisPeakSummaryData(PatientData patientData, int skip = 0, int take = 0);
+
+        /// <summary>
+        /// Get the BasisPeak Summary data for the given a patient data record or all records for all patients.
+        /// </summary>
+        /// <param name="patientData">PatientData object used to retrieve the BasisPeak Summary Data records</param>
+        /// <param name="startTime">Start time of date/time filter</param>
+        /// <param name="endTime">End time of date/time filter</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
+        /// <returns></returns>
+        IEnumerable<BasisPeakSummaryData> GetBasisPeakSummaryData(PatientData patientData, DateTime startTime, DateTime endTime, int skip = 0, int take = 0);
+
 
         /// <summary>
         /// Get BasisPeak Summary data from database using the BasisPeak Summary id
@@ -27,6 +42,12 @@ namespace UAHFitVault.DataAccess.BasisPeakServices
         /// <param name="id">Id of the BasisPeak Summary data</param>
         /// <returns></returns>
         BasisPeakSummaryData GetBasisPeakSummaryData(int id);
+
+        /// <summary>
+        /// Bulk Insert BasisPeak Summary Data into the database
+        /// </summary>
+        /// <param name="basisPeakSummary">Collection of Zephyr summary data to insert into database.</param>
+        void BulkInsert(List<BasisPeakSummaryData> basisPeakSummary);
 
         /// <summary>
         /// Save changes to database

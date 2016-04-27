@@ -33,7 +33,7 @@ namespace UAHFitVault.Database.Entities
         #region Navigation Properties
 
         [Required]
-        public Guid PatientDataId { get; set; }
+        public string PatientDataId { get; set; }
 
         #endregion
     }

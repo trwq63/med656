@@ -1,0 +1,5 @@
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'3', N'Experiment Administrator')
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'5', N'None')
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'1', N'Patient')
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'2', N'Physician')
+INSERT INTO [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'4', N'System Administrator')

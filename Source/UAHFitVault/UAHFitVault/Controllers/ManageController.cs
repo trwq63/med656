@@ -7,6 +7,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UAHFitVault.Models;
+using UAHFitVault.DataAccess;
+using UAHFitVault.Database.Entities;
+using UAHFitVault.LogicLayer.Enums;
 
 namespace UAHFitVault.Controllers
 {
@@ -16,8 +19,16 @@ namespace UAHFitVault.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public ManageController()
+        private readonly IPatientService _patientService;
+        private readonly IPhysicianService _physicianService;
+        private readonly IExperimentAdminService _experimentAdminService;
+
+        public ManageController(IPatientService patientService, IPhysicianService physicianService,
+            IExperimentAdminService experimentAdminService)
         {
+            _patientService = patientService;
+            _physicianService = physicianService;
+            _experimentAdminService = experimentAdminService;
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -54,6 +65,29 @@ namespace UAHFitVault.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
+            ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+           
+            string accountRole = "";
+            //user = UserManager.FindById(userId);
+            UserRole userRole = UserRole.Patient;
+            
+            if (User.IsInRole(UserRole.Patient.ToString())) {
+                userRole = UserRole.Patient;
+                accountRole = UserRole.Patient.ToString();
+            }
+            else if (User.IsInRole(UserRole.Physician.ToString())) {
+                userRole = UserRole.Physician;
+                accountRole = UserRole.Physician.ToString();
+            }
+            else if (User.IsInRole(UserRole.Experiment_Administrator.ToString().Replace("_", " "))) {
+                userRole = UserRole.Experiment_Administrator;
+                accountRole = UserRole.Experiment_Administrator.ToString().Replace("_", " ");
+            } else
+            {
+                userRole = UserRole.System_Administrator;
+                accountRole = UserRole.System_Administrator.ToString().Replace("_", " ");                
+            }
+
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
@@ -63,16 +97,166 @@ namespace UAHFitVault.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
-            var userId = User.Identity.GetUserId();
-            var model = new IndexViewModel
+            IndexViewModel model = new IndexViewModel {
+                HasPassword = (user.PasswordHash != null) ? true : false,
+                PhoneNumber = user.PhoneNumber,
+                TwoFactor = user.TwoFactorEnabled,
+                //Logins = user.Logins,
+                //BrowserRemembered = user.brows
+                        AccountRole = accountRole
+                    };
+
+            switch (userRole)
             {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
-            };
+                case UserRole.Patient:
+                    // Patient
+                    Patient patient = new Patient();
+                    patient = _patientService.GetPatient(user.PatientId);
+
+                    model.Username = user.UserName;
+                    model.Weight = patient.Weight;
+                    model.Height = patient.Height;
+                    model.Race = patient.Race.ToString();
+                    model.Ethnicity = patient.Ethnicity.ToString();
+                    model.Location = patient.Location.ToString();
+                    model.Birthdate = patient.Birthdate;     
+                    model.Gender = patient.Gender.ToString();
+
+                    break;
+
+
+                case UserRole.Physician:
+                    // Physician
+                    Physician physician = new Physician();
+                    physician = _physicianService.GetPhysician(user.PhysicianId);
+
+                    model.Email = physician.Email;
+                    model.Username = user.UserName;
+                    model.Address = physician.Address;
+                    model.PhoneNumber = physician.PhoneNumber;
+                    model.FirstName = physician.FirstName;
+                    model.LastName = physician.LastName;
+
+                    break;
+
+
+                case UserRole.Experiment_Administrator:
+                    // Experiment Administrator
+                    ExperimentAdministrator experimentAdministrator = new ExperimentAdministrator();
+                    experimentAdministrator = _experimentAdminService.GetExperimentAdministrator(user.ExperimentAdministratorId);
+
+                    model.Email = experimentAdministrator.Email;
+                    model.Username = user.UserName;
+                    model.Address = experimentAdministrator.Address;
+                    model.PhoneNumber = experimentAdministrator.PhoneNumber;
+                    model.FirstName = experimentAdministrator.FirstName;
+                    model.LastName = experimentAdministrator.LastName;
+
+                    break;
+
+
+                case UserRole.System_Administrator:
+                    // System Admin
+                    model.Username = user.UserName;
+                    model.Email = user.Email;
+                    break;
+
+
+                default:
+                    // Display error
+                    break;
+            }
             return View(model);
+        }
+
+        //
+        // POST: /Manage/Index
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public ActionResult UpdateUser(IndexViewModel inmodel)
+        {
+            UpdateUserViewModel model = new UpdateUserViewModel();
+
+            model.AccountRole = inmodel.AccountRole;
+            model.Address = inmodel.Address;
+            model.Birthdate = inmodel.Birthdate;
+            model.Email = inmodel.Email;
+            model.Ethnicity = inmodel.Ethnicity;
+            model.FirstName = inmodel.FirstName;
+            model.Gender = inmodel.Gender;
+            model.Height = inmodel.Height;
+            model.LastName = inmodel.LastName;
+            model.Location = inmodel.Location;
+            model.PhoneNumber = inmodel.PhoneNumber;
+            model.Race = inmodel.Race;
+            model.Username = inmodel.Username;
+            model.Weight = inmodel.Weight;
+            
+            return View(model);
+        }
+
+        /// <summary>
+        /// ConfirmUpdateUser() - This is the HttpPost function to handle updating the user in the database from the 
+        ///   submit button being clicked on the UpdateUser view.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ConfirmUpdateUser (UpdateUserViewModel model)
+        {
+            var user = new ApplicationUser();
+            user = UserManager.FindById(User.Identity.GetUserId());
+            
+            if (User.IsInRole("Patient"))
+            {
+                Patient patient = new Patient();
+                patient = _patientService.GetPatient(user.PatientId);
+                patient.Birthdate = model.Birthdate;
+                patient.Height = model.Height;
+                patient.Weight = model.Weight;
+                patient.Ethnicity = (int)Enum.Parse(typeof(PatientEthnicity), model.Ethnicity);
+                patient.Gender = (int)Enum.Parse(typeof(PatientGender), model.Gender);
+                patient.Location = (int)Enum.Parse(typeof(Location), model.Location);
+                patient.Race = (int)Enum.Parse(typeof(PatientRace), model.Race);
+                _patientService.SaveChanges();
+            }
+            else if (User.IsInRole("Physician"))
+            {
+                Physician physician = new Physician();
+                physician = _physicianService.GetPhysician(user.PhysicianId);
+                physician.Email = model.Email;
+                user.Email = model.Email;
+                physician.Address = model.Address;
+                physician.FirstName = model.FirstName;
+                physician.LastName = model.LastName;
+                physician.PhoneNumber = model.PhoneNumber;
+                _physicianService.SaveChanges();
+            }
+            else if (User.IsInRole("Experiment Administrator"))
+            {
+                ExperimentAdministrator experimentAdministrator = new ExperimentAdministrator();
+                experimentAdministrator = _experimentAdminService.GetExperimentAdministrator(user.ExperimentAdministratorId);
+                experimentAdministrator.Email = model.Email;
+                user.Email = model.Email;
+                experimentAdministrator.Address = model.Address;
+                experimentAdministrator.FirstName = model.FirstName;
+                experimentAdministrator.LastName = model.LastName;
+                experimentAdministrator.PhoneNumber = model.PhoneNumber;
+                _experimentAdminService.SaveChanges();
+            }
+            else if (User.IsInRole("System Administrator"))
+            {
+                // Not yet implemented.
+                user.Email = model.Email;
+            }
+            else
+            {
+                // Error path.
+                ModelState.AddModelError("", "ERROR: User role not specified.");
+                return View();
+            }
+
+            return (Redirect ("/Account/LoginRedirect"));
         }
 
         //

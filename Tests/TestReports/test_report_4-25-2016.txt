@@ -1,0 +1,242 @@
+D:\GitHub\med656\Tests>py.test -v -s -k "not test_export_data_by_patient and not test_export_data_by_physician" test_create_account.py test_edit_account.py test_experiment.py test_login.py test_password.py test_security.py test_upload.py test_username.py test_export.py
+============================= test session starts =============================
+platform win32 -- Python 3.4.3 -- py-1.4.31 -- pytest-2.6.4 -- C:\Python34\python3.4.exe
+collected 37 items
+
+test_create_account.py::test_create_physician Starting
+Requesting Exp Admin hfarnswroth/P@ssword10 name: Farnsworth, Hubert email: hfarnsworth@futurama.com address: 304 Wherever Street, New New York City, New New York phone num: 123-456-7890
+Approving account for Farnsworth, Hubert
+Logging in as hfarnswroth/P@ssword10
+PASSED
+test_create_account.py::test_create_experiment_admin Starting
+Requesting Exp Admin awong/P@ssword10 name: Wong, Amy email: awong@futurama.com address: 304 Wherever Street, New New York City, New New York phone num: 123-456-7890
+Approving account for Wong, Amy
+Logging in as awong/P@ssword10
+PASSED
+test_create_account.py::test_create_system_admin Starting
+Logging in as fitadmin/Password1!
+Creating system admin lnibbler/P@ssword10 with email lnibbler@futurama.com
+Generated exception Message: Unable to locate element: {"method":"link text","selector":"Create Admin"}
+Stacktrace:
+    at FirefoxDriver.prototype.findElementInternal_ (file:///C:/Users/TEAMDO~1/AppData/Local/Temp/tmpduu9eqw0/extensions/fxdriver@googlecode.com/components/driver-component.js:10770)
+    at FirefoxDriver.prototype.findElement (file:///C:/Users/TEAMDO~1/AppData/Local/Temp/tmpduu9eqw0/extensions/fxdriver@googlecode.com/components/driver-component.js:10779)
+    at DelayedCommand.prototype.executeInternal_/h (file:///C:/Users/TEAMDO~1/AppData/Local/Temp/tmpduu9eqw0/extensions/fxdriver@googlecode.com/components/command-processor.js:12661)
+    at DelayedCommand.prototype.executeInternal_ (file:///C:/Users/TEAMDO~1/AppData/Local/Temp/tmpduu9eqw0/extensions/fxdriver@googlecode.com/components/command-processor.js:12666)
+    at DelayedCommand.prototype.execute/< (file:///C:/Users/TEAMDO~1/AppData/Local/Temp/tmpduu9eqw0/extensions/fxdriver@googlecode.com/components/command-processor.js:12608)
+Logging in as lnibbler/P@ssword10
+PASSED
+test_create_account.py::test_create_patient Starting
+Physician testPhysician is creating patient account. user:  testPatientCreate_929564711886945409654216101410 pwd:  P@ssword10 bday:  3   March   1954 loc:  Alabama wght:  200 hght:  72 gen:  male race:  white eth:  non_hispanic
+Logging in as  testPatientCreate_929564711886945409654216101410 / P@ssword10
+PASSED
+test_create_account.py::test_delete_patient Starting
+Deleting patient testPatientCreate_929564711886945409654216101410 from physician  testPhysician
+Trying to login as  testPatientCreate_929564711886945409654216101410
+PASSED
+test_create_account.py::test_delete_physician Starting
+Deleting user with name  Hubert Farnsworth
+Attempting to login as  hfarnswroth
+PASSED
+test_create_account.py::test_delete_experiment_admin Starting
+Deleting user with name  Amy Wong
+Attempting to login as  awong
+PASSED
+test_edit_account.py::test_physician_can_edit_his_account this is the email: ( tphysician@yahoo.com )
+PASSED
+test_experiment.py::test_create_experiment Starting
+Creating experiment
+PASSED
+test_experiment.py::test_view_experiment_exp_admin Starting
+Navigating to experiment  test experiment
+Checking that we have at least 1 patient in our experiment
+PASSED
+test_experiment.py::test_view_experiment_physician Starting
+Navigating to experiment  test experiment
+Checking that we have at least 1 patient in our experiment
+PASSED
+test_experiment.py::test_delete_experiment Starting
+PASSED
+test_login.py::test_login_physician Starting
+Logging in as testPhysician/P@ssword10
+Checking for Manage button
+PASSED
+test_login.py::test_login_experiment_admin Starting
+Logging in as testExpAdmin/P@ssword10
+Checking for Manage button
+PASSED
+test_login.py::test_login_patient Starting
+Logging in as testPatient_265686505709543323154604830860/P@ssword10
+Checking for Manage button
+PASSED
+test_login.py::test_login_system_admin Starting
+Logging in as fitadmin/Password1!
+PASSED
+test_login.py::test_login_bad_pass Starting
+Logging in as testPhysician/!nc0rrect
+Checking for Invalid login attempt. in web page
+PASSED
+test_login.py::test_login_bad_user Starting
+Logging in as fake/!nc0rrect
+PASSED
+test_password.py::test_password_length Starting
+Requesting account for user  pfry pwd:  P@ssword1 email:  pfry@futurama.com first_name:  Fry last_name:  Phillip address:  304 Wherever Street, New New York City, New New York phone_number:  123-456-7890
+PASSED
+test_password.py::test_password_case Starting
+Requesting account for user  pfry pwd:  p@ssword10 email:  pfry@futurama.com first_name:  Fry last_name:  Phillip address:  304 Wherever Street, New New York City, New New York phone_number:  123-456-7890
+PASSED
+test_password.py::test_password_digit Starting
+Requesting account for user  pfry pwd:  P@ssworddd email:  pfry@futurama.com first_name:  Fry last_name:  Phillip address:  304 Wherever Street, New New York City, New New York phone_number:  123-456-7890
+PASSED
+test_password.py::test_password_special_char Starting
+Requesting account for user  pfry pwd:  Password10 email:  pfry@futurama.com first_name:  Fry last_name:  Phillip address:  304 Wherever Street, New New York City, New New York phone_number:  123-456-7890
+PASSED
+test_password.py::test_reset_password Starting
+Reseting password for  test physician2
+Logging in with new password  Password1!
+PASSED
+test_security.py::test_patient_only_sees_his_data Starting
+Upload data for  testPatient2_51077953245013906697001704323
+Login as  testPatient_265686505709543323154604830860
+Click View Data button
+Look for file  bodymetrics_2012-01-30T00-00-00_2016-01-18T04-51-00.csv
+PASSED
+test_security.py::test_physician_to_patient Starting
+Creating physician  testPhysician3
+Apprpving physician testPhysician3
+Creating patient testPatient5  for physician  testPhysician3
+Logging in as testPhysician
+Checking for patient testPatient5
+PASSED
+test_security.py::test_experiment_creation_security Starting
+Look for Create Experiment button
+Could not find "Create Experiment" button
+Login as  testPhysician
+Look for Create Experiment button
+Could not find "Create Experiment" button
+Login as  fitadmin
+Look for Create Experiment button
+Could not find "Create Experiment" button
+PASSED
+test_security.py::test_system_admin_user_management Starting
+Look for Manage Users button
+Could not find "Manage Users" button
+Login as  testPhysician
+Look for Manage Users button
+Could not find "Manage Users" button
+Login as  testExpAdmin
+Look for Manage Users button
+Could not find "Manage Users" button
+PASSED
+test_upload.py::test_single_file_no_activity Starting
+Uploading file
+Checking for server error
+Checking we were sent back to patient data
+PASSED
+test_upload.py::test_single_file_one_activity Starting
+Uploading file
+Checking for server error
+Checking we were sent back to patient data
+PASSED
+test_upload.py::test_single_file_multi_activity Starting
+Uploading file
+Checking for server error
+Checking we were sent back to patient data
+PASSED
+test_upload.py::test_zephyr_data_upload Starting
+Uploading file
+Checking for server error
+Checking we were sent back to patient data
+PASSED
+test_upload.py::test_mband_data_upload Starting
+Uploading file
+Checking for server error
+Checking we were sent back to patient data
+PASSED
+test_upload.py::test_basis_data_upload Starting
+Uploading file
+Checking for server error
+Checking we were sent back to patient data
+PASSED
+test_username.py::test_username_cannot_be_copied Starting
+Requesting account for user  copy pwd:  P@ssword10 email:  copy@copy.com first_name:  Fry last_name:  Phillip address:  304 Wherever Street, New New York City, New New York phone_number:  123-456-7890
+FAILED
+
+*************************
+Note:
+
+This test was re-run manually after automation completed. Results were PASSED
+*************************
+
+test_export.py::test_export_experiment_results Starting
+Creating an experiment:  test_experiment
+Viewing experiment:  test_experiment
+View the data of a patient in the experiment
+Try to export data from patient  0
+check the download folder for the file
+PASSED
+
+================================== FAILURES ===================================
+_______________________ test_username_cannot_be_copied ________________________
+
+logoff = None
+
+    def test_username_cannot_be_copied(logoff):
+        """
+        **Requirements:**
+
+        - 3.1.1.2: Usernames must be unique
+        - 3.1.1.3: The system shall assign unique ids to each created patient.
+        - 3.1.1.2.1: Users cannot change username to an already existing username
+
+        **Pre Conditions:**
+
+        - logoff fixture
+
+        **Input:**
+
+        - user = 'copy'
+        - pwd = 'P@ssword10'
+        - email = 'copy@copy.com'
+        - first_name = 'Fry'
+        - last_name = 'Phillip'
+        - address = '304 Wherever Street, New New York City, New New York'
+        - phone_number = '123-456-7890'
+        - user_2 = 'copy1'
+        - email_2 = 'copy2@copy.com'
+
+        ==============================  ====================  =============
+        Steps                           Expected Result       Actual Result
+        ==============================  ====================  =============
+        Request physician account       No errors
+        Request same physician account  Username taken error
+        Request different account       No errors
+        ==============================  ====================  =============
+        """
+        print('Starting')
+
+        user = 'copy'
+        pwd = 'P@ssword10'
+        email = 'copy@copy.com'
+        first_name = 'Fry'
+        last_name = 'Phillip'
+        address = '304 Wherever Street, New New York City, New New York'
+        phone_number = '123-456-7890'
+        user_2 = 'copy1'
+        email_2 = 'copy2@copy.com'
+
+        # first use of user copy
+        print('Requesting account for user ', user,
+              'pwd: ', pwd,
+              'email: ', email,
+              'first_name: ', first_name,
+              'last_name: ', last_name,
+              'address: ', address,
+              'phone_number: ', phone_number)
+        web_sess.request_account('Physician', user, pwd, email, first_name, last_name, address, phone_number)
+>       assert web_sess.check_request_account()
+E       assert <bound method WebUI.check_request_account of <WebUI.WebUI.WebUI object at 0x0000000004103588>>()
+E        +  where <bound method WebUI.check_request_account of <WebUI.WebUI.WebUI object at 0x0000000004103588>> = <WebUI.WebUI.WebUI object at 0x0000000004103588>.check_request_account
+
+test_username.py:62: AssertionError
+ 2 tests deselected by '-knot test_export_data_by_patient and not test_export_data_by_physician'
+============= 1 failed, 34 passed, 2 deselected in 557.46 seconds =============

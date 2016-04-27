@@ -1,16 +1,29 @@
-﻿@{
-    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"].ToString();
+﻿@using UAHFitVault.LogicLayer.Enums;
+
+@{
     string cLayout = "";
-    var user = HttpContext.Current.User.Identity;
-    if (controller == "Home" && !user.IsAuthenticated) {
-        cLayout = "~/Views/Shared/_Layout.cshtml";
+    //Check to see if a user is logged in to the system.
+    if (!User.Identity.IsAuthenticated) {
+        cLayout = "~/Views/Shared/_NoAccessLayout.cshtml";
 
     }
-    else if(controller == "Account") {
-        cLayout = "~/Views/Shared/_NoAccessLayout.cshtml";
-    }
     else {
-        cLayout = "~/Views/Shared/_PatientLayout.cshtml";
+        if (User.IsInRole(UserRole.Physician.ToString())) {
+            cLayout = "~/Views/Shared/_PhysicianLayout.cshtml";
+        }
+        else if (User.IsInRole(UserRole.System_Administrator.ToString().Replace("_", " "))) {
+            cLayout = "~/Views/Shared/_AdminLayout.cshtml";
+        }
+        else if (User.IsInRole(UserRole.Patient.ToString())) {
+            cLayout = "~/Views/Shared/_PatientLayout.cshtml";
+        }
+        else if (User.IsInRole(UserRole.Experiment_Administrator.ToString().Replace("_", " ")))
+        {
+            cLayout = "~/Views/Shared/_ExperimentAdminLayout.cshtml";
+        }
+        else {
+            cLayout = "~/Views/Shared/_Layout.cshtml";
+        }
     }
     Layout = cLayout;
 }

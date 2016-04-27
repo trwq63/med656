@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Account Creation &mdash; UAH Fit Vault 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="UAH Fit Vault 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Account Management" href="account_management.html" />
+    <link rel="next" title="Account Approval" href="account_approval.html" />
+    <link rel="prev" title="Account Management" href="account_management.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="account-creation">
+<span id="id1"></span><h1><a class="toc-backref" href="#id2">Account Creation</a><a class="headerlink" href="#account-creation" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#account-creation" id="id2">Account Creation</a><ul>
+<li><a class="reference internal" href="#physician-account" id="id3">Physician Account</a></li>
+<li><a class="reference internal" href="#experiment-admin-account" id="id4">Experiment Admin Account</a></li>
+<li><a class="reference internal" href="#patient-account" id="id5">Patient Account</a></li>
+<li><a class="reference internal" href="#system-admin-account" id="id6">System Admin Account</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>There are 4 types of accounts</p>
+<ul class="simple">
+<li>patient</li>
+<li>physician</li>
+<li>experiment admin</li>
+<li>system admin</li>
+</ul>
+<div class="section" id="physician-account">
+<span id="create-physician-account"></span><h2><a class="toc-backref" href="#id3">Physician Account</a><a class="headerlink" href="#physician-account" title="Permalink to this headline">¶</a></h2>
+<p>Physician accounts can be requested at the home/login page. Click on the &#8220;Register as a new user&#8221; button.</p>
+<img alt="../_images/login_screen.png" src="../_images/login_screen.png" />
+<p>This will redirect you to a form to fill out for you new physician account.</p>
+<img alt="../_images/request_account.png" src="../_images/request_account.png" />
+<p>Once you have filled this out with the appropriate information and selected the &#8220;Physician&#8221; radio button at the top,
+you are ready to submit your request. When you click submit you should be brought to a confirmation page.</p>
+<img alt="../_images/request_account_confirmation.png" src="../_images/request_account_confirmation.png" />
+<p>You will not be able to login though until a system admin has approved your account.</p>
+</div>
+<div class="section" id="experiment-admin-account">
+<h2><a class="toc-backref" href="#id4">Experiment Admin Account</a><a class="headerlink" href="#experiment-admin-account" title="Permalink to this headline">¶</a></h2>
+<p>Experiment Admin accounts are created the same way as the physician accounts. Just make sure to select the &#8220;Experiment Administrator&#8221;
+radio button at the top of the request account page instead of the &#8220;Physician&#8221; radio button.</p>
+<img alt="../_images/request_account.png" src="../_images/request_account.png" />
+</div>
+<div class="section" id="patient-account">
+<span id="create-patient-account"></span><h2><a class="toc-backref" href="#id5">Patient Account</a><a class="headerlink" href="#patient-account" title="Permalink to this headline">¶</a></h2>
+<p>Patient accounts can only be created by their physician. From the physician account&#8217;s home page click the &#8220;CREATE PATIENT&#8221;
+button at the top right of the screen.</p>
+<img alt="../_images/patient_management.png" src="../_images/patient_management.png" />
+<p>A popup form should come up with all the information needed to create a patient account.</p>
+<img alt="../_images/create_patient.png" src="../_images/create_patient.png" />
+<p>After all the information has been filled out, you can click the submit button. If everthing worked, you should get a
+confirmation page.</p>
+<img alt="../_images/create_patient_confirmation.png" src="../_images/create_patient_confirmation.png" />
+</div>
+<div class="section" id="system-admin-account">
+<h2><a class="toc-backref" href="#id6">System Admin Account</a><a class="headerlink" href="#system-admin-account" title="Permalink to this headline">¶</a></h2>
+<p>UAHFitVault comes with a system administrator pre-configured. The username is &#8216;fitadmin&#8217; and the password is &#8216;Password1!&#8217;.
+We recommend changing this after the installation before the server is made publicly available.</p>
+<p>New System Admin accounts can be created by other System Admin accounts. From the System Admin account home page, click
+the &#8220;Create Admin&#8221; button at the top right corner of the screen.</p>
+<img alt="../_images/account_approval.png" src="../_images/account_approval.png" />
+<p>You will be presented with a form to fill out for the system admin account information.</p>
+<img alt="../_images/create_admin.png" src="../_images/create_admin.png" />
+<p>Once the form is filled out and you click the create button, you should get a confirmation page.</p>
+<img alt="../_images/create_admin_confirmation.png" src="../_images/create_admin_confirmation.png" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Account Creation</a><ul>
+<li><a class="reference internal" href="#physician-account">Physician Account</a></li>
+<li><a class="reference internal" href="#experiment-admin-account">Experiment Admin Account</a></li>
+<li><a class="reference internal" href="#patient-account">Patient Account</a></li>
+<li><a class="reference internal" href="#system-admin-account">System Admin Account</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="user_guide.html">User Guide</a><ul>
+  <li><a href="account_management.html">Account Management</a><ul>
+      <li>Previous: <a href="account_management.html" title="previous chapter">Account Management</a></li>
+      <li>Next: <a href="account_approval.html" title="next chapter">Account Approval</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/user_guide/account_creation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, James Duggan, Glen Riden, Ryan Wilkins.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
+      
+      |
+      <a href="../_sources/user_guide/account_creation.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

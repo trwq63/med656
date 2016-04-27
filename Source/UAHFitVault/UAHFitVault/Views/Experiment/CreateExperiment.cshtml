@@ -1,0 +1,190 @@
+﻿@using UAHFitVault.LogicLayer.Enums
+
+@model UAHFitVault.Models.ExperimentViewModel
+
+@{
+    ViewBag.Title = "CreateExperiment";
+    List<int> ages = new List<int>();
+    List<int> weights = new List<int>();
+    List<int> heights = new List<int>();
+    List<string> genders = Enum.GetNames(typeof(PatientGender)).ToList();
+    List<string> races = Enum.GetNames(typeof(PatientRace)).ToList();
+    List<string> ethnicities = Enum.GetNames(typeof(PatientEthnicity)).ToList();
+    List<string> locations = Enum.GetNames(typeof(Location)).ToList();
+    List<string> activities = Enum.GetNames(typeof(ActivityType)).ToList();
+
+    // Age range: 18 to 120
+    for (int i = 18; i <= 120; i++) { ages.Add(i); } // Add all 18 and up ages to the list.
+
+    // Weight range: 75 to 500
+    for (int i = 75; i <= 500; i = i + 5)
+    {
+        weights.Add(i);
+    }
+
+    // Height range: 40 inches to 96 inches
+    for (int i = 40; i <= 96; i++)
+    {
+        heights.Add(i);
+    }
+}
+
+<h2>Create Experiment</h2>
+
+@using (Html.BeginForm("CreateExperiment", "Experiment", FormMethod.Post))
+{
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <table>
+        <tr>
+            <td>@Html.LabelFor(m => m.ExperimentName)</td>
+            <td>@Html.TextBoxFor(m => m.ExperimentName)</td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td>Start</td>
+            <td>End</td>
+            <td></td>
+            <td>Start</td>
+            <td>End</td>
+            <td></td>
+            <td>Start</td>
+            <td>End</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>@Html.DropDownListFor(m => m.ageRangeStart, new SelectList(ages), new { @class = "browser-default validate" })</td>
+            <td>@Html.DropDownListFor(m => m.ageRangeEnd, new SelectList(ages), new { @class = "browser-default validate" })</td>
+            <td>Age Range</td>
+            <td>@Html.DropDownListFor(m => m.heightRangeBegin, new SelectList(heights), new { @class = "browser-default validate" })</td>
+            <td>@Html.DropDownListFor(m => m.heightRangeEnd, new SelectList(heights), new { @class = "browser-default validate" })</td>
+            <td>Height Range</td>
+            <td>@Html.DropDownListFor(m => m.weightRangeBegin, new SelectList(weights), new { @class = "browser-default validate" })</td>
+            <td>@Html.DropDownListFor(m => m.weightRangeEnd, new SelectList(weights), new { @class = "browser-default validate" })</td>
+            <td>Weight Range</td>
+        </tr>
+    </table>
+    <table>
+        @*Genders*@
+        <tr>
+            <td><h5>Genders</h5><h6>(Selecting none implies all genders)</h6></td>
+        </tr>
+        <tr>
+            <td>
+                <table style="width:250px;">
+                    <tr>
+                    @foreach (string gender in genders)
+                    {
+                        bool genderWasSelected = false;
+                        string genderId = "genders" + gender;
+                        if (Model.selectedGenders != null)
+                        {
+                            foreach (string genderSelected in Model.selectedGenders)
+                            {
+                                if (gender == genderSelected)
+                                {
+                                    genderWasSelected = true;
+                                }
+                            }
+                        }
+                        <td style="width:125px;">
+                            <input type="checkbox" id="@genderId" class="filled-in" name="selectedGenders" value="@gender" @(Html.Raw(genderWasSelected ? "checked" : "")) />
+                            <label for="@genderId">@gender</label>
+                        </td>
+                    }
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        @*Races*@
+        <tr>
+            <td><h5>Races</h5><h6>(Selecting none implies all races)</h6></td>
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                    @foreach (string race in races)
+                    {
+                        bool raceWasSelected = false;
+                        string raceId = "race" + race;
+                        if (Model.selectedRaces != null)
+                        {
+                            foreach (string raceSelected in Model.selectedRaces)
+                            {
+                                if (race == raceSelected)
+                                {
+                                    raceWasSelected = true;
+                                }
+                            }
+                        }
+                        <td><input type="checkbox" id="@raceId" class="filled-in" name="selectedRaces" value="@race" @(Html.Raw(raceWasSelected ? "checked" : "")) />
+                        <label for="@raceId">@race</label></td>
+                    }
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        @*Ethnicities*@
+        <tr>
+            <td><h5>Ethnicities</h5><h6>(Selecting none implies all ethnicities)</h6></td>
+        </tr>
+        <tr>
+            <td>
+                <table style="width:400px;">
+                    <tr>
+                    @foreach (string ethnicity in ethnicities)
+                    {
+                        bool ethnicityWasSelected = false;
+                        string ethnicityId = "ethnicity" + ethnicity;
+                        if (Model.selectedEthnicities != null)
+                        {
+                            foreach (string ethnicitySelected in Model.selectedEthnicities)
+                            {
+                                if (ethnicity == ethnicitySelected)
+                                {
+                                    ethnicityWasSelected = true;
+                                }
+                            }
+                        }
+                        <td style="width:200px;"><input type="checkbox" id="@ethnicityId" class="filled-in" name="selectedEthnicities" value="@ethnicity" @(Html.Raw(ethnicityWasSelected ? "checked" : "")) /><label for="@ethnicityId">@ethnicity</label></td>
+                    }   
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        @*Locations*@
+        <tr>
+            <td><h5>Locations</h5><h6>(Selecting none implies all locations)</h6></td>
+        </tr>
+        <tr>
+            <td>
+            <table>
+                <tr>
+            @{int i = 0;}
+            @foreach (string location in locations)
+            {
+                bool locationWasSelected = false;
+                string locationId = "location" + location;
+                if (Model.selectedLocations != null)
+                {
+                    foreach (string locationSelected in Model.selectedLocations)
+                    {
+                        if (location == locationSelected)
+                        {
+                            locationWasSelected = true;
+                        }
+                    }
+                }
+                if ((i % 5) == 0 && (i != 0)) { @Html.Raw("</tr><tr>")} i++;
+                <td><input type="checkbox" id="@locationId" class="filled-in" name="selectedLocations" value="@location" @(Html.Raw(locationWasSelected ? "checked" : "")) /><label for="@locationId">@location</label></td>
+            }
+                </tr>
+            </table>
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Submit" class="btn" />
+    <input type="button" value="Cancel" class="btn" onclick="location.href = '/Account/LoginRedirect';"/>
+}
+<br /><br />

@@ -37,6 +37,18 @@ namespace UAHFitVault.DataAccess
         IEnumerable<Physician> GetPhysicians(string lastName = null);
 
         /// <summary>
+        /// Delete a physician user from the database.
+        /// </summary>
+        /// <param name="id"></param>
+        void DeletePhysician(int id);
+
+        /// <summary>
+        /// Update the physician record in the database.
+        /// </summary>
+        /// <param name="physician"></param>
+        void UpdatePhysician(Physician physician);
+
+        /// <summary>
         /// Save changes to database
         /// </summary>
         void SaveChanges();

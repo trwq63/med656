@@ -1,0 +1,81 @@
+﻿@model UAHFitVault.Models.ViewExperimentViewModel
+@using UAHFitVault.Database.Entities
+@using UAHFitVault.Models
+@using UAHFitVault.LogicLayer.Enums
+
+@{
+    ViewBag.Title = "View Experiment";
+    ViewExperimentCriteriaViewModel experimentCriteriaModel = new ViewExperimentCriteriaViewModel();
+    experimentCriteriaModel = Model.criteriaModel;
+}
+
+<div id="viewExperimentCriteria" class="modal">
+    @{
+        Html.RenderPartial("~/Views/Experiment/_PartialViewExperimentCriteria.cshtml", experimentCriteriaModel);
+    }
+</div>
+<div class="col s12 m6 right-align">
+    <input type="button" value="View Matching Criteria" class="btn blue lighten-2" onclick="viewMatchingCriteria()" />
+    <input type="button" value="Edit Experiment" class="btn orange lighten-2" onclick="location.href = '/Experiment/EditExperiment?experimentName=@Model.experimentName';" />
+</div>
+<h2>View Experiment - @if (Model.experimentName != null) { <b>@Model.experimentName</b> }</h2> 
+@if (Model.patientList.Count != 0)
+{
+    <table class="striped centered">
+        <tr class="black-text blue lighten-2" style="font-weight: 500">
+            <td>Gender</td>
+            <td>Race</td>
+            <td>Ethnicity</td>
+            <td>Age</td>
+            <td>Height<br /><font size="1">(inches)</font></td>
+            <td>Weight<br /><font size="1">(pounds)</font></td>
+            <td>Location</td>
+            <td>Action</td>
+        </tr>
+        @{ int i = 0;}
+        @foreach (Patient patient in Model.patientList)
+        {
+            if ((i % 2) == 0)
+            {
+                @Html.Raw("<tr class=\"blue lighten-3 black-text\">")
+            }
+            else
+            {
+                @Html.Raw("<tr class=\"blue lighten-4 black-text\">")
+            }
+                <td>@Enum.GetName(typeof(PatientGender),patient.Gender)</td>
+                <td>@Enum.GetName(typeof(PatientRace), patient.Race)</td>
+                <td>@Enum.GetName(typeof(PatientEthnicity), patient.Ethnicity)</td>
+                <td>@((DateTime.Now - patient.Birthdate).Days / 365)</td>
+                <td>@patient.Height</td>
+                <td>@patient.Weight</td>
+                <td>@Enum.GetName(typeof(Location), patient.Location)</td>
+                <td><input type="button" value="View Data" class="btn green" onclick="location.href = '/Experiment/ViewPatient?patientId=@patient.Id';"/></td>
+            @Html.Raw("</tr>")
+            i++;
+        }
+    </table>
+}
+else
+{
+@Html.Raw("There are no patients that match this experiment criteria.");
+}
+
+<br /><br />
+
+@section scripts{
+<script>
+    function viewMatchingCriteria() {
+        $('#viewExperimentCriteria').openModal({
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: .5, // Opacity of modal background
+            in_duration: 200, // Transition in duration
+            out_duration: 200, // Transition out duration
+        });
+    }
+
+    function cancelViewExperiment() {
+        $('#viewExperimentCriteria').closeModal();
+    }
+</script>
+}

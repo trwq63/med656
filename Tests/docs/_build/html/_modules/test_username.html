@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>test_username &mdash; UAH Fit Vault 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="UAH Fit Vault 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for test_username</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">These tests are to make sure the username functions correctly</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">WebUI.WebUI</span> <span class="kn">import</span> <span class="n">WebUI</span>
+
+<span class="n">web_sess</span> <span class="o">=</span> <span class="n">WebUI</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="test_username_cannot_be_copied"><a class="viewcode-back" href="../STD/test_username.html#test_username.test_username_cannot_be_copied">[docs]</a><span class="k">def</span> <span class="nf">test_username_cannot_be_copied</span><span class="p">(</span><span class="n">logoff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **Requirements:**</span>
+
+<span class="sd">    - 3.1.1.2: Usernames must be unique</span>
+<span class="sd">    - 3.1.1.3: The system shall assign unique ids to each created patient.</span>
+<span class="sd">    - 3.1.1.2.1: Users cannot change username to an already existing username</span>
+
+<span class="sd">    **Pre Conditions:**</span>
+
+<span class="sd">    - logoff fixture</span>
+
+<span class="sd">    **Input:**</span>
+
+<span class="sd">    - user = &#39;copy&#39;</span>
+<span class="sd">    - pwd = &#39;P@ssword10&#39;</span>
+<span class="sd">    - email = &#39;copy@copy.com&#39;</span>
+<span class="sd">    - first_name = &#39;Fry&#39;</span>
+<span class="sd">    - last_name = &#39;Phillip&#39;</span>
+<span class="sd">    - address = &#39;304 Wherever Street, New New York City, New New York&#39;</span>
+<span class="sd">    - phone_number = &#39;123-456-7890&#39;</span>
+<span class="sd">    - user_2 = &#39;copy1&#39;</span>
+<span class="sd">    - email_2 = &#39;copy2@copy.com&#39;</span>
+
+<span class="sd">    ==============================  ====================  =============</span>
+<span class="sd">    Steps                           Expected Result       Actual Result</span>
+<span class="sd">    ==============================  ====================  =============</span>
+<span class="sd">    Request physician account       No errors</span>
+<span class="sd">    Request same physician account  Username taken error</span>
+<span class="sd">    Request different account       No errors</span>
+<span class="sd">    ==============================  ====================  =============</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Starting&#39;</span><span class="p">)</span>
+
+    <span class="n">user</span> <span class="o">=</span> <span class="s">&#39;copy&#39;</span>
+    <span class="n">pwd</span> <span class="o">=</span> <span class="s">&#39;P@ssword10&#39;</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="s">&#39;copy@copy.com&#39;</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="s">&#39;Fry&#39;</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="s">&#39;Phillip&#39;</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="s">&#39;304 Wherever Street, New New York City, New New York&#39;</span>
+    <span class="n">phone_number</span> <span class="o">=</span> <span class="s">&#39;123-456-7890&#39;</span>
+    <span class="n">user_2</span> <span class="o">=</span> <span class="s">&#39;copy1&#39;</span>
+    <span class="n">email_2</span> <span class="o">=</span> <span class="s">&#39;copy2@copy.com&#39;</span>
+
+    <span class="c"># first use of user copy</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Requesting account for user &#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span>
+          <span class="s">&#39;pwd: &#39;</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span>
+          <span class="s">&#39;email: &#39;</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span>
+          <span class="s">&#39;first_name: &#39;</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span>
+          <span class="s">&#39;last_name: &#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span>
+          <span class="s">&#39;address: &#39;</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span>
+          <span class="s">&#39;phone_number: &#39;</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">request_account</span><span class="p">(</span><span class="s">&#39;Physician&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_request_account</span><span class="p">()</span>
+
+    <span class="c"># second use of user copy</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Requesting account for user &#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span>
+      <span class="s">&#39;pwd: &#39;</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span>
+      <span class="s">&#39;email: &#39;</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span>
+      <span class="s">&#39;first_name: &#39;</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span>
+      <span class="s">&#39;last_name: &#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span>
+      <span class="s">&#39;address: &#39;</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span>
+      <span class="s">&#39;phone_number: &#39;</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">go_home</span><span class="p">()</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">request_account</span><span class="p">(</span><span class="s">&#39;Physician&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="s">&#39;Name {} is already taken.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="ow">in</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">get_page</span><span class="p">()</span>
+
+    <span class="c"># first use of user copy1</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Requesting account for user &#39;</span><span class="p">,</span> <span class="n">user_2</span><span class="p">,</span>
+          <span class="s">&#39;pwd: &#39;</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span>
+          <span class="s">&#39;email: &#39;</span><span class="p">,</span> <span class="n">email_2</span><span class="p">,</span>
+          <span class="s">&#39;first_name: &#39;</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span>
+          <span class="s">&#39;last_name: &#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span>
+          <span class="s">&#39;address: &#39;</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span>
+          <span class="s">&#39;phone_number: &#39;</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">)</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">go_home</span><span class="p">()</span>
+    <span class="n">web_sess</span><span class="o">.</span><span class="n">request_account</span><span class="p">(</span><span class="s">&#39;Physician&#39;</span><span class="p">,</span> <span class="n">user_2</span><span class="p">,</span> <span class="n">pwd</span><span class="p">,</span> <span class="n">email_2</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">web_sess</span><span class="o">.</span><span class="n">check_request_account</span><span class="p">()</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, James Duggan, Glen Riden, Ryan Wilkins.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster </a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -54,7 +54,7 @@ namespace UAHFitVault.DataAccess
         public Patient GetPatient(int id) {
             Patient patient = null;
 
-            if(id != null) {
+            if(id > 0) {
                 patient = _repository.GetPatientById(id);
             }
 
@@ -69,6 +69,18 @@ namespace UAHFitVault.DataAccess
         public void CreatePatient(Patient patient) {
             if(patient != null) {
                 _repository.Add(patient);
+            }
+        }
+
+        /// <summary>
+        /// Delete a patient from the database.
+        /// </summary>
+        /// <param name="patient">Patient to delete from the database</param>
+        public void DeletePatient (Patient patient)
+        {
+            if (patient != null)
+            {
+                _repository.Delete(patient);
             }
         }
 

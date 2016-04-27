@@ -2,7 +2,9 @@
 using System.Linq;
 using UAHFitVault.Database.Infrastructure;
 using UAHFitVault.Database.Entities;
-using UAHFitVault.Database.Repositories;
+using UAHFitVault.Database.Repositories.ZephyrRepositories;
+using UAHFitVault.Database;
+using EntityFramework.BulkInsert.Extensions;
 
 namespace UAHFitVault.DataAccess.ZephyrServices
 {
@@ -37,12 +39,14 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         /// Get the Zephyr ECG Zephyr Event Data for the given a patient data record or all records for all patients.
         /// </summary>
         /// <param name="patientData">PatientData object used to retrieve the Zephyr Event Data records</param>
+        /// <param name="skip">Skip a number of records in the data collection</param>
+        /// <param name="take">Number of records to return.</param>
         /// <returns></returns>
-        public IEnumerable<ZephyrEventData> GetZephyrEventData(PatientData patientData) {
+        public IEnumerable<ZephyrEventData> GetZephyrEventData(PatientData patientData, int skip = 0, int take = 0) {
             if (patientData == null)
                 return _repository.GetAll();
             else
-                return _repository.GetAll().Where(r => r.PatientDataId == patientData.Id);
+                return _repository.GetMany(r => r.PatientDataId == patientData.Id, r => r.Time, skip, take);
         }
 
         /// <summary>
@@ -68,6 +72,17 @@ namespace UAHFitVault.DataAccess.ZephyrServices
         public void CreateZephyrEventData(ZephyrEventData zephyrEvent) {
             if(zephyrEvent != null) {
                 _repository.Add(zephyrEvent);
+            }
+        }
+
+        /// <summary>
+        /// Bulk Insert Zephyr Event Data into the database
+        /// </summary>
+        /// <param name="zephyrEventData">Collection of Zephyr summary data to insert into database.</param>
+        public void BulkInsert(List<ZephyrEventData> zephyrEventData) {
+            using (FitVaultContext context = new FitVaultContext()) {
+                context.BulkInsert(zephyrEventData);
+
             }
         }
 

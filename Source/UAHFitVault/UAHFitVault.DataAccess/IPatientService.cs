@@ -16,6 +16,12 @@ namespace UAHFitVault.DataAccess
         void CreatePatient(Patient patient);
 
         /// <summary>
+        /// Delete a patient from the database
+        /// </summary>
+        /// <param name="patient">Patient to delete from the database</param>
+        void DeletePatient(Patient patient);
+
+        /// <summary>
         /// Get Patient from database using Patient Id
         /// </summary>
         /// <param name="id">Id of the patient</param>

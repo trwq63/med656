@@ -34,6 +34,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework.MappingAPI, Version=6.1.0.9, Culture=neutral, PublicKeyToken=7ee2e825d201459e, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.MappingAPI.6.1.0.9\lib\net45\EntityFramework.MappingAPI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
@@ -52,6 +56,7 @@
     <Compile Include="Entities\AccountRequest.cs" />
     <Compile Include="Entities\Activity.cs" />
     <Compile Include="Entities\BasisPeakSummaryData.cs" />
+    <Compile Include="Entities\ZephyrBRRR.cs" />
     <Compile Include="FitVaultContext.cs" />
     <Compile Include="Entities\MSBandPedometer.cs" />
     <Compile Include="Entities\MSBandTemperature.cs" />
@@ -62,24 +67,57 @@
     <Compile Include="Entities\MSBandAccelerometer.cs" />
     <Compile Include="Entities\MSBandCalories.cs" />
     <Compile Include="Entities\MSBandDistance.cs" />
-    <Compile Include="Entities\MSBandGryoscope.cs" />
+    <Compile Include="Entities\MSBandGyroscope.cs" />
     <Compile Include="Entities\MSBandHeartRate.cs" />
     <Compile Include="Entities\Patient.cs" />
     <Compile Include="Entities\PatientData.cs" />
     <Compile Include="Entities\Physician.cs" />
+    <Compile Include="FitVaultDbSeedData.cs" />
     <Compile Include="Infrastructure\DbFactory.cs" />
     <Compile Include="Infrastructure\IDbFactory.cs" />
     <Compile Include="Infrastructure\IRepository.cs" />
     <Compile Include="Infrastructure\IUnitOfWork.cs" />
     <Compile Include="Infrastructure\RepositoryBase.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
-    <Compile Include="Migrations\201601310309164_1_30_16.cs" />
-    <Compile Include="Migrations\201601310309164_1_30_16.Designer.cs">
-      <DependentUpon>201601310309164_1_30_16.cs</DependentUpon>
+    <Compile Include="Migrations\201602030335095_NewInitial.cs" />
+    <Compile Include="Migrations\201602030335095_NewInitial.Designer.cs">
+      <DependentUpon>201602030335095_NewInitial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201601310322216_1_30_16-2.cs" />
-    <Compile Include="Migrations\201601310322216_1_30_16-2.Designer.cs">
-      <DependentUpon>201601310322216_1_30_16-2.cs</DependentUpon>
+    <Compile Include="Migrations\201602150218599_patient-change-age-to-birthdate.cs" />
+    <Compile Include="Migrations\201602150218599_patient-change-age-to-birthdate.Designer.cs">
+      <DependentUpon>201602150218599_patient-change-age-to-birthdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603020319412_patientdata-fk-fix.cs" />
+    <Compile Include="Migrations\201603020319412_patientdata-fk-fix.Designer.cs">
+      <DependentUpon>201603020319412_patientdata-fk-fix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603040127357_patientdata-daterange-add.cs" />
+    <Compile Include="Migrations\201603040127357_patientdata-daterange-add.Designer.cs">
+      <DependentUpon>201603040127357_patientdata-daterange-add.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603060353136_change-patientdataid_string.cs" />
+    <Compile Include="Migrations\201603060353136_change-patientdataid_string.Designer.cs">
+      <DependentUpon>201603060353136_change-patientdataid_string.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603060403178_activity-addstartstoptimes.cs" />
+    <Compile Include="Migrations\201603060403178_activity-addstartstoptimes.Designer.cs">
+      <DependentUpon>201603060403178_activity-addstartstoptimes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603141933496_gyroscope-spelling.cs" />
+    <Compile Include="Migrations\201603141933496_gyroscope-spelling.Designer.cs">
+      <DependentUpon>201603141933496_gyroscope-spelling.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604101810204_zeph-sum-nullable-fields.cs" />
+    <Compile Include="Migrations\201604101810204_zeph-sum-nullable-fields.Designer.cs">
+      <DependentUpon>201604101810204_zeph-sum-nullable-fields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604101841588_zeph-add-br-rr-table.cs" />
+    <Compile Include="Migrations\201604101841588_zeph-add-br-rr-table.Designer.cs">
+      <DependentUpon>201604101841588_zeph-add-br-rr-table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604101902399_br-rr-float.cs" />
+    <Compile Include="Migrations\201604101902399_br-rr-float.Designer.cs">
+      <DependentUpon>201604101902399_br-rr-float.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -88,43 +126,92 @@
     <Compile Include="Entities\ZephyrECGWaveform.cs" />
     <Compile Include="Entities\ZephyrEventData.cs" />
     <Compile Include="Entities\ZephyrSummaryData.cs" />
+    <Compile Include="Repositories\ActivityRepository.cs" />
+    <Compile Include="Repositories\ExperimentRepository.cs" />
     <Compile Include="Repositories\IAccountRequestRepository.cs" />
     <Compile Include="Repositories\AccountRequestRepository.cs" />
-    <Compile Include="Repositories\IBasisPeakSummaryRepository.cs" />
+    <Compile Include="Repositories\BasisPeakRepositories\IBasisPeakSummaryRepository.cs" />
+    <Compile Include="Repositories\IActivityRepository.cs" />
+    <Compile Include="Repositories\IExperimentRepository.cs" />
     <Compile Include="Repositories\IExperimentAdminRepository.cs" />
     <Compile Include="Repositories\IPatientRepository.cs" />
     <Compile Include="Repositories\IPatientDataRepository.cs" />
     <Compile Include="Repositories\IPhysicianRepository.cs" />
     <Compile Include="Repositories\ExperimentAdminRepository.cs" />
-    <Compile Include="Repositories\IZephyrAccelRepository.cs" />
-    <Compile Include="Repositories\IZephyrBreathingRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\IMSBandUVRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\IMSBandTemperatureRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\IMSBandPedometerRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\IMSBandHeartRateRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\IMSBandGyroscopeRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\IMSBandDistanceRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\IMSBandCaloriesRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\IMSBandAccelRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\MSBandUVRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\MSBandTemperatureRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\MSBandPedometerRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\MSBandHeartRateRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\MSBandGyroscopeRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\MSBandDistanceRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\MSBandCaloriesRepository.cs" />
+    <Compile Include="Repositories\MicrosoftBandRepositories\MSBandAccelRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\IZephyrAccelRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\IZephyrBrRrRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\IZephyrBreathingRepository.cs" />
     <Compile Include="Repositories\IMedicalDeviceRepository.cs" />
-    <Compile Include="Repositories\IZephyrECGRepository.cs" />
-    <Compile Include="Repositories\IZephyrEventDataRepository.cs" />
-    <Compile Include="Repositories\IZephyrSummaryRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\IZephyrECGRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\IZephyrEventDataRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\IZephyrSummaryRepository.cs" />
     <Compile Include="Repositories\MedicalDeviceRepository.cs" />
     <Compile Include="Repositories\PatientRepository.cs" />
-    <Compile Include="Repositories\ZephyrBreathingRepository.cs" />
-    <Compile Include="Repositories\BasisPeakSummaryRepository.cs" />
-    <Compile Include="Repositories\ZephyrSummaryRepository.cs" />
-    <Compile Include="Repositories\ZephyrEventDataRepository.cs" />
-    <Compile Include="Repositories\ZephyrECGRepository.cs" />
-    <Compile Include="Repositories\ZephyrAccelRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\ZephyrBrRrRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\ZephyrBreathingRepository.cs" />
+    <Compile Include="Repositories\BasisPeakRepositories\BasisPeakSummaryRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\ZephyrSummaryRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\ZephyrEventDataRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\ZephyrECGRepository.cs" />
+    <Compile Include="Repositories\ZephyrRespositories\ZephyrAccelRepository.cs" />
     <Compile Include="Repositories\PhysicianRepository.cs" />
     <Compile Include="Repositories\PatientDataRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201601310309164_1_30_16.resx">
-      <DependentUpon>201601310309164_1_30_16.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602030335095_NewInitial.resx">
+      <DependentUpon>201602030335095_NewInitial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601310322216_1_30_16-2.resx">
-      <DependentUpon>201601310322216_1_30_16-2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602150218599_patient-change-age-to-birthdate.resx">
+      <DependentUpon>201602150218599_patient-change-age-to-birthdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603020319412_patientdata-fk-fix.resx">
+      <DependentUpon>201603020319412_patientdata-fk-fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603040127357_patientdata-daterange-add.resx">
+      <DependentUpon>201603040127357_patientdata-daterange-add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603060353136_change-patientdataid_string.resx">
+      <DependentUpon>201603060353136_change-patientdataid_string.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603060403178_activity-addstartstoptimes.resx">
+      <DependentUpon>201603060403178_activity-addstartstoptimes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603141933496_gyroscope-spelling.resx">
+      <DependentUpon>201603141933496_gyroscope-spelling.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604101810204_zeph-sum-nullable-fields.resx">
+      <DependentUpon>201604101810204_zeph-sum-nullable-fields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604101841588_zeph-add-br-rr-table.resx">
+      <DependentUpon>201604101841588_zeph-add-br-rr-table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604101902399_br-rr-float.resx">
+      <DependentUpon>201604101902399_br-rr-float.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

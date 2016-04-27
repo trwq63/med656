@@ -1,5 +1,7 @@
 ﻿using System.Data.Entity;
 using UAHFitVault.Database.Entities;
+using System.Data.Entity.Validation;
+using System;
 
 namespace UAHFitVault.Database
 {
@@ -9,8 +11,10 @@ namespace UAHFitVault.Database
         /// <summary>
         /// Default constructor
         /// </summary>
-        public FitVaultContext() : base("name=DefaultConnection") {
-           // Database.SetInitializer<FitVaultContext>(new DropCreateDatabaseIfModelChanges<FitVaultContext>());
+        public FitVaultContext() 
+           //: base("name=DefaultConnection") {
+            : base("name=FitVaultDatabase") {
+            // Database.SetInitializer<FitVaultContext>(new DropCreateDatabaseIfModelChanges<FitVaultContext>());
         }
 
         #endregion
@@ -18,7 +22,25 @@ namespace UAHFitVault.Database
         #region Public Methods
 
         public virtual void Commit() {
-            base.SaveChanges();
+            try
+            {
+                base.SaveChanges();
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:", 
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                            ve.PropertyName,
+                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+                            ve.ErrorMessage);
+                    }
+                }
+            }
         }
 
         #endregion
@@ -33,7 +55,7 @@ namespace UAHFitVault.Database
         public virtual DbSet<MSBandAccelerometer> MSBandAccelerometer { get; set; }
         public virtual DbSet<MSBandCalories> MSBandCalories { get; set; }
         public virtual DbSet<MSBandDistance> MSBandDistance { get; set; }
-        public virtual DbSet<MSBandGryoscope> MSBandGyroscrope { get; set; }
+        public virtual DbSet<MSBandGyroscope> MSBandGyroscrope { get; set; }
         public virtual DbSet<MSBandHeartRate> MSBandHeartRate { get; set; }
         public virtual DbSet<MSBandPedometer> MSBandPedometer { get; set; }
         public virtual DbSet<MSBandTemperature> MSBandTemperature { get; set; }
@@ -46,6 +68,7 @@ namespace UAHFitVault.Database
         public virtual DbSet<ZephyrECGWaveform> ZephyrECGWaveform { get; set; }
         public virtual DbSet<ZephyrEventData> ZephyrEventData { get; set; }
         public virtual DbSet<ZephyrSummaryData> ZephyrSummaryData { get; set; }
+        public virtual DbSet<ZephyrBRRR> ZephyrBRRRData { get; set; }
         public virtual DbSet<AccountRequest> AccountRequests { get; set; }
 
         #endregion
@@ -57,5 +80,5 @@ namespace UAHFitVault.Database
         }
 
         #endregion
-    }
+    }    
 }

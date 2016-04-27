@@ -37,6 +37,12 @@ namespace UAHFitVault.DataAccess
         IEnumerable<ExperimentAdministrator> GetExperimentAdministrators(string lastName = null);
 
         /// <summary>
+        /// Delete an experiment administrator user from the database.
+        /// </summary>
+        /// <param name="id"></param>
+        void DeleteExperimentAdministrator(int id);
+
+        /// <summary>
         /// Save changes to database
         /// </summary>
         void SaveChanges();

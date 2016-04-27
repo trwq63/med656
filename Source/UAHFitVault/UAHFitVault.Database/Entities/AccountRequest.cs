@@ -8,9 +8,8 @@ namespace UAHFitVault.Database.Entities
         /// <summary>
         /// Default constructor
         /// </summary>
-        public AccountRequest(string accountId, string reasonForAccount) {
-            AccountId = accountId;
-            ReasonForAccount = reasonForAccount;
+        public AccountRequest() {
+
         }
         #endregion
 
@@ -18,7 +17,6 @@ namespace UAHFitVault.Database.Entities
 
         public int Id { get; set; }
         [Required]
-        public string AccountId { get; set; }
         public string ReasonForAccount { get; set; }
 
         #endregion
