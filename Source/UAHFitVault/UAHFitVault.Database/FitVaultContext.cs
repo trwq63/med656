@@ -12,8 +12,8 @@ namespace UAHFitVault.Database
         /// Default constructor
         /// </summary>
         public FitVaultContext() 
-           : base("name=DefaultConnection") {
-          //  : base("name=FitVaultDatabase") {
+           //: base("name=DefaultConnection") {
+            : base("name=FitVaultDatabase") {
             // Database.SetInitializer<FitVaultContext>(new DropCreateDatabaseIfModelChanges<FitVaultContext>());
         }
 
