@@ -57,6 +57,18 @@ namespace UAHFitVault.Controllers
         }
         #endregion
 
+        /// <summary>
+        /// Name of the experiment being viewed.
+        /// </summary>
+        public string ExperimentName {
+            get {
+                return Session["eExperimentName"].ToString();
+            }
+            set {
+                Session["eExperimentName"] = value;
+            }
+        }
+
         #region Public Constructor
         /// <summary>
         /// Default constructor
@@ -469,6 +481,8 @@ namespace UAHFitVault.Controllers
         {
             ViewExperimentViewModel model = new ViewExperimentViewModel();
             model.criteriaModel = new ViewExperimentCriteriaViewModel();
+
+            ExperimentName = experimentName;
 
             if (experimentName != null)
             {

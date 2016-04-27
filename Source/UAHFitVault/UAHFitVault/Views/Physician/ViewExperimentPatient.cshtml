@@ -67,10 +67,6 @@
     if (Model.ActivityTagFilter != null)
     {
         <h5>Displaying data filtered by @Model.ActivityTagFilter</h5>
-        <div class="row col s12 input-field">
-            <input id="directory" type="text">
-            <label for="directory">Enter File Download Path</label>
-        </div>
         <table>
             <tr class="blue lighten-2" style="font-weight:500">
                 <td>Id</td>
@@ -126,27 +122,25 @@
         $('.exportRecord').click(function(){
             var id = $(this).val();
             var activityType = @Html.Raw(Json.Encode(Model.ActivityTagFilter.Replace(" ", "_")));
-            var path = $('#directory').val();
-            if (path != null && path != undefined && path != "") {
-                $.ajax({
-                    type: "POST",
-                    data: {
-                        patientDataId: id,
-                        path : path,
-                        activityType: activityType
-                    },
-                    url: "/ExperimentData/ExportExperiment",
-                    success: function (data) {
+            $.ajax({
+                type: "POST",
+                data: {
+                    patientDataId: id,
+                    activityType: activityType
+                },
+                url: "/ExperimentData/ExportExperiment",
+                success: function (data) {
+                    if(data == ""){
                         window.location.reload();
-                    },
-                    error: function (error) {
-                        alert("No Data Found");
                     }
-                });
-            }
-            else {
-                alert("Please enter a directory location to download the file(s) to.");
-            }
+                    else {
+                        window.location = '/ExperimentData/DownloadFile?filename=' + data;
+                    }
+                },
+                error: function (error) {
+                    alert("No Data Found");
+                }
+            });
         });
 
         $('.viewchart').click(function () {
