@@ -121,6 +121,7 @@
 @section scripts{
     <script src="~/Scripts/d3/d3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.10.0/d3-legend.min.js"></script>
+<   <script src="~/Scripts/moment.min.js"></script>
     <script>
         $('.exportRecord').click(function(){
             var id = $(this).val();
@@ -194,7 +195,21 @@
 
                 var linegraph = [];
                 for (j = 0; j < xAxisData.length; j++) {
-                    var linePoint = { x: new Date(xAxisData[j]), y: yAxisData[j] };
+                    var linepoint;
+                    if (/chrome/.test(navigator.userAgent.toLowerCase())) {
+                        linePoint = {
+                            x: new Date(moment(xAxisData[j]).year(),
+                                moment(xAxisData[j]).month(),
+                                moment(xAxisData[j]).day(),
+                                moment(xAxisData[j]).hour(),
+                                moment(xAxisData[j]).minute(),
+                                moment(xAxisData[j]).second()),
+                            y: yAxisData[j]
+                        };
+                    }
+                    else {
+                        linePoint = { x: new Date(xAxisData[j]), y: yAxisData[j] };
+                    }
                     linegraph.push(linePoint);
                 }
 
